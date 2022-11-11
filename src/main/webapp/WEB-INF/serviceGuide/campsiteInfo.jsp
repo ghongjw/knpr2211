@@ -4,8 +4,6 @@
 <html>
 
 	<meta name="viewport" content="width=device-width">
-	
-
 	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
 
 	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
