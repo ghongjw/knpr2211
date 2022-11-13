@@ -28,7 +28,7 @@
                         
                             <li><a href="campsiteInfo">야영장</a></li>
                         
-                            <li><a href="selterInfo">대피소</a></li>
+                            <li><a href="shelterInfo">대피소</a></li>
                         
                             <li><a href="ecologyInfo">생태탐방원</a></li>
                         
@@ -146,7 +146,7 @@
                         
                             <li><a href="campsiteInfo">야영장</a></li>
                         
-                            <li><a href="selterInfo">대피소</a></li>
+                            <li><a href="shelterInfo">대피소</a></li>
                         
                             <li><a href="ecologyInfo">생태탐방원</a></li>
                         

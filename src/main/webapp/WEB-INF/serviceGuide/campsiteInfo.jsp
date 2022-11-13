@@ -44,52 +44,52 @@
     <div class="imageMap">
 	<img src="../../assets/img/sub/img-map1.png" usemap="#image-map1" class="map" alt="야영장 지도">
 		<map name = "image-map1">
-			<area shape="rect" alt="가야산" title="가야산" coords="435,572,544,628" href="#m1" class="link" />
-			<area shape="rect" alt="계룡산" title="계룡산" coords="253,440,365,500" href="#m2" class="link" />
-			<area shape="rect" alt="내장산" title="내장산" coords="197,635,305,696" href="#m3" class="link" />
-			<area shape="rect" alt="다도해해상" title="다도해해상" coords="25,872,190,929" href="#m4" class="link"/>
-			<area shape="rect" alt="덕유산" title="덕유산" coords="356,525,468,571" href="#m5" class="link"/>
-			<area shape="rect" alt="무등산" title="무등산" coords="205,717,314,774" href="#m6" class="link"/>
-			<area shape="rect" alt="변산반도" title="변산반도" coords="62,602,192,653" href="#m7" class="link"/>
-			<area shape="rect" alt="설악산" title="설악산" coords="493,37,601,91" href="#m8" class="link"/>
-			<area shape="rect" alt="소백산" title="소백산" coords="514,289,622,343" href="#m9" class="link"/>
-			<area shape="rect" alt="오대산" title="오대산" coords="549,131,660,192" href="#m10" class="link"/>
-			<area shape="rect" alt="월악산" title="월악산" coords="418,333,526,387" href="#m11" class="link"/>
-			<area shape="rect" alt="월출산" title="월출산" coords="145,803,260,860" href="#m12" class="link"/>
-			<area shape="rect" alt="주왕산" title="주왕산" coords="656,427,768,486" href="#m13" class="link"/>
-			<area shape="rect" alt="지리산" title="지리산" coords="320,682,432,738" href="#m14" class="link"/>
-			<area shape="rect" alt="치악산" title="치악산" coords="413,226,526,279" href="#m15" class="link"/>
-			<area shape="rect" alt="태백산" title="태백산" coords="622,278,730,332" href="#m16" class="link"/>
-			<area shape="rect" alt="태안해안" title="태안해안" coords="0,340,141,400" href="#m17" class="link"/>
-			<area shape="rect" alt="한려해상" title="한려해상" coords="455,766,595,823" href="#m18" class="link"/>
-			<area shape="rect" alt="북한산" title="북한산" coords="181,163,295,217" href="#m19" class="link"/>
-			<area shape="rect" alt="속리산" title="속리산" coords="369,407,480,464" href="#m20" class="link"/>
+			<area shape="rect" alt="가야산" title="가야산" coords="435,572,544,628" href="#A01" class="link" />
+			<area shape="rect" alt="계룡산" title="계룡산" coords="253,440,365,500" href="#A02" class="link" />
+			<area shape="rect" alt="내장산" title="내장산" coords="197,635,305,696" href="#A03" class="link" />
+			<area shape="rect" alt="다도해해상" title="다도해해상" coords="25,872,190,929" href="#A04" class="link"/>
+			<area shape="rect" alt="덕유산" title="덕유산" coords="356,525,468,571" href="#A05" class="link"/>
+			<area shape="rect" alt="무등산" title="무등산" coords="205,717,314,774" href="#A06" class="link"/>
+			<area shape="rect" alt="변산반도" title="변산반도" coords="62,602,192,653" href="#A07" class="link"/>
+			<area shape="rect" alt="설악산" title="설악산" coords="493,37,601,91" href="#A08" class="link"/>
+			<area shape="rect" alt="소백산" title="소백산" coords="514,289,622,343" href="#A09" class="link"/>
+			<area shape="rect" alt="오대산" title="오대산" coords="549,131,660,192" href="#A10" class="link"/>
+			<area shape="rect" alt="월악산" title="월악산" coords="418,333,526,387" href="#A11" class="link"/>
+			<area shape="rect" alt="월출산" title="월출산" coords="145,803,260,860" href="#A12" class="link"/>
+			<area shape="rect" alt="주왕산" title="주왕산" coords="656,427,768,486" href="#A13" class="link"/>
+			<area shape="rect" alt="지리산" title="지리산" coords="320,682,432,738" href="#A14" class="link"/>
+			<area shape="rect" alt="치악산" title="치악산" coords="413,226,526,279" href="#A15" class="link"/>
+			<area shape="rect" alt="태백산" title="태백산" coords="622,278,730,332" href="#A16" class="link"/>
+			<area shape="rect" alt="태안해안" title="태안해안" coords="0,340,141,400" href="#A17" class="link"/>
+			<area shape="rect" alt="한려해상" title="한려해상" coords="455,766,595,823" href="#A18" class="link"/>
+<!-- 			<area shape="rect" alt="북한산" title="북한산" coords="181,163,295,217" href="#A19" class="link"/> -->
+<!-- 			<area shape="rect" alt="속리산" title="속리산" coords="369,407,480,464" href="#A20" class="link"/> -->
 		</map>
 		</div>
 		<div class = "imageMapList">
-			<a href = "javascript:void(0);" class = "btn" id= "m1" onclick = "gotoInfo('m1')">가야산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m2" onclick = "gotoInfo('m2')">계룡산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m3" onclick = "gotoInfo('m3')">내장산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m4" onclick = "gotoInfo('m4')">다도해해상</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m5" onclick = "gotoInfo('m5')">덕유산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m6" onclick = "gotoInfo('m6')">무등산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m7" onclick = "gotoInfo('m7')">변산반도</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m8" onclick = "gotoInfo('m8')">설악산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m9" onclick = "gotoInfo('m9')">소백산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m10" onclick = "gotoInfo('m10')">오대산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m11" onclick = "gotoInfo('m11')">월악산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m12" onclick = "gotoInfo('m12')">월출산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m13" onclick = "gotoInfo('m13')">주왕산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m14" onclick = "gotoInfo('m14')">지리산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m15" onclick = "gotoInfo('m15')">치악산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m16" onclick = "gotoInfo('m16')">태백산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m17" onclick = "gotoInfo('m17')">태안해원</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m18" onclick = "gotoInfo('m18')">한려해상</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m19" onclick = "gotoInfo('m19')">북한산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "m20" onclick = "gotoInfo('m20')">속리산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A01" onclick = "gotoInfo('A01')">가야산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A02" onclick = "gotoInfo('A02')">계룡산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A03" onclick = "gotoInfo('A03')">내장산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A04" onclick = "gotoInfo('A04')">다도해해상</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A05" onclick = "gotoInfo('A05')">덕유산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A06" onclick = "gotoInfo('A06')">무등산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A07" onclick = "gotoInfo('A07')">변산반도</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A08" onclick = "gotoInfo('A08')">설악산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A09" onclick = "gotoInfo('A09')">소백산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A10" onclick = "gotoInfo('A10')">오대산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A11" onclick = "gotoInfo('A11')">월악산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A12" onclick = "gotoInfo('A12')">월출산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A13" onclick = "gotoInfo('A13')">주왕산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A14" onclick = "gotoInfo('A14')">지리산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A15" onclick = "gotoInfo('A15')">치악산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A16" onclick = "gotoInfo('A16')">태백산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A17" onclick = "gotoInfo('A17')">태안해원</a>
+			<a href = "javascript:void(0);" class = "btn" id= "A18" onclick = "gotoInfo('A18')">한려해상</a>
+<!-- 			<a href = "javascript:void(0);" class = "btn" id= "A19" onclick = "gotoInfo('A19')">북한산</a> -->
+<!-- 			<a href = "javascript:void(0);" class = "btn" id= "A20" onclick = "gotoInfo('A20')">속리산</a> -->
 		</div>
-		<form action = "campsiteInfo" method="post" id="contentsForm">
-			<input type="hidden" id="campsiteId" name="campsiteId" value="">
+		<form action = "detailInfo" method="get" id="contentsForm">
+			<input type="hidden" id="parkId" name="parkId" value="">
 		</form>
 	</div>
 	<%@ include file="../common/footer.jsp" %>

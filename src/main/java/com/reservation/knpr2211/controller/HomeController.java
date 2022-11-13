@@ -1,4 +1,4 @@
-package com.reservation.knpr2211.Controller;
+package com.reservation.knpr2211.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
