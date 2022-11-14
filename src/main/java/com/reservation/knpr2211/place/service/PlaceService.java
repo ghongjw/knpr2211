@@ -3,7 +3,7 @@ package com.reservation.knpr2211.place.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.reservation.knpr2211.palce.entity.Place;
+import com.reservation.knpr2211.place.entity.Place;
 import com.reservation.knpr2211.place.repository.PlaceRepository;
 import com.reservation.knpr2211.service.MountainCodeService;
 

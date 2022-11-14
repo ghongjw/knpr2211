@@ -1,6 +1,6 @@
 package com.reservation.knpr2211.place.DTO;
 
-import com.reservation.knpr2211.palce.entity.Place;
+import com.reservation.knpr2211.place.entity.Place;
 
 public class PlaceDTO {
 	public int seq;

@@ -1,4 +1,4 @@
-package com.reservation.knpr2211.palce.entity;
+package com.reservation.knpr2211.place.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
