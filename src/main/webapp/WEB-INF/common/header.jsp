@@ -82,11 +82,11 @@
         
             <!-- 비 로그인 상태 -->
             <c:if test="${empty sessionScope.id }">
-            <a href="" class="btn-login">
+            <a href="login" class="btn-login">
                 <i class="icon-user-check"></i>
                 <span>로그인</span>
             </a>
-            <a href="" class="btn-join" target="_blank">
+            <a href="register" class="btn-join">
                 <i class="icon-user-plus"></i>
                 <span>회원가입</span>
             </a>

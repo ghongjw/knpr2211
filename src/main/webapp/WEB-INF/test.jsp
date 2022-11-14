@@ -10,6 +10,6 @@
 
 hello world!!
 
-everybodt
+everyboy
 </body>
 </html>
