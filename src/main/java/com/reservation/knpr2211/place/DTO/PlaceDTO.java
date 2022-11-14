@@ -3,11 +3,15 @@ package com.reservation.knpr2211.place.DTO;
 import com.reservation.knpr2211.palce.entity.Place;
 
 public class PlaceDTO {
+	public int seq;
+	
 	public String category1;
 	
 	public String category2;
 	
 	public String category3;
+
+	public String category4;
 	
 	public String address;
 	
@@ -32,6 +36,7 @@ public class PlaceDTO {
 		this.category1 = place.getCategory1().toString();
 		this.category2 = place.getCategory2();
 		this.category3 = place.getCategory3() != null ? place.getCategory3():"";
+		this.category4 = place.getCategory4() != null ? place.getCategory4():"";
 		this.address = place.getAddress();
 		this.mobile = place.getMobile();
 		this.time = place.getTime();

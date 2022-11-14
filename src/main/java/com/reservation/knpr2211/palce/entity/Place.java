@@ -21,11 +21,16 @@ public class Place {
 
 	
 	@Id
+	private int seq;
+	
 	private String category1;
 	
 	private String category2;
 	
 	private String category3;
+
+	private String category4;
+	
 	
 	private String address;
 	

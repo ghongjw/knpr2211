@@ -1,8 +1,5 @@
 package com.reservation.knpr2211.place.service;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +20,9 @@ public class PlaceService {
 		String category2 = mcs.Category2(place.getCategory2());
 		place.setCategory1(category1);
 		place.setCategory2(category2);
-	
-		
+			
 	 return place;
 	 
 	}
 
-	
 }
