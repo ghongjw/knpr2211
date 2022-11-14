@@ -16,8 +16,10 @@ public class PlaceService {
 	
 		parkId = parkId+"01";
 		Place place = pr.findByCategory3(parkId);
-		String category1 = mcs.Category1(place.getCategory1());
-		String category2 = mcs.Category2(place.getCategory2());
+		
+
+		String category1 = mcs.findCategory(place.getCategory1());
+		String category2 = mcs.findCategory(place.getCategory2());
 		place.setCategory1(category1);
 		place.setCategory2(category2);
 			

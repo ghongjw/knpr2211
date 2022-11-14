@@ -6,7 +6,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MountainCodeService {
-	public String Category1(String parkId) {
+	public String findCategory(String parkId) {
+		if(parkId.length()==1) {
+			return category1(parkId);
+		}
+		else if(parkId.length()==3) {
+			return category2(parkId);
+		}
+		else if(parkId.length()==5) {
+			return category3(parkId);
+		}
+		else if(parkId.length()==7) {
+			return category4(parkId);
+		}
+		return "실패";
+	}
+	public String category1(String parkId) {
 		char cat=parkId.charAt(0);
 		String category = "";
 		if(cat == 'A') {
@@ -21,7 +36,7 @@ public class MountainCodeService {
 		return category;
 	}
 	
-	public String Category2(String parkId) {
+	public String category2(String parkId) {
 		
 		String category1 = parkId.substring(0,1);
 		String category2 = parkId.substring(1,3);
@@ -60,7 +75,7 @@ public class MountainCodeService {
 		}
 		return cat2;
 	}
-	public String Category3(String parkId) {
+	public String category3(String parkId) {
 		if(parkId.length()==3) {
 			parkId += "01";
 		}
@@ -151,17 +166,140 @@ public class MountainCodeService {
 		default:
 			break;
 		}
-		
+		//생태탐방원
 		if(category.equals("C")) {
 			list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)");
-		}else if(category.equals("D")) {
+		}
+		//민박촌
+			else if(category.equals("D")) {
 			list.add("온돌"); list.add("침대"); list.add("15평"); list.add("18평"); list.add("32평");
 		}
 		
 		return list.get(intcat);
 		
 	}
-	public String Category4(String parkId) {
-		if()
+	public String category4(String parkId) {
+		String category = parkId.substring(0,5);
+		String category1 = parkId.substring(5);
+		
+		int intcat = Integer.parseInt(category1)-1;
+		ArrayList<String> list = new ArrayList<>();
+		
+		if(category.equals("A0101")) {
+			list.add("자동차 야영장");
+		}else if(category.equals("A0102")) {
+			list.add("자동차 야영장");
+		}else if(category.equals("A0103")) {
+			list.add("자동차 영지"); list.add("자연의집(솔막)");
+		}else if(category.equals("A0201")) {
+			list.add("자동차 야영장");
+		}
+		else if(category.equals("A0301")) {
+			list.add("자동차 영지"); 
+		}
+		else if(category.equals("A0302")) {
+			list.add("자동차 야영장"); list.add("자연의집(솔막)");
+		}
+		else if(category.equals("A0401")) {
+			list.add("자동차 야영장"); 
+		}
+		else if(category.equals("A0402")) {
+			list.add("일반야영장"); 
+		}
+		else if(category.equals("A0403")) {
+			list.add("일반야영장"); 
+		}
+		else if(category.equals("A0501")) {
+			list.add("자연의집(솔막)"); list.add("카라반"); list.add("통나무집"); list.add("황토집"); 
+		}
+		else if(category.equals("A0502")) {
+			list.add("일반야영장(1영지)"); list.add("일반야영장(2영지)"); list.add("일반야영장(3영지)"); list.add("일반야영장(4영지)"); 
+			list.add("일반야영장(5영지)"); list.add("일반야영장(6영지)"); list.add("일반야영장(7영지)"); list.add("카라반 전용영지(캠핑장)"); 
+		}else if(category.equals("A0601")) {
+			list.add("자동차야영장"); list.add("풀옵션야영장(산막텐트)"); 
+		}
+		else if(category.equals("A0701")) {
+			list.add("자동차야영장"); list.add("자연의집(바람체)"); 
+		}
+		else if(category.equals("A0801")) {
+			list.add("자동차야영장(전기O)"); list.add("자동차야영장(전기X)"); list.add("카라반 전용영지(캠핑카)"); list.add("카라반(체류형)"); 
+		}
+		else if(category.equals("A0901")) {
+			list.add("자동차야영장"); list.add("자연의집(솔막)"); list.add("풀옵션야영장(산막텐트)"); 
+		}
+		else if(category.equals("A0902")) {
+			list.add("자동차야영장"); list.add("풀옵션야영장(산막텐트)"); list.add("풀옵션야영장(일반텐트)"); 
+		}
+		else if(category.equals("A1001")) {
+			list.add("자동차야영장(전기O)"); list.add("자동차야영장(전기X)"); list.add("자연의집(솔막)"); 
+			list.add("자연의집(특화형-4인)"); list.add("카라반 전용영지(캠핑카)"); list.add("카라반(체류형)"); 
+		}
+		else if(category.equals("A1101")) {
+			list.add("자연의집(솔막)");
+		}
+		else if(category.equals("A1102")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1103")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1104")) {
+			list.add("자동차야영장"); list.add("카라반 겸용영지");
+		}
+		else if(category.equals("A1105")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1106")) {
+			list.add("자동차야영장(캠핑장)"); list.add("카라반 겸용영지");
+		}
+		else if(category.equals("A1201")) {
+			list.add("자동차야영장"); list.add("자연의집(특화형-4인)"); list.add("자연의집(하늘채)");
+		}
+		else if(category.equals("A1301")) {
+			list.add("자동차야영장"); list.add("카라반(체류형)");
+		}
+		else if(category.equals("A1401")) {
+			list.add("카라반 전용영지(캠핑카)"); list.add("카라반(체류형)");
+		}
+		else if(category.equals("A1402")) {
+			list.add("자동차야영장"); list.add("자연의집(솔막)");
+		}
+		else if(category.equals("A1403")) {
+			list.add("일반야영장");
+		}
+		else if(category.equals("A1404")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1405")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1406")) {
+			list.add("일반야영장");
+		}else if(category.equals("A1407")) {
+			list.add("일반야영장"); list.add("일반야영장(데크)");
+		}
+		else if(category.equals("A1408")) {
+			list.add("자동차야영장"); list.add("자연의집(솔막)"); list.add("자연의집(하늘채)"); list.add("카라반 전용영지(캠핑카)"); list.add("카라반(체류형)");
+		}else if(category.equals("A1409")) {
+			list.add("일반야영장"); list.add("일반야영장(데크)");
+		}
+		else if(category.equals("A1501")) {
+			list.add("자동차야영장"); list.add("자연의집(솔막)"); list.add("카라반(체류형)");
+		}
+		else if(category.equals("A1502")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1601")) {
+			list.add(" ");
+		}
+		else if(category.equals("A1701")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("A1702")) {
+			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
+		}else if(category.equals("A1801")) {
+			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
+		}
+		return list.get(intcat);
 	}
 }
