@@ -25,7 +25,7 @@
 	<h3 class = "title">${cat.getCategory1()} 이용안내</h3>
 	<div class = "serchBox">
 	<select id="category2">
-	
+	<>
 	</select>
 	</div>
 </div>
