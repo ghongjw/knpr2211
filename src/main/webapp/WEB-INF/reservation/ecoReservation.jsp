@@ -1,320 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
 <!DOCTYPE html>
-<html lang="ko">
+<html>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
 
-<!-- Mirrored from reservation.knps.or.kr:443/eco/searchEcoReservation.do by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 10 Nov 2022 06:59:22 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-	<title>±π∏≥∞¯ø¯∞¯¥‹ øπæ‡Ω√Ω∫≈€</title>
-
-	<link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
-
-	<script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="../assets/js/lib/swiper.js"></script>
-	<script src="../assets/js/lib/datepicker.min.js"></script>
-	<script src="../assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="../assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="../assets/js/lib/toastr.min.js"></script>
-	<script src="../assets/js/scripts.js"></script>
-	<script src="../assets/js/common9b00.js?ver4"></script>
-</head>
+<script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/lib/swiper.js"></script>
+<script src="../assets/js/lib/datepicker.min.js"></script>
+<script src="../assets/js/lib/jquery.fs.zoomer.min.js"></script>
+<script src="../assets/js/lib/jquery.rwdImageMaps.min.js"></script>
+<script src="../assets/js/lib/toastr.min.js"></script>
+<script src="../assets/js/scripts.js"></script>
+<script src="../assets/js/common9b00.js?ver4"></script>
 <body>
 	<div id="wrap" class="sub">
-			
+		<%@ include file="../common/header.jsp"%>
+		<div id="container">
+			<script src="../assets/js/lib/netfunnel.js"></script>
+			<script>
 
+    let selectStartDate = null;         //ÏÑ†ÌÉùÎêúÏãúÏûëÎÇ†Ïßú
+    let selectStartDayWeek = null;      //ÏÑ†ÌÉùÎêúÏãúÏûëÏöîÏùº
 
+    let selectEndDate = null;           //ÏÑ†ÌÉùÎêúÏ¢ÖÎ£åÎÇ†Ïßú
+    let selectEndDayWeek = null;        //ÏÑ†ÌÉùÎêúÏ¢ÖÎ£åÏöîÏùº
 
+    let selectCurDate = null;           //ÌòÑÏû¨ ÏÑ†ÌÉùÎêú ÎÇ†Ïßú
 
-
-<header id="header">
-    <h1>
-        <a href="../index.html" class="logo">±π∏≥∞¯ø¯ øπæ‡Ω√Ω∫≈€</a>
-    </h1>
-    <nav>
-        <ul class="gnb">
-            
-                <li>
-                    <a href="javascript:void(0);" class="depth1">¿ÃøÎæ»≥ª</a>
-                    <ul class="depth2">
-                        
-                            <li><a href="../contents/C/serviceGuideIntro.html">æﬂøµ¿Â</a></li>
-                        
-                            <li><a href="../contents/S/serviceGuideIntro.html">¥Î««º“</a></li>
-                        
-                            <li><a href="../contents/E/serviceGuideIntro.html">ª˝≈¬≈ΩπÊø¯</a></li>
-                        
-                            <li><a href="../contents/R/serviceGuideIntro.html">πŒπ⁄√Ã</a></li>
-                        
-                            <li><a href="../contents/T/serviceGuideIntro.html">≈ΩπÊ∑Œøπæ‡¡¶</a></li>
-                        
-                            <li><a href="../contents/G/serviceGuideIntro.html">≈ΩπÊ«¡∑Œ±◊∑•</a></li>
-                        
-                    </ul>
-                </li>
-            
-                <li>
-                    <a href="javascript:void(0);" class="depth1">øπæ‡«œ±‚</a>
-                    <ul class="depth2">
-                        
-                            <li><a href="../reservation/searchSimpleCampReservation.html">æﬂøµ¿Â</a></li>
-                        
-                            <li><a href="../reservation/shelter/searchSimpleShelterReservation.html">¥Î««º“</a></li>
-                        
-                            <li><a href="searchEcoReservation.html">ª˝≈¬≈ΩπÊø¯</a></li>
-                        
-                            <li><a href="../reservation/searchSimpleResidenceReservation.html">πŒπ⁄√Ã</a></li>
-                        
-                            <li><a href="../trail/searchTrailReservation.html">≈ΩπÊ∑Œøπæ‡¡¶</a></li>
-                        
-                            <li><a href="../trprogram/searchTrailProgram.html">≈ΩπÊ«¡∑Œ±◊∑•</a></li>
-                        
-                            <li><a href="../reservation/selectCampLottery.html">√ﬂ√∑¡¶</a></li>
-                        
-                    </ul>
-                </li>
-            
-                <li>
-                    <a href="javascript:void(0);" class="depth1">æÀ∏≤∏∂¥Á</a>
-                    <ul class="depth2">
-                        
-                            <li><a href="../community/board/notice/boardList.html">∞¯¡ˆªÁ«◊</a></li>
-                        
-                            <li><a href="../community/board/faq/boardList.html">¿⁄¡÷«œ¥¬ ¡˙πÆ</a></li>
-                        
-                            <li><a href="../community/board/qna/boardList.html">πØ∞Ì ¥‰«œ±‚</a></li>
-                        
-                            <li><a href="../contents/rsvtRefundPolicy.html">øπæ‡°§»Ø∫“¡§√•</a></li>
-                        
-                    </ul>
-                </li>
-            
-                <li>
-                    <a href="javascript:void(0);" class="depth1">∏∂¿Ã∆‰¿Ã¡ˆ</a>
-                    <ul class="depth2">
-                        
-                            <li><a href="../mmb/mmbLogin.html">≥™¿« øπæ‡∏Ò∑œ</a></li>
-                        
-                            <li><a href="../mmb/mmbLogin.html">æÀ∏≤∏ﬁΩ√¡ˆ</a></li>
-                        
-                            <li><a href="../mmb/mmbLogin.html">¡Ò∞‹√£±‚</a></li>
-                        
-                            <li><a href="../srchrefund/requestRefund.html">πÃ»Ø∫“±› ¡∂»∏</a></li>
-                        
-                    </ul>
-                </li>
-            
-                <li>
-                    <a href="javascript:void(0);" class="depth1">±◊∏∞∆˜¿Œ∆Æ</a>
-                    <ul class="depth2">
-                        
-                            <li><a href="../mmb/mmbLogin603d.html" onclick="fn_greenUrlChk();">æﬂøµ¿Â</a></li>
-                        
-                            <li><a href="../mmb/mmbLogin603d.html?prdDvcd=S">¥Î««º“</a></li>
-                        
-                    </ul>
-                </li>
-            
-        </ul>
-    </nav>
-    <div class="util-area" data-device-mode="pc">
-        <a href="../srchrefund/searchRefund.html" class="btn-refund-inquiry">
-            <i class="icon-refund-inquiry"></i>
-            <span>πÃ»Ø∫“±›¡∂»∏</span>
-        </a>
-        
-            <!-- ∫Ò ∑Œ±◊¿Œ ªÛ≈¬ -->
-            <a href="../mmb/mmbLogin.html" class="btn-login">
-                <i class="icon-user-check"></i>
-                <span>∑Œ±◊¿Œ</span>
-            </a>
-            <a href="https://www.knps.or.kr/portal/member/join01.do?menuNo=7020113" class="btn-join" target="_blank">
-                <i class="icon-user-plus"></i>
-                <span>»∏ø¯∞°¿‘</span>
-            </a>
-        
-        
-        <div class="lang-area">
-            <button class="btn btn-toggle" data-popup="layer-language">
-                <i class="icon-globe"></i>
-                <span>KR</span>
-            </button>
-            <div class="layer-language" id="layer-language">
-                <button class="btn is-active">KR</button>
-                <button class="btn" onclick="location.href='../foreigner/main.html'">EN</button>
-            </div>
-        </div>
-    </div>
-    <div class="util-area" data-device-mode="mobile">
-        <button class="btn-menu" title="¿¸√º ∏ﬁ¥∫ ∫∏±‚">
-            <i class="icon-list"></i>
-        </button>
-        <div class="all-menu">
-            <div class="head">
-                <a href="../srchrefund/searchRefund.html" class="btn-refund-inquiry">
-                    <i class="icon-refund-inquiry"></i>
-                    <span>πÃ»Ø∫“±›¡∂»∏</span>
-                </a>
-                
-                    <!-- ∫Ò ∑Œ±◊¿Œ ªÛ≈¬ -->
-                    <a href="../mmb/mmbLogin.html" class="btn-login">∑Œ±◊¿Œ¿Ã<br>« ø‰«’¥œ¥Ÿ.</a>
-                    <a href="https://www.knps.or.kr/portal/member/join01.do?menuNo=7020113" class="btn-join" target="_blank">
-                        <i class="icon-user-plus"></i>
-                        <span>»∏ø¯∞°¿‘</span>
-                    </a>
-                    <div class="lang-area">
-                        <button class="btn btn-toggle" data-popup="layer-language">
-                            <i class="icon-globe"></i>
-                            <span>KR</span>
-                        </button>
-                        <div class="layer-language" id="layer-language2">
-                            <button class="btn is-active">KR</button>
-                            <button class="btn" onclick="location.href='../foreigner/main.html'">EN</button>
-                        </div>
-                    </div>
-                
-                
-                <button class="btn-close" title="¿¸√º ∏ﬁ¥∫ ¥›±‚">
-                    <i class="icon-close"></i>
-                </button>
-            </div>
-            <ul class="gnb">
-                
-                    <li>
-                        <a href="javascript:void(0);" class="depth1">¿ÃøÎæ»≥ª</a>
-                        <ul class="depth2">
-                            
-                                <li><a href="../contents/C/serviceGuideIntro.html"
-                                       >æﬂøµ¿Â</a></li>
-                            
-                                <li><a href="../contents/S/serviceGuideIntro.html"
-                                       >¥Î««º“</a></li>
-                            
-                                <li><a href="../contents/E/serviceGuideIntro.html"
-                                       >ª˝≈¬≈ΩπÊø¯</a></li>
-                            
-                                <li><a href="../contents/R/serviceGuideIntro.html"
-                                       >πŒπ⁄√Ã</a></li>
-                            
-                                <li><a href="../contents/T/serviceGuideIntro.html"
-                                       >≈ΩπÊ∑Œøπæ‡¡¶</a></li>
-                            
-                                <li><a href="../contents/G/serviceGuideIntro.html"
-                                       >≈ΩπÊ«¡∑Œ±◊∑•</a></li>
-                            
-                        </ul>
-                    </li>
-                
-                    <li>
-                        <a href="javascript:void(0);" class="depth1">øπæ‡«œ±‚</a>
-                        <ul class="depth2">
-                            
-                                <li><a href="../reservation/searchSimpleCampReservation.html"
-                                       >æﬂøµ¿Â</a></li>
-                            
-                                <li><a href="../reservation/shelter/searchSimpleShelterReservation.html"
-                                       >¥Î««º“</a></li>
-                            
-                                <li><a href="searchEcoReservation.html"
-                                       >ª˝≈¬≈ΩπÊø¯</a></li>
-                            
-                                <li><a href="../reservation/searchSimpleResidenceReservation.html"
-                                       >πŒπ⁄√Ã</a></li>
-                            
-                                <li><a href="../trail/searchTrailReservation.html"
-                                       >≈ΩπÊ∑Œøπæ‡¡¶</a></li>
-                            
-                                <li><a href="../trprogram/searchTrailProgram.html"
-                                       >≈ΩπÊ«¡∑Œ±◊∑•</a></li>
-                            
-                                <li><a href="../reservation/selectCampLottery.html"
-                                       style="display: none;" >√ﬂ√∑¡¶</a></li>
-                            
-                        </ul>
-                    </li>
-                
-                    <li>
-                        <a href="javascript:void(0);" class="depth1">æÀ∏≤∏∂¥Á</a>
-                        <ul class="depth2">
-                            
-                                <li><a href="../community/board/notice/boardList.html"
-                                       >∞¯¡ˆªÁ«◊</a></li>
-                            
-                                <li><a href="../community/board/faq/boardList.html"
-                                       >¿⁄¡÷«œ¥¬ ¡˙πÆ</a></li>
-                            
-                                <li><a href="../community/board/qna/boardList.html"
-                                       >πØ∞Ì ¥‰«œ±‚</a></li>
-                            
-                                <li><a href="../contents/rsvtRefundPolicy.html"
-                                       >øπæ‡°§»Ø∫“¡§√•</a></li>
-                            
-                        </ul>
-                    </li>
-                
-                    <li>
-                        <a href="javascript:void(0);" class="depth1">∏∂¿Ã∆‰¿Ã¡ˆ</a>
-                        <ul class="depth2">
-                            
-                                <li><a href="../mmb/mmbLogin.html"
-                                       >≥™¿« øπæ‡∏Ò∑œ</a></li>
-                            
-                                <li><a href="../mmb/mmbLogin.html"
-                                       >æÀ∏≤∏ﬁΩ√¡ˆ</a></li>
-                            
-                                <li><a href="../mmb/mmbLogin.html"
-                                       >¡Ò∞‹√£±‚</a></li>
-                            
-                                <li><a href="../srchrefund/requestRefund.html"
-                                       >πÃ»Ø∫“±› ¡∂»∏</a></li>
-                            
-                        </ul>
-                    </li>
-                
-                    <li>
-                        <a href="javascript:void(0);" class="depth1">±◊∏∞∆˜¿Œ∆Æ</a>
-                        <ul class="depth2">
-                            
-                                <li><a href="../mmb/mmbLogin603d.html" onclick="fn_greenUrlChk();"
-                                       >æﬂøµ¿Â</a></li>
-                            
-                                <li><a href="../mmb/mmbLogin603d.html?prdDvcd=S"
-                                       >¥Î««º“</a></li>
-                            
-                        </ul>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-</header>
-			<div id="container">
-				
-
-
-
-<script src="../assets/js/lib/netfunnel.js"></script>
-<script>
-
-    let selectStartDate = null;         //º±≈√µ»Ω√¿€≥Ø¬•
-    let selectStartDayWeek = null;      //º±≈√µ»Ω√¿€ø‰¿œ
-
-    let selectEndDate = null;           //º±≈√µ»¡æ∑·≥Ø¬•
-    let selectEndDayWeek = null;        //º±≈√µ»¡æ∑·ø‰¿œ
-
-    let selectCurDate = null;           //«ˆ¿Á º±≈√µ» ≥Ø¬•
-
-    let nightDays = 0;                  //nightDays π⁄ºˆ
+    let nightDays = 0;                  //nightDays Î∞ïÏàò
     let totalAmt = 0;
 
-    let isProgram = false;              //«¡∑Œ±◊∑• øπæ‡ ∞°¥… ø©∫Œ
-    let isLivingRoom = false;           //ª˝»∞∞¸ øπæ‡ ∞°¥… ø©∫Œ
-    let isMeal = false;                 //ΩƒªÁ øπæ‡ ∞°¥… ø©∫Œ
+    let isProgram = false;              //ÌîÑÎ°úÍ∑∏Îû® ÏòàÏïΩ Í∞ÄÎä• Ïó¨Î∂Ä
+    let isLivingRoom = false;           //ÏÉùÌôúÍ¥Ä ÏòàÏïΩ Í∞ÄÎä• Ïó¨Î∂Ä
+    let isMeal = false;                 //ÏãùÏÇ¨ ÏòàÏïΩ Í∞ÄÎä• Ïó¨Î∂Ä
 
     let isLoading = {
         
@@ -363,7 +83,7 @@
 
     let init = {
         event : function(){
-            //æ∆ƒ⁄µæ
+            //ÏïÑÏΩîÎîîÏñ∏
             $(".collapse-wrap .check.collapse").off().click(function () {
 
                 let selectedGoods = $(this).val();
@@ -372,7 +92,7 @@
 
                     if(selectStartDate == null || selectEndDate == null){
                         $(this).prop("checked",false);
-                        toastrMsg("ªÁøÎ±‚∞£¿ª º±≈√«ÿ¡÷ººø‰.");
+                        toastrMsg("ÏÇ¨Ïö©Í∏∞Í∞ÑÏùÑ ÏÑ†ÌÉùÌï¥Ï£ºÏÑ∏Ïöî.");
                         return false;
                     }
 
@@ -381,25 +101,25 @@
                     if(selectedGoods == 'living') {
                         if(!isLivingRoom){
                             $(this).prop("checked",false);
-                            toastrMsg("∫ª Ω√º≥¿∫ ª˝≈¬√º«Ë¡∂«’ Ω√º≥∑Œº≠ «¡∑Œ±◊∑• ¬¸ø©, »Ø∞Ê ±≥¿∞µÓ¿ª ¿ß«— ∞≠¥Á π◊ ∞≠¿«Ω« øπæ‡Ω√ø°∏∏ ª˝»∞∞¸ ¥Î∞¸¿Ã ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("Î≥∏ ÏãúÏÑ§ÏùÄ ÏÉùÌÉúÏ≤¥ÌóòÏ°∞Ìï© ÏãúÏÑ§Î°úÏÑú ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨, ÌôòÍ≤Ω ÍµêÏú°Îì±ÏùÑ ÏúÑÌïú Í∞ïÎãπ Î∞è Í∞ïÏùòÏã§ ÏòàÏïΩÏãúÏóêÎßå ÏÉùÌôúÍ¥Ä ÎåÄÍ¥ÄÏù¥ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                         if(nightDays < 1){
                             $(this).prop("checked",false);
-                            toastrMsg("ª˝»∞∞¸ øπæ‡¿∫ 1π⁄ ¿ÃªÛ¿œ∂ß øπæ‡ ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("ÏÉùÌôúÍ¥Ä ÏòàÏïΩÏùÄ 1Î∞ï Ïù¥ÏÉÅÏùºÎïå ÏòàÏïΩ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                     }else if(selectedGoods == 'meal') {
                         if(!isMeal){
                             $(this).prop("checked",false);
-                            toastrMsg("∫ª Ω√º≥¿∫ ª˝≈¬√º«Ë¡∂«’ Ω√º≥∑Œº≠ «¡∑Œ±◊∑• ¬¸ø©, »Ø∞Ê ±≥¿∞µÓ¿ª ¿ß«— ∞≠¥Á π◊ ∞≠¿«Ω« øπæ‡Ω√ø°∏∏ ΩƒªÁ Ω≈√ª¿Ã ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("Î≥∏ ÏãúÏÑ§ÏùÄ ÏÉùÌÉúÏ≤¥ÌóòÏ°∞Ìï© ÏãúÏÑ§Î°úÏÑú ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨, ÌôòÍ≤Ω ÍµêÏú°Îì±ÏùÑ ÏúÑÌïú Í∞ïÎãπ Î∞è Í∞ïÏùòÏã§ ÏòàÏïΩÏãúÏóêÎßå ÏãùÏÇ¨ Ïã†Ï≤≠Ïù¥ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                     }
                     $(this).parents(".collapse-wrap").find(".a").stop().slideToggle(200);
 
                 } else {
-                    //√ﬂ∞°øπæ‡ æ¯¿ª Ω√ º±≈√∞™ √ ±‚»≠
+                    //Ï∂îÍ∞ÄÏòàÏïΩ ÏóÜÏùÑ Ïãú ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
                     switch (selectedGoods){
                         case 'program' : funcArray.drawProgram(); break;
                         case 'living' : funcArray.drawLivingRoom(); break;
@@ -414,21 +134,21 @@
         }
     }
 
-    //«‘ºˆ∏¿Ω
+    //Ìï®ÏàòÎ™®Ïùå
     let funcArray = {
-        //ø‰¿œ «—±€∏Ì¿∏∑Œ return
+        //ÏöîÏùº ÌïúÍ∏ÄÎ™ÖÏúºÎ°ú return
         getDayWeekNm : function(dayWeek){
             switch (dayWeek) {
-                case 1: return "ø˘";
-                case 2: return "»≠";
-                case 3: return "ºˆ";
-                case 4: return "∏Ò";
-                case 5: return "±›";
-                case 6: return "≈‰";
-                case 7: return "¿œ";
+                case 1: return "Ïõî";
+                case 2: return "Ìôî";
+                case 3: return "Ïàò";
+                case 4: return "Î™©";
+                case 5: return "Í∏à";
+                case 6: return "ÌÜ†";
+                case 7: return "Ïùº";
             }
         },
-        //¥ﬁ∑¬ π◊ º±≈√∞™ √ ±‚»≠
+        //Îã¨Î†• Î∞è ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
         calendarClear : function(){
             //clear
             $('.start').removeClass('start');
@@ -441,7 +161,7 @@
             selectStartDate = null;
             selectEndDate = null;
         },
-        //«¡∑Œ±◊∑• ±◊∏Æ±‚
+        //ÌîÑÎ°úÍ∑∏Îû® Í∑∏Î¶¨Í∏∞
         drawProgram : function(){
             isLoading.program = "N";
             ajaxCall({
@@ -454,22 +174,22 @@
                 success: function(dat) {
                     $(".ecoProgram .tbody").find("tr").remove();
                     let trHtml = [];
-                    $("#programNm").html(dat.insttGoodsInfo[0].prdNm+"<br>ø¿¿¸ (10:00~13:00)");
-                    $("#programNm2").html(dat.insttGoodsInfo[2].prdNm+"<br>ø¿»ƒ (14:00~17:00)");
+                    $("#programNm").html(dat.insttGoodsInfo[0].prdNm+"<br>Ïò§Ï†Ñ (10:00~13:00)");
+                    $("#programNm2").html(dat.insttGoodsInfo[2].prdNm+"<br>Ïò§ÌõÑ (14:00~17:00)");
                     for (let i = 0; i < dat.insttGoodsInfo.length; i++) {
                         if(i%4 == 0){
-                            trHtml.push("<tr><td>",i/4+1,"¿œ¬˜</td>");
+                            trHtml.push("<tr><td>",i/4+1,"ÏùºÏ∞®</td>");
                         }
                         if(i%2 == 0){
                             if(dat.insttGoodsInfo[i].maxNopCnt-(dat.insttGoodsInfo[i].rsrvtCnt+dat.insttGoodsInfo[i+1].rsrvtCnt) > 0 && dat.insttGoodsInfo[i].rsvtPsblYn == 'Y' && dat.insttGoodsInfo[i].prdSalStcd == 'N'){
                                 trHtml.push("<td>", "<span class='checkbox-1'>", "<input type='checkbox' class='program-checkbox' id='program-check1-",i,"' name='",dat.insttGoodsInfo[i].prdId,"_",dat.insttGoodsInfo[i].useDt,"' data-salchildamt='",dat.insttGoodsInfo[i].salAmt,"' data-saladultamt='",dat.insttGoodsInfo[i+1].salAmt,"' data-deptId='",dat.insttGoodsInfo[i].deptId,"' data-childtxnyn='",dat.insttGoodsInfo[i].txnYn,"' data-adulttxnyn='",dat.insttGoodsInfo[i+1].txnYn,"' data-rsvtpsblcnt='",dat.insttGoodsInfo[i].maxNopCnt-(dat.insttGoodsInfo[i].rsrvtCnt+dat.insttGoodsInfo[i+1].rsrvtCnt),"'>");
                                 if(dat.insttGoodsInfo[i].maxNopCnt < 99999){
-                                    trHtml.push("<label for='program-check1-",i,"'>[¿‹ø©¿Œø¯:",dat.insttGoodsInfo[i].maxNopCnt-(dat.insttGoodsInfo[i].rsrvtCnt+dat.insttGoodsInfo[i+1].rsrvtCnt),"]</label>");
+                                    trHtml.push("<label for='program-check1-",i,"'>[ÏûîÏó¨Ïù∏Ïõê:",dat.insttGoodsInfo[i].maxNopCnt-(dat.insttGoodsInfo[i].rsrvtCnt+dat.insttGoodsInfo[i+1].rsrvtCnt),"]</label>");
                                 }
                                 trHtml.push("</span>", "</td>");
                             }else{
                                 trHtml.push("<td>",
-                                    "<span class=''>øπæ‡∫“∞°</span>",
+                                    "<span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span>",
                                     "</td>");
                             }
                         }
@@ -496,8 +216,8 @@
                     }
                 }
             });
-        },//end «¡∑Œ±◊∑• ±◊∏Æ±‚
-        //ª˝»∞∞¸ ±◊∏Æ±‚
+        },//end ÌîÑÎ°úÍ∑∏Îû® Í∑∏Î¶¨Í∏∞
+        //ÏÉùÌôúÍ¥Ä Í∑∏Î¶¨Í∏∞
         drawLivingRoom : function(){
             isLoading.livingroom = "N";
             ajaxCall({
@@ -520,18 +240,18 @@
                                 "<i class='icon-minus'></i>",
                                 "</button>",
                                 "<label>",
-                                "<input type='number' class='living-room-cnt' value='0' readonly title='√— ¬¸ø© ¿Œø¯' name='",dat.insttGoodsInfo[i].prdId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
+                                "<input type='number' class='living-room-cnt' value='0' readonly title='Ï¥ù Ï∞∏Ïó¨ Ïù∏Ïõê' name='",dat.insttGoodsInfo[i].prdId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
                                 "</label>",
                                 "<button type='button'class='btn plus living-plus' data-max='",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"'>",
                                 "<i class='icon-plus'></i>",
                                 "</button>",
                                 "</span>",
-                                "<span>[¿‹ø©ºˆ:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"∞≥]</span>",
+                                "<span>[ÏûîÏó¨Ïàò:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"Í∞ú]</span>",
                                 "</td>",
-                                "<td class='spy'>",dat.insttGoodsInfo[i].salAmt,"ø¯</td>",
+                                "<td class='spy'>",dat.insttGoodsInfo[i].salAmt,"Ïõê</td>",
                                 "</tr>");
                         }else{
-                            trHtml.push("<tr><td>",dat.insttGoodsInfo[i].prdNm,"</td><td colspan='2'>øπæ‡∫“∞°</td></tr>");
+                            trHtml.push("<tr><td>",dat.insttGoodsInfo[i].prdNm,"</td><td colspan='2'>ÏòàÏïΩÎ∂àÍ∞Ä</td></tr>");
                         }
                     }
                     $(".livingRoom .tbody").append(trHtml.join(("")));
@@ -553,8 +273,8 @@
                     }
                 }
             });
-        }//end ª˝»∞∞¸ ±◊∏Æ±‚
-        //∞≠¥Á ±◊∏Æ±‚
+        }//end ÏÉùÌôúÍ¥Ä Í∑∏Î¶¨Í∏∞
+        //Í∞ïÎãπ Í∑∏Î¶¨Í∏∞
         ,drawGangdang : function(){
             isLoading.gangdang = "N";
             ajaxCall({
@@ -569,7 +289,7 @@
                     let trHtml = [];
                     for (let i = 0; i < dat.insttGoodsInfo.length; i++) {
                         if(i%3 == 0){
-                            trHtml.push("<tr><td>",i/3+1,"¿œ¬˜</td>");
+                            trHtml.push("<tr><td>",i/3+1,"ÏùºÏ∞®</td>");
                         }
                         if( 1 / 2 == (dat.insttGoodsInfo.length / 3 - 1 ) ){
 
@@ -577,12 +297,12 @@
                             trHtml.push("<td>",
                                 "<span class='checkbox-1'>",
                                 "<input type='checkbox' class='gangdang-checkbox' id='gangdang-check1-",i,"' name='",dat.insttGoodsInfo[i].prdId,"_",dat.insttGoodsInfo[i].useDt,"_",dat.insttGoodsInfo[i].optId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
-                                "<label for='gangdang-check1-",i,"'>[¿‹ø©ºˆ:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"]</label>",
+                                "<label for='gangdang-check1-",i,"'>[ÏûîÏó¨Ïàò:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"]</label>",
                                 "</span>",
                                 "</td>");
                         }else{
                             trHtml.push("<td>",
-                                "<span class=''>øπæ‡∫“∞°</span>",
+                                "<span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span>",
                                 "</td>");
                         }
 
@@ -609,8 +329,8 @@
                     }
                 }
             });
-        },//end ∞≠¥Á ±◊∏Æ±‚
-        //∞≠¿«Ω« ±◊∏Æ±‚
+        },//end Í∞ïÎãπ Í∑∏Î¶¨Í∏∞
+        //Í∞ïÏùòÏã§ Í∑∏Î¶¨Í∏∞
         drawClass : function(){
             isLoading.class = "N";
             ajaxCall({
@@ -626,7 +346,7 @@
                     let trHtml = [];
                     for (let i = 0; i < dat.insttGoodsInfo.length; i++) {
                         if(i%3 == 0){
-                            trHtml.push("<tr><td>",i/3+1,"¿œ¬˜<br/>(",dat.insttGoodsInfo[i].useDt,")</td>");
+                            trHtml.push("<tr><td>",i/3+1,"ÏùºÏ∞®<br/>(",dat.insttGoodsInfo[i].useDt,")</td>");
                         }
 
                         if(dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt > 0 && dat.insttGoodsInfo[i].rsvtPsblYn == 'Y' && dat.insttGoodsInfo[i].prdSalStcd == 'N'){
@@ -636,17 +356,17 @@
                                 "<i class='icon-minus'></i>",
                                 "</button>",
                                 "<label>",
-                                "<input type='number' class='class-room-cnt' value='0' readonly title='√— ºˆ∑Æ' name='",dat.insttGoodsInfo[i].prdId,"_",dat.insttGoodsInfo[i].useDt,"_",dat.insttGoodsInfo[i].optId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
+                                "<input type='number' class='class-room-cnt' value='0' readonly title='Ï¥ù ÏàòÎüâ' name='",dat.insttGoodsInfo[i].prdId,"_",dat.insttGoodsInfo[i].useDt,"_",dat.insttGoodsInfo[i].optId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
                                 "</label>",
                                 "<button type='button'class='btn plus class-plus' data-max='",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"'>",
                                 "<i class='icon-plus'></i>",
                                 "</button>",
                                 "</span>",
-                                "<span>[¿‹ø©ºˆ:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"∞≥]</span>",
+                                "<span>[ÏûîÏó¨Ïàò:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"Í∞ú]</span>",
                                 "</td>");
                         }else{
                             trHtml.push("<td>",
-                                "<span class=''>øπæ‡∫“∞°</span>",
+                                "<span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span>",
                                 "</td>");
                         }
 
@@ -673,8 +393,8 @@
                     }
                 }
             });
-        },//end ∞≠¿«Ω« ±◊∏Æ±‚
-        //ΩƒªÁ ±◊∏Æ±‚
+        },//end Í∞ïÏùòÏã§ Í∑∏Î¶¨Í∏∞
+        //ÏãùÏÇ¨ Í∑∏Î¶¨Í∏∞
         drawMeal : function(){
             isLoading.meal = "N";
             ajaxCall({
@@ -693,13 +413,13 @@
                     
                     for (let i = 0; i < dat.insttGoodsInfo.length; i++) {
                     	if(listDate[ord] != dat.insttGoodsInfo[i].useDt){
-                    		trHtml.push("<tr><td>",ord+1,"¿œ¬˜<br/>("+listDate[ord]+")</td><td><span class=''>øπæ‡∫“∞°</span></td><td><span class=''>øπæ‡∫“∞°</span></td><td><span class=''>øπæ‡∫“∞°</span></td></tr>"); 
+                    		trHtml.push("<tr><td>",ord+1,"ÏùºÏ∞®<br/>("+listDate[ord]+")</td><td><span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span></td><td><span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span></td><td><span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span></td></tr>"); 
                     		ord++;  
                     	} 
                         if(i%3 == 0){
-                            trHtml.push("<tr><td>",ord+1,"¿œ¬˜<br/>(",dat.insttGoodsInfo[i].useDt,")</td>"); 
+                            trHtml.push("<tr><td>",ord+1,"ÏùºÏ∞®<br/>(",dat.insttGoodsInfo[i].useDt,")</td>"); 
                         }
-                        //øπæ‡∞°¥…ºˆ∑Æ¿Ã≥≤æ∆¿÷∞Ì && ∆«∏≈∞°¥…«—ªÛ»≤¿Ã∞Ì && ∆«∏≈ªÛ≈¬ƒ⁄µÂ∞° ∆«∏≈∞°¥…¿œ∂ß
+                        //ÏòàÏïΩÍ∞ÄÎä•ÏàòÎüâÏù¥ÎÇ®ÏïÑÏûàÍ≥† && ÌåêÎß§Í∞ÄÎä•ÌïúÏÉÅÌô©Ïù¥Í≥† && ÌåêÎß§ÏÉÅÌÉúÏΩîÎìúÍ∞Ä ÌåêÎß§Í∞ÄÎä•ÏùºÎïå
                         if(dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt > 0 && dat.insttGoodsInfo[i].rsvtPsblYn == 'Y' && dat.insttGoodsInfo[i].salPsblYn == 'N' ){
                             trHtml.push("<td class='form'>",
                                 "<span class='quantity-input'>",
@@ -707,17 +427,17 @@
                                 "<i class='icon-minus'></i>",
                                 "</button>",
                                 "<label>",
-                                "<input type='number' class='meal-room-cnt' value='0' readonly title='√— ΩƒªÁºˆ' name='",dat.insttGoodsInfo[i].prdId,"_",dat.insttGoodsInfo[i].useDt,"_",dat.insttGoodsInfo[i].optId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
+                                "<input type='number' class='meal-room-cnt' value='0' readonly title='Ï¥ù ÏãùÏÇ¨Ïàò' name='",dat.insttGoodsInfo[i].prdId,"_",dat.insttGoodsInfo[i].useDt,"_",dat.insttGoodsInfo[i].optId,"' data-salamt='",dat.insttGoodsInfo[i].salAmt,"' data-txnyn='",dat.insttGoodsInfo[i].txnYn,"'>",
                                 "</label>",
                                 "<button type='button'class='btn plus meal-plus' data-max='",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"'>",
                                 "<i class='icon-plus'></i>",
                                 "</button>",
                                 "</span>",
-                                "<span>[¿‹ø©¿Œø¯:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"∞≥]</span>",
+                                "<span>[ÏûîÏó¨Ïù∏Ïõê:",dat.insttGoodsInfo[i].maxNopCnt-dat.insttGoodsInfo[i].rsrvtCnt,"Í∞ú]</span>",
                                 "</td>");
                         }else{
                             trHtml.push("<td>",
-                                "<span class=''>øπæ‡∫“∞°</span>",
+                                "<span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span>",
                                 "</td>");
                         }
 
@@ -728,7 +448,7 @@
                     }
                     if(ord != listDate.length){
                     	for(var ord; ord<listDate.length; ord++){
-                    		trHtml.push("<tr><td>",ord+1,"¿œ¬˜<br/>("+listDate[ord]+")</td><td><span class=''>øπæ‡∫“∞°</span></td><td><span class=''>øπæ‡∫“∞°</span></td><td><span class=''>øπæ‡∫“∞°</span></td></tr>");
+                    		trHtml.push("<tr><td>",ord+1,"ÏùºÏ∞®<br/>("+listDate[ord]+")</td><td><span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span></td><td><span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span></td><td><span class=''>ÏòàÏïΩÎ∂àÍ∞Ä</span></td></tr>");
                     	}
                     } 
                     
@@ -751,8 +471,8 @@
                     }
                 }
             });
-        },//end ΩƒªÁ ±◊∏Æ±‚
-        //ΩƒªÁø‰±›¡∂»∏
+        },//end ÏãùÏÇ¨ Í∑∏Î¶¨Í∏∞
+        //ÏãùÏÇ¨ÏöîÍ∏àÏ°∞Ìöå
         drawMealAmt : function(){
             ajaxCall({
                 url :  '/eco/getEcoMealAmtInfo.do',
@@ -767,27 +487,27 @@
                     openPopup("mealAmtPop");
                 },
                 error : function(){
-                    toastrMsg("¡∂»∏ ¡ﬂ ø¿∑˘∞° πﬂª˝«œø¥Ω¿¥œ¥Ÿ.");
+                    toastrMsg("Ï°∞Ìöå Ï§ë Ïò§Î•òÍ∞Ä Î∞úÏÉùÌïòÏòÄÏäµÎãàÎã§.");
                 }
             });
-        },//ΩƒªÁø‰±›¡∂»∏≥°
-        //∞ËªÍ«‘ºˆ
+        },//ÏãùÏÇ¨ÏöîÍ∏àÏ°∞ÌöåÎÅù
+        //Í≥ÑÏÇ∞Ìï®Ïàò
         recalc : function(){
 
             isProgram	 = false;
             isLivingRoom = false;
             isMeal 		 = false;
 
-            //≈‰≈ª±›æ◊
-            let totalVatAmt   = 0;                  //∏Èºº±›æ◊
-            let totalTax   = 0;                     //∫Œ∞°ºº
-            let totalTaxAmt   = 0;                  //∞˙ºº«’∞Ë
+            //ÌÜ†ÌÉàÍ∏àÏï°
+            let totalVatAmt   = 0;                  //Î©¥ÏÑ∏Í∏àÏï°
+            let totalTax   = 0;                     //Î∂ÄÍ∞ÄÏÑ∏
+            let totalTaxAmt   = 0;                  //Í≥ºÏÑ∏Ìï©Í≥Ñ
 
-            //«¡∑Œ±◊∑• Ω√¿€
-            let totalChildAmt = 0;                  //≈‰≈ª æÓ∏∞¿Ã±›æ◊
-            let totalAdultAmt = 0;                  //≈‰≈ª º∫¿Œ±›æ◊
-            let totalChildCnt = 0;                  //≈‰≈ª æÓ∏∞¿Ã ¿Œø¯
-            let totalAdultCnt = 0;                  //≈‰≈ª º∫¿Œ ¿Œø¯
+            //ÌîÑÎ°úÍ∑∏Îû® ÏãúÏûë
+            let totalChildAmt = 0;                  //ÌÜ†ÌÉà Ïñ¥Î¶∞Ïù¥Í∏àÏï°
+            let totalAdultAmt = 0;                  //ÌÜ†ÌÉà ÏÑ±Ïù∏Í∏àÏï°
+            let totalChildCnt = 0;                  //ÌÜ†ÌÉà Ïñ¥Î¶∞Ïù¥ Ïù∏Ïõê
+            let totalAdultCnt = 0;                  //ÌÜ†ÌÉà ÏÑ±Ïù∏ Ïù∏Ïõê
 
             for (let i = 0; i < $("input.program-checkbox:checked").size(); i++) {
                 totalChildCnt = $("#programChildCnt").val();
@@ -797,33 +517,33 @@
                 totalChildAmt += childAmt;
                 totalAdultAmt += adultAmt;
 
-                //∫Œ∞°ºº √º≈©..
-                if("Y" == $("input.program-checkbox:checked").eq(i).data("childtxnyn")){ //∞˙ººªÛ«∞¿Ã∏È totalTax(∫Œ∞°ºº10%), totalTaxAmt(√—±›æ◊) ¥ı«œ±‚
+                //Î∂ÄÍ∞ÄÏÑ∏ Ï≤¥ÌÅ¨..
+                if("Y" == $("input.program-checkbox:checked").eq(i).data("childtxnyn")){ //Í≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ totalTax(Î∂ÄÍ∞ÄÏÑ∏10%), totalTaxAmt(Ï¥ùÍ∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += Math.floor(childAmt * 0.1);
                     totalTaxAmt += childAmt;
-                }else{                                                              //∫Ò∞˙ººªÛ«∞¿Ã∏È ∫Œ∞°ºº¥¬ 0ø¯, totalVatAmt(√—∏Èºº±›æ◊) ¥ı«œ±‚
+                }else{                                                              //ÎπÑÍ≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ Î∂ÄÍ∞ÄÏÑ∏Îäî 0Ïõê, totalVatAmt(Ï¥ùÎ©¥ÏÑ∏Í∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += 0;
                     totalVatAmt += childAmt;
                 }
-                if("Y" == $("input.program-checkbox:checked").eq(i).data("adulttxnyn")){ //∞˙ººªÛ«∞¿Ã∏È totalTax(∫Œ∞°ºº10%), totalTaxAmt(√—±›æ◊) ¥ı«œ±‚
+                if("Y" == $("input.program-checkbox:checked").eq(i).data("adulttxnyn")){ //Í≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ totalTax(Î∂ÄÍ∞ÄÏÑ∏10%), totalTaxAmt(Ï¥ùÍ∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += Math.floor(adultAmt * 0.1);
                     totalTaxAmt += adultAmt;
-                }else{                                                              //∫Ò∞˙ººªÛ«∞¿Ã∏È ∫Œ∞°ºº¥¬ 0ø¯, totalVatAmt(√—∏Èºº±›æ◊) ¥ı«œ±‚
+                }else{                                                              //ÎπÑÍ≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ Î∂ÄÍ∞ÄÏÑ∏Îäî 0Ïõê, totalVatAmt(Ï¥ùÎ©¥ÏÑ∏Í∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += 0;
                     totalVatAmt += adultAmt;
                 }
             }
-            $(".programDiv .cnt").html("√ªº“≥‚ "+totalChildCnt+"∏Ì / º∫¿Œ "+totalAdultCnt+"∏Ì");
-            $(".programDiv .amount").html("<em>"+(totalChildAmt+totalAdultAmt).toLocaleString()+"</em>ø¯");
+            $(".programDiv .cnt").html("Ï≤≠ÏÜåÎÖÑ "+totalChildCnt+"Î™Ö / ÏÑ±Ïù∏ "+totalAdultCnt+"Î™Ö");
+            $(".programDiv .amount").html("<em>"+(totalChildAmt+totalAdultAmt).toLocaleString()+"</em>Ïõê");
 
-            if(totalChildCnt*1+totalAdultCnt*1>1){//«¡∑Œ±◊∑• øπæ‡ ∞°¥… Y
+            if(totalChildCnt*1+totalAdultCnt*1>1){//ÌîÑÎ°úÍ∑∏Îû® ÏòàÏïΩ Í∞ÄÎä• Y
                 isProgram = true;
             }
-            //«¡∑Œ±◊∑• ≥°
+            //ÌîÑÎ°úÍ∑∏Îû® ÎÅù
 
-            //ª˝»∞∞¸ Ω√¿€
-            let totalLivingAmt = 0;                     //≈‰≈ª ª˝»∞∞¸ ±›æ◊
-            let totalLivingCnt = 0;                     //≈‰≈ª ª˝»∞∞¸ ºˆ∑Æ
+            //ÏÉùÌôúÍ¥Ä ÏãúÏûë
+            let totalLivingAmt = 0;                     //ÌÜ†ÌÉà ÏÉùÌôúÍ¥Ä Í∏àÏï°
+            let totalLivingCnt = 0;                     //ÌÜ†ÌÉà ÏÉùÌôúÍ¥Ä ÏàòÎüâ
             for(let i = 0; i < $("input.living-room-cnt").size(); i++) {
                 let price = $("input.living-room-cnt").eq(i).data("salamt");
                 let cnt = $("input.living-room-cnt").eq(i).val();
@@ -831,42 +551,42 @@
                 totalLivingAmt += parseInt(livingAmt);
                 totalLivingCnt += parseInt(cnt);
 
-                if("Y" == $("input.living-room-cnt").eq(i).data("txnyn")){ //∞˙ººªÛ«∞¿Ã∏È totalTax(∫Œ∞°ºº10%), totalTaxAmt(√—±›æ◊) ¥ı«œ±‚
+                if("Y" == $("input.living-room-cnt").eq(i).data("txnyn")){ //Í≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ totalTax(Î∂ÄÍ∞ÄÏÑ∏10%), totalTaxAmt(Ï¥ùÍ∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += Math.floor(livingAmt * 0.1);
                     totalTaxAmt += livingAmt;
-                }else{                                                              //∫Ò∞˙ººªÛ«∞¿Ã∏È ∫Œ∞°ºº¥¬ 0ø¯, totalVatAmt(√—∏Èºº±›æ◊) ¥ı«œ±‚
+                }else{                                                              //ÎπÑÍ≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ Î∂ÄÍ∞ÄÏÑ∏Îäî 0Ïõê, totalVatAmt(Ï¥ùÎ©¥ÏÑ∏Í∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += 0;
                     totalVatAmt += livingAmt;
                 }
-                $(".livingRoom .tbody").find("tr").eq(i).find(".spy").html(livingAmt.toLocaleString()+"ø¯");
-                $(".livingRoomDiv .cnt").html("√— ºˆ∑Æ "+totalLivingCnt+"∞≥");
-                $(".livingRoomDiv .amount").html("<em>"+totalLivingAmt.toLocaleString()+"</em>ø¯");
+                $(".livingRoom .tbody").find("tr").eq(i).find(".spy").html(livingAmt.toLocaleString()+"Ïõê");
+                $(".livingRoomDiv .cnt").html("Ï¥ù ÏàòÎüâ "+totalLivingCnt+"Í∞ú");
+                $(".livingRoomDiv .amount").html("<em>"+totalLivingAmt.toLocaleString()+"</em>Ïõê");
             }
-            //ª˝»∞∞¸ ≥°
+            //ÏÉùÌôúÍ¥Ä ÎÅù
 
-            //∞≠¥Á Ω√¿€
-            let totalGangdangAmt = 0;                  //≈‰≈ª ∞≠¥Á ±›æ◊
-            let totalGangdangCnt = 0;                  //≈‰≈ª ∞≠¥Á ºˆ∑Æ
+            //Í∞ïÎãπ ÏãúÏûë
+            let totalGangdangAmt = 0;                  //ÌÜ†ÌÉà Í∞ïÎãπ Í∏àÏï°
+            let totalGangdangCnt = 0;                  //ÌÜ†ÌÉà Í∞ïÎãπ ÏàòÎüâ
             for (let i = 0; i < $("input.gangdang-checkbox:checked").size(); i++) {
                 let gangdangAmt = ($("input.gangdang-checkbox:checked").eq(i).data("salamt"));
                 totalGangdangAmt += gangdangAmt;
                 totalGangdangCnt++;
 
-                if("Y" == $("input.gangdang-checkbox:checked").eq(i).data("txnyn")){ //∞˙ººªÛ«∞¿Ã∏È totalTax(∫Œ∞°ºº10%), totalTaxAmt(√—±›æ◊) ¥ı«œ±‚
+                if("Y" == $("input.gangdang-checkbox:checked").eq(i).data("txnyn")){ //Í≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ totalTax(Î∂ÄÍ∞ÄÏÑ∏10%), totalTaxAmt(Ï¥ùÍ∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += Math.floor(gangdangAmt * 0.1);
                     totalTaxAmt += gangdangAmt;
-                }else{                                                              //∫Ò∞˙ººªÛ«∞¿Ã∏È ∫Œ∞°ºº¥¬ 0ø¯, totalVatAmt(√—∏Èºº±›æ◊) ¥ı«œ±‚
+                }else{                                                              //ÎπÑÍ≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ Î∂ÄÍ∞ÄÏÑ∏Îäî 0Ïõê, totalVatAmt(Ï¥ùÎ©¥ÏÑ∏Í∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += 0;
                     totalVatAmt += gangdangAmt;
                 }
             }
-            $(".gangdangDiv .cnt").html("√— ºˆ∑Æ "+totalGangdangCnt+"∞≥");
-            $(".gangdangDiv .amount").html("<em>"+totalGangdangAmt.toLocaleString()+"</em>ø¯");
-            //∞≠¥Á ≥°
+            $(".gangdangDiv .cnt").html("Ï¥ù ÏàòÎüâ "+totalGangdangCnt+"Í∞ú");
+            $(".gangdangDiv .amount").html("<em>"+totalGangdangAmt.toLocaleString()+"</em>Ïõê");
+            //Í∞ïÎãπ ÎÅù
 
-            //∞≠¿«Ω« Ω√¿€
-            let totalClassAmt = 0;                     //≈‰≈ª ∞≠¿«Ω« ±›æ◊
-            let totalClassCnt = 0;                     //≈‰≈ª ∞≠¿«Ω« ºˆ∑Æ
+            //Í∞ïÏùòÏã§ ÏãúÏûë
+            let totalClassAmt = 0;                     //ÌÜ†ÌÉà Í∞ïÏùòÏã§ Í∏àÏï°
+            let totalClassCnt = 0;                     //ÌÜ†ÌÉà Í∞ïÏùòÏã§ ÏàòÎüâ
             for(let i = 0; i < $("input.class-room-cnt").size(); i++) {
                 let price = $("input.class-room-cnt").eq(i).data("salamt");
                 let cnt = $("input.class-room-cnt").eq(i).val();
@@ -874,22 +594,22 @@
                 totalClassAmt += classAmt;
                 totalClassCnt += parseInt(cnt);
 
-                if("Y" == $("input.class-room-cnt").eq(i).data("txnyn")){ //∞˙ººªÛ«∞¿Ã∏È totalTax(∫Œ∞°ºº10%), totalTaxAmt(√—±›æ◊) ¥ı«œ±‚
+                if("Y" == $("input.class-room-cnt").eq(i).data("txnyn")){ //Í≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ totalTax(Î∂ÄÍ∞ÄÏÑ∏10%), totalTaxAmt(Ï¥ùÍ∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += Math.floor(classAmt * 0.1);
                     totalTaxAmt += classAmt;
-                }else{                                                              //∫Ò∞˙ººªÛ«∞¿Ã∏È ∫Œ∞°ºº¥¬ 0ø¯, totalVatAmt(√—∏Èºº±›æ◊) ¥ı«œ±‚
+                }else{                                                              //ÎπÑÍ≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ Î∂ÄÍ∞ÄÏÑ∏Îäî 0Ïõê, totalVatAmt(Ï¥ùÎ©¥ÏÑ∏Í∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += 0;
                     totalVatAmt += classAmt;
                 }
-                $(".classRoom .tbody").find("tr").eq(i).find(".spy").html(classAmt.toLocaleString()+"ø¯");
+                $(".classRoom .tbody").find("tr").eq(i).find(".spy").html(classAmt.toLocaleString()+"Ïõê");
             }
-            $(".classRoomDiv .cnt").html("√— ºˆ∑Æ "+totalClassCnt+"∞≥");
-            $(".classRoomDiv .amount").html("<em>"+totalClassAmt.toLocaleString()+"</em>ø¯");
-            //∞≠¿«Ω« ≥°
+            $(".classRoomDiv .cnt").html("Ï¥ù ÏàòÎüâ "+totalClassCnt+"Í∞ú");
+            $(".classRoomDiv .amount").html("<em>"+totalClassAmt.toLocaleString()+"</em>Ïõê");
+            //Í∞ïÏùòÏã§ ÎÅù
 
-            //Ωƒ¥Á Ω√¿€
-            let totalMealAmt = 0;                     //≈‰≈ª ΩƒªÁ¿Œø¯ ±›æ◊
-            let totalMealCnt = 0;                     //≈‰≈ª ΩƒªÁ¿Œø¯ ºˆ∑Æ
+            //ÏãùÎãπ ÏãúÏûë
+            let totalMealAmt = 0;                     //ÌÜ†ÌÉà ÏãùÏÇ¨Ïù∏Ïõê Í∏àÏï°
+            let totalMealCnt = 0;                     //ÌÜ†ÌÉà ÏãùÏÇ¨Ïù∏Ïõê ÏàòÎüâ
             for(let i = 0; i < $("input.meal-room-cnt").size(); i++) {
                 let price = $("input.meal-room-cnt").eq(i).data("salamt");
                 let cnt = $("input.meal-room-cnt").eq(i).val();
@@ -897,59 +617,59 @@
                 totalMealAmt += mealAmt;
                 totalMealCnt += parseInt(cnt);
 
-                if("Y" == $("input.meal-room-cnt").eq(i).data("txnyn")){ //∞˙ººªÛ«∞¿Ã∏È totalTax(∫Œ∞°ºº10%), totalTaxAmt(√—±›æ◊) ¥ı«œ±‚
+                if("Y" == $("input.meal-room-cnt").eq(i).data("txnyn")){ //Í≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ totalTax(Î∂ÄÍ∞ÄÏÑ∏10%), totalTaxAmt(Ï¥ùÍ∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += Math.floor(mealAmt * 0.1);
                     totalTaxAmt += mealAmt;
-                }else{                                                              //∫Ò∞˙ººªÛ«∞¿Ã∏È ∫Œ∞°ºº¥¬ 0ø¯, totalVatAmt(√—∏Èºº±›æ◊) ¥ı«œ±‚
+                }else{                                                              //ÎπÑÍ≥ºÏÑ∏ÏÉÅÌíàÏù¥Î©¥ Î∂ÄÍ∞ÄÏÑ∏Îäî 0Ïõê, totalVatAmt(Ï¥ùÎ©¥ÏÑ∏Í∏àÏï°) ÎçîÌïòÍ∏∞
                     totalTax += 0;
                     totalVatAmt += mealAmt;
                 }
-                $(".meal .tbody").find("tr").eq(i).find(".spy").html(mealAmt.toLocaleString()+"ø¯");
+                $(".meal .tbody").find("tr").eq(i).find(".spy").html(mealAmt.toLocaleString()+"Ïõê");
             }
-            $(".mealDiv .cnt").html("√— ºˆ∑Æ "+totalMealCnt+"∞≥");
-            $(".mealDiv .amount").html("<em>"+totalMealAmt.toLocaleString()+"</em>ø¯");
-            //Ωƒ¥Á ≥°
+            $(".mealDiv .cnt").html("Ï¥ù ÏàòÎüâ "+totalMealCnt+"Í∞ú");
+            $(".mealDiv .amount").html("<em>"+totalMealAmt.toLocaleString()+"</em>Ïõê");
+            //ÏãùÎãπ ÎÅù
 
-            //√—∞·¡¶±›æ◊ Ω√¿€
+            //Ï¥ùÍ≤∞Ï†úÍ∏àÏï° ÏãúÏûë
             let paymentHtml = [];
             let totalAllTaxAmt = (totalVatAmt + totalTaxAmt + totalTax).toLocaleString();
-            paymentHtml.push("<dl><dt><em>ª˝≈¬ø©«‡</em></dt><dd></dd></dl>");
+            paymentHtml.push("<dl><dt><em>ÏÉùÌÉúÏó¨Ìñâ</em></dt><dd></dd></dl>");
             paymentHtml.push("<dl>");
             if(totalChildAmt > 0 || totalAdultAmt > 0){
-                paymentHtml.push("<dt>«¡∑Œ±◊∑• : √ªº“≥‚ ",totalChildCnt,"∏Ì / º∫¿Œ ",totalAdultCnt,"∏Ì</dt><dd>",(totalChildAmt+totalAdultAmt).toLocaleString(),"ø¯</dd>");
+                paymentHtml.push("<dt>ÌîÑÎ°úÍ∑∏Îû® : Ï≤≠ÏÜåÎÖÑ ",totalChildCnt,"Î™Ö / ÏÑ±Ïù∏ ",totalAdultCnt,"Î™Ö</dt><dd>",(totalChildAmt+totalAdultAmt).toLocaleString(),"Ïõê</dd>");
             }
             if(totalLivingAmt > 0){
-                paymentHtml.push("<dt>ª˝»∞∞¸/∂˘¡ˆ : √— ",totalLivingCnt,"∞≥</dt><dd>",totalLivingAmt.toLocaleString(),"ø¯</dd>");
+                paymentHtml.push("<dt>ÏÉùÌôúÍ¥Ä/ÎûèÏßÄ : Ï¥ù ",totalLivingCnt,"Í∞ú</dt><dd>",totalLivingAmt.toLocaleString(),"Ïõê</dd>");
             }
             if(totalGangdangAmt > 0){
-                paymentHtml.push("<dt>∞≠¥Á : √— ",totalGangdangCnt,"∞≥</dt><dd>",totalGangdangAmt.toLocaleString(),"ø¯</dd>");
+                paymentHtml.push("<dt>Í∞ïÎãπ : Ï¥ù ",totalGangdangCnt,"Í∞ú</dt><dd>",totalGangdangAmt.toLocaleString(),"Ïõê</dd>");
             }
             if(totalClassAmt > 0){
-                paymentHtml.push("<dt>∞≠¿«Ω« : √— ",totalClassCnt,"∞≥</dt><dd>",totalClassAmt.toLocaleString(),"ø¯</dd>");
+                paymentHtml.push("<dt>Í∞ïÏùòÏã§ : Ï¥ù ",totalClassCnt,"Í∞ú</dt><dd>",totalClassAmt.toLocaleString(),"Ïõê</dd>");
             }
             if(totalMealAmt > 0){
-                paymentHtml.push("<dt>Ωƒ¥Á : √— ",totalMealCnt,"∞≥</dt><dd>",totalMealAmt.toLocaleString(),"ø¯</dd>");
+                paymentHtml.push("<dt>ÏãùÎãπ : Ï¥ù ",totalMealCnt,"Í∞ú</dt><dd>",totalMealAmt.toLocaleString(),"Ïõê</dd>");
             }
             paymentHtml.push("</dl>");
             paymentHtml.push("<dl class='surtax'>");
-            paymentHtml.push("<dt><em>∞˙ºº «’∞Ë</em></dt><dd><em>",totalTaxAmt.toLocaleString(),"</em>ø¯</dd>");
-            paymentHtml.push("<dt><em>∏Èºº «’∞Ë*</em></dt><dd><em>",totalVatAmt.toLocaleString(),"</em>ø¯</dd>");
-            paymentHtml.push("<dt><em>∫Œ∞°ºº «’∞Ë</em></dt><dd><em>",totalTax.toLocaleString(),"</em>ø¯</dd>");
+            paymentHtml.push("<dt><em>Í≥ºÏÑ∏ Ìï©Í≥Ñ</em></dt><dd><em>",totalTaxAmt.toLocaleString(),"</em>Ïõê</dd>");
+            paymentHtml.push("<dt><em>Î©¥ÏÑ∏ Ìï©Í≥Ñ*</em></dt><dd><em>",totalVatAmt.toLocaleString(),"</em>Ïõê</dd>");
+            paymentHtml.push("<dt><em>Î∂ÄÍ∞ÄÏÑ∏ Ìï©Í≥Ñ</em></dt><dd><em>",totalTax.toLocaleString(),"</em>Ïõê</dd>");
             paymentHtml.push("</dl>");
-            paymentHtml.push("<dl class='total'><dt><em>«’∞Ë øπ¡§ ±›æ◊</em></dt><dd><em>",totalAllTaxAmt,"</em>ø¯</dd></dl>");
+            paymentHtml.push("<dl class='total'><dt><em>Ìï©Í≥Ñ ÏòàÏ†ï Í∏àÏï°</em></dt><dd><em>",totalAllTaxAmt,"</em>Ïõê</dd></dl>");
             $(".payment").html(paymentHtml.join(""));
-            //√—∞·¡¶±›æ◊ ≥°
+            //Ï¥ùÍ≤∞Ï†úÍ∏àÏï° ÎÅù
 
-            //√— ∞·¡¶±›æ◊ ∫Øºˆø° ¿˙¿Â
+            //Ï¥ù Í≤∞Ï†úÍ∏àÏï° Î≥ÄÏàòÏóê Ï†ÄÏû•
             totalAmt = totalAllTaxAmt;
 
-            //«¡∑Œ±◊∑•, ∞≠¿«Ω«, ∞≠¥Á ªÛ«∞¿Ã ∆˜«‘ => ª˝»∞∞¸,ΩƒªÁ øπæ‡ ∞°¥…
+            //ÌîÑÎ°úÍ∑∏Îû®, Í∞ïÏùòÏã§, Í∞ïÎãπ ÏÉÅÌíàÏù¥ Ìè¨Ìï® => ÏÉùÌôúÍ¥Ä,ÏãùÏÇ¨ ÏòàÏïΩ Í∞ÄÎä•
             if((totalChildAmt > 0 || totalAdultAmt > 0) || totalGangdangAmt > 0 || totalClassAmt > 0) {
                 isLivingRoom = true;
                 isMeal = true;
             }
-        },//end ∞ËªÍ«‘ºˆ
-        //¿ÃπÃ¡ˆ load
+        },//end Í≥ÑÏÇ∞Ìï®Ïàò
+        //Ïù¥ÎØ∏ÏßÄ load
         drawImage : function(prdCtgId){
             ajaxCall({
                 url :  '/eco/getEcoInsttImages.do',
@@ -963,11 +683,11 @@
                     openPopup("eco-view");
                 },
                 error : function(){
-                    toastrMsg("¡∂»∏ ¡ﬂ ø¿∑˘∞° πﬂª˝«œø¥Ω¿¥œ¥Ÿ.");
+                    toastrMsg("Ï°∞Ìöå Ï§ë Ïò§Î•òÍ∞Ä Î∞úÏÉùÌïòÏòÄÏäµÎãàÎã§.");
                 }
             });
-        },//end ¿ÃπÃ¡ˆ load
-        //øπæ‡Ω√¿€
+        },//end Ïù¥ÎØ∏ÏßÄ load
+        //ÏòàÏïΩÏãúÏûë
         reserStart : function(){
 
             if(!funcArray.validate()){return false};
@@ -975,7 +695,7 @@
             $("#useEndDt").val(selectEndDate);
 
 
-            let minCnt = 9999;                      //«¡∑Œ±◊∑•¡ﬂ √÷º“ øπæ‡∞°¥…ºˆ∑Æ  ( ø¿¿¸ ø¿»ƒ ¥Ÿ «’√ƒº≠ øπæ‡¿Œø¯ <= ¿‹ø©¿Œø¯ ∞°¿Â ¿˚¿∫∞Õ ¿Ã µ«æÓæﬂ«‘  )
+            let minCnt = 9999;                      //ÌîÑÎ°úÍ∑∏Îû®Ï§ë ÏµúÏÜå ÏòàÏïΩÍ∞ÄÎä•ÏàòÎüâ  ( Ïò§Ï†Ñ Ïò§ÌõÑ Îã§ Ìï©Ï≥êÏÑú ÏòàÏïΩÏù∏Ïõê <= ÏûîÏó¨Ïù∏Ïõê Í∞ÄÏû• Ï†ÅÏùÄÍ≤É Ïù¥ ÎêòÏñ¥ÏïºÌï®  )
             for (let i = 0; i < $("input.program-checkbox:checked").size(); i++) {
                 if( minCnt > $("input.program-checkbox:checked").eq(i).data('rsvtpsblcnt') ){
                     minCnt = $("input.program-checkbox:checked").eq(i).data('rsvtpsblcnt');
@@ -990,41 +710,41 @@
                         loginPopup('funcArray.reserStart();');
                     }else if(dat.result =='N'){
                         alertPopup({
-                            title:'øπæ‡∫“∞° æ»≥ª',
-                            subTitle:'øπæ‡¿Ã ∫“∞° «’¥œ¥Ÿ.',
+                            title:'ÏòàÏïΩÎ∂àÍ∞Ä ÏïàÎÇ¥',
+                            subTitle:'ÏòàÏïΩÏù¥ Î∂àÍ∞Ä Ìï©ÎãàÎã§.',
                             content:dat.resultMsg,
                             type:'error'
                         });
                     }else{
                         let captchaHtml = [];
-                        captchaHtml.push("<table class='table'> <caption>¿⁄µøπÊ¡ˆ ¿‘∑¬πÆ¿⁄</caption> <colgroup> <col style='width: 140px;'> <col> </colgroup>",
+                        captchaHtml.push("<table class='table'> <caption>ÏûêÎèôÎ∞©ÏßÄ ÏûÖÎ†•Î¨∏Ïûê</caption> <colgroup> <col style='width: 140px;'> <col> </colgroup>",
                             "<tbody class='tbody' id=''>",
                             "<tr>",
-                            "<th scope='row'>±π∏≥∞¯ø¯</th>",
+                            "<th scope='row'>Íµ≠Î¶ΩÍ≥µÏõê</th>",
                             "<td>",$("#deptTitle").html(),"</td>",
                             "</tr>",
                             "<tr>",
-                            "<th scope='row'>ªÁøÎ¿œ</th>",
+                            "<th scope='row'>ÏÇ¨Ïö©Ïùº</th>",
                             "<td>",selectStartDate," ~ ",selectEndDate,"</td>",
                             "</tr>",
                             "<tr>",
-                            "<th scope='row'>√º∑˘±‚∞£</th>",
-                            "<td>",nightDays,"π⁄ ",nightDays+1,"¿œ</td>",
+                            "<th scope='row'>Ï≤¥Î•òÍ∏∞Í∞Ñ</th>",
+                            "<td>",nightDays,"Î∞ï ",nightDays+1,"Ïùº</td>",
                             "</tr>",
                             "<tr>",
-                            "<th scope='row'>∞°∞›</th>",
-                            "<td>",totalAmt,"ø¯</td>",
+                            "<th scope='row'>Í∞ÄÍ≤©</th>",
+                            "<td>",totalAmt,"Ïõê</td>",
                             "</tr>",
                             "</tbody>",
                             "</table>",
                             "<div class='captcha-area'>",
-                            "<span class='label'>¿⁄µøøπæ‡ πÊ¡ˆπÆ¿⁄</span>",
-                            "<img src='/reserCaptcha.do' class='w-100' alt='¿⁄µøøπæ‡ πÊ¡ˆπÆ¿⁄'>",
-                            "<label for='captchaInput' class='hidden-text'>¿⁄µøøπæ‡ πÊ¡ˆπÆ¿⁄</label><input type='text' class='input-text' title='¿⁄µøøπæ‡ πÊ¡ˆπÆ¿⁄' id='captchaInput'>",
+                            "<span class='label'>ÏûêÎèôÏòàÏïΩ Î∞©ÏßÄÎ¨∏Ïûê</span>",
+                            "<img src='/reserCaptcha.do' class='w-100' alt='ÏûêÎèôÏòàÏïΩ Î∞©ÏßÄÎ¨∏Ïûê'>",
+                            "<label for='captchaInput' class='hidden-text'>ÏûêÎèôÏòàÏïΩ Î∞©ÏßÄÎ¨∏Ïûê</label><input type='text' class='input-text' title='ÏûêÎèôÏòàÏïΩ Î∞©ÏßÄÎ¨∏Ïûê' id='captchaInput'>",
                             "</div>",
-                            "<p class='copy-notice'>°ÿ øπæ‡ øœ∑·µ» ªÛ«∞ø° ¥Î«ÿº≠¥¬ ∏∂¿Ã∆‰¿Ã¡ˆ ≥™¿«øπæ‡∏Ò∑œ ø°º≠ »Æ¿Œ »ƒ ∞·¡¶ ∞°¥…«’¥œ¥Ÿ.</p><div class='btn-area'>",
-                            "<button type='button'class='btn btn-cancel' onclick='closePopup(\"captchaPop\");'>√Îº“</button>",
-                            "<button type='button'class='btn btn-confirm is-active' onclick='funcArray.reserProc();'>»Æ¿Œ</button></div>"
+                            "<p class='copy-notice'>‚Äª ÏòàÏïΩ ÏôÑÎ£åÎêú ÏÉÅÌíàÏóê ÎåÄÌï¥ÏÑúÎäî ÎßàÏù¥ÌéòÏù¥ÏßÄ ÎÇòÏùòÏòàÏïΩÎ™©Î°ù ÏóêÏÑú ÌôïÏù∏ ÌõÑ Í≤∞Ï†ú Í∞ÄÎä•Ìï©ÎãàÎã§.</p><div class='btn-area'>",
+                            "<button type='button'class='btn btn-cancel' onclick='closePopup(\"captchaPop\");'>Ï∑®ÏÜå</button>",
+                            "<button type='button'class='btn btn-confirm is-active' onclick='funcArray.reserProc();'>ÌôïÏù∏</button></div>"
                         );
                         $("#captchaDiv").html("");
                         $("#captchaDiv").prepend(captchaHtml.join(""));
@@ -1034,11 +754,11 @@
                     }
                 },
                 error : function(){
-                    toastrMsg("øπæ‡¡§√• √º≈©¡ﬂ ø¿∑˘∞° πﬂª˝«œø¥Ω¿¥œ¥Ÿ.");
+                    toastrMsg("ÏòàÏïΩÏ†ïÏ±Ö Ï≤¥ÌÅ¨Ï§ë Ïò§Î•òÍ∞Ä Î∞úÏÉùÌïòÏòÄÏäµÎãàÎã§.");
                 }
             });
-        },//end øπæ‡Ω√¿€ ( ∑Œ±◊¿Œ√º≈©, ¡§√•√º≈© ,ƒ∏√≠ )
-        //øπæ‡√≥∏Æ
+        },//end ÏòàÏïΩÏãúÏûë ( Î°úÍ∑∏Ïù∏Ï≤¥ÌÅ¨, Ï†ïÏ±ÖÏ≤¥ÌÅ¨ ,Ï∫°Ï±† )
+        //ÏòàÏïΩÏ≤òÎ¶¨
         reserProc : function(){
             $("#captcha").val($("#captchaInput").val());
             ajaxCall({
@@ -1049,32 +769,32 @@
                         loginPopup('funcArray.reserProc();');
                     }else if(dat.result == 'CAPTCHA'){
                         alertPopup({
-                            title:'øπæ‡∫“∞° æ»≥ª',
-                            subTitle:'øπæ‡¿Ã ∫“∞° «’¥œ¥Ÿ.',
+                            title:'ÏòàÏïΩÎ∂àÍ∞Ä ÏïàÎÇ¥',
+                            subTitle:'ÏòàÏïΩÏù¥ Î∂àÍ∞Ä Ìï©ÎãàÎã§.',
                             content:dat.resultMsg,
                             type:'error'
                         });
                     }else if(dat.result == 'DPL') {
                         closePopup('captchaPop');
                         alertPopup({
-                            title:'øπæ‡∫“∞° æ»≥ª',
-                            subTitle:'øπæ‡¿Ã ∫“∞° «’¥œ¥Ÿ.',
+                            title:'ÏòàÏïΩÎ∂àÍ∞Ä ÏïàÎÇ¥',
+                            subTitle:'ÏòàÏïΩÏù¥ Î∂àÍ∞Ä Ìï©ÎãàÎã§.',
                             content:dat.resultMsg,
                             type:'error'
                         });
                     }else{
                         closePopup('captchaPop');
                         closePopup('captchaPop');
-                        $('#ecoReservationConfirm [data-popup-information-eco="sttlmMtDtm"]').html(dat.stlmExpiDtm);//∞·¡¶∏∏±‚¿œΩ√
+                        $('#ecoReservationConfirm [data-popup-information-eco="sttlmMtDtm"]').html(dat.stlmExpiDtm);//Í≤∞Ï†úÎßåÍ∏∞ÏùºÏãú
                         openPopup('ecoReservationConfirm');
                     }
                 },
                 error : function(){
-                    toastrMsg("√≥∏Æ ¡ﬂ ø¿∑˘∞° πﬂª˝«œø¥Ω¿¥œ¥Ÿ.");
+                    toastrMsg("Ï≤òÎ¶¨ Ï§ë Ïò§Î•òÍ∞Ä Î∞úÏÉùÌïòÏòÄÏäµÎãàÎã§.");
                 }
             });
-        },//end øπæ‡√≥∏Æ
-        //¿Ø»øº∫√º≈©
+        },//end ÏòàÏïΩÏ≤òÎ¶¨
+        //Ïú†Ìö®ÏÑ±Ï≤¥ÌÅ¨
         validate : function(){
             let cnt = 0;
             for(let i=0; i<$(".collapse-wrap .check.collapse").length; i++){
@@ -1082,22 +802,22 @@
                     let selectedGoods = $(".collapse-wrap .check.collapse")[i].value;
                     if(selectedGoods == 'program'){
                         if(!isProgram){
-                            toastrMsg("«¡∑Œ±◊∑• ¬¸ø©¿Œø¯ √÷º“ 2∏Ì ¿ÃªÛ øπæ‡ ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨Ïù∏Ïõê ÏµúÏÜå 2Î™Ö Ïù¥ÏÉÅ ÏòàÏïΩ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                     }else if(selectedGoods == 'living') {
                         if(!isLivingRoom){
-                            toastrMsg("ª˝»∞∞¸¿∫ «¡∑Œ±◊∑• ¬¸ø© ∂«¥¬ ∞≠¥Á π◊ ∞≠¿«Ω« øπæ‡Ω√ø°∏∏ ¥Î∞¸¿Ã ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("ÏÉùÌôúÍ¥ÄÏùÄ ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨ ÎòêÎäî Í∞ïÎãπ Î∞è Í∞ïÏùòÏã§ ÏòàÏïΩÏãúÏóêÎßå ÎåÄÍ¥ÄÏù¥ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                         if(nightDays < 1){
                             $(this).prop("checked",false);
-                            toastrMsg("ª˝»∞∞¸ øπæ‡¿∫ 1π⁄ ¿ÃªÛ¿œ∂ß øπæ‡ ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("ÏÉùÌôúÍ¥Ä ÏòàÏïΩÏùÄ 1Î∞ï Ïù¥ÏÉÅÏùºÎïå ÏòàÏïΩ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                     }else if(selectedGoods == 'meal') {
                         if(!isMeal){
-                            toastrMsg("ΩƒªÁøπæ‡¿∫ «¡∑Œ±◊∑• ¬¸ø© ∂«¥¬ ∞≠¥Á π◊ ∞≠¿«Ω« øπæ‡Ω√ø°∏∏ Ω≈√ª¿Ã ∞°¥…«’¥œ¥Ÿ.");
+                            toastrMsg("ÏãùÏÇ¨ÏòàÏïΩÏùÄ ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨ ÎòêÎäî Í∞ïÎãπ Î∞è Í∞ïÏùòÏã§ ÏòàÏïΩÏãúÏóêÎßå Ïã†Ï≤≠Ïù¥ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                             return false;
                         }
                     }
@@ -1105,7 +825,7 @@
                 }
             }
             if(cnt < 1){
-                toastrMsg("√÷º“ «œ≥™ ¿ÃªÛ¿« Ω√º≥¿∫ º±≈√«œº≈æﬂ «’¥œ¥Ÿ.");
+                toastrMsg("ÏµúÏÜå ÌïòÎÇò Ïù¥ÏÉÅÏùò ÏãúÏÑ§ÏùÄ ÏÑ†ÌÉùÌïòÏÖîÏïº Ìï©ÎãàÎã§.");
                 return false;
             }
             
@@ -1113,100 +833,100 @@
         }
     }
 
-    //øπæ‡ ≈¨∏Ø ¿Ã∫•∆Æ ∏¿Ω
+    //ÏòàÏïΩ ÌÅ¥Î¶≠ Ïù¥Î≤§Ìä∏ Î™®Ïùå
     let clickEvent = {
-        //¥ﬁ∑¬
+        //Îã¨Î†•
         calendar : function(){
-            //start ¥ﬁ∑¬ ≈¨∏Ø ¿Ã∫•∆Æ
+            //start Îã¨Î†• ÌÅ¥Î¶≠ Ïù¥Î≤§Ìä∏
             $(".calendar-cell").off().click(function(){
                 selectCurDate = $(this).data('date');
 
-                //º±≈√µ» ≥Ø¬•∞° æ¯¿ª∂ß (√÷√ º±≈√)
+                //ÏÑ†ÌÉùÎêú ÎÇ†ÏßúÍ∞Ä ÏóÜÏùÑÎïå (ÏµúÏ¥àÏÑ†ÌÉù)
                 if(selectStartDate == null && selectEndDate == null){
-                    //¥ﬁ∑¬ π◊ º±≈√∞™ √ ±‚»≠
+                    //Îã¨Î†• Î∞è ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
                     funcArray.calendarClear();
-                    //∏∂¡ˆ∏∑¥ﬁ 1¿œ¿ª ¿‘Ω«∑Œ º±≈√Ω√
+                    //ÎßàÏßÄÎßâÎã¨ 1ÏùºÏùÑ ÏûÖÏã§Î°ú ÏÑ†ÌÉùÏãú
                     if($(this).data('date') =='2023'+'-'+numPad('1',2)+'-'+'01'){
-                        toastrMsg("«ÿ¥Á ¿œ¿∫ ≈Ω«∏∏ ∞°¥…«’¥œ¥Ÿ.");
+                        toastrMsg("Ìï¥Îãπ ÏùºÏùÄ Ìá¥Ïã§Îßå Í∞ÄÎä•Ìï©ÎãàÎã§.");
                         return false;
                     }
-                    //¿‘Ω« º±≈√
+                    //ÏûÖÏã§ ÏÑ†ÌÉù
                     $(this).addClass('start').addClass('selected');
-                    //data-º”º∫ ∞™ ∞°¡Æø¿±‚
+                    //data-ÏÜçÏÑ± Í∞í Í∞ÄÏ†∏Ïò§Í∏∞
                     selectStartDate = selectCurDate;
                     selectStartDayWeek = $(this).data('dayweek');
                     selectEndDate = selectCurDate;
                     selectEndDayWeek = $(this).data('dayweek');
-                    //¿‘Ω«¿œ ≈Ω«¿œ html ∫Ø∞Ê
+                    //ÏûÖÏã§Ïùº Ìá¥Ïã§Ïùº html Î≥ÄÍ≤Ω
                     $("#startDt").html(selectStartDate+"["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $("#endDt").html(selectStartDate+"["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $(".length-stay").removeClass('selected');
                     $("#nightDays0").addClass('selected');
-                    toastrMsg("¿ÃøÎ ±‚∞£¿∫ 3π⁄ 4¿œ ¿Ã≥ª∑Œ º±≈√«ÿ ¡÷ººø‰.");
+                    toastrMsg("Ïù¥Ïö© Í∏∞Í∞ÑÏùÄ 3Î∞ï 4Ïùº Ïù¥ÎÇ¥Î°ú ÏÑ†ÌÉùÌï¥ Ï£ºÏÑ∏Ïöî.");
 
-                    nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //≥Ø¬•∞ËªÍ
-                }else if(selectStartDate != selectEndDate){ //ªı∑ŒøÓ ¿‘Ω«¿œ¿ª º±≈√«ﬂ¿ª∂ß
-                    //¥ﬁ∑¬ π◊ º±≈√∞™ √ ±‚»≠
+                    nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //ÎÇ†ÏßúÍ≥ÑÏÇ∞
+                }else if(selectStartDate != selectEndDate){ //ÏÉàÎ°úÏö¥ ÏûÖÏã§ÏùºÏùÑ ÏÑ†ÌÉùÌñàÏùÑÎïå
+                    //Îã¨Î†• Î∞è ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
                     funcArray.calendarClear();
-                    //∏∂¡ˆ∏∑¥ﬁ 1¿œ¿ª ¿‘Ω«∑Œ º±≈√Ω√
+                    //ÎßàÏßÄÎßâÎã¨ 1ÏùºÏùÑ ÏûÖÏã§Î°ú ÏÑ†ÌÉùÏãú
                     if($(this).data('date') =='2023'+'-'+numPad('1',2)+'-'+'01'){
-                        toastrMsg("«ÿ¥Á ¿œ¿∫ ≈Ω«∏∏ ∞°¥…«’¥œ¥Ÿ.");
+                        toastrMsg("Ìï¥Îãπ ÏùºÏùÄ Ìá¥Ïã§Îßå Í∞ÄÎä•Ìï©ÎãàÎã§.");
                         return false;
                     }
-                    //¿‘Ω« º±≈√
+                    //ÏûÖÏã§ ÏÑ†ÌÉù
                     $(this).addClass('start').addClass('selected');
-                    //º±≈√µ»∞™ ∞ªΩ≈
+                    //ÏÑ†ÌÉùÎêúÍ∞í Í∞±Ïã†
                     selectStartDate = selectCurDate;
                     selectStartDayWeek = $(this).data('dayweek');
                     selectEndDate = selectCurDate;
                     selectEndDayWeek = $(this).data('dayweek');
-                    //¿‘Ω«¿œ ≈Ω«¿œ html ∫Ø∞Ê
+                    //ÏûÖÏã§Ïùº Ìá¥Ïã§Ïùº html Î≥ÄÍ≤Ω
                     $("#startDt").html(selectCurDate+"["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $("#endDt").html(selectCurDate+"["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $(".length-stay").removeClass('selected');
                     $("#nightDays0").addClass('selected');
-                    toastrMsg("¿ÃøÎ ±‚∞£¿∫ 3π⁄ 4¿œ ¿Ã≥ª∑Œ º±≈√«ÿ ¡÷ººø‰.");
+                    toastrMsg("Ïù¥Ïö© Í∏∞Í∞ÑÏùÄ 3Î∞ï 4Ïùº Ïù¥ÎÇ¥Î°ú ÏÑ†ÌÉùÌï¥ Ï£ºÏÑ∏Ïöî.");
 
-                    nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //≥Ø¬•∞ËªÍ
-                }else if(selectStartDate == selectCurDate){ //¥Á¿œø°º≠ ¥Á¿œ¿ª «—π¯ ¥ı ≈¨∏Ø«ﬂ¿ª∂ß
-                    //¥ﬁ∑¬ π◊ º±≈√∞™ √ ±‚»≠
+                    nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //ÎÇ†ÏßúÍ≥ÑÏÇ∞
+                }else if(selectStartDate == selectCurDate){ //ÎãπÏùºÏóêÏÑú ÎãπÏùºÏùÑ ÌïúÎ≤à Îçî ÌÅ¥Î¶≠ÌñàÏùÑÎïå
+                    //Îã¨Î†• Î∞è ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
                     funcArray.calendarClear();
-                    //¿‘Ω« º±≈√
+                    //ÏûÖÏã§ ÏÑ†ÌÉù
                     $(this).addClass('start').addClass('selected');
-                    //º±≈√µ»∞™ ∞ªΩ≈
+                    //ÏÑ†ÌÉùÎêúÍ∞í Í∞±Ïã†
                     selectStartDate = selectCurDate;
                     selectStartDayWeek = $(this).data('dayweek');
                     selectEndDate = selectCurDate;
                     selectEndDayWeek = $(this).data('dayweek');
-                    //¿‘Ω«¿œ ≈Ω«¿œ html ∫Ø∞Ê
+                    //ÏûÖÏã§Ïùº Ìá¥Ïã§Ïùº html Î≥ÄÍ≤Ω
                     $("#startDt").html(selectStartDate+"["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $("#endDt").html(selectStartDate+"["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $(".length-stay").removeClass('selected');
                     $("#nightDays0").addClass('selected');
                     return false;
-                }else{  //±◊ø‹ ≥™∏”¡ˆ ∞ÊøÏ¥¬ ≈Ω«¿œ º±≈√
-                    nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //≥Ø¬•∞ËªÍ
-                    //≈Ω«¿œ ≥Ø¬•∞ËªÍ
+                }else{  //Í∑∏Ïô∏ ÎÇòÎ®∏ÏßÄ Í≤ΩÏö∞Îäî Ìá¥Ïã§Ïùº ÏÑ†ÌÉù
+                    nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //ÎÇ†ÏßúÍ≥ÑÏÇ∞
+                    //Ìá¥Ïã§Ïùº ÎÇ†ÏßúÍ≥ÑÏÇ∞
                     if(selectStartDate > selectCurDate){
-                        toastrMsg("≈Ω«¿œ¿∫ ¿‘Ω«¿œ∫∏¥Ÿ ƒøæﬂ«’¥œ¥Ÿ.");
-                        //¥ﬁ∑¬ π◊ º±≈√∞™ √ ±‚»≠
+                        toastrMsg("Ìá¥Ïã§ÏùºÏùÄ ÏûÖÏã§ÏùºÎ≥¥Îã§ Ïª§ÏïºÌï©ÎãàÎã§.");
+                        //Îã¨Î†• Î∞è ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
                         funcArray.calendarClear();
                         return false;
                     }else if(nightDays > 3) {
-                        toastrMsg("√÷¥Î 3π⁄ 4¿œ±Ó¡ˆ øπæ‡ ∞°¥…«’¥œ¥Ÿ.");
-                        //¥ﬁ∑¬ π◊ º±≈√∞™ √ ±‚»≠
+                        toastrMsg("ÏµúÎåÄ 3Î∞ï 4ÏùºÍπåÏßÄ ÏòàÏïΩ Í∞ÄÎä•Ìï©ÎãàÎã§.");
+                        //Îã¨Î†• Î∞è ÏÑ†ÌÉùÍ∞í Ï¥àÍ∏∞Ìôî
                         funcArray.calendarClear();
                         return false;
-                    }else{//≈Ω« º±≈√
+                    }else{//Ìá¥Ïã§ ÏÑ†ÌÉù
                         $(this).addClass('end').addClass('selected');
-                        //º±≈√µ»∞™ ∞ªΩ≈
+                        //ÏÑ†ÌÉùÎêúÍ∞í Í∞±Ïã†
                         selectEndDate = selectCurDate;
                         selectEndDayWeek = $(this).data('dayweek');
                         $("#endDt").html(selectEndDate+"["+funcArray.getDayWeekNm(selectEndDayWeek)+"]");
                         $(".length-stay").removeClass('selected');
-                        $("#nightDays"+nightDays).addClass('selected');     //√º∑˘±‚∞£ º±≈√
+                        $("#nightDays"+nightDays).addClass('selected');     //Ï≤¥Î•òÍ∏∞Í∞Ñ ÏÑ†ÌÉù
 
-                        //ªÁ¿Ã∞™ º±≈√µ»∞…∑Œ «•Ω√«œ±‚.
+                        //ÏÇ¨Ïù¥Í∞í ÏÑ†ÌÉùÎêúÍ±∏Î°ú ÌëúÏãúÌïòÍ∏∞.
                         let date = new Date(selectStartDate);
                         for(let i=1; i<nightDays; i++){
                             date.setDate(date.getDate()+1);
@@ -1215,7 +935,7 @@
 
                     }
                 }
-                    //ªÛ«∞√ ±‚»≠
+                    //ÏÉÅÌíàÏ¥àÍ∏∞Ìôî
                     if('Y'=='Y'){
                         funcArray.drawProgram();
                     }
@@ -1233,8 +953,8 @@
                     }
                 funcArray.recalc();
             });
-        },//end ¥ﬁ∑¬ ≈¨∏Ø ¿Ã∫•∆Æ
-        //√— ¬¸ø©¿Œø¯
+        },//end Îã¨Î†• ÌÅ¥Î¶≠ Ïù¥Î≤§Ìä∏
+        //Ï¥ù Ï∞∏Ïó¨Ïù∏Ïõê
         rsrvtPax : function(){
             $('.rsrvt-pax-minus').off().click(function(){
                 let num = $(this).parent().find("input[type='number']").val();
@@ -1248,8 +968,8 @@
                 num++;
                 $(this).parent().find("input[type='number']").val(num);
             });
-        },//end √— ¬¸ø©¿Œø¯
-        //«¡∑Œ±◊∑•
+        },//end Ï¥ù Ï∞∏Ïó¨Ïù∏Ïõê
+        //ÌîÑÎ°úÍ∑∏Îû®
         program : function(){
             $('.program-minus').off().click(function(){
                 let num = $(this).parent().find("input[type='number']").val();
@@ -1277,8 +997,8 @@
             $('.program-checkbox').off().click(function(){
                 funcArray.recalc();
             });
-        },//end «¡∑Œ±◊∑•
-        //ª˝»∞∞¸
+        },//end ÌîÑÎ°úÍ∑∏Îû®
+        //ÏÉùÌôúÍ¥Ä
         livingRoom : function(){
             $('.living-minus').off().click(function(){
                 let num = $(this).parent().find("input[type='number']").val();
@@ -1290,7 +1010,7 @@
             });
             $('.living-plus').off().click(function(){
                 if(nightDays < 1){
-                    toastrMsg("ª˝»∞∞¸ øπæ‡¿∫ 1π⁄ ¿ÃªÛ¿œ∂ß øπæ‡ ∞°¥…«’¥œ¥Ÿ.");
+                    toastrMsg("ÏÉùÌôúÍ¥Ä ÏòàÏïΩÏùÄ 1Î∞ï Ïù¥ÏÉÅÏùºÎïå ÏòàÏïΩ Í∞ÄÎä•Ìï©ÎãàÎã§.");
                     return false;
                 }
                 let num = $(this).parent().find("input[type='number']").val();
@@ -1312,8 +1032,8 @@
                 num++;
                 $(this).parent().find("input[type='number']").val(num);
             });
-        },//end ª˝»∞∞¸
-        //∞≠¿«Ω«
+        },//end ÏÉùÌôúÍ¥Ä
+        //Í∞ïÏùòÏã§
         classRoom : function(){
             $('.class-minus').off().click(function(){
                 let num = $(this).parent().find("input[type='number']").val();
@@ -1344,8 +1064,8 @@
                 $(this).parent().find("input[type='number']").val(num);
             });
 
-        },//end ∞≠¿«Ω«
-        //Ωƒ¥Á
+        },//end Í∞ïÏùòÏã§
+        //ÏãùÎãπ
         meal : function(){
             $('.meal-minus').off().click(function(){
                 let num = $(this).parent().find("input[type='number']").val();
@@ -1363,8 +1083,8 @@
                 $(this).parent().find("input[type='number']").val(num);
                 funcArray.recalc();
             });
-        },//end Ωƒ¥Á
-        //∞≠¥Á
+        },//end ÏãùÎãπ
+        //Í∞ïÎãπ
         gangdang : function(){
             $('.gangdang-checkbox').off().click(function(){
                 funcArray.recalc();
@@ -1381,1500 +1101,1270 @@
                 num++;
                 $(this).parent().find("input[type='number']").val(num);
             });
-        }//end ∞≠¥Á
+        }//end Í∞ïÎãπ
     }
 var a,b;
 </script>
-<div class="page-location">
-    <span>»®</span><span>øπæ‡«œ±‚</span><span>ª˝≈¬≈ΩπÊø¯</span>
-</div>
-
-<div class="reservation responsive eco">
-    <h3 class="title">ª˝≈¬≈ΩπÊø¯ øπæ‡</h3>
-    <ul class="nav-tabs">
-        <li class="is-active"><a href="javascript:void(0);">ª˝≈¬ø©«‡</a></li>
-        <li><a href="searchEcoPackageGoods.html">∆Ø»≠«¡∑Œ±◊∑•</a></li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane is-active">
-            <ul class="nav-tabs type2">
-                
-                    
-                    <li class="is-active"><a href="searchEcoReservationf799.html?deptId=B971002">∫œ«—ªÍ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservation2085.html?deptId=B014003">¡ˆ∏ÆªÍ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservatione8e6.html?deptId=B123002">º“πÈªÍ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservation759b.html?deptId=B301002">º≥æ«ªÍ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservationb1c9.html?deptId=B024002">«—∑¡«ÿªÛ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservation462e.html?deptId=B231002">π´µÓªÍ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservation7676.html?deptId=B133002">∞°æﬂªÍ</a></li>
-                
-                    
-                    <li class=""><a href="searchEcoReservation1a0c.html?deptId=B331001">≥ª¿ÂªÍ</a></li>
-                
-            </ul>
-            <form id="reservationForm" method="post">
-                <input type="hidden" name="useBgnDt" id="useBgnDt" value="">
-                <input type="hidden" name="useEndDt" id="useEndDt" value="">
-                <input type="hidden" name="deptId" value="B971002">
-                <input type="hidden" name="captcha" id="captcha" value="">
-                <div class="tab-content">
-                    <div class="tab-pane is-active">
-                        <div class="title-area">
-                            <span class="label"><i class="icon-location"></i>∫œ«—ªÍ</span>
-                            <h4 class="title" id="deptTitle">∫œ«—ªÍ ª˝≈¬≈ΩπÊø¯</h4>
-                        </div>
-                        <div class="box-guide">
-                            <div class="monthly-check">
-                                <strong class="title">ª˝≈¬ø©«‡ ∞¸∑√«œø© ¿¸√º ø˘∫∞ ¿‹ø©«ˆ»≤¿ª øÏ√¯ πˆ∆∞¿ª ¥≠∑Ø »Æ¿Œ ∞°¥… «’¥œ¥Ÿ.</strong>
-                                <a href="searchEcoMonthReservationf799.html?deptId=B971002" class="btn btn-monthly">ø˘∫∞ ¿‹ø©«ˆ»≤ »Æ¿Œ</a>
-                            </div>
-                            <ul class="dot-list">
-                                <li>∫ª Ω√º≥¿∫ ª˝≈¬√º«Ë¡æ«’Ω√º≥∑Œº≠ «¡∑Œ±◊∑• ¬¸ø©, »Ø∞Ê±≥¿∞µÓ¿ª ¿ß«— ∞≠¥Á π◊ ∞≠¿«Ω« øπæ‡Ω√ø°∏∏ ª˝»∞∞¸ ¥Î∞¸¿Ã ∞°¥…«’¥œ¥Ÿ.</li>
-                                <li>«¡∑Œ±◊∑•¿∫ √÷º“ 2∏Ì¿ÃªÛ º±≈√«œº≈æﬂ ¥Î∞¸¿Ã ∞°¥…«’¥œ¥Ÿ.</li>
-                                
-                                    <li>ª˝»∞∞¸ ¿‹ø©∞¥Ω«¿Ã ≥≤æ∆¿÷¿∏≥™ «¡∑Œ±◊∑•¿Ã ∏µŒ øπæ‡∫“∞°∑Œ «•√‚µ«æÓ øπæ‡¿Ã ¡¯«‡µ«¡ˆ æ ¥¬ ∞ÊøÏ, 02-901-0700(¡÷∞£)¿∏∑Œ πÆ¿« πŸ∂¯¥œ¥Ÿ.</li>
-                                    <li>º≠øÔ∆Ø∫∞Ω√ ƒ⁄∑Œ≥™19 «ˆ»≤ ¡÷º“ : <a href="https://www.seoul.go.kr/coronaV/coronaStatus.do" target="_blank">https://www.seoul.go.kr/coronaV/coronaStatus.do</a></li>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                            </ul>
-                        </div>
-                        <!-- øπæ‡¿œ º≥¡§ -->
-                        <div class="title-area">
-                            <h4 class="title">øπæ‡¿œ º≥¡§</h4>
-                        </div>
-                        <div class="detail-info">
-                            <dl class="mb-block">
-                                <dt>øπæ‡¿œ º±≈√</dt>
-                                <dd>
-                                    <div class="calendar-container">
-                                        <div class="calendar">
-                                            <div class="calendar-head">
-                                                <div class="calendar-title">
-                                                    <span>2022</span>. <span>11</span>
-                                                </div>
-                                            </div>
-                                            <div class="calendar-body">
-                                                <div class="calendar-week">
-                                                    <div class="day sun">SUN</div>
-                                                    <div class="day">MON</div>
-                                                    <div class="day">TUE</div>
-                                                    <div class="day">WED</div>
-                                                    <div class="day">THE</div>
-                                                    <div class="day">FRI</div>
-                                                    <div class="day sat">SAT</div>
-                                                </div>
-                                                <div class="calendar-day">
-                                                    
-                                                        <div class="calendar-cell     disabled "
-                                                             data-date=""
-                                                             data-dayweek="">
-                                                                
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell     disabled "
-                                                             data-date=""
-                                                             data-dayweek="">
-                                                                
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-01     disabled"
-                                                             data-date="2022-11-01"
-                                                             data-dayweek="2">
-                                                                1
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-02     disabled"
-                                                             data-date="2022-11-02"
-                                                             data-dayweek="3">
-                                                                2
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-03     disabled"
-                                                             data-date="2022-11-03"
-                                                             data-dayweek="4">
-                                                                3
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-04     disabled"
-                                                             data-date="2022-11-04"
-                                                             data-dayweek="5">
-                                                                4
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-05  sat   disabled"
-                                                             data-date="2022-11-05"
-                                                             data-dayweek="6">
-                                                                5
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-06   sun  disabled"
-                                                             data-date="2022-11-06"
-                                                             data-dayweek="7">
-                                                                6
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-07     disabled"
-                                                             data-date="2022-11-07"
-                                                             data-dayweek="1">
-                                                                7
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-08     disabled"
-                                                             data-date="2022-11-08"
-                                                             data-dayweek="2">
-                                                                8
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-09     disabled"
-                                                             data-date="2022-11-09"
-                                                             data-dayweek="3">
-                                                                9
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-10 today    disabled"
-                                                             data-date="2022-11-10"
-                                                             data-dayweek="4">
-                                                                10
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-11     disabled"
-                                                             data-date="2022-11-11"
-                                                             data-dayweek="5">
-                                                                11
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-12  sat   "
-                                                             data-date="2022-11-12"
-                                                             data-dayweek="6">
-                                                                12
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-13   sun  "
-                                                             data-date="2022-11-13"
-                                                             data-dayweek="7">
-                                                                13
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-14     "
-                                                             data-date="2022-11-14"
-                                                             data-dayweek="1">
-                                                                14
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-15     "
-                                                             data-date="2022-11-15"
-                                                             data-dayweek="2">
-                                                                15
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-16     "
-                                                             data-date="2022-11-16"
-                                                             data-dayweek="3">
-                                                                16
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-17     "
-                                                             data-date="2022-11-17"
-                                                             data-dayweek="4">
-                                                                17
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-18     "
-                                                             data-date="2022-11-18"
-                                                             data-dayweek="5">
-                                                                18
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-19  sat   "
-                                                             data-date="2022-11-19"
-                                                             data-dayweek="6">
-                                                                19
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-20   sun  "
-                                                             data-date="2022-11-20"
-                                                             data-dayweek="7">
-                                                                20
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-21     "
-                                                             data-date="2022-11-21"
-                                                             data-dayweek="1">
-                                                                21
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-22     "
-                                                             data-date="2022-11-22"
-                                                             data-dayweek="2">
-                                                                22
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-23     "
-                                                             data-date="2022-11-23"
-                                                             data-dayweek="3">
-                                                                23
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-24     "
-                                                             data-date="2022-11-24"
-                                                             data-dayweek="4">
-                                                                24
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-25     "
-                                                             data-date="2022-11-25"
-                                                             data-dayweek="5">
-                                                                25
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-26  sat   "
-                                                             data-date="2022-11-26"
-                                                             data-dayweek="6">
-                                                                26
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-27   sun  "
-                                                             data-date="2022-11-27"
-                                                             data-dayweek="7">
-                                                                27
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-28     "
-                                                             data-date="2022-11-28"
-                                                             data-dayweek="1">
-                                                                28
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-29     "
-                                                             data-date="2022-11-29"
-                                                             data-dayweek="2">
-                                                                29
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-11-30     "
-                                                             data-date="2022-11-30"
-                                                             data-dayweek="3">
-                                                                30
-                                                        </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="calendar">
-                                            <div class="calendar-head">
-                                                <div class="calendar-title">
-                                                    <span>2022</span>. <span>12</span>
-                                                </div>
-                                            </div>
-                                            <div class="calendar-body">
-                                                <div class="calendar-week">
-                                                    <div class="day sun">SUN</div>
-                                                    <div class="day">MON</div>
-                                                    <div class="day">TUE</div>
-                                                    <div class="day">WED</div>
-                                                    <div class="day">THE</div>
-                                                    <div class="day">FRI</div>
-                                                    <div class="day sat">SAT</div>
-                                                </div>
-                                                <div class="calendar-day">
-                                                    
-                                                        <div class="calendar-cell     disabled "
-                                                             data-date=""
-                                                             data-dayweek="">
-                                                                
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell     disabled "
-                                                             data-date=""
-                                                             data-dayweek="">
-                                                                
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell     disabled "
-                                                             data-date=""
-                                                             data-dayweek="">
-                                                                
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell     disabled "
-                                                             data-date=""
-                                                             data-dayweek="">
-                                                                
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-01     "
-                                                             data-date="2022-12-01"
-                                                             data-dayweek="4">
-                                                                1
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-02     "
-                                                             data-date="2022-12-02"
-                                                             data-dayweek="5">
-                                                                2
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-03  sat   "
-                                                             data-date="2022-12-03"
-                                                             data-dayweek="6">
-                                                                3
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-04   sun  "
-                                                             data-date="2022-12-04"
-                                                             data-dayweek="7">
-                                                                4
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-05     "
-                                                             data-date="2022-12-05"
-                                                             data-dayweek="1">
-                                                                5
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-06     "
-                                                             data-date="2022-12-06"
-                                                             data-dayweek="2">
-                                                                6
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-07     "
-                                                             data-date="2022-12-07"
-                                                             data-dayweek="3">
-                                                                7
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-08     "
-                                                             data-date="2022-12-08"
-                                                             data-dayweek="4">
-                                                                8
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-09     "
-                                                             data-date="2022-12-09"
-                                                             data-dayweek="5">
-                                                                9
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-10  sat   "
-                                                             data-date="2022-12-10"
-                                                             data-dayweek="6">
-                                                                10
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-11   sun  "
-                                                             data-date="2022-12-11"
-                                                             data-dayweek="7">
-                                                                11
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-12     "
-                                                             data-date="2022-12-12"
-                                                             data-dayweek="1">
-                                                                12
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-13     "
-                                                             data-date="2022-12-13"
-                                                             data-dayweek="2">
-                                                                13
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-14     "
-                                                             data-date="2022-12-14"
-                                                             data-dayweek="3">
-                                                                14
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-15     "
-                                                             data-date="2022-12-15"
-                                                             data-dayweek="4">
-                                                                15
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-16     "
-                                                             data-date="2022-12-16"
-                                                             data-dayweek="5">
-                                                                16
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-17  sat   "
-                                                             data-date="2022-12-17"
-                                                             data-dayweek="6">
-                                                                17
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-18   sun  "
-                                                             data-date="2022-12-18"
-                                                             data-dayweek="7">
-                                                                18
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-19     "
-                                                             data-date="2022-12-19"
-                                                             data-dayweek="1">
-                                                                19
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-20     "
-                                                             data-date="2022-12-20"
-                                                             data-dayweek="2">
-                                                                20
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-21     "
-                                                             data-date="2022-12-21"
-                                                             data-dayweek="3">
-                                                                21
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-22     "
-                                                             data-date="2022-12-22"
-                                                             data-dayweek="4">
-                                                                22
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-23     "
-                                                             data-date="2022-12-23"
-                                                             data-dayweek="5">
-                                                                23
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-24  sat   "
-                                                             data-date="2022-12-24"
-                                                             data-dayweek="6">
-                                                                24
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-25   sun  "
-                                                             data-date="2022-12-25"
-                                                             data-dayweek="7">
-                                                                25
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-26     "
-                                                             data-date="2022-12-26"
-                                                             data-dayweek="1">
-                                                                26
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-27     "
-                                                             data-date="2022-12-27"
-                                                             data-dayweek="2">
-                                                                27
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-28     "
-                                                             data-date="2022-12-28"
-                                                             data-dayweek="3">
-                                                                28
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-29     "
-                                                             data-date="2022-12-29"
-                                                             data-dayweek="4">
-                                                                29
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-30     "
-                                                             data-date="2022-12-30"
-                                                             data-dayweek="5">
-                                                                30
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2022-12-31  sat   "
-                                                             data-date="2022-12-31"
-                                                             data-dayweek="6">
-                                                                31
-                                                        </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="calendar">
-                                            <div class="calendar-head">
-                                                <div class="calendar-title">
-                                                    <span>2023</span>. <span>1</span>
-                                                </div>
-                                            </div>
-                                            <div class="calendar-body">
-                                                <div class="calendar-week">
-                                                    <div class="day sun">SUN</div>
-                                                    <div class="day">MON</div>
-                                                    <div class="day">TUE</div>
-                                                    <div class="day">WED</div>
-                                                    <div class="day">THE</div>
-                                                    <div class="day">FRI</div>
-                                                    <div class="day sat">SAT</div>
-                                                </div>
-                                                <div class="calendar-day">
-                                                    
-                                                        <div class="calendar-cell 2023-01-01   sun  "
-                                                             data-date="2023-01-01"
-                                                             data-dayweek="7">
-                                                                1
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-02     disabled"
-                                                             data-date="2023-01-02"
-                                                             data-dayweek="1">
-                                                                2
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-03     disabled"
-                                                             data-date="2023-01-03"
-                                                             data-dayweek="2">
-                                                                3
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-04     disabled"
-                                                             data-date="2023-01-04"
-                                                             data-dayweek="3">
-                                                                4
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-05     disabled"
-                                                             data-date="2023-01-05"
-                                                             data-dayweek="4">
-                                                                5
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-06     disabled"
-                                                             data-date="2023-01-06"
-                                                             data-dayweek="5">
-                                                                6
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-07  sat   disabled"
-                                                             data-date="2023-01-07"
-                                                             data-dayweek="6">
-                                                                7
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-08   sun  disabled"
-                                                             data-date="2023-01-08"
-                                                             data-dayweek="7">
-                                                                8
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-09     disabled"
-                                                             data-date="2023-01-09"
-                                                             data-dayweek="1">
-                                                                9
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-10     disabled"
-                                                             data-date="2023-01-10"
-                                                             data-dayweek="2">
-                                                                10
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-11     disabled"
-                                                             data-date="2023-01-11"
-                                                             data-dayweek="3">
-                                                                11
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-12     disabled"
-                                                             data-date="2023-01-12"
-                                                             data-dayweek="4">
-                                                                12
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-13     disabled"
-                                                             data-date="2023-01-13"
-                                                             data-dayweek="5">
-                                                                13
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-14  sat   disabled"
-                                                             data-date="2023-01-14"
-                                                             data-dayweek="6">
-                                                                14
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-15   sun  disabled"
-                                                             data-date="2023-01-15"
-                                                             data-dayweek="7">
-                                                                15
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-16     disabled"
-                                                             data-date="2023-01-16"
-                                                             data-dayweek="1">
-                                                                16
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-17     disabled"
-                                                             data-date="2023-01-17"
-                                                             data-dayweek="2">
-                                                                17
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-18     disabled"
-                                                             data-date="2023-01-18"
-                                                             data-dayweek="3">
-                                                                18
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-19     disabled"
-                                                             data-date="2023-01-19"
-                                                             data-dayweek="4">
-                                                                19
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-20     disabled"
-                                                             data-date="2023-01-20"
-                                                             data-dayweek="5">
-                                                                20
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-21  sat   disabled"
-                                                             data-date="2023-01-21"
-                                                             data-dayweek="6">
-                                                                21
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-22   sun  disabled"
-                                                             data-date="2023-01-22"
-                                                             data-dayweek="7">
-                                                                22
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-23     disabled"
-                                                             data-date="2023-01-23"
-                                                             data-dayweek="1">
-                                                                23
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-24     disabled"
-                                                             data-date="2023-01-24"
-                                                             data-dayweek="2">
-                                                                24
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-25     disabled"
-                                                             data-date="2023-01-25"
-                                                             data-dayweek="3">
-                                                                25
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-26     disabled"
-                                                             data-date="2023-01-26"
-                                                             data-dayweek="4">
-                                                                26
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-27     disabled"
-                                                             data-date="2023-01-27"
-                                                             data-dayweek="5">
-                                                                27
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-28  sat   disabled"
-                                                             data-date="2023-01-28"
-                                                             data-dayweek="6">
-                                                                28
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-29   sun  disabled"
-                                                             data-date="2023-01-29"
-                                                             data-dayweek="7">
-                                                                29
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-30     disabled"
-                                                             data-date="2023-01-30"
-                                                             data-dayweek="1">
-                                                                30
-                                                        </div>
-                                                    
-                                                        <div class="calendar-cell 2023-01-31     disabled"
-                                                             data-date="2023-01-31"
-                                                             data-dayweek="2">
-                                                                31
-                                                        </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul class="dot-list">
-                                        <li>øπæ‡«“ ±‚∞£¿ª ¥ﬁ∑¬ø°º≠ º±≈√«œººø‰.</li>
-                                        <li>øπæ‡¿Ã ∞°¥…«— ∏∂¡ˆ∏∑ ≥Ø¬•∏¶ º±≈√«“ ∞ÊøÏ¥¬ ¥Á¿œ∞˙ 1π⁄2¿œ∏∏ ∞°¥…«’¥œ¥Ÿ.</li>
-                                    </ul>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>¿‘Ω«¿œ</dt>
-                                <dd id="startDt">-</dd>
-                            </dl>
-                            <dl>
-                                <dt>≈Ω«¿œ</dt>
-                                <dd id="endDt">-</dd>
-                            </dl>
-                            <dl>
-                                <dt>√º∑˘±‚∞£</dt>
-                                <dd class="form">
-                                    <div class="stay-row">
-                                        <span class="length-stay" id="nightDays0">¥Á¿œ</span>
-                                        <span class="length-stay" id="nightDays1">1π⁄ 2¿œ</span>
-                                        <span class="length-stay" id="nightDays2">2π⁄ 3¿œ</span>
-                                        <span class="length-stay" id="nightDays3">3π⁄ 4¿œ</span>
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>øπæ‡±∏∫–</dt>
-                                <dd class="form">
-                                    <span class="check-area">
-                                        <span class="radio-1">
-                                            <input type="radio" id="txblPblcN" name="txblPblcYn" checked="checked" value="N">
-                                            <label for="txblPblcN">∞≥¿Œ</label>
-                                        </span>
-                                        <span class="radio-1">
-                                            <input type="radio" id="txblPblcY" name="txblPblcYn" value="Y">
-                                            <label for="txblPblcY">¥‹√º</label>
-                                        </span>
-                                    </span>
-                                    <span class="copy">°ÿ ¥‹√º º±≈√ Ω√ ∏∂¿Ã∆‰¿Ã¡ˆø°º≠ √ﬂ∞°¡§∫∏ ¿‘∑¬ »ƒ ºº±›∞ËªÍº≠ πﬂ«‡ Ω≈√ª ∞°¥…«’¥œ¥Ÿ.</span>
-                                </dd>
-                            </dl>
-                        </div>
-                        
-                            <!-- «¡∑Œ±◊∑• -->
-                            <div class="collapse-wrap">
-                                <div class="title-area">
-                                    <h4 class="title">«¡∑Œ±◊∑•</h4>
-                                    <div class="btn-area">
-                                        <button type="button" class="btn btn-view" onclick="funcArray.drawImage('06004');">«¡∑Œ±◊∑• ∫∏±‚</button>
-                                        <button type="button" class="btn btn-charge" onclick="openPopup('programAmtPop');">ø‰±›«•</button>
-                                        <span class="checkbox-1">
-                                        <input type="checkbox" id="check1" class="check collapse" value="program">
-                                        <label for="check1">ø…º« √ﬂ∞°øπæ‡</label>
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="a">
-                                    <table class="table ecoProgram">
-                                        <caption>«¡∑Œ±◊∑•</caption>
-                                        <colgroup>
-                                            <col>
-                                            <col>
-                                            <col>
-                                        </colgroup>
-                                        <thead class="thead">
-                                        <tr>
-                                            <th scope="col">≥Ø¬•</th>
-                                            <th scope="col" id="programNm">ø¿¿¸ (10:00~13:00)</th>
-                                            <th scope="col" id="programNm2">ø¿»ƒ (14:00~17:00)</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="tbody">
-                                        </tbody>
-                                    </table>
-                                    <div class="border-box quantity-wrap">
-                                        <dl>
-                                            <dt>¬¸ø©¿Œø¯ º≥¡§</dt>
-                                            <dd class="form">
-                                                <div class="row">
-                                                    <span class="label">√ªº“≥‚ ¿Ã«œ</span>
-                                                    <span class="quantity-input">
-                                                <button type="button" class="btn minus program-minus">
-                                                    <i class="icon-minus"></i>
-                                                </button>
-                                                <label for="programChildCnt" class="hidden-text">√ªº“≥‚¿Ã«œ¬¸ø©¿Œø¯</label>
-                                                <input type="number" value="0" readonly id="programChildCnt" name="programChildCnt">
-                                                <button type="button" class="btn plus program-plus">
-                                                    <i class="icon-plus"></i>
-                                                </button>
-                                                </span>
-                                                </div>
-                                                <div class="row">
-                                                    <span class="label">º∫¿Œ</span>
-                                                    <span class="quantity-input">
-                                                <button type="button" class="btn minus program-minus">
-                                                    <i class="icon-minus"></i>
-                                                </button>
-                                                <label for="programAdultCnt" class="hidden-text">º∫¿Œ¬¸ø©¿Œø¯</label>
-                                                <input type="number" value="0" readonly id="programAdultCnt" name="programAdultCnt">
-                                                <button type="button" class="btn plus program-plus">
-                                                    <i class="icon-plus"></i>
-                                                </button>
-                                            </span>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <ul class="dot-list">
-                                        <li>«¡∑Œ±◊∑• ¬¸ø©¿Œø¯ √÷º“ 2∏Ì ¿ÃªÛ øπæ‡ ∞°¥…«’¥œ¥Ÿ.</li>
-                                        <li>ø¯»∞«— «¡∑Œ±◊∑• ¡¯«‡¿ª ¿ß«ÿ 10ºº ¿Ã«œ¿« √ªº“≥‚¿Ã ¬¸∞°«œ¥¬ ∞ÊøÏ ∫∏»£¿⁄ 1¿Œµµ «‘≤≤ ¬¸ø© ∫Œ≈πµÂ∏≥¥œ¥Ÿ.</li>
-                                    </ul>
-                                    <div class="border-box total programDiv">
-                                        <dl>
-                                            <dt><em>º±≈√ ¿ÃøÎ±›æ◊</em></dt>
-                                            <dd class="cnt">√ªº“≥‚ 0∏Ì / º∫¿Œ 0∏Ì</dd>
-                                            <dd class="amount"><em>0</em>ø¯</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                        
-                            <!-- ∞≠¥Á -->
-                            <div class="collapse-wrap">
-                                <div class="title-area">
-                                    <h4 class="title">∞≠¥Á</h4>
-                                    <div class="btn-area">
-                                        <button type="button" class="btn btn-view" onclick="funcArray.drawImage('06003');">∞≠¥Á ∫∏±‚</button>
-                                        <button type="button" class="btn btn-charge" onclick="openPopup('gangdangAmtPop');">ø‰±›«•</button>
-                                        <span class="checkbox-1">
-                                        <input type="checkbox" id="check3" class="check collapse" value="gangdang">
-                                        <label for="check3">ø…º« √ﬂ∞°øπæ‡</label>
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="a">
-                                    <table class="table gangdang">
-                                        <caption>∞≠¥Á</caption>
-                                        <colgroup>
-                                            <col>
-                                            <col>
-                                            <col>
-                                            <col>
-                                        </colgroup>
-                                        <thead class="thead">
-                                        <tr>
-                                            <th scope="col">≥Ø¬•</th>
-                                            <th scope="col">ø¿¿¸ (09:00~13:00)</th>
-                                            <th scope="col">ø¿»ƒ (14:00~18:00)</th>
-                                            <th scope="col">æﬂ∞£ (18:00~22:00)</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="tbody">
-                                        </tbody>
-                                    </table>
-                                    <div class="border-box">
-                                        <dl>
-                                            <dt>ªÁøÎ¿Œø¯ º≥¡§</dt>
-                                            <dd class="form">
-                                            <span class="quantity-input">
-                                                <button type="button" class="btn minus gangdang-prsn-minus">
-                                                    <i class="icon-minus"></i>
-                                                </button>
-                                                <label for="gangDangPrsnCnt" class="hidden-text">√—¬¸ø©¿Œø¯</label>
-                                                <input type="number" value="1" readonly title="√— ¬¸ø© ¿Œø¯" name="gangDangPrsnCnt" id="gangDangPrsnCnt">
-                                                <button type="button" class="btn plus gangdang-prsn-plus">
-                                                    <i class="icon-plus"></i>
-                                                </button>
-                                            </span>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <ul class="dot-list">
-                                        <li>ªÁøÎ¿Œø¯¿∫ ¿ÃøÎø‰±›∞˙ ªÛ∞¸¿Ã æ¯Ω¿¥œ¥Ÿ. ±‘∏ø° ∏¬¥¬ ∞≠¥Á πË¡§¿ª ¿ß«ÿ øπªÛ ªÁøÎ¿Œø¯¿ª ¿‘∑¬πŸ∂¯¥œ¥Ÿ.</li>
-                                    </ul>
-                                    <div class="border-box total gangdangDiv">
-                                        <dl>
-                                            <dt ><em>º±≈√ ¿ÃøÎ±›æ◊</em></dt>
-                                            <dd class="cnt">√— ºˆ∑Æ 0∞≥</dd>
-                                            <dd class="amount"><em>0</em>ø¯</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                        
-                            <!-- ∞≠¿«Ω« -->
-                            <div class="collapse-wrap">
-                                <div class="title-area">
-                                    <h4 class="title">∞≠¿«Ω«</h4>
-                                    <div class="btn-area">
-                                        <button type="button" class="btn btn-view" onclick="funcArray.drawImage('06002');">∞≠¿«Ω« ∫∏±‚</button>
-                                        <button type="button" class="btn btn-charge" onclick="openPopup('classAmtPop');">ø‰±›«•</button>
-                                        <span class="checkbox-1">
-                                        <input type="checkbox" id="check4" class="check collapse" value="class">
-                                        <label for="check4">ø…º« √ﬂ∞°øπæ‡</label>
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="a">
-                                    <table class="table classRoom">
-                                        <caption>∞≠¿«Ω«</caption>
-                                        <colgroup>
-                                            <col>
-                                            <col>
-                                            <col>
-                                            <col>
-                                        </colgroup>
-                                        <thead class="thead">
-                                        <tr>
-                                            <th scope="col">≥Ø¬•</th>
-                                            <th scope="col">ø¿¿¸ (09:00~13:00)</th>
-                                            <th scope="col">ø¿»ƒ (14:00~18:00)</th>
-                                            <th scope="col">æﬂ∞£ (18:00~22:00)</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="tbody">
-                                        </tbody>
-                                    </table>
-                                    <div class="border-box">
-                                        <dl>
-                                            <dt>ªÁøÎ¿Œø¯ º≥¡§</dt>
-                                            <dd class="form">
-                                            <span class="quantity-input">
-                                                <button type="button" class="btn minus class-prsn-minus">
-                                                    <i class="icon-minus"></i>
-                                                </button>
-                                                <label for="classPrsnCnt" class="hidden-text">√—¬¸ø©¿Œø¯</label>
-                                                <input type="number" value="1" readonly title="√— ¬¸ø© ¿Œø¯" name="classPrsnCnt" id="classPrsnCnt">
-                                                <button type="button" class="btn plus class-prsn-plus">
-                                                    <i class="icon-plus"></i>
-                                                </button>
-                                            </span>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <ul class="dot-list">
-                                        <li>ªÁøÎ¿Œø¯¿∫ ¿ÃøÎø‰±›∞˙ ªÛ∞¸¿Ã æ¯Ω¿¥œ¥Ÿ. ±‘∏ø° ∏¬¥¬ ∞≠¿«Ω« πË¡§¿ª ¿ß«ÿ øπªÛ ªÁøÎ¿Œø¯¿ª ¿‘∑¬πŸ∂¯¥œ¥Ÿ.</li>
-                                    </ul>
-                                    <div class="border-box total classRoomDiv">
-                                        <dl>
-                                            <dt><em>º±≈√ ¿ÃøÎ±›æ◊</em></dt>
-                                            <dd class="cnt">√— ºˆ∑Æ 0∞≥</dd>
-                                            <dd class="amount"><em>0</em>ø¯</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                        
-                            <!-- ª˝»∞∞¸ -->
-                            <div class="collapse-wrap">
-                                <div class="title-area">
-                                    <h4 class="title">ª˝»∞∞¸</h4>
-                                    <div class="btn-area">
-                                        <button type="button" class="btn btn-view" onclick="funcArray.drawImage('06001');">∞¥Ω« ∫∏±‚</button>
-                                        <button type="button" class="btn btn-charge" onclick="openPopup('livingAmtPop');">ø‰±›«•</button>
-                                        <span class="checkbox-1">
-                                        <input type="checkbox" id="check2" class="check collapse" value="living">
-                                        <label for="check2">ø…º« √ﬂ∞°øπæ‡</label>
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="a">
-                                    <table class="table livingRoom">
-                                        <caption>ª˝»∞∞¸</caption>
-                                        <colgroup>
-                                            <col>
-                                            <col>
-                                            <col>
-                                        </colgroup>
-                                        <thead class="thead">
-                                        <tr>
-                                            <th scope="col">ª˝»∞∞¸ ≈∏¿‘</th>
-                                            <th scope="col">∞¥Ω«</th>
-                                            <th scope="col">±›æ◊</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="tbody">
-                                        </tbody>
-                                    </table>
-                                    <div class="border-box">
-                                        <dl>
-                                            <dt>ªÁøÎ¿Œø¯ º≥¡§</dt>
-                                            <dd class="form">
-                                            <span class="quantity-input">
-                                                <button type="button" class="btn minus livingRoom-prsn-minus">
-                                                    <i class="icon-minus"></i>
-                                                </button>
-                                                <label for="livingPrsnCnt" class="hidden-text">√—¬¸ø©¿Œø¯</label>
-                                                <input type="number" value="1" readonly title="√— ¬¸ø© ¿Œø¯" name="livingPrsnCnt" id="livingPrsnCnt">
-                                                <button type="button" class="btn plus livingRoom-prsn-plus">
-                                                    <i class="icon-plus"></i>
-                                                </button>
-                                            </span>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <ul class="dot-list">
-                                        <li>ªÁøÎ¿Œø¯¿∫ ¿ÃøÎø‰±›∞˙ ªÛ∞¸¿Ã æ¯Ω¿¥œ¥Ÿ. øπªÛ ªÁøÎ¿Œø¯¿ª ¿‘∑¬πŸ∂¯¥œ¥Ÿ.</li>
-                                    </ul>
-                                    <div class="border-box total livingRoomDiv">
-                                        <dl>
-                                            <dt><em>º±≈√ ¿ÃøÎ±›æ◊</em></dt>
-                                            <dd class="cnt">√— ºˆ∑Æ 0∞≥</dd>
-                                            <dd class="amount"><em>0</em>ø¯</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                        
-                        <!-- √— º±≈√ ¿ÃøÎ±›æ◊ -->
-                        <div class="title-area">
-                            <h4 class="title">√— ∞·¡¶ øπ¡§ ±›æ◊</h4>
-                        </div>
-                        <div class="payment">
-                            <dl>
-                                <dt><em>ª˝≈¬ø©«‡</em></dt>
-                                <dd></dd>
-                            </dl>
-                            <dl class="surtax">
-                                <dt><em>∞˙ºº «’∞Ë</em></dt>
-                                <dd><em>0</em>ø¯</dd>
-                                <dt><em>∏Èºº «’∞Ë*</em></dt>
-                                <dd><em>0</em>ø¯</dd>
-                                <dt><em>∫Œ∞°ºº</em></dt>
-                                <dd><em>0</em>ø¯</dd>
-                            </dl>
-                            <dl class="total">
-                                <dt>∞·¡¶(øπ¡§)±›æ◊</dt>
-                                <dd><em>0</em>ø¯</dd>
-                            </dl>
-                        </div>
-                        <div class="board-bottom">
-                            <div class="center">
-                                <a href="javascript:void(0);" class="btn btn-register is-active" onclick="funcArray.reserStart(); return false;">øπæ‡«œ±‚</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal-popup large" id="eco-view"></div>
-
-
-<div class="modal-popup small" id="captchaPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">¿⁄µøπÊ¡ˆ ¿‘∑¬πÆ¿⁄</strong>
-            <button type="button" class="btn-close" title="¥›±‚"  onclick="closePopup('captchaPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container" id="captchaDiv">
-        </div>
-    </div>
-</div>
-
-<div class="modal-popup small" id="mealPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">ΩƒªÁ¡¶∞¯æ˜√º</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('mealPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <table class="table">
-                <caption>ΩƒªÁ¡¶∞¯æ˜√º</caption>
-                <colgroup>
-                    <col style="width: 140px;">
-                    <col>
-                </colgroup>
-                <tbody class="tbody">
-                <tr>
-                    <th scope="row">ªÛ»£∏Ì</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row">¥Î«•¿⁄∏Ì</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row">ªÁæ˜¿⁄µÓ∑œπ¯»£</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row">¡÷º“</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row">¥Î«•π¯»£</th>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="btn-area">
-                <button type="button" class="btn btn-confirm is-active" onclick="closePopup('mealPop');" >»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal-popup large" id="programAmtPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">«¡∑Œ±◊∑• ø‰±›«• ∫∏±‚</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('programAmtPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <table class="table">
-                <caption>«¡∑Œ±◊∑• ø‰±›«• ∫∏±‚</caption>
-                <colgroup>
-                    <col style="width: 140px;">
-                    <col>
-                </colgroup>
-                <thead class="thead">
-                <tr>
-                    <th scope="col">±∏∫–</th>
-                    <th scope="col">3Ω√∞£(π›¿œ«¸)</th>
-                </tr>
-                </thead>
-                <tbody class="tbody">
-                <tr>
-                    <td>√ªº“≥‚ ¿Ã«œ</td>
-                    <td>3,600ø¯</td>
-                </tr>
-                <tr>
-                    <td>º∫¿Œ</td>
-                    <td>4,900ø¯</td>
-                </tr>
-                <tr>
-                    <td>∫Ò∞Ì</td>
-                    <td>∫Œ∞°∞°ƒ°ºº ∫∞µµ</td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table">
-                <caption>«¡∑Œ±◊∑• ø‰±›«• ∫∏±‚</caption>
-                <colgroup>
-                    <col style="width: 140px;">
-                    <col>
-                </colgroup>
-                <thead class="thead">
-                <tr>
-                    <th scope="col">±∏∫–</th>
-                    <th scope="col">6Ω√∞£ (¥Á¿œ«¸)</th>
-                </tr>
-                </thead>
-                <tbody class="tbody">
-                <tr>
-                    <td>√ªº“≥‚ ¿Ã«œ</td>
-                    <td>7,100ø¯</td>
-                </tr>
-                <tr>
-                    <td>º∫¿Œ</td>
-                    <td>9,800ø¯</td>
-                </tr>
-                <tr>
-                    <td>∫Ò∞Ì</td>
-                    <td>∫Œ∞°∞°ƒ°ºº ∫∞µµ</td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table">
-                <caption>«¡∑Œ±◊∑• ø‰±›«• ∫∏±‚</caption>
-                <colgroup>
-                    <col style="width: 140px;">
-                    <col>
-                </colgroup>
-                <thead class="thead">
-                <tr>
-                    <th scope="col">±∏∫–</th>
-                    <th scope="col">1π⁄2¿œ (√º∑˘«¸)</th>
-                </tr>
-                </thead>
-                <tbody class="tbody">
-                <tr>
-                    <td>√ªº“≥‚ ¿Ã«œ</td>
-                    <td>14,200ø¯</td>
-                </tr>
-                <tr>
-                    <td>º∫¿Œ</td>
-                    <td>19,500ø¯</td>
-                </tr>
-                <tr>
-                    <td>∫Ò∞Ì</td>
-                    <td>∫Œ∞°∞°ƒ°ºº ∫∞µµ</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="btn-area">
-                <button type="button" class="btn btn-confirm is-active" onclick="closePopup('programAmtPop');">»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal-popup large" id="livingAmtPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">ª˝»∞∞¸ ø‰±›«• ∫∏±‚</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('livingAmtPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <table class="table">
-                <caption>ª˝»∞∞¸ ø‰±›«• ∫∏±‚</caption>
-                <colgroup>
-                    <col style="width: 33%">
-                    <col >
-                </colgroup>
-                <thead class="thead">
-                	<tr>
-	                	<th scope="col">ª˝»∞∞¸</th>
-	                	<th scope="col">¿ÃøÎ∑·<br/>(1π⁄±‚¡ÿ / ∫Œ∞°∞°ƒ°ºº ∫∞µµ)</th>
-	                </tr>
-                </thead>
-                <tbody class="tbody">
-	                <tr>
-	                    <th class="ta-c" scope="row">A≈∏¿‘</th>
-	                    <td class="ta-c">60,000ø¯</td>
-	                </tr>
-	                <tr>
-	                    <th class="ta-c" scope="row">B≈∏¿‘</th>
-	                    <td class="ta-c">90,000ø¯</td>
-	                </tr>
-	                <tr>
-	                    <th class="ta-c" scope="row">C≈∏¿‘</th>
-	                    <td class="ta-c">120,000ø¯</td>
-	                </tr>
-                </tbody>
-            </table>
-            <div class="btn-area">
-                <button type="button" class="btn btn-confirm is-active" onclick="closePopup('livingAmtPop');">»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal-popup large" id="gangdangAmtPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">∞≠¥Á ø‰±›«• ∫∏±‚</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('gangdangAmtPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <table class="table">
-                <caption>∞≠¥Á ø‰±›«• ∫∏±‚</caption>
-                <colgroup>
-                    <col style="width: 140px;">
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
-                <thead class="thead">
-	                <tr>
-	                    <th scope="col" rowspan="2">±∏∫–</th>
-	                    <th scope="col" colspan="2">¥Î∞¸∑·</th>
-	                    <th scope="col" rowspan="2">∫Ò∞Ì</th>
-	                </tr>
-	                <tr>
-	                    <th scope="col">4Ω√∞£±‚¡ÿ</th>
-	                    <th scope="col">8Ω√∞£±‚¡ÿ</th>
-	                </tr>
-                </thead>
-                <tbody class="tbody">
-	                <tr>
-	                    <td>∞≠¥Á</td>
-	                    <td>200,000ø¯</td>
-	                    <td>400,000ø¯</td>
-	                    <td>°ÿ ∫Œ∞°∞°ƒ°ºº ∫∞µµ</td>
-	                </tr>
-                </tbody>
-            </table>
-            <div class="btn-area">
-                <button type="button" class="btn btn-confirm is-active" onclick="closePopup('gangdangAmtPop');">»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal-popup large" id="classAmtPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">∞≠¥Á ø‰±›«• ∫∏±‚</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('classAmtPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <table class="table">
-                <caption>∞≠¥Á ø‰±›«• ∫∏±‚</caption>
-                <colgroup>
-                    <col style="width: 140px;">
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
-                <thead class="thead">
-                <tr>
-                    <th scope="col" rowspan="2">±∏∫–</th>
-                    <th scope="col" colspan="2">¥Î∞¸∑·</th>
-                    <th scope="col" rowspan="2">∫Ò∞Ì</th>
-                </tr>
-                <tr>
-                    <th scope="col">4Ω√∞£±‚¡ÿ</th>
-                    <th scope="col">8Ω√∞£±‚¡ÿ</th>
-                </tr>
-                </thead>
-                <tbody class="tbody">
-                <tr>
-                    <td>∞≠¥Á</td>
-                    <td>125,000ø¯</td>
-                    <td>250,000ø¯</td>
-                    <td>°ÿ ∫Œ∞°∞°ƒ°ºº ∫∞µµ</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="btn-area">
-                <button type="button" class="btn btn-confirm is-active" onclick="closePopup('classAmtPop');">»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal-popup large" id="mealAmtPop"></div>
-
-
-<div class="modal-popup small" id="ecoReservationConfirm">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title">øπæ‡øœ∑·æ»≥ª</strong>
-            <button type="button" class="btn-close" title="¥›±‚">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <div class="center" data-area-name="reservation-popup-container">
-                <i class="icon-check"></i>
-                <strong class="title-1">øπæ‡¿Ã øœ∑·µ«æ˙Ω¿¥œ¥Ÿ.</strong>
-                <p class="copy-mid">∞·¡¶ ∏∏±‚¿œΩ√¥¬ <em data-popup-information-eco="sttlmMtDtm"></em> ±Ó¡ˆ ¿‘¥œ¥Ÿ.<br>πÃ ∞·¡¶Ω√ ¿⁄µø √Îº“µ«¥œ ¿Ø¿« «œΩ√±‚ πŸ∂¯¥œ¥Ÿ.</p>
-                <p class="copy-sm">∏∂¿Ã∆‰¿Ã¡ˆ ≥™¿«øπæ‡∏Ò∑œ ø°º≠ »Æ¿Œ »ƒ ∞·¡¶∏¶ ∞Ëº” ¡¯«‡«ÿ¡÷ººø‰.</p>
-            </div>
-            <div class="btn-area">
-                <a href="../mmb/mmbLogin.html" class="btn btn-link">≥™¿« øπæ‡∏Ò∑œ ∫∏±‚</a>
-            </div>
-        </div>
-    </div>
-</div>
+			<div class="page-location">
+				<span>Ìôà</span><span>ÏòàÏïΩÌïòÍ∏∞</span><span>ÏÉùÌÉúÌÉêÎ∞©Ïõê</span>
 			</div>
-			
-		<footer id="footer">
-            <ul class="content">
-                <li>
-                    <address>(±π∏≥∞¯ø¯∞¯¥‹) ∞≠ø¯µµ ø¯¡÷Ω√ «ıΩ≈∑Œ 22 (øÏ)26466</address>
-                </li>
-                <li>ªÁæ˜¿⁄µÓ∑œπ¯»£: 211-82-06541</li>
-                <li>øπæ‡æ»≥ª: <a href="tel:1670-9201">1670-9201</a> (∆Ú¿œ 09-18Ω√, ¡°Ω…Ω√∞£ 12-13Ω√)</li>
-                <li>FAX: 033-769-9579</li>
-                <li>¿Ã∏ﬁ¿œ: csnp@knps.or.kr</li>
-            </ul>
-            <p class="copyright">Copyright@Korea National Park Service. All Rights Reserved.</p>
-            <div class="policy-area">
-                <a href="../contents/copyrightPolicy.html" class="btn">¿˙¿€±«¡§√•</a>
-                <a href="http://www.knps.or.kr/portal/main/contents.do?menuNo=7020135" class="btn" target="_blank" style="font-weight: bold; color: #0033cc; background: #ffffff;">∞≥¿Œ¡§∫∏√≥∏ÆπÊƒß</a>
-            </div>
-        </footer>
+
+			<div class="reservation responsive eco">
+				<h3 class="title">ÏÉùÌÉúÌÉêÎ∞©Ïõê ÏòàÏïΩ</h3>
+				<ul class="nav-tabs">
+					<li class="is-active"><a href="javascript:void(0);">ÏÉùÌÉúÏó¨Ìñâ</a></li>
+					<li><a href="searchEcoPackageGoods.html">ÌäπÌôîÌîÑÎ°úÍ∑∏Îû®</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane is-active">
+						<ul class="nav-tabs type2">
 
 
-<div class="modal-popup small" id="confirmPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title" id="confirmTitle"></strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('confirmPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <div class="center">
-                <i class="icon-error"></i>
-                <strong class="title-1" id="confirmSubTitle"></strong>
-                <p class="copy-mid" id="confirmContent"></p>
-                <p class="copy-sm" id="confirmSubContent"></p>
-            </div>
-            <div class="btn-area">
-                <button class="btn btn-cancel forMypageClass" onclick="closePopup('confirmPop');">√Îº“</button>
-                <button class="btn btn-confirm is-active" id="btn-confirm">»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
+							<li class="is-active"><a
+								href="searchEcoReservationf799.html?deptId=B971002">Î∂ÅÌïúÏÇ∞</a></li>
 
 
-<div class="modal-popup small" id="alertPop">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title" id="alertTitle">∑Œ±◊¿Œ</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('alertPop');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container">
-            <div class="center">
-                <i class="icon-error"></i>
-                <strong class="title-1" id="alertSubTitle"></strong>
-                <p class="copy-mid" id="alertContent"></p>
-                <p class="copy-sm" id="alertSubContent"></p>
-            </div>
-            <div class="btn-area">
-                <button class="btn btn-confirm is-active" onclick="closePopup('alertPop');">»Æ¿Œ</button>
-            </div>
-        </div>
-    </div>
-</div>
+							<li class=""><a
+								href="searchEcoReservation2085.html?deptId=B014003">ÏßÄÎ¶¨ÏÇ∞</a></li>
 
-<div class="modal-popup small" id="loginPopup">
-    <div class="popup-wrap">
-        <div class="popup-head">
-            <strong class="popup-title" id="loginTitle">∑Œ±◊¿Œ</strong>
-            <button type="button" class="btn-close" title="¥›±‚" onclick="closePopup('loginPopup');">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="popup-container" id="loginPopupDiv">
-        </div>
-    </div>
-</div>
-<!-- æ∆¿Ã«… ∞°ªÛ¡÷πŒπ¯»£ º≠∫ÒΩ∫ ∆Àæ˜ »£√‚ form -->
-<form name="form_ipin" id="form_ipin" method="post">
-    <!-- ø‰√ª∏µÂ (« ºˆ µ•¿Ã≈Õ) -->
-    <input type="hidden" name="m" value="pubmain">
-    <!-- ¿Œ¡ıø‰√ª æœ»£»≠ µ•¿Ã≈Õ -->
-    <input type="hidden" name="enc_data" id="enc_data" value="">
-</form>
-<!-- ∫ª¿Œ¿Œ¡ı º≠∫ÒΩ∫ ∆Àæ˜¿ª »£√‚«œ±‚ ¿ß«ÿº≠¥¬ ¥Ÿ¿Ω∞˙ ∞∞¿∫ form¿Ã « ø‰«’¥œ¥Ÿ. -->
-<form name="form_chk" id="form_chk" method="post">
-    <!-- « ºˆ µ•¿Ã≈∏∑Œ, ¥©∂Ù«œΩ√∏È æ»µÀ¥œ¥Ÿ. -->
-    <input type="hidden" name="m" value="checkplusService">
-    <!-- ¿Œ¡ıø‰√ª æœ»£»≠ µ•¿Ã≈Õ -->
-    <input type="hidden" name="EncodeData" id="EncodeData" value="">
-</form>
+
+							<li class=""><a
+								href="searchEcoReservatione8e6.html?deptId=B123002">ÏÜåÎ∞±ÏÇ∞</a></li>
+
+
+							<li class=""><a
+								href="searchEcoReservation759b.html?deptId=B301002">ÏÑ§ÏïÖÏÇ∞</a></li>
+
+
+							<li class=""><a
+								href="searchEcoReservationb1c9.html?deptId=B024002">ÌïúÎ†§Ìï¥ÏÉÅ</a></li>
+
+
+							<li class=""><a
+								href="searchEcoReservation462e.html?deptId=B231002">Î¨¥Îì±ÏÇ∞</a></li>
+
+
+							<li class=""><a
+								href="searchEcoReservation7676.html?deptId=B133002">Í∞ÄÏïºÏÇ∞</a></li>
+
+
+							<li class=""><a
+								href="searchEcoReservation1a0c.html?deptId=B331001">ÎÇ¥Ïû•ÏÇ∞</a></li>
+
+						</ul>
+						<form id="reservationForm" method="post">
+							<input type="hidden" name="useBgnDt" id="useBgnDt" value="">
+							<input type="hidden" name="useEndDt" id="useEndDt" value="">
+							<input type="hidden" name="deptId" value="B971002"> <input
+								type="hidden" name="captcha" id="captcha" value="">
+							<div class="tab-content">
+								<div class="tab-pane is-active">
+									<div class="title-area">
+										<span class="label"><i class="icon-location"></i>Î∂ÅÌïúÏÇ∞</span>
+										<h4 class="title" id="deptTitle">Î∂ÅÌïúÏÇ∞ ÏÉùÌÉúÌÉêÎ∞©Ïõê</h4>
+									</div>
+									<div class="box-guide">
+										<div class="monthly-check">
+											<strong class="title">ÏÉùÌÉúÏó¨Ìñâ Í¥ÄÎ†®ÌïòÏó¨ Ï†ÑÏ≤¥ ÏõîÎ≥Ñ ÏûîÏó¨ÌòÑÌô©ÏùÑ Ïö∞Ï∏° Î≤ÑÌäºÏùÑ
+												ÎàåÎü¨ ÌôïÏù∏ Í∞ÄÎä• Ìï©ÎãàÎã§.</strong> <a
+												href="searchEcoMonthReservationf799.html?deptId=B971002"
+												class="btn btn-monthly">ÏõîÎ≥Ñ ÏûîÏó¨ÌòÑÌô© ÌôïÏù∏</a>
+										</div>
+										<ul class="dot-list">
+											<li>Î≥∏ ÏãúÏÑ§ÏùÄ ÏÉùÌÉúÏ≤¥ÌóòÏ¢ÖÌï©ÏãúÏÑ§Î°úÏÑú ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨, ÌôòÍ≤ΩÍµêÏú°Îì±ÏùÑ ÏúÑÌïú Í∞ïÎãπ Î∞è Í∞ïÏùòÏã§ ÏòàÏïΩÏãúÏóêÎßå
+												ÏÉùÌôúÍ¥Ä ÎåÄÍ¥ÄÏù¥ Í∞ÄÎä•Ìï©ÎãàÎã§.</li>
+											<li>ÌîÑÎ°úÍ∑∏Îû®ÏùÄ ÏµúÏÜå 2Î™ÖÏù¥ÏÉÅ ÏÑ†ÌÉùÌïòÏÖîÏïº ÎåÄÍ¥ÄÏù¥ Í∞ÄÎä•Ìï©ÎãàÎã§.</li>
+
+											<li>ÏÉùÌôúÍ¥Ä ÏûîÏó¨Í∞ùÏã§Ïù¥ ÎÇ®ÏïÑÏûàÏúºÎÇò ÌîÑÎ°úÍ∑∏Îû®Ïù¥ Î™®Îëê ÏòàÏïΩÎ∂àÍ∞ÄÎ°ú ÌëúÏ∂úÎêòÏñ¥ ÏòàÏïΩÏù¥ ÏßÑÌñâÎêòÏßÄ ÏïäÎäî Í≤ΩÏö∞,
+												02-901-0700(Ï£ºÍ∞Ñ)ÏúºÎ°ú Î¨∏Ïùò Î∞îÎûçÎãàÎã§.</li>
+											<li>ÏÑúÏö∏ÌäπÎ≥ÑÏãú ÏΩîÎ°úÎÇò19 ÌòÑÌô© Ï£ºÏÜå : <a
+												href="https://www.seoul.go.kr/coronaV/coronaStatus.do"
+												target="_blank">https://www.seoul.go.kr/coronaV/coronaStatus.do</a></li>
+
+
+
+
+
+
+
+										</ul>
+									</div>
+									<!-- ÏòàÏïΩÏùº ÏÑ§Ï†ï -->
+									<div class="title-area">
+										<h4 class="title">ÏòàÏïΩÏùº ÏÑ§Ï†ï</h4>
+									</div>
+									<div class="detail-info">
+										<dl class="mb-block">
+											<dt>ÏòàÏïΩÏùº ÏÑ†ÌÉù</dt>
+											<dd>
+												<div class="calendar-container">
+													<div class="calendar">
+														<div class="calendar-head">
+															<div class="calendar-title">
+																<span>2022</span>. <span>11</span>
+															</div>
+														</div>
+														<div class="calendar-body">
+															<div class="calendar-week">
+																<div class="day sun">SUN</div>
+																<div class="day">MON</div>
+																<div class="day">TUE</div>
+																<div class="day">WED</div>
+																<div class="day">THE</div>
+																<div class="day">FRI</div>
+																<div class="day sat">SAT</div>
+															</div>
+															<div class="calendar-day">
+
+																<div class="calendar-cell     disabled " data-date=""
+																	data-dayweek=""></div>
+
+																<div class="calendar-cell     disabled " data-date=""
+																	data-dayweek=""></div>
+
+																<div class="calendar-cell 2022-11-01     disabled"
+																	data-date="2022-11-01" data-dayweek="2">1</div>
+
+																<div class="calendar-cell 2022-11-02     disabled"
+																	data-date="2022-11-02" data-dayweek="3">2</div>
+
+																<div class="calendar-cell 2022-11-03     disabled"
+																	data-date="2022-11-03" data-dayweek="4">3</div>
+
+																<div class="calendar-cell 2022-11-04     disabled"
+																	data-date="2022-11-04" data-dayweek="5">4</div>
+
+																<div class="calendar-cell 2022-11-05  sat   disabled"
+																	data-date="2022-11-05" data-dayweek="6">5</div>
+
+																<div class="calendar-cell 2022-11-06   sun  disabled"
+																	data-date="2022-11-06" data-dayweek="7">6</div>
+
+																<div class="calendar-cell 2022-11-07     disabled"
+																	data-date="2022-11-07" data-dayweek="1">7</div>
+
+																<div class="calendar-cell 2022-11-08     disabled"
+																	data-date="2022-11-08" data-dayweek="2">8</div>
+
+																<div class="calendar-cell 2022-11-09     disabled"
+																	data-date="2022-11-09" data-dayweek="3">9</div>
+
+																<div class="calendar-cell 2022-11-10 today    disabled"
+																	data-date="2022-11-10" data-dayweek="4">10</div>
+
+																<div class="calendar-cell 2022-11-11     disabled"
+																	data-date="2022-11-11" data-dayweek="5">11</div>
+
+																<div class="calendar-cell 2022-11-12  sat   "
+																	data-date="2022-11-12" data-dayweek="6">12</div>
+
+																<div class="calendar-cell 2022-11-13   sun  "
+																	data-date="2022-11-13" data-dayweek="7">13</div>
+
+																<div class="calendar-cell 2022-11-14     "
+																	data-date="2022-11-14" data-dayweek="1">14</div>
+
+																<div class="calendar-cell 2022-11-15     "
+																	data-date="2022-11-15" data-dayweek="2">15</div>
+
+																<div class="calendar-cell 2022-11-16     "
+																	data-date="2022-11-16" data-dayweek="3">16</div>
+
+																<div class="calendar-cell 2022-11-17     "
+																	data-date="2022-11-17" data-dayweek="4">17</div>
+
+																<div class="calendar-cell 2022-11-18     "
+																	data-date="2022-11-18" data-dayweek="5">18</div>
+
+																<div class="calendar-cell 2022-11-19  sat   "
+																	data-date="2022-11-19" data-dayweek="6">19</div>
+
+																<div class="calendar-cell 2022-11-20   sun  "
+																	data-date="2022-11-20" data-dayweek="7">20</div>
+
+																<div class="calendar-cell 2022-11-21     "
+																	data-date="2022-11-21" data-dayweek="1">21</div>
+
+																<div class="calendar-cell 2022-11-22     "
+																	data-date="2022-11-22" data-dayweek="2">22</div>
+
+																<div class="calendar-cell 2022-11-23     "
+																	data-date="2022-11-23" data-dayweek="3">23</div>
+
+																<div class="calendar-cell 2022-11-24     "
+																	data-date="2022-11-24" data-dayweek="4">24</div>
+
+																<div class="calendar-cell 2022-11-25     "
+																	data-date="2022-11-25" data-dayweek="5">25</div>
+
+																<div class="calendar-cell 2022-11-26  sat   "
+																	data-date="2022-11-26" data-dayweek="6">26</div>
+
+																<div class="calendar-cell 2022-11-27   sun  "
+																	data-date="2022-11-27" data-dayweek="7">27</div>
+
+																<div class="calendar-cell 2022-11-28     "
+																	data-date="2022-11-28" data-dayweek="1">28</div>
+
+																<div class="calendar-cell 2022-11-29     "
+																	data-date="2022-11-29" data-dayweek="2">29</div>
+
+																<div class="calendar-cell 2022-11-30     "
+																	data-date="2022-11-30" data-dayweek="3">30</div>
+
+															</div>
+														</div>
+													</div>
+													<div class="calendar">
+														<div class="calendar-head">
+															<div class="calendar-title">
+																<span>2022</span>. <span>12</span>
+															</div>
+														</div>
+														<div class="calendar-body">
+															<div class="calendar-week">
+																<div class="day sun">SUN</div>
+																<div class="day">MON</div>
+																<div class="day">TUE</div>
+																<div class="day">WED</div>
+																<div class="day">THE</div>
+																<div class="day">FRI</div>
+																<div class="day sat">SAT</div>
+															</div>
+															<div class="calendar-day">
+
+																<div class="calendar-cell     disabled " data-date=""
+																	data-dayweek=""></div>
+
+																<div class="calendar-cell     disabled " data-date=""
+																	data-dayweek=""></div>
+
+																<div class="calendar-cell     disabled " data-date=""
+																	data-dayweek=""></div>
+
+																<div class="calendar-cell     disabled " data-date=""
+																	data-dayweek=""></div>
+
+																<div class="calendar-cell 2022-12-01     "
+																	data-date="2022-12-01" data-dayweek="4">1</div>
+
+																<div class="calendar-cell 2022-12-02     "
+																	data-date="2022-12-02" data-dayweek="5">2</div>
+
+																<div class="calendar-cell 2022-12-03  sat   "
+																	data-date="2022-12-03" data-dayweek="6">3</div>
+
+																<div class="calendar-cell 2022-12-04   sun  "
+																	data-date="2022-12-04" data-dayweek="7">4</div>
+
+																<div class="calendar-cell 2022-12-05     "
+																	data-date="2022-12-05" data-dayweek="1">5</div>
+
+																<div class="calendar-cell 2022-12-06     "
+																	data-date="2022-12-06" data-dayweek="2">6</div>
+
+																<div class="calendar-cell 2022-12-07     "
+																	data-date="2022-12-07" data-dayweek="3">7</div>
+
+																<div class="calendar-cell 2022-12-08     "
+																	data-date="2022-12-08" data-dayweek="4">8</div>
+
+																<div class="calendar-cell 2022-12-09     "
+																	data-date="2022-12-09" data-dayweek="5">9</div>
+
+																<div class="calendar-cell 2022-12-10  sat   "
+																	data-date="2022-12-10" data-dayweek="6">10</div>
+
+																<div class="calendar-cell 2022-12-11   sun  "
+																	data-date="2022-12-11" data-dayweek="7">11</div>
+
+																<div class="calendar-cell 2022-12-12     "
+																	data-date="2022-12-12" data-dayweek="1">12</div>
+
+																<div class="calendar-cell 2022-12-13     "
+																	data-date="2022-12-13" data-dayweek="2">13</div>
+
+																<div class="calendar-cell 2022-12-14     "
+																	data-date="2022-12-14" data-dayweek="3">14</div>
+
+																<div class="calendar-cell 2022-12-15     "
+																	data-date="2022-12-15" data-dayweek="4">15</div>
+
+																<div class="calendar-cell 2022-12-16     "
+																	data-date="2022-12-16" data-dayweek="5">16</div>
+
+																<div class="calendar-cell 2022-12-17  sat   "
+																	data-date="2022-12-17" data-dayweek="6">17</div>
+
+																<div class="calendar-cell 2022-12-18   sun  "
+																	data-date="2022-12-18" data-dayweek="7">18</div>
+
+																<div class="calendar-cell 2022-12-19     "
+																	data-date="2022-12-19" data-dayweek="1">19</div>
+
+																<div class="calendar-cell 2022-12-20     "
+																	data-date="2022-12-20" data-dayweek="2">20</div>
+
+																<div class="calendar-cell 2022-12-21     "
+																	data-date="2022-12-21" data-dayweek="3">21</div>
+
+																<div class="calendar-cell 2022-12-22     "
+																	data-date="2022-12-22" data-dayweek="4">22</div>
+
+																<div class="calendar-cell 2022-12-23     "
+																	data-date="2022-12-23" data-dayweek="5">23</div>
+
+																<div class="calendar-cell 2022-12-24  sat   "
+																	data-date="2022-12-24" data-dayweek="6">24</div>
+
+																<div class="calendar-cell 2022-12-25   sun  "
+																	data-date="2022-12-25" data-dayweek="7">25</div>
+
+																<div class="calendar-cell 2022-12-26     "
+																	data-date="2022-12-26" data-dayweek="1">26</div>
+
+																<div class="calendar-cell 2022-12-27     "
+																	data-date="2022-12-27" data-dayweek="2">27</div>
+
+																<div class="calendar-cell 2022-12-28     "
+																	data-date="2022-12-28" data-dayweek="3">28</div>
+
+																<div class="calendar-cell 2022-12-29     "
+																	data-date="2022-12-29" data-dayweek="4">29</div>
+
+																<div class="calendar-cell 2022-12-30     "
+																	data-date="2022-12-30" data-dayweek="5">30</div>
+
+																<div class="calendar-cell 2022-12-31  sat   "
+																	data-date="2022-12-31" data-dayweek="6">31</div>
+
+															</div>
+														</div>
+													</div>
+													<div class="calendar">
+														<div class="calendar-head">
+															<div class="calendar-title">
+																<span>2023</span>. <span>1</span>
+															</div>
+														</div>
+														<div class="calendar-body">
+															<div class="calendar-week">
+																<div class="day sun">SUN</div>
+																<div class="day">MON</div>
+																<div class="day">TUE</div>
+																<div class="day">WED</div>
+																<div class="day">THE</div>
+																<div class="day">FRI</div>
+																<div class="day sat">SAT</div>
+															</div>
+															<div class="calendar-day">
+
+																<div class="calendar-cell 2023-01-01   sun  "
+																	data-date="2023-01-01" data-dayweek="7">1</div>
+
+																<div class="calendar-cell 2023-01-02     disabled"
+																	data-date="2023-01-02" data-dayweek="1">2</div>
+
+																<div class="calendar-cell 2023-01-03     disabled"
+																	data-date="2023-01-03" data-dayweek="2">3</div>
+
+																<div class="calendar-cell 2023-01-04     disabled"
+																	data-date="2023-01-04" data-dayweek="3">4</div>
+
+																<div class="calendar-cell 2023-01-05     disabled"
+																	data-date="2023-01-05" data-dayweek="4">5</div>
+
+																<div class="calendar-cell 2023-01-06     disabled"
+																	data-date="2023-01-06" data-dayweek="5">6</div>
+
+																<div class="calendar-cell 2023-01-07  sat   disabled"
+																	data-date="2023-01-07" data-dayweek="6">7</div>
+
+																<div class="calendar-cell 2023-01-08   sun  disabled"
+																	data-date="2023-01-08" data-dayweek="7">8</div>
+
+																<div class="calendar-cell 2023-01-09     disabled"
+																	data-date="2023-01-09" data-dayweek="1">9</div>
+
+																<div class="calendar-cell 2023-01-10     disabled"
+																	data-date="2023-01-10" data-dayweek="2">10</div>
+
+																<div class="calendar-cell 2023-01-11     disabled"
+																	data-date="2023-01-11" data-dayweek="3">11</div>
+
+																<div class="calendar-cell 2023-01-12     disabled"
+																	data-date="2023-01-12" data-dayweek="4">12</div>
+
+																<div class="calendar-cell 2023-01-13     disabled"
+																	data-date="2023-01-13" data-dayweek="5">13</div>
+
+																<div class="calendar-cell 2023-01-14  sat   disabled"
+																	data-date="2023-01-14" data-dayweek="6">14</div>
+
+																<div class="calendar-cell 2023-01-15   sun  disabled"
+																	data-date="2023-01-15" data-dayweek="7">15</div>
+
+																<div class="calendar-cell 2023-01-16     disabled"
+																	data-date="2023-01-16" data-dayweek="1">16</div>
+
+																<div class="calendar-cell 2023-01-17     disabled"
+																	data-date="2023-01-17" data-dayweek="2">17</div>
+
+																<div class="calendar-cell 2023-01-18     disabled"
+																	data-date="2023-01-18" data-dayweek="3">18</div>
+
+																<div class="calendar-cell 2023-01-19     disabled"
+																	data-date="2023-01-19" data-dayweek="4">19</div>
+
+																<div class="calendar-cell 2023-01-20     disabled"
+																	data-date="2023-01-20" data-dayweek="5">20</div>
+
+																<div class="calendar-cell 2023-01-21  sat   disabled"
+																	data-date="2023-01-21" data-dayweek="6">21</div>
+
+																<div class="calendar-cell 2023-01-22   sun  disabled"
+																	data-date="2023-01-22" data-dayweek="7">22</div>
+
+																<div class="calendar-cell 2023-01-23     disabled"
+																	data-date="2023-01-23" data-dayweek="1">23</div>
+
+																<div class="calendar-cell 2023-01-24     disabled"
+																	data-date="2023-01-24" data-dayweek="2">24</div>
+
+																<div class="calendar-cell 2023-01-25     disabled"
+																	data-date="2023-01-25" data-dayweek="3">25</div>
+
+																<div class="calendar-cell 2023-01-26     disabled"
+																	data-date="2023-01-26" data-dayweek="4">26</div>
+
+																<div class="calendar-cell 2023-01-27     disabled"
+																	data-date="2023-01-27" data-dayweek="5">27</div>
+
+																<div class="calendar-cell 2023-01-28  sat   disabled"
+																	data-date="2023-01-28" data-dayweek="6">28</div>
+
+																<div class="calendar-cell 2023-01-29   sun  disabled"
+																	data-date="2023-01-29" data-dayweek="7">29</div>
+
+																<div class="calendar-cell 2023-01-30     disabled"
+																	data-date="2023-01-30" data-dayweek="1">30</div>
+
+																<div class="calendar-cell 2023-01-31     disabled"
+																	data-date="2023-01-31" data-dayweek="2">31</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+												<ul class="dot-list">
+													<li>ÏòàÏïΩÌï† Í∏∞Í∞ÑÏùÑ Îã¨Î†•ÏóêÏÑú ÏÑ†ÌÉùÌïòÏÑ∏Ïöî.</li>
+													<li>ÏòàÏïΩÏù¥ Í∞ÄÎä•Ìïú ÎßàÏßÄÎßâ ÎÇ†ÏßúÎ•º ÏÑ†ÌÉùÌï† Í≤ΩÏö∞Îäî ÎãπÏùºÍ≥º 1Î∞ï2ÏùºÎßå Í∞ÄÎä•Ìï©ÎãàÎã§.</li>
+												</ul>
+											</dd>
+										</dl>
+										<dl>
+											<dt>ÏûÖÏã§Ïùº</dt>
+											<dd id="startDt">-</dd>
+										</dl>
+										<dl>
+											<dt>Ìá¥Ïã§Ïùº</dt>
+											<dd id="endDt">-</dd>
+										</dl>
+										<dl>
+											<dt>Ï≤¥Î•òÍ∏∞Í∞Ñ</dt>
+											<dd class="form">
+												<div class="stay-row">
+													<span class="length-stay" id="nightDays0">ÎãπÏùº</span> <span
+														class="length-stay" id="nightDays1">1Î∞ï 2Ïùº</span> <span
+														class="length-stay" id="nightDays2">2Î∞ï 3Ïùº</span> <span
+														class="length-stay" id="nightDays3">3Î∞ï 4Ïùº</span>
+												</div>
+											</dd>
+										</dl>
+										<dl>
+											<dt>ÏòàÏïΩÍµ¨Î∂Ñ</dt>
+											<dd class="form">
+												<span class="check-area"> <span class="radio-1">
+														<input type="radio" id="txblPblcN" name="txblPblcYn"
+														checked="checked" value="N"> <label
+														for="txblPblcN">Í∞úÏù∏</label>
+												</span> <span class="radio-1"> <input type="radio"
+														id="txblPblcY" name="txblPblcYn" value="Y"> <label
+														for="txblPblcY">Îã®Ï≤¥</label>
+												</span>
+												</span> <span class="copy">‚Äª Îã®Ï≤¥ ÏÑ†ÌÉù Ïãú ÎßàÏù¥ÌéòÏù¥ÏßÄÏóêÏÑú Ï∂îÍ∞ÄÏ†ïÎ≥¥ ÏûÖÎ†• ÌõÑ ÏÑ∏Í∏àÍ≥ÑÏÇ∞ÏÑú
+													Î∞úÌñâ Ïã†Ï≤≠ Í∞ÄÎä•Ìï©ÎãàÎã§.</span>
+											</dd>
+										</dl>
+									</div>
+
+									<!-- ÌîÑÎ°úÍ∑∏Îû® -->
+									<div class="collapse-wrap">
+										<div class="title-area">
+											<h4 class="title">ÌîÑÎ°úÍ∑∏Îû®</h4>
+											<div class="btn-area">
+												<button type="button" class="btn btn-view"
+													onclick="funcArray.drawImage('06004');">ÌîÑÎ°úÍ∑∏Îû® Î≥¥Í∏∞</button>
+												<button type="button" class="btn btn-charge"
+													onclick="openPopup('programAmtPop');">ÏöîÍ∏àÌëú</button>
+												<span class="checkbox-1"> <input type="checkbox"
+													id="check1" class="check collapse" value="program">
+													<label for="check1">ÏòµÏÖò Ï∂îÍ∞ÄÏòàÏïΩ</label>
+												</span>
+											</div>
+										</div>
+										<div class="a">
+											<table class="table ecoProgram">
+												<caption>ÌîÑÎ°úÍ∑∏Îû®</caption>
+												<colgroup>
+													<col>
+													<col>
+													<col>
+												</colgroup>
+												<thead class="thead">
+													<tr>
+														<th scope="col">ÎÇ†Ïßú</th>
+														<th scope="col" id="programNm">Ïò§Ï†Ñ (10:00~13:00)</th>
+														<th scope="col" id="programNm2">Ïò§ÌõÑ (14:00~17:00)</th>
+													</tr>
+												</thead>
+												<tbody class="tbody">
+												</tbody>
+											</table>
+											<div class="border-box quantity-wrap">
+												<dl>
+													<dt>Ï∞∏Ïó¨Ïù∏Ïõê ÏÑ§Ï†ï</dt>
+													<dd class="form">
+														<div class="row">
+															<span class="label">Ï≤≠ÏÜåÎÖÑ Ïù¥Ìïò</span> <span
+																class="quantity-input">
+																<button type="button" class="btn minus program-minus">
+																	<i class="icon-minus"></i>
+																</button> <label for="programChildCnt" class="hidden-text">Ï≤≠ÏÜåÎÖÑÏù¥ÌïòÏ∞∏Ïó¨Ïù∏Ïõê</label>
+																<input type="number" value="0" readonly
+																id="programChildCnt" name="programChildCnt">
+																<button type="button" class="btn plus program-plus">
+																	<i class="icon-plus"></i>
+																</button>
+															</span>
+														</div>
+														<div class="row">
+															<span class="label">ÏÑ±Ïù∏</span> <span
+																class="quantity-input">
+																<button type="button" class="btn minus program-minus">
+																	<i class="icon-minus"></i>
+																</button> <label for="programAdultCnt" class="hidden-text">ÏÑ±Ïù∏Ï∞∏Ïó¨Ïù∏Ïõê</label>
+																<input type="number" value="0" readonly
+																id="programAdultCnt" name="programAdultCnt">
+																<button type="button" class="btn plus program-plus">
+																	<i class="icon-plus"></i>
+																</button>
+															</span>
+														</div>
+													</dd>
+												</dl>
+											</div>
+											<ul class="dot-list">
+												<li>ÌîÑÎ°úÍ∑∏Îû® Ï∞∏Ïó¨Ïù∏Ïõê ÏµúÏÜå 2Î™Ö Ïù¥ÏÉÅ ÏòàÏïΩ Í∞ÄÎä•Ìï©ÎãàÎã§.</li>
+												<li>ÏõêÌôúÌïú ÌîÑÎ°úÍ∑∏Îû® ÏßÑÌñâÏùÑ ÏúÑÌï¥ 10ÏÑ∏ Ïù¥ÌïòÏùò Ï≤≠ÏÜåÎÖÑÏù¥ Ï∞∏Í∞ÄÌïòÎäî Í≤ΩÏö∞ Î≥¥Ìò∏Ïûê 1Ïù∏ÎèÑ Ìï®Íªò Ï∞∏Ïó¨
+													Î∂ÄÌÉÅÎìúÎ¶ΩÎãàÎã§.</li>
+											</ul>
+											<div class="border-box total programDiv">
+												<dl>
+													<dt>
+														<em>ÏÑ†ÌÉù Ïù¥Ïö©Í∏àÏï°</em>
+													</dt>
+													<dd class="cnt">Ï≤≠ÏÜåÎÖÑ 0Î™Ö / ÏÑ±Ïù∏ 0Î™Ö</dd>
+													<dd class="amount">
+														<em>0</em>Ïõê
+													</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
+
+
+									<!-- Í∞ïÎãπ -->
+									<div class="collapse-wrap">
+										<div class="title-area">
+											<h4 class="title">Í∞ïÎãπ</h4>
+											<div class="btn-area">
+												<button type="button" class="btn btn-view"
+													onclick="funcArray.drawImage('06003');">Í∞ïÎãπ Î≥¥Í∏∞</button>
+												<button type="button" class="btn btn-charge"
+													onclick="openPopup('gangdangAmtPop');">ÏöîÍ∏àÌëú</button>
+												<span class="checkbox-1"> <input type="checkbox"
+													id="check3" class="check collapse" value="gangdang">
+													<label for="check3">ÏòµÏÖò Ï∂îÍ∞ÄÏòàÏïΩ</label>
+												</span>
+											</div>
+										</div>
+										<div class="a">
+											<table class="table gangdang">
+												<caption>Í∞ïÎãπ</caption>
+												<colgroup>
+													<col>
+													<col>
+													<col>
+													<col>
+												</colgroup>
+												<thead class="thead">
+													<tr>
+														<th scope="col">ÎÇ†Ïßú</th>
+														<th scope="col">Ïò§Ï†Ñ (09:00~13:00)</th>
+														<th scope="col">Ïò§ÌõÑ (14:00~18:00)</th>
+														<th scope="col">ÏïºÍ∞Ñ (18:00~22:00)</th>
+													</tr>
+												</thead>
+												<tbody class="tbody">
+												</tbody>
+											</table>
+											<div class="border-box">
+												<dl>
+													<dt>ÏÇ¨Ïö©Ïù∏Ïõê ÏÑ§Ï†ï</dt>
+													<dd class="form">
+														<span class="quantity-input">
+															<button type="button"
+																class="btn minus gangdang-prsn-minus">
+																<i class="icon-minus"></i>
+															</button> <label for="gangDangPrsnCnt" class="hidden-text">Ï¥ùÏ∞∏Ïó¨Ïù∏Ïõê</label>
+															<input type="number" value="1" readonly title="Ï¥ù Ï∞∏Ïó¨ Ïù∏Ïõê"
+															name="gangDangPrsnCnt" id="gangDangPrsnCnt">
+															<button type="button" class="btn plus gangdang-prsn-plus">
+																<i class="icon-plus"></i>
+															</button>
+														</span>
+													</dd>
+												</dl>
+											</div>
+											<ul class="dot-list">
+												<li>ÏÇ¨Ïö©Ïù∏ÏõêÏùÄ Ïù¥Ïö©ÏöîÍ∏àÍ≥º ÏÉÅÍ¥ÄÏù¥ ÏóÜÏäµÎãàÎã§. Í∑úÎ™®Ïóê ÎßûÎäî Í∞ïÎãπ Î∞∞Ï†ïÏùÑ ÏúÑÌï¥ ÏòàÏÉÅ ÏÇ¨Ïö©Ïù∏ÏõêÏùÑ
+													ÏûÖÎ†•Î∞îÎûçÎãàÎã§.</li>
+											</ul>
+											<div class="border-box total gangdangDiv">
+												<dl>
+													<dt>
+														<em>ÏÑ†ÌÉù Ïù¥Ïö©Í∏àÏï°</em>
+													</dt>
+													<dd class="cnt">Ï¥ù ÏàòÎüâ 0Í∞ú</dd>
+													<dd class="amount">
+														<em>0</em>Ïõê
+													</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
+
+
+									<!-- Í∞ïÏùòÏã§ -->
+									<div class="collapse-wrap">
+										<div class="title-area">
+											<h4 class="title">Í∞ïÏùòÏã§</h4>
+											<div class="btn-area">
+												<button type="button" class="btn btn-view"
+													onclick="funcArray.drawImage('06002');">Í∞ïÏùòÏã§ Î≥¥Í∏∞</button>
+												<button type="button" class="btn btn-charge"
+													onclick="openPopup('classAmtPop');">ÏöîÍ∏àÌëú</button>
+												<span class="checkbox-1"> <input type="checkbox"
+													id="check4" class="check collapse" value="class"> <label
+													for="check4">ÏòµÏÖò Ï∂îÍ∞ÄÏòàÏïΩ</label>
+												</span>
+											</div>
+										</div>
+										<div class="a">
+											<table class="table classRoom">
+												<caption>Í∞ïÏùòÏã§</caption>
+												<colgroup>
+													<col>
+													<col>
+													<col>
+													<col>
+												</colgroup>
+												<thead class="thead">
+													<tr>
+														<th scope="col">ÎÇ†Ïßú</th>
+														<th scope="col">Ïò§Ï†Ñ (09:00~13:00)</th>
+														<th scope="col">Ïò§ÌõÑ (14:00~18:00)</th>
+														<th scope="col">ÏïºÍ∞Ñ (18:00~22:00)</th>
+													</tr>
+												</thead>
+												<tbody class="tbody">
+												</tbody>
+											</table>
+											<div class="border-box">
+												<dl>
+													<dt>ÏÇ¨Ïö©Ïù∏Ïõê ÏÑ§Ï†ï</dt>
+													<dd class="form">
+														<span class="quantity-input">
+															<button type="button" class="btn minus class-prsn-minus">
+																<i class="icon-minus"></i>
+															</button> <label for="classPrsnCnt" class="hidden-text">Ï¥ùÏ∞∏Ïó¨Ïù∏Ïõê</label>
+															<input type="number" value="1" readonly title="Ï¥ù Ï∞∏Ïó¨ Ïù∏Ïõê"
+															name="classPrsnCnt" id="classPrsnCnt">
+															<button type="button" class="btn plus class-prsn-plus">
+																<i class="icon-plus"></i>
+															</button>
+														</span>
+													</dd>
+												</dl>
+											</div>
+											<ul class="dot-list">
+												<li>ÏÇ¨Ïö©Ïù∏ÏõêÏùÄ Ïù¥Ïö©ÏöîÍ∏àÍ≥º ÏÉÅÍ¥ÄÏù¥ ÏóÜÏäµÎãàÎã§. Í∑úÎ™®Ïóê ÎßûÎäî Í∞ïÏùòÏã§ Î∞∞Ï†ïÏùÑ ÏúÑÌï¥ ÏòàÏÉÅ ÏÇ¨Ïö©Ïù∏ÏõêÏùÑ
+													ÏûÖÎ†•Î∞îÎûçÎãàÎã§.</li>
+											</ul>
+											<div class="border-box total classRoomDiv">
+												<dl>
+													<dt>
+														<em>ÏÑ†ÌÉù Ïù¥Ïö©Í∏àÏï°</em>
+													</dt>
+													<dd class="cnt">Ï¥ù ÏàòÎüâ 0Í∞ú</dd>
+													<dd class="amount">
+														<em>0</em>Ïõê
+													</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
+
+
+									<!-- ÏÉùÌôúÍ¥Ä -->
+									<div class="collapse-wrap">
+										<div class="title-area">
+											<h4 class="title">ÏÉùÌôúÍ¥Ä</h4>
+											<div class="btn-area">
+												<button type="button" class="btn btn-view"
+													onclick="funcArray.drawImage('06001');">Í∞ùÏã§ Î≥¥Í∏∞</button>
+												<button type="button" class="btn btn-charge"
+													onclick="openPopup('livingAmtPop');">ÏöîÍ∏àÌëú</button>
+												<span class="checkbox-1"> <input type="checkbox"
+													id="check2" class="check collapse" value="living">
+													<label for="check2">ÏòµÏÖò Ï∂îÍ∞ÄÏòàÏïΩ</label>
+												</span>
+											</div>
+										</div>
+										<div class="a">
+											<table class="table livingRoom">
+												<caption>ÏÉùÌôúÍ¥Ä</caption>
+												<colgroup>
+													<col>
+													<col>
+													<col>
+												</colgroup>
+												<thead class="thead">
+													<tr>
+														<th scope="col">ÏÉùÌôúÍ¥Ä ÌÉÄÏûÖ</th>
+														<th scope="col">Í∞ùÏã§</th>
+														<th scope="col">Í∏àÏï°</th>
+													</tr>
+												</thead>
+												<tbody class="tbody">
+												</tbody>
+											</table>
+											<div class="border-box">
+												<dl>
+													<dt>ÏÇ¨Ïö©Ïù∏Ïõê ÏÑ§Ï†ï</dt>
+													<dd class="form">
+														<span class="quantity-input">
+															<button type="button"
+																class="btn minus livingRoom-prsn-minus">
+																<i class="icon-minus"></i>
+															</button> <label for="livingPrsnCnt" class="hidden-text">Ï¥ùÏ∞∏Ïó¨Ïù∏Ïõê</label>
+															<input type="number" value="1" readonly title="Ï¥ù Ï∞∏Ïó¨ Ïù∏Ïõê"
+															name="livingPrsnCnt" id="livingPrsnCnt">
+															<button type="button"
+																class="btn plus livingRoom-prsn-plus">
+																<i class="icon-plus"></i>
+															</button>
+														</span>
+													</dd>
+												</dl>
+											</div>
+											<ul class="dot-list">
+												<li>ÏÇ¨Ïö©Ïù∏ÏõêÏùÄ Ïù¥Ïö©ÏöîÍ∏àÍ≥º ÏÉÅÍ¥ÄÏù¥ ÏóÜÏäµÎãàÎã§. ÏòàÏÉÅ ÏÇ¨Ïö©Ïù∏ÏõêÏùÑ ÏûÖÎ†•Î∞îÎûçÎãàÎã§.</li>
+											</ul>
+											<div class="border-box total livingRoomDiv">
+												<dl>
+													<dt>
+														<em>ÏÑ†ÌÉù Ïù¥Ïö©Í∏àÏï°</em>
+													</dt>
+													<dd class="cnt">Ï¥ù ÏàòÎüâ 0Í∞ú</dd>
+													<dd class="amount">
+														<em>0</em>Ïõê
+													</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
+
+
+									<!-- Ï¥ù ÏÑ†ÌÉù Ïù¥Ïö©Í∏àÏï° -->
+									<div class="title-area">
+										<h4 class="title">Ï¥ù Í≤∞Ï†ú ÏòàÏ†ï Í∏àÏï°</h4>
+									</div>
+									<div class="payment">
+										<dl>
+											<dt>
+												<em>ÏÉùÌÉúÏó¨Ìñâ</em>
+											</dt>
+											<dd></dd>
+										</dl>
+										<dl class="surtax">
+											<dt>
+												<em>Í≥ºÏÑ∏ Ìï©Í≥Ñ</em>
+											</dt>
+											<dd>
+												<em>0</em>Ïõê
+											</dd>
+											<dt>
+												<em>Î©¥ÏÑ∏ Ìï©Í≥Ñ*</em>
+											</dt>
+											<dd>
+												<em>0</em>Ïõê
+											</dd>
+											<dt>
+												<em>Î∂ÄÍ∞ÄÏÑ∏</em>
+											</dt>
+											<dd>
+												<em>0</em>Ïõê
+											</dd>
+										</dl>
+										<dl class="total">
+											<dt>Í≤∞Ï†ú(ÏòàÏ†ï)Í∏àÏï°</dt>
+											<dd>
+												<em>0</em>Ïõê
+											</dd>
+										</dl>
+									</div>
+									<div class="board-bottom">
+										<div class="center">
+											<a href="javascript:void(0);"
+												class="btn btn-register is-active"
+												onclick="funcArray.reserStart(); return false;">ÏòàÏïΩÌïòÍ∏∞</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal-popup large" id="eco-view"></div>
+
+
+			<div class="modal-popup small" id="captchaPop">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">ÏûêÎèôÎ∞©ÏßÄ ÏûÖÎ†•Î¨∏Ïûê</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞"
+							onclick="closePopup('captchaPop');">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container" id="captchaDiv"></div>
+				</div>
+			</div>
+
+			<div class="modal-popup small" id="mealPop">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">ÏãùÏÇ¨Ï†úÍ≥µÏóÖÏ≤¥</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞"
+							onclick="closePopup('mealPop');">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container">
+						<table class="table">
+							<caption>ÏãùÏÇ¨Ï†úÍ≥µÏóÖÏ≤¥</caption>
+							<colgroup>
+								<col style="width: 140px;">
+								<col>
+							</colgroup>
+							<tbody class="tbody">
+								<tr>
+									<th scope="row">ÏÉÅÌò∏Î™Ö</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th scope="row">ÎåÄÌëúÏûêÎ™Ö</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th scope="row">ÏÇ¨ÏóÖÏûêÎì±Î°ùÎ≤àÌò∏</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th scope="row">Ï£ºÏÜå</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th scope="row">ÎåÄÌëúÎ≤àÌò∏</th>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="btn-area">
+							<button type="button" class="btn btn-confirm is-active"
+								onclick="closePopup('mealPop');">ÌôïÏù∏</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-popup large" id="programAmtPop">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">ÌîÑÎ°úÍ∑∏Îû® ÏöîÍ∏àÌëú Î≥¥Í∏∞</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞"
+							onclick="closePopup('programAmtPop');">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container">
+						<table class="table">
+							<caption>ÌîÑÎ°úÍ∑∏Îû® ÏöîÍ∏àÌëú Î≥¥Í∏∞</caption>
+							<colgroup>
+								<col style="width: 140px;">
+								<col>
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col">Íµ¨Î∂Ñ</th>
+									<th scope="col">3ÏãúÍ∞Ñ(Î∞òÏùºÌòï)</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr>
+									<td>Ï≤≠ÏÜåÎÖÑ Ïù¥Ìïò</td>
+									<td>3,600Ïõê</td>
+								</tr>
+								<tr>
+									<td>ÏÑ±Ïù∏</td>
+									<td>4,900Ïõê</td>
+								</tr>
+								<tr>
+									<td>ÎπÑÍ≥†</td>
+									<td>Î∂ÄÍ∞ÄÍ∞ÄÏπòÏÑ∏ Î≥ÑÎèÑ</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table">
+							<caption>ÌîÑÎ°úÍ∑∏Îû® ÏöîÍ∏àÌëú Î≥¥Í∏∞</caption>
+							<colgroup>
+								<col style="width: 140px;">
+								<col>
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col">Íµ¨Î∂Ñ</th>
+									<th scope="col">6ÏãúÍ∞Ñ (ÎãπÏùºÌòï)</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr>
+									<td>Ï≤≠ÏÜåÎÖÑ Ïù¥Ìïò</td>
+									<td>7,100Ïõê</td>
+								</tr>
+								<tr>
+									<td>ÏÑ±Ïù∏</td>
+									<td>9,800Ïõê</td>
+								</tr>
+								<tr>
+									<td>ÎπÑÍ≥†</td>
+									<td>Î∂ÄÍ∞ÄÍ∞ÄÏπòÏÑ∏ Î≥ÑÎèÑ</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table">
+							<caption>ÌîÑÎ°úÍ∑∏Îû® ÏöîÍ∏àÌëú Î≥¥Í∏∞</caption>
+							<colgroup>
+								<col style="width: 140px;">
+								<col>
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col">Íµ¨Î∂Ñ</th>
+									<th scope="col">1Î∞ï2Ïùº (Ï≤¥Î•òÌòï)</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr>
+									<td>Ï≤≠ÏÜåÎÖÑ Ïù¥Ìïò</td>
+									<td>14,200Ïõê</td>
+								</tr>
+								<tr>
+									<td>ÏÑ±Ïù∏</td>
+									<td>19,500Ïõê</td>
+								</tr>
+								<tr>
+									<td>ÎπÑÍ≥†</td>
+									<td>Î∂ÄÍ∞ÄÍ∞ÄÏπòÏÑ∏ Î≥ÑÎèÑ</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="btn-area">
+							<button type="button" class="btn btn-confirm is-active"
+								onclick="closePopup('programAmtPop');">ÌôïÏù∏</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal-popup large" id="livingAmtPop">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">ÏÉùÌôúÍ¥Ä ÏöîÍ∏àÌëú Î≥¥Í∏∞</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞"
+							onclick="closePopup('livingAmtPop');">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container">
+						<table class="table">
+							<caption>ÏÉùÌôúÍ¥Ä ÏöîÍ∏àÌëú Î≥¥Í∏∞</caption>
+							<colgroup>
+								<col style="width: 33%">
+								<col>
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col">ÏÉùÌôúÍ¥Ä</th>
+									<th scope="col">Ïù¥Ïö©Î£å<br />(1Î∞ïÍ∏∞Ï§Ä / Î∂ÄÍ∞ÄÍ∞ÄÏπòÏÑ∏ Î≥ÑÎèÑ)
+									</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr>
+									<th class="ta-c" scope="row">AÌÉÄÏûÖ</th>
+									<td class="ta-c">60,000Ïõê</td>
+								</tr>
+								<tr>
+									<th class="ta-c" scope="row">BÌÉÄÏûÖ</th>
+									<td class="ta-c">90,000Ïõê</td>
+								</tr>
+								<tr>
+									<th class="ta-c" scope="row">CÌÉÄÏûÖ</th>
+									<td class="ta-c">120,000Ïõê</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="btn-area">
+							<button type="button" class="btn btn-confirm is-active"
+								onclick="closePopup('livingAmtPop');">ÌôïÏù∏</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal-popup large" id="gangdangAmtPop">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">Í∞ïÎãπ ÏöîÍ∏àÌëú Î≥¥Í∏∞</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞"
+							onclick="closePopup('gangdangAmtPop');">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container">
+						<table class="table">
+							<caption>Í∞ïÎãπ ÏöîÍ∏àÌëú Î≥¥Í∏∞</caption>
+							<colgroup>
+								<col style="width: 140px;">
+								<col>
+								<col>
+								<col>
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col" rowspan="2">Íµ¨Î∂Ñ</th>
+									<th scope="col" colspan="2">ÎåÄÍ¥ÄÎ£å</th>
+									<th scope="col" rowspan="2">ÎπÑÍ≥†</th>
+								</tr>
+								<tr>
+									<th scope="col">4ÏãúÍ∞ÑÍ∏∞Ï§Ä</th>
+									<th scope="col">8ÏãúÍ∞ÑÍ∏∞Ï§Ä</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr>
+									<td>Í∞ïÎãπ</td>
+									<td>200,000Ïõê</td>
+									<td>400,000Ïõê</td>
+									<td>‚Äª Î∂ÄÍ∞ÄÍ∞ÄÏπòÏÑ∏ Î≥ÑÎèÑ</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="btn-area">
+							<button type="button" class="btn btn-confirm is-active"
+								onclick="closePopup('gangdangAmtPop');">ÌôïÏù∏</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal-popup large" id="classAmtPop">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">Í∞ïÎãπ ÏöîÍ∏àÌëú Î≥¥Í∏∞</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞"
+							onclick="closePopup('classAmtPop');">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container">
+						<table class="table">
+							<caption>Í∞ïÎãπ ÏöîÍ∏àÌëú Î≥¥Í∏∞</caption>
+							<colgroup>
+								<col style="width: 140px;">
+								<col>
+								<col>
+								<col>
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col" rowspan="2">Íµ¨Î∂Ñ</th>
+									<th scope="col" colspan="2">ÎåÄÍ¥ÄÎ£å</th>
+									<th scope="col" rowspan="2">ÎπÑÍ≥†</th>
+								</tr>
+								<tr>
+									<th scope="col">4ÏãúÍ∞ÑÍ∏∞Ï§Ä</th>
+									<th scope="col">8ÏãúÍ∞ÑÍ∏∞Ï§Ä</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr>
+									<td>Í∞ïÎãπ</td>
+									<td>125,000Ïõê</td>
+									<td>250,000Ïõê</td>
+									<td>‚Äª Î∂ÄÍ∞ÄÍ∞ÄÏπòÏÑ∏ Î≥ÑÎèÑ</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="btn-area">
+							<button type="button" class="btn btn-confirm is-active"
+								onclick="closePopup('classAmtPop');">ÌôïÏù∏</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal-popup large" id="mealAmtPop"></div>
+
+
+			<div class="modal-popup small" id="ecoReservationConfirm">
+				<div class="popup-wrap">
+					<div class="popup-head">
+						<strong class="popup-title">ÏòàÏïΩÏôÑÎ£åÏïàÎÇ¥</strong>
+						<button type="button" class="btn-close" title="Îã´Í∏∞">
+							<i class="icon-close"></i>
+						</button>
+					</div>
+					<div class="popup-container">
+						<div class="center" data-area-name="reservation-popup-container">
+							<i class="icon-check"></i> <strong class="title-1">ÏòàÏïΩÏù¥
+								ÏôÑÎ£åÎêòÏóàÏäµÎãàÎã§.</strong>
+							<p class="copy-mid">
+								Í≤∞Ï†ú ÎßåÍ∏∞ÏùºÏãúÎäî <em data-popup-information-eco="sttlmMtDtm"></em> ÍπåÏßÄ
+								ÏûÖÎãàÎã§.<br>ÎØ∏ Í≤∞Ï†úÏãú ÏûêÎèô Ï∑®ÏÜåÎêòÎãà Ïú†Ïùò ÌïòÏãúÍ∏∞ Î∞îÎûçÎãàÎã§.
+							</p>
+							<p class="copy-sm">ÎßàÏù¥ÌéòÏù¥ÏßÄ ÎÇòÏùòÏòàÏïΩÎ™©Î°ù ÏóêÏÑú ÌôïÏù∏ ÌõÑ Í≤∞Ï†úÎ•º Í≥ÑÏÜç ÏßÑÌñâÌï¥Ï£ºÏÑ∏Ïöî.</p>
+						</div>
+						<div class="btn-area">
+							<a href="../mmb/mmbLogin.html" class="btn btn-link">ÎÇòÏùò ÏòàÏïΩÎ™©Î°ù
+								Î≥¥Í∏∞</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%@ include file="../common/footer.jsp"%>
+
+		<div class="modal-popup small" id="confirmPop">
+			<div class="popup-wrap">
+				<div class="popup-head">
+					<strong class="popup-title" id="confirmTitle"></strong>
+					<button type="button" class="btn-close" title="Îã´Í∏∞"
+						onclick="closePopup('confirmPop');">
+						<i class="icon-close"></i>
+					</button>
+				</div>
+				<div class="popup-container">
+					<div class="center">
+						<i class="icon-error"></i> <strong class="title-1"
+							id="confirmSubTitle"></strong>
+						<p class="copy-mid" id="confirmContent"></p>
+						<p class="copy-sm" id="confirmSubContent"></p>
+					</div>
+					<div class="btn-area">
+						<button class="btn btn-cancel forMypageClass"
+							onclick="closePopup('confirmPop');">Ï∑®ÏÜå</button>
+						<button class="btn btn-confirm is-active" id="btn-confirm">ÌôïÏù∏</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal-popup small" id="alertPop">
+			<div class="popup-wrap">
+				<div class="popup-head">
+					<strong class="popup-title" id="alertTitle">Î°úÍ∑∏Ïù∏</strong>
+					<button type="button" class="btn-close" title="Îã´Í∏∞"
+						onclick="closePopup('alertPop');">
+						<i class="icon-close"></i>
+					</button>
+				</div>
+				<div class="popup-container">
+					<div class="center">
+						<i class="icon-error"></i> <strong class="title-1"
+							id="alertSubTitle"></strong>
+						<p class="copy-mid" id="alertContent"></p>
+						<p class="copy-sm" id="alertSubContent"></p>
+					</div>
+					<div class="btn-area">
+						<button class="btn btn-confirm is-active"
+							onclick="closePopup('alertPop');">ÌôïÏù∏</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal-popup small" id="loginPopup">
+			<div class="popup-wrap">
+				<div class="popup-head">
+					<strong class="popup-title" id="loginTitle">Î°úÍ∑∏Ïù∏</strong>
+					<button type="button" class="btn-close" title="Îã´Í∏∞"
+						onclick="closePopup('loginPopup');">
+						<i class="icon-close"></i>
+					</button>
+				</div>
+				<div class="popup-container" id="loginPopupDiv"></div>
+			</div>
+		</div>
+		<!-- ÏïÑÏù¥ÌïÄ Í∞ÄÏÉÅÏ£ºÎØºÎ≤àÌò∏ ÏÑúÎπÑÏä§ ÌåùÏóÖ Ìò∏Ï∂ú form -->
+		<form name="form_ipin" id="form_ipin" method="post">
+			<!-- ÏöîÏ≤≠Î™®Îìú (ÌïÑÏàò Îç∞Ïù¥ÌÑ∞) -->
+			<input type="hidden" name="m" value="pubmain">
+			<!-- Ïù∏Ï¶ùÏöîÏ≤≠ ÏïîÌò∏Ìôî Îç∞Ïù¥ÌÑ∞ -->
+			<input type="hidden" name="enc_data" id="enc_data" value="">
+		</form>
+		<!-- Î≥∏Ïù∏Ïù∏Ï¶ù ÏÑúÎπÑÏä§ ÌåùÏóÖÏùÑ Ìò∏Ï∂úÌïòÍ∏∞ ÏúÑÌï¥ÏÑúÎäî Îã§ÏùåÍ≥º Í∞ôÏùÄ formÏù¥ ÌïÑÏöîÌï©ÎãàÎã§. -->
+		<form name="form_chk" id="form_chk" method="post">
+			<!-- ÌïÑÏàò Îç∞Ïù¥ÌÉÄÎ°ú, ÎàÑÎùΩÌïòÏãúÎ©¥ ÏïàÎê©ÎãàÎã§. -->
+			<input type="hidden" name="m" value="checkplusService">
+			<!-- Ïù∏Ï¶ùÏöîÏ≤≠ ÏïîÌò∏Ìôî Îç∞Ïù¥ÌÑ∞ -->
+			<input type="hidden" name="EncodeData" id="EncodeData" value="">
+		</form>
 	</div>
-	<img id="loadingImage" src="../assets/img/preloader.gif" alt="∑Œµ˘¿ÃπÃ¡ˆ" style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
-<script>
+	<img id="loadingImage" src="../assets/img/preloader.gif" alt="Î°úÎî©Ïù¥ÎØ∏ÏßÄ"
+		style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
+	<script>
 	$(function(){
 		let responseMessage = "";
 		if(responseMessage != ""){

@@ -12,16 +12,22 @@ public class reservationController {
 		return "reservation/ecoReservation";
 	}
 
+	// 캠핑장 예약
+	@RequestMapping("campReservation")
+	public String campReservation() {
+		return "reservation/campReservation";
+	}
+
 	// 생태탐방원 예약
-	@RequestMapping("reservation/ecoReservation")
+	@RequestMapping("ecoReservation")
 	public String ecoReservation() {
 		return "reservation/ecoReservation";
 	}
 
 	// 생태탐방원 예약
-	@RequestMapping("reservation/cottageReservation")
+	@RequestMapping("cottageReservation")
 	public String cottageReservation() {
 		return "reservation/cottageReservation";
 	}
-	
+
 }

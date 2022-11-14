@@ -1,19 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="ko">
-
-<!-- Mirrored from reservation.knps.or.kr:443/reservation/searchSimpleResidenceReservation.do by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 10 Nov 2022 06:59:25 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<!-- /Added by HTTrack -->
-<head>
-<meta charset="UTF-8">
+<html>
 <meta name="viewport" content="width=device-width">
-<title>±¹¸³°ø¿ø°ø´Ü ¿¹¾à½Ã½ºÅÛ</title>
-
 <link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
 
 <script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
@@ -24,259 +14,23 @@
 <script src="../assets/js/lib/toastr.min.js"></script>
 <script src="../assets/js/scripts.js"></script>
 <script src="../assets/js/common9b00.js?ver4"></script>
-</head>
 <body>
 	<div id="wrap" class="sub">
-
-
-
-
-
-
-		<header id="header">
-			<h1>
-				<a href="../index.html" class="logo">±¹¸³°ø¿ø ¿¹¾à½Ã½ºÅÛ</a>
-			</h1>
-			<nav>
-				<ul class="gnb">
-
-					<li><a href="javascript:void(0);" class="depth1">ÀÌ¿ë¾È³»</a>
-						<ul class="depth2">
-
-							<li><a href="../contents/C/serviceGuideIntro.html">¾ß¿µÀå</a></li>
-
-							<li><a href="../contents/S/serviceGuideIntro.html">´ëÇÇ¼Ò</a></li>
-
-							<li><a href="../contents/E/serviceGuideIntro.html">»ıÅÂÅ½¹æ¿ø</a></li>
-
-							<li><a href="../contents/R/serviceGuideIntro.html">¹Î¹ÚÃÌ</a></li>
-
-							<li><a href="../contents/T/serviceGuideIntro.html">Å½¹æ·Î¿¹¾àÁ¦</a></li>
-
-							<li><a href="../contents/G/serviceGuideIntro.html">Å½¹æÇÁ·Î±×·¥</a></li>
-
-						</ul></li>
-
-					<li><a href="javascript:void(0);" class="depth1">¿¹¾àÇÏ±â</a>
-						<ul class="depth2">
-
-							<li><a href="searchSimpleCampReservation.html">¾ß¿µÀå</a></li>
-
-							<li><a href="shelter/searchSimpleShelterReservation.html">´ëÇÇ¼Ò</a></li>
-
-							<li><a href="../eco/searchEcoReservation.html">»ıÅÂÅ½¹æ¿ø</a></li>
-
-							<li><a href="searchSimpleResidenceReservation.html">¹Î¹ÚÃÌ</a></li>
-
-							<li><a href="../trail/searchTrailReservation.html">Å½¹æ·Î¿¹¾àÁ¦</a></li>
-
-							<li><a href="../trprogram/searchTrailProgram.html">Å½¹æÇÁ·Î±×·¥</a></li>
-
-							<li><a href="selectCampLottery.html">ÃßÃ·Á¦</a></li>
-
-						</ul></li>
-
-					<li><a href="javascript:void(0);" class="depth1">¾Ë¸²¸¶´ç</a>
-						<ul class="depth2">
-
-							<li><a href="../community/board/notice/boardList.html">°øÁö»çÇ×</a></li>
-
-							<li><a href="../community/board/faq/boardList.html">ÀÚÁÖÇÏ´Â
-									Áú¹®</a></li>
-
-							<li><a href="../community/board/qna/boardList.html">¹¯°í
-									´äÇÏ±â</a></li>
-
-							<li><a href="../contents/rsvtRefundPolicy.html">¿¹¾à¡¤È¯ºÒÁ¤Ã¥</a></li>
-
-						</ul></li>
-
-					<li><a href="javascript:void(0);" class="depth1">¸¶ÀÌÆäÀÌÁö</a>
-						<ul class="depth2">
-
-							<li><a href="../mmb/mmbLogin.html">³ªÀÇ ¿¹¾à¸ñ·Ï</a></li>
-
-							<li><a href="../mmb/mmbLogin.html">¾Ë¸²¸Ş½ÃÁö</a></li>
-
-							<li><a href="../mmb/mmbLogin.html">Áñ°ÜÃ£±â</a></li>
-
-							<li><a href="../srchrefund/requestRefund.html">¹ÌÈ¯ºÒ±İ Á¶È¸</a></li>
-
-						</ul></li>
-
-					<li><a href="javascript:void(0);" class="depth1">±×¸°Æ÷ÀÎÆ®</a>
-						<ul class="depth2">
-
-							<li><a href="../mmb/mmbLogin603d.html"
-								onclick="fn_greenUrlChk();">¾ß¿µÀå</a></li>
-
-							<li><a href="../mmb/mmbLogin603d.html?prdDvcd=S">´ëÇÇ¼Ò</a></li>
-
-						</ul></li>
-
-				</ul>
-			</nav>
-			<div class="util-area" data-device-mode="pc">
-				<a href="../srchrefund/searchRefund.html" class="btn-refund-inquiry">
-					<i class="icon-refund-inquiry"></i> <span>¹ÌÈ¯ºÒ±İÁ¶È¸</span>
-				</a>
-
-				<!-- ºñ ·Î±×ÀÎ »óÅÂ -->
-				<a href="../mmb/mmbLogin.html" class="btn-login"> <i
-					class="icon-user-check"></i> <span>·Î±×ÀÎ</span>
-				</a> <a
-					href="https://www.knps.or.kr/portal/member/join01.do?menuNo=7020113"
-					class="btn-join" target="_blank"> <i class="icon-user-plus"></i>
-					<span>È¸¿ø°¡ÀÔ</span>
-				</a>
-
-
-				<div class="lang-area">
-					<button class="btn btn-toggle" data-popup="layer-language">
-						<i class="icon-globe"></i> <span>KR</span>
-					</button>
-					<div class="layer-language" id="layer-language">
-						<button class="btn is-active">KR</button>
-						<button class="btn"
-							onclick="location.href='../foreigner/main.html'">EN</button>
-					</div>
-				</div>
-			</div>
-			<div class="util-area" data-device-mode="mobile">
-				<button class="btn-menu" title="ÀüÃ¼ ¸Ş´º º¸±â">
-					<i class="icon-list"></i>
-				</button>
-				<div class="all-menu">
-					<div class="head">
-						<a href="../srchrefund/searchRefund.html"
-							class="btn-refund-inquiry"> <i class="icon-refund-inquiry"></i>
-							<span>¹ÌÈ¯ºÒ±İÁ¶È¸</span>
-						</a>
-
-						<!-- ºñ ·Î±×ÀÎ »óÅÂ -->
-						<a href="../mmb/mmbLogin.html" class="btn-login">·Î±×ÀÎÀÌ<br>ÇÊ¿äÇÕ´Ï´Ù.
-						</a> <a
-							href="https://www.knps.or.kr/portal/member/join01.do?menuNo=7020113"
-							class="btn-join" target="_blank"> <i class="icon-user-plus"></i>
-							<span>È¸¿ø°¡ÀÔ</span>
-						</a>
-						<div class="lang-area">
-							<button class="btn btn-toggle" data-popup="layer-language">
-								<i class="icon-globe"></i> <span>KR</span>
-							</button>
-							<div class="layer-language" id="layer-language2">
-								<button class="btn is-active">KR</button>
-								<button class="btn"
-									onclick="location.href='../foreigner/main.html'">EN</button>
-							</div>
-						</div>
-
-
-						<button class="btn-close" title="ÀüÃ¼ ¸Ş´º ´İ±â">
-							<i class="icon-close"></i>
-						</button>
-					</div>
-					<ul class="gnb">
-
-						<li><a href="javascript:void(0);" class="depth1">ÀÌ¿ë¾È³»</a>
-							<ul class="depth2">
-
-								<li><a href="../contents/C/serviceGuideIntro.html">¾ß¿µÀå</a></li>
-
-								<li><a href="../contents/S/serviceGuideIntro.html">´ëÇÇ¼Ò</a></li>
-
-								<li><a href="../contents/E/serviceGuideIntro.html">»ıÅÂÅ½¹æ¿ø</a></li>
-
-								<li><a href="../contents/R/serviceGuideIntro.html">¹Î¹ÚÃÌ</a></li>
-
-								<li><a href="../contents/T/serviceGuideIntro.html">Å½¹æ·Î¿¹¾àÁ¦</a></li>
-
-								<li><a href="../contents/G/serviceGuideIntro.html">Å½¹æÇÁ·Î±×·¥</a></li>
-
-							</ul></li>
-
-						<li><a href="javascript:void(0);" class="depth1">¿¹¾àÇÏ±â</a>
-							<ul class="depth2">
-
-								<li><a href="searchSimpleCampReservation.html">¾ß¿µÀå</a></li>
-
-								<li><a href="shelter/searchSimpleShelterReservation.html">´ëÇÇ¼Ò</a></li>
-
-								<li><a href="../eco/searchEcoReservation.html">»ıÅÂÅ½¹æ¿ø</a></li>
-
-								<li><a href="searchSimpleResidenceReservation.html">¹Î¹ÚÃÌ</a></li>
-
-								<li><a href="../trail/searchTrailReservation.html">Å½¹æ·Î¿¹¾àÁ¦</a></li>
-
-								<li><a href="../trprogram/searchTrailProgram.html">Å½¹æÇÁ·Î±×·¥</a></li>
-
-								<li><a href="selectCampLottery.html" style="display: none;">ÃßÃ·Á¦</a></li>
-
-							</ul></li>
-
-						<li><a href="javascript:void(0);" class="depth1">¾Ë¸²¸¶´ç</a>
-							<ul class="depth2">
-
-								<li><a href="../community/board/notice/boardList.html">°øÁö»çÇ×</a></li>
-
-								<li><a href="../community/board/faq/boardList.html">ÀÚÁÖÇÏ´Â
-										Áú¹®</a></li>
-
-								<li><a href="../community/board/qna/boardList.html">¹¯°í
-										´äÇÏ±â</a></li>
-
-								<li><a href="../contents/rsvtRefundPolicy.html">¿¹¾à¡¤È¯ºÒÁ¤Ã¥</a></li>
-
-							</ul></li>
-
-						<li><a href="javascript:void(0);" class="depth1">¸¶ÀÌÆäÀÌÁö</a>
-							<ul class="depth2">
-
-								<li><a href="../mmb/mmbLogin.html">³ªÀÇ
-										¿¹¾à¸ñ·Ï</a></li>
-
-								<li><a href="../mmb/mmbLogin.html">¾Ë¸²¸Ş½ÃÁö</a></li>
-
-								<li><a href="../mmb/mmbLogin.html">Áñ°ÜÃ£±â</a></li>
-
-								<li><a href="../srchrefund/requestRefund.html">¹ÌÈ¯ºÒ±İ
-										Á¶È¸</a></li>
-
-							</ul></li>
-
-						<li><a href="javascript:void(0);" class="depth1">±×¸°Æ÷ÀÎÆ®</a>
-							<ul class="depth2">
-
-								<li><a href="../mmb/mmbLogin603d.html"
-									onclick="fn_greenUrlChk();">¾ß¿µÀå</a></li>
-
-								<li><a href="../mmb/mmbLogin603d.html?prdDvcd=S">´ëÇÇ¼Ò</a></li>
-
-							</ul></li>
-
-					</ul>
-				</div>
-			</div>
-		</header>
+		<%@ include file="../common/header.jsp"%>
 		<div id="container">
-
-
-
-
-
 			<script src="../assets/js/lib/netfunnel.js"></script>
 			<script>
 
-    let selectStartDate = null;        //¼±ÅÃµÈ½ÃÀÛ³¯Â¥
-    let selectStartDayWeek = null;     //¼±ÅÃµÈ½ÃÀÛ¿äÀÏ
+    let selectStartDate = null;        //ì„ íƒëœì‹œì‘ë‚ ì§œ
+    let selectStartDayWeek = null;     //ì„ íƒëœì‹œì‘ìš”ì¼
 
-    let selectEndDate = null;          //¼±ÅÃµÈÁ¾·á³¯Â¥
-    let selectEndDayWeek = null;       //¼±ÅÃµÈÁ¾·á¿äÀÏ
+    let selectEndDate = null;          //ì„ íƒëœì¢…ë£Œë‚ ì§œ
+    let selectEndDayWeek = null;       //ì„ íƒëœì¢…ë£Œìš”ì¼
 
-    let selectCurDate = null;          //ÇöÀç ¼±ÅÃµÈ ³¯Â¥
+    let selectCurDate = null;          //í˜„ì¬ ì„ íƒëœ ë‚ ì§œ
 
-    let globalAmt = null;			   //¼±ÅÃÇÑ »óÇ°°¡°İ
-    let globalPrdNm = null;			   //¼±ÅÃÇÑ »óÇ°¸í
+    let globalAmt = null;			   //ì„ íƒí•œ ìƒí’ˆê°€ê²©
+    let globalPrdNm = null;			   //ì„ íƒí•œ ìƒí’ˆëª…
 
     var addOptionPrice = 0;
 
@@ -289,13 +43,13 @@
     let init = {
         event : function(){
 
-            //¹Î¹ÚÃÌ Å¸ÀÔ ±âº» ¼±ÅÃ
+            //ë¯¼ë°•ì´Œ íƒ€ì… ê¸°ë³¸ ì„ íƒ
             $('input[name="minbakChk"]:eq(0)').prop('checked', true);
 
-            //Ãß°¡ÀÎ¿ø ¼³Á¤ -,+ ¹öÆ° Å¬¸¯
+            //ì¶”ê°€ì¸ì› ì„¤ì • -,+ ë²„íŠ¼ í´ë¦­
             $('.add').on('click', function(){
 
-                //Ã¼·ù±â°£ °ª(¹Ú¼ö)
+                //ì²´ë¥˜ê¸°ê°„ ê°’(ë°•ìˆ˜)
                 var baksu = '';
                 $('.length-stay').each(function(){
                     if($(this).hasClass('selected')) {
@@ -303,7 +57,7 @@
                     }
                 });
 
-                //¹Î¹ÚÃÌ ÀÜ¿©ÇöÈ² ¶óµğ¿À ¼±ÅÃ ¾ÈµÇ¾î ÀÖÀ» ½Ã ¼±ÅÃ ¸øÇÏ°Ô
+                //ë¯¼ë°•ì´Œ ì”ì—¬í˜„í™© ë¼ë””ì˜¤ ì„ íƒ ì•ˆë˜ì–´ ìˆì„ ì‹œ ì„ íƒ ëª»í•˜ê²Œ
                 var checkFlag = false;
                 var selectBtnLen = $('input[name="selectBtn"]:checked').length;
 
@@ -313,21 +67,21 @@
                     checkFlag = true;
                 }
 
-                //Ã¼Å©µÈ °ÍÀÌ ¾øÀ¸¸é
+                //ì²´í¬ëœ ê²ƒì´ ì—†ìœ¼ë©´
                 if(!checkFlag) {
-                    toastrMsg("¹Î¹ÚÃÌ Å¸ÀÔÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+                    toastrMsg("ë¯¼ë°•ì´Œ íƒ€ì…ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
                     return false;
                 }else {
 
-                    //Ã³À½ input °ª
+                    //ì²˜ìŒ input ê°’
                     var inputVal = $('.addPeopleNum').val();
 
-                    if($(this).hasClass('plus')) {	//ÇÃ·¯½º ¹öÆ°ÀÏ ¶§
+                    if($(this).hasClass('plus')) {	//í”ŒëŸ¬ìŠ¤ ë²„íŠ¼ì¼ ë•Œ
                         if(inputVal < 2) {
                             //if(inputVal < 4)
                             inputVal++;
                         }
-                    } else if($(this).hasClass('minus')) {	//¸¶ÀÌ³Ê½º ¹öÆ°ÀÏ ¶§
+                    } else if($(this).hasClass('minus')) {	//ë§ˆì´ë„ˆìŠ¤ ë²„íŠ¼ì¼ ë•Œ
                         if(inputVal > 0) {
                             inputVal--;
                         } else if(inputVal <= 0) {
@@ -335,138 +89,138 @@
                         }
                     }
 
-                    //ÀÎ¿ø Ãß°¡½Ã ±İ¾× °è»ê
+                    //ì¸ì› ì¶”ê°€ì‹œ ê¸ˆì•¡ ê³„ì‚°
                     var addPrice = inputVal * addOptionPrice * baksu;
                     var bakPerPrice = globalAmt != 0 ? globalAmt.replace(/,/g, '') : globalAmt;
                     var totPrice = (Number(bakPerPrice) + (Number(inputVal*addOptionPrice)* Number(baksu))) ;
 
-                    //Ãß°¡ÀÎ¿ø ¼³Á¤ input
+                    //ì¶”ê°€ì¸ì› ì„¤ì • input
                     $('.addPeopleNum').val(inputVal);
 
-                    //ÃÑ ÀÌ¿ë±İ¾× Ãß°¡ÀÎ¿ø
-                    $('div.payment dl:eq(1)').find('dt:eq(0)').html('Ãß°¡ÀÎ¿ø : '+inputVal+'¸í');
-                    $('div.payment dl:eq(1)').find('dd:eq(0)').html(numberWithCommas(addPrice)+'¿ø');
+                    //ì´ ì´ìš©ê¸ˆì•¡ ì¶”ê°€ì¸ì›
+                    $('div.payment dl:eq(1)').find('dt:eq(0)').html('ì¶”ê°€ì¸ì› : '+inputVal+'ëª…');
+                    $('div.payment dl:eq(1)').find('dd:eq(0)').html(numberWithCommas(addPrice)+'ì›');
 
-                    $('.total').find('dd').html('<em>'+numberWithCommas(totPrice)+'</em>' +'¿ø');
+                    $('.total').find('dd').html('<em>'+numberWithCommas(totPrice)+'</em>' +'ì›');
                 }
             });
 
-            //start ´Ş·Â Å¬¸¯ ÀÌº¥Æ®
+            //start ë‹¬ë ¥ í´ë¦­ ì´ë²¤íŠ¸
             $(".calendar-cell").click(function(){
 
-                //¼û±è
+                //ìˆ¨ê¹€
                 funcArray.eleHide();
 
                 selectCurDate = $(this).data('date');
 
-                //¼±ÅÃµÈ ³¯Â¥°¡ ¾øÀ»¶§ (ÃÖÃÊ¼±ÅÃ)
+                //ì„ íƒëœ ë‚ ì§œê°€ ì—†ì„ë•Œ (ìµœì´ˆì„ íƒ)
                 if(selectStartDate == null && selectEndDate == null){
 
-                    //´Ş·Â ¹× ¼±ÅÃ°ª ÃÊ±âÈ­
+                    //ë‹¬ë ¥ ë° ì„ íƒê°’ ì´ˆê¸°í™”
                     funcArray.calendarClear();
 
-                    //¸¶Áö¸·´Ş 1ÀÏÀ» ÀÔ½Ç·Î ¼±ÅÃ½Ã
+                    //ë§ˆì§€ë§‰ë‹¬ 1ì¼ì„ ì…ì‹¤ë¡œ ì„ íƒì‹œ
                     if($(this).data('date') =='2023'+'-'+numPad('1',2)+'-'+'01'){
-                        toastrMsg("ÇØ´ç ÀÏÀº Åğ½Ç¸¸ °¡´ÉÇÕ´Ï´Ù.");
+                        toastrMsg("í•´ë‹¹ ì¼ì€ í‡´ì‹¤ë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
                         return false;
                     }
-                    //ÀÔ½Ç ¼±ÅÃ
+                    //ì…ì‹¤ ì„ íƒ
                     $(this).addClass('start').addClass('selected');
 
-                    //data-¼Ó¼º °ª °¡Á®¿À±â
+                    //data-ì†ì„± ê°’ ê°€ì ¸ì˜¤ê¸°
                     selectStartDate = selectCurDate;
                     selectStartDayWeek = $(this).data('dayweek');
                     selectEndDate = selectCurDate;
                     selectEndDayWeek = $(this).data('dayweek');
 
-                    //ÀÔ½ÇÀÏ Åğ½ÇÀÏ html º¯°æ
+                    //ì…ì‹¤ì¼ í‡´ì‹¤ì¼ html ë³€ê²½
                     $("#startDt").html(selectStartDate+" ["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $("#endDt").html(selectStartDate+" ["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $(".length-stay").removeClass('selected');
 
-                    //Åğ½Ç ¼±ÅÃ¸¸ °¡´É
+                    //í‡´ì‹¤ ì„ íƒë§Œ ê°€ëŠ¥
                     funcArray.selectPreventEvent(selectStartDate.replace(/-/g, ''));
 
-                }else if(selectStartDate != selectEndDate){ //»õ·Î¿î ÀÔ½ÇÀÏÀ» ¼±ÅÃÇßÀ»¶§
+                }else if(selectStartDate != selectEndDate){ //ìƒˆë¡œìš´ ì…ì‹¤ì¼ì„ ì„ íƒí–ˆì„ë•Œ
 
-                    //´Ş·Â ¹× ¼±ÅÃ°ª ÃÊ±âÈ­
+                    //ë‹¬ë ¥ ë° ì„ íƒê°’ ì´ˆê¸°í™”
                     funcArray.calendarClear();
 
-                    //¸¶Áö¸·´Ş 1ÀÏÀ» ÀÔ½Ç·Î ¼±ÅÃ½Ã
+                    //ë§ˆì§€ë§‰ë‹¬ 1ì¼ì„ ì…ì‹¤ë¡œ ì„ íƒì‹œ
                     if($(this).data('date') =='2023'+'-'+numPad('1',2)+'-'+'01'){
-                        toastrMsg("ÇØ´ç ÀÏÀº Åğ½Ç¸¸ °¡´ÉÇÕ´Ï´Ù.");
+                        toastrMsg("í•´ë‹¹ ì¼ì€ í‡´ì‹¤ë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
                         return false;
                     }
 
-                    //ÀÔ½Ç ¼±ÅÃ
+                    //ì…ì‹¤ ì„ íƒ
                     $(this).addClass('start').addClass('selected');
 
-                    //¼±ÅÃµÈ°ª °»½Å
+                    //ì„ íƒëœê°’ ê°±ì‹ 
                     selectStartDate = selectCurDate;
                     selectStartDayWeek = $(this).data('dayweek');
                     selectEndDate = selectCurDate;
                     selectEndDayWeek = $(this).data('dayweek');
 
-                    //ÀÔ½ÇÀÏ Åğ½ÇÀÏ html º¯°æ
+                    //ì…ì‹¤ì¼ í‡´ì‹¤ì¼ html ë³€ê²½
                     $("#startDt").html(selectCurDate+" ["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $("#endDt").html(selectCurDate+" ["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $(".length-stay").removeClass('selected');
 
-                    //Åğ½Ç ¼±ÅÃ¸¸ °¡´É
+                    //í‡´ì‹¤ ì„ íƒë§Œ ê°€ëŠ¥
                     funcArray.selectPreventEvent(selectStartDate.replace(/-/g, ''));
 
-                }else if(selectStartDate == selectCurDate){ //´çÀÏ¿¡¼­ ´çÀÏÀ» ÇÑ¹ø ´õ Å¬¸¯ÇßÀ»¶§
+                }else if(selectStartDate == selectCurDate){ //ë‹¹ì¼ì—ì„œ ë‹¹ì¼ì„ í•œë²ˆ ë” í´ë¦­í–ˆì„ë•Œ
 
-                    //´Ş·Â ¹× ¼±ÅÃ°ª ÃÊ±âÈ­
+                    //ë‹¬ë ¥ ë° ì„ íƒê°’ ì´ˆê¸°í™”
                     funcArray.calendarClear();
 
-                    //ÀÔ½Ç ¼±ÅÃ
+                    //ì…ì‹¤ ì„ íƒ
                     $(this).addClass('start').addClass('selected');
 
-                    //¼±ÅÃµÈ°ª °»½Å
+                    //ì„ íƒëœê°’ ê°±ì‹ 
                     selectStartDate = selectCurDate;
                     selectStartDayWeek = $(this).data('dayweek');
                     selectEndDate = selectCurDate;
                     selectEndDayWeek = $(this).data('dayweek');
 
-                    //ÀÔ½ÇÀÏ Åğ½ÇÀÏ html º¯°æ
+                    //ì…ì‹¤ì¼ í‡´ì‹¤ì¼ html ë³€ê²½
                     $("#startDt").html(selectStartDate+" ["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $("#endDt").html(selectStartDate+" ["+funcArray.getDayWeekNm(selectStartDayWeek)+"]");
                     $(".length-stay").removeClass('selected');
 
-                }else{  //±×¿Ü ³ª¸ÓÁö °æ¿ì´Â Åğ½ÇÀÏ ¼±ÅÃ
+                }else{  //ê·¸ì™¸ ë‚˜ë¨¸ì§€ ê²½ìš°ëŠ” í‡´ì‹¤ì¼ ì„ íƒ
 
-                    let nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //³¯Â¥°è»ê
+                    let nightDays = (new Date(selectCurDate) - new Date(selectStartDate))/1000/60/60/24;    //ë‚ ì§œê³„ì‚°
 
-                    //Åğ½ÇÀÏ ³¯Â¥°è»ê
+                    //í‡´ì‹¤ì¼ ë‚ ì§œê³„ì‚°
                     if(selectStartDate > selectCurDate){
 
-                        toastrMsg("Åğ½ÇÀÏÀº ÀÔ½ÇÀÏº¸´Ù Ä¿¾ßÇÕ´Ï´Ù.");
-                        //´Ş·Â ¹× ¼±ÅÃ°ª ÃÊ±âÈ­
+                        toastrMsg("í‡´ì‹¤ì¼ì€ ì…ì‹¤ì¼ë³´ë‹¤ ì»¤ì•¼í•©ë‹ˆë‹¤.");
+                        //ë‹¬ë ¥ ë° ì„ íƒê°’ ì´ˆê¸°í™”
                         funcArray.calendarClear();
                         return false;
 
                     }else if(nightDays > 3) {
 
-                        toastrMsg("ÃÖ´ë 3¹Ú 4ÀÏ±îÁö ¿¹¾à °¡´ÉÇÕ´Ï´Ù.");
-                        //´Ş·Â ¹× ¼±ÅÃ°ª ÃÊ±âÈ­
+                        toastrMsg("ìµœëŒ€ 3ë°• 4ì¼ê¹Œì§€ ì˜ˆì•½ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+                        //ë‹¬ë ¥ ë° ì„ íƒê°’ ì´ˆê¸°í™”
                         funcArray.calendarClear();
                         return false;
 
-                    }else{//Åğ½Ç ¼±ÅÃ
+                    }else{//í‡´ì‹¤ ì„ íƒ
 
                         $(this).addClass('end').addClass('selected');
 
-                        //¼±ÅÃµÈ°ª °»½Å
+                        //ì„ íƒëœê°’ ê°±ì‹ 
                         selectEndDate = selectCurDate;
                         selectEndDayWeek = $(this).data('dayweek');
                         $("#endDt").html(selectEndDate+" ["+funcArray.getDayWeekNm(selectEndDayWeek)+"]");
                         $(".length-stay").removeClass('selected');
-                        $("#nightDays"+nightDays).addClass('selected');     //Ã¼·ù±â°£ ¼±ÅÃ
+                        $("#nightDays"+nightDays).addClass('selected');     //ì²´ë¥˜ê¸°ê°„ ì„ íƒ
 
-                        $('#lengthTxt').html('<em class="text-success">'+$("#nightDays"+nightDays).text()+'</em>À» ¼±ÅÃÇÏ¼Ì½À´Ï´Ù.');	//»ç¿ë±â°£ ÅØ½ºÆ®
+                        $('#lengthTxt').html('<em class="text-success">'+$("#nightDays"+nightDays).text()+'</em>ì„ ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤.');	//ì‚¬ìš©ê¸°ê°„ í…ìŠ¤íŠ¸
 
-                        //»çÀÌ°ª ¼±ÅÃµÈ°É·Î Ç¥½ÃÇÏ±â.
+                        //ì‚¬ì´ê°’ ì„ íƒëœê±¸ë¡œ í‘œì‹œí•˜ê¸°.
                         let date = new Date(selectStartDate);
                         for(let i=1; i<nightDays; i++){
                             date.setDate(date.getDate()+1);
@@ -476,26 +230,26 @@
                     }
                 }
 
-            });	//end ´Ş·Â Å¬¸¯ ÀÌº¥Æ®
+            });	//end ë‹¬ë ¥ í´ë¦­ ì´ë²¤íŠ¸
 
-            //»õ·Î°íÄ§ ¹öÆ°
+            //ìƒˆë¡œê³ ì¹¨ ë²„íŠ¼
             $('button.btn-refresh').on('click', function(){
                 location.href = 'searchSimpleResidenceReservation.html';
             });
 
-            //¿¹¾àÇÏ±â ¹öÆ° À¯È¿¼º(¹Î¹ÚÃÌÀ» ¼±ÅÃÇØÁÖ¼¼¿ä)
+            //ì˜ˆì•½í•˜ê¸° ë²„íŠ¼ ìœ íš¨ì„±(ë¯¼ë°•ì´Œì„ ì„ íƒí•´ì£¼ì„¸ìš”)
             $(document).on('click', '.btn-register', function(e){
 
                 e.stopImmediatePropagation();
 
                 if($(this).attr('onclick') == '') {
                     e.preventDefault();
-                    toastrMsg("¿¹¾à ¿É¼ÇÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+                    toastrMsg("ì˜ˆì•½ ì˜µì…˜ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
                     return false;
                 }
             });
 
-            //Ä¸Ã­ input ¼ıÀÚ¸¸ ÀÔ·Â °¡´É
+            //ìº¡ì±  input ìˆ«ìë§Œ ì…ë ¥ ê°€ëŠ¥
             $(document).on('keyup','#captInput', function () {
 
                 let check = /^[0-9]+$/;
@@ -511,7 +265,7 @@
                 }
             });
 
-            //ÀÚµ¿¹æÁö ÀÔ·Â¹®ÀÚ ÆË¾÷ È®ÀÎ ¹öÆ°
+            //ìë™ë°©ì§€ ì…ë ¥ë¬¸ì íŒì—… í™•ì¸ ë²„íŠ¼
             $(document).on('click','#btnSubmit', function(e){
                 e.stopImmediatePropagation();
                 showLoading();
@@ -526,20 +280,20 @@
     }
 
     let funcArray = {
-        //¿äÀÏ ÇÑ±Û¸íÀ¸·Î return
+        //ìš”ì¼ í•œê¸€ëª…ìœ¼ë¡œ return
         getDayWeekNm : function(dayWeek){
             switch (dayWeek) {
-                case 1: return "¿ù";
-                case 2: return "È­";
-                case 3: return "¼ö";
-                case 4: return "¸ñ";
-                case 5: return "±İ";
-                case 6: return "Åä";
-                case 7: return "ÀÏ";
+                case 1: return "ì›”";
+                case 2: return "í™”";
+                case 3: return "ìˆ˜";
+                case 4: return "ëª©";
+                case 5: return "ê¸ˆ";
+                case 6: return "í† ";
+                case 7: return "ì¼";
             }
         },
 
-        //¼û±è
+        //ìˆ¨ê¹€
         eleHide : function() {
             $('.remainDiv').hide();
             $('.residenceProgram').hide();
@@ -547,10 +301,10 @@
             $('.totTitle').hide();
             $('div.payment').hide();
             $('.btn-register').closest('div').parent('div').hide();
-            $('div.reserv').html('<a href="javascript:void(0);" onclick="" class="btn btn-register is-active">¿¹¾àÇÏ±â</a>');
+            $('div.reserv').html('<a href="javascript:void(0);" onclick="" class="btn btn-register is-active">ì˜ˆì•½í•˜ê¸°</a>');
         },
 
-        //º¸±â
+        //ë³´ê¸°
         eleShow : function() {
             $('.remainDiv').show();
             $('.residenceProgram').show();
@@ -560,7 +314,7 @@
             $('.btn-register').closest('div').parent('div').show();
         },
 
-        //'Åğ½Ç' Å¬¸¯ ¼ø¼­ÀÎ °æ¿ì¸¸ ¼¼¹øÂ° ´ŞÀÇ 1ÀÏ ¼±ÅÃ °¡´É(ÀÔ½Ç ¼±ÅÃÇÒ ¶§ ¾Æ¿¹ ¸øÇÏ°Ô ÇÏ±â)
+        //'í‡´ì‹¤' í´ë¦­ ìˆœì„œì¸ ê²½ìš°ë§Œ ì„¸ë²ˆì§¸ ë‹¬ì˜ 1ì¼ ì„ íƒ ê°€ëŠ¥(ì…ì‹¤ ì„ íƒí•  ë•Œ ì•„ì˜ˆ ëª»í•˜ê²Œ í•˜ê¸°)
         selectPreventEvent : function(val) {
             
             if('20230101' == val) {
@@ -719,7 +473,7 @@
             }
             
         },
-        //´Ş·Â ¹× ¼±ÅÃ°ª ÃÊ±âÈ­
+        //ë‹¬ë ¥ ë° ì„ íƒê°’ ì´ˆê¸°í™”
         calendarClear : function(){
             //clear
             $('.start').removeClass('start');
@@ -733,25 +487,25 @@
             selectStartDate = null;
             selectEndDate = null;
         },
-        //ÀçÁ¶È¸ ½Ã ÃÊ±âÈ­
+        //ì¬ì¡°íšŒ ì‹œ ì´ˆê¸°í™”
         clearSelectVal : function() {
-            $('.addPeopleNum').val(0);	//Ãß°¡ÀÎ¿ø
+            $('.addPeopleNum').val(0);	//ì¶”ê°€ì¸ì›
             $('div.payment dl:eq(0)').find('dt').text('-');
-            $('div.payment dl:eq(0)').find('dd').text('0¿ø');
-            $('div.payment dl:eq(1)').find('dt:eq(0)').text('-');	//»óÇ°¸í
-            $('div.payment dl:eq(1)').find('dd:eq(0)').text('0¿ø');
-            $('div.payment dl:eq(1)').find('dt:eq(1)').text('Ãß°¡ÀÎ¿ø : 0¸í');
-            $('div.payment dl:eq(1)').find('dd:eq(1)').text('0¿ø');
-            $('.total').find('dd').html('<em>0</em>¿ø');
+            $('div.payment dl:eq(0)').find('dd').text('0ì›');
+            $('div.payment dl:eq(1)').find('dt:eq(0)').text('-');	//ìƒí’ˆëª…
+            $('div.payment dl:eq(1)').find('dd:eq(0)').text('0ì›');
+            $('div.payment dl:eq(1)').find('dt:eq(1)').text('ì¶”ê°€ì¸ì› : 0ëª…');
+            $('div.payment dl:eq(1)').find('dd:eq(1)').text('0ì›');
+            $('.total').find('dd').html('<em>0</em>ì›');
         },
-        //ÀÚµ¿¹æÁö ÀÔ·Â¹®ÀÚ ÆË¾÷ Ãë¼Ò ½Ã
+        //ìë™ë°©ì§€ ì…ë ¥ë¬¸ì íŒì—… ì·¨ì†Œ ì‹œ
         removeReserLayer : function(){
             $("#automatic-character").hide();
             $("#pnlRsrImg").html("");
             $('#automatic-character').empty();
             maskBackgroundOff();
         },
-        //¿¹¾à¿Ï·á ÆË¾÷ ´İ±â
+        //ì˜ˆì•½ì™„ë£Œ íŒì—… ë‹«ê¸°
         removeSucReservPop : function() {
             $('#reservation-information1').empty();
             closePopup('reservation-information1');
@@ -760,7 +514,7 @@
         closeSucReservPop : function() {
             location.reload();
         },
-        //F5 »õ·Î°íÄ§ ¸·±â
+        //F5 ìƒˆë¡œê³ ì¹¨ ë§‰ê¸°
         noRefreshEvent : function() {
             if (event.keyCode == 116) {
                 event.keyCode= 2;
@@ -771,7 +525,7 @@
                 return false;
             }
         },
-        //¶óµğ¿À ¼±ÅÃ ½Ã
+        //ë¼ë””ì˜¤ ì„ íƒ ì‹œ
         checked : function(obj) {
 
             var id = $(obj).attr('id');
@@ -780,7 +534,7 @@
             var prdSalAmt = $(obj).data('amt');
             var remainCnt = $(obj).data('cnt');
 
-            //Àü¿ª º¯¼ö¿¡ ¼¼ÆÃ.
+            //ì „ì—­ ë³€ìˆ˜ì— ì„¸íŒ….
             globalAmt = prdSalAmt;
 
             $('input[name="selectBtn"]').each(function(){
@@ -791,7 +545,7 @@
                 }
             });
 
-            //Ã¼·ù±â°£ °ª(¹Ú¼ö)
+            //ì²´ë¥˜ê¸°ê°„ ê°’(ë°•ìˆ˜)
             var baksu = '';
             $('.length-stay').each(function(){
                 if($(this).hasClass('selected')) {
@@ -799,34 +553,34 @@
                 }
             });
 
-            //¼±ÅÃ ½Ã ±İ¾× ¼¼ÆÃ
+            //ì„ íƒ ì‹œ ê¸ˆì•¡ ì„¸íŒ…
             var bakPerPrice = prdSalAmt != 0 ? prdSalAmt.replace(/,/g, '') : prdSalAmt;
             var totProdPrice = Number(bakPerPrice);
             var totPrice = (Number(bakPerPrice) + (Number($('.addPeopleNum').val()*addOptionPrice)* Number(baksu))) ;
 
-            //»óÇ°¸í°ú »óÇ°°¡°İ ¼¼ÆÃ
+            //ìƒí’ˆëª…ê³¼ ìƒí’ˆê°€ê²© ì„¸íŒ…
             $('div.payment dl:eq(0)').find('dt:eq(0)').html(prdNm);
-            $('div.payment dl:eq(0)').find('dd:eq(0)').html(numberWithCommas(totProdPrice)+'¿ø');
+            $('div.payment dl:eq(0)').find('dd:eq(0)').html(numberWithCommas(totProdPrice)+'ì›');
 
-            //ÃÑ ÀÌ¿ë±İ¾× °áÁ¦ (¿¹Á¤) ±İ¾×
-            $('.total').find('dd').html('<em>'+numberWithCommas(totPrice)+'</em>' +'¿ø');
+            //ì´ ì´ìš©ê¸ˆì•¡ ê²°ì œ (ì˜ˆì •) ê¸ˆì•¡
+            $('.total').find('dd').html('<em>'+numberWithCommas(totPrice)+'</em>' +'ì›');
 
-            //¸ğµç ¿É¼ÇÀ» ´Ù ¼±ÅÃÇßÀ» ½Ã ¿¹¾àÇÏ±â ¹öÆ°À¸·Î(¹öÆ° ºñÈ°¼ºÃ³¸® È®ÀÎÇØºÁ¾ßÇÒµí..)
+            //ëª¨ë“  ì˜µì…˜ì„ ë‹¤ ì„ íƒí–ˆì„ ì‹œ ì˜ˆì•½í•˜ê¸° ë²„íŠ¼ìœ¼ë¡œ(ë²„íŠ¼ ë¹„í™œì„±ì²˜ë¦¬ í™•ì¸í•´ë´ì•¼í• ë“¯..)
             if(selectStartDate != null && selectStartDate != '' && selectEndDate != null && selectEndDate != '') {
                 if(selectStartDate != selectEndDate) {
-                    $('div.reserv').html("<a href='javascript:void(0);' onclick=\"funcArray.goReserv('"+prdNm+"','"+value+"')"+"\" class='btn btn-register is-active'>¿¹¾àÇÏ±â</a>");
+                    $('div.reserv').html("<a href='javascript:void(0);' onclick=\"funcArray.goReserv('"+prdNm+"','"+value+"')"+"\" class='btn btn-register is-active'>ì˜ˆì•½í•˜ê¸°</a>");
                 }
             }
         },
-        //ÇÁ·Î±×·¥ ±×¸®±â
+        //í”„ë¡œê·¸ë¨ ê·¸ë¦¬ê¸°
         drawProgram : function(){
 
-            //°ªµé ÃÊ±âÈ­
+            //ê°’ë“¤ ì´ˆê¸°í™”
             funcArray.clearSelectVal();
 
-            //¿¹¾à ³¯Â¥ ¼±ÅÃ À¯È¿¼º Ã¼Å©
+            //ì˜ˆì•½ ë‚ ì§œ ì„ íƒ ìœ íš¨ì„± ì²´í¬
             if(selectStartDate == null || selectStartDate == '' || selectEndDate == null || selectEndDate == '' || selectStartDate == selectEndDate) {
-                toastrMsg("¿¹¾à³¯Â¥¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
+                toastrMsg("ì˜ˆì•½ë‚ ì§œë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
                 return false;
             }
 
@@ -841,13 +595,13 @@
                 }
             });
 
-            //¹Î¹ÚÃÌ Å¸ÀÔ ¼±ÅÃ Ã¼Å©
+            //ë¯¼ë°•ì´Œ íƒ€ì… ì„ íƒ ì²´í¬
             if(!minbakChkFlag) {
-                toastrMsg("¹Î¹ÚÃÌ Å¸ÀÔÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+                toastrMsg("ë¯¼ë°•ì´Œ íƒ€ì…ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
                 return false;
             }
 
-            //Ã¼Å©ÇÑ ³¯Â¥ »ç¿ëÀÏ ¹è¿­ ±¸ÇØ¼­ °°ÀÌ º¸³¿.
+            //ì²´í¬í•œ ë‚ ì§œ ì‚¬ìš©ì¼ ë°°ì—´ êµ¬í•´ì„œ ê°™ì´ ë³´ëƒ„.
             var checkDateArr = new Array();
 
             $.each($('.calendar-cell'), function(){
@@ -877,10 +631,10 @@
 
                         $(".residenceProgram .tbody").empty();
 
-                        //¹Î¹ÚÃÌ ¿¹¾àÇöÈ² ±×¸®±â
+                        //ë¯¼ë°•ì´Œ ì˜ˆì•½í˜„í™© ê·¸ë¦¬ê¸°
                         if(reservList != null && reservList != '' && reservList.length > 0) {
 
-                            //º¸ÀÌ±â
+                            //ë³´ì´ê¸°
                             funcArray.eleShow();
 
                             $.each(reservList, function(i, item){
@@ -890,11 +644,11 @@
                                 tblHtml +='    <td class="form">';
                                 tblHtml +='			<span>'+item.resiRoomInfo+'</span>';
                                 tblHtml +='    </td>';
-                                tblHtml +='    <td>'+numberWithCommas(item.prdSalAmt)+'¿ø</td>';
+                                tblHtml +='    <td>'+numberWithCommas(item.prdSalAmt)+'ì›</td>';
                                 tblHtml +='</tr>';
                             });
 
-                            //¿É¼Ç±İ¾× ¼¼ÆÃ
+                            //ì˜µì…˜ê¸ˆì•¡ ì„¸íŒ…
                             if(optionPrice != null && optionPrice != '' && typeof optionPrice != 'undefined') {
 
                                 if(optionPrice == 0) {
@@ -909,13 +663,13 @@
 
                         } else {
 
-                            //º¸ÀÌ±â
+                            //ë³´ì´ê¸°
                             funcArray.eleShow();
 
                             tblHtml +='<tr>';
                             tblHtml +='		<td colspan="4">';
                             tblHtml +='			<div class="nodata">';
-                            tblHtml +='				<span>¿¹¾à°¡´ÉÇÑ °´½ÇÀÌ ¾ø½À´Ï´Ù. ´Ù¸¥ Á¶°ÇÀ¸·Î Á¶È¸ÇØÁÖ¼¼¿ä.</span>';
+                            tblHtml +='				<span>ì˜ˆì•½ê°€ëŠ¥í•œ ê°ì‹¤ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ë¥¸ ì¡°ê±´ìœ¼ë¡œ ì¡°íšŒí•´ì£¼ì„¸ìš”.</span>';
                             tblHtml +='			</div>';
                             tblHtml +='		</td>';
                             tblHtml +='</tr>';
@@ -932,63 +686,63 @@
                 });
             });
 
-        },//end ÇÁ·Î±×·¥ ±×¸®±â
+        },//end í”„ë¡œê·¸ë¨ ê·¸ë¦¬ê¸°
 
-        //ÀÚµ¿¹æÁö ÀÔ·Â¹®ÀÚ ÆË¾÷ ¼¼ÆÃ
+        //ìë™ë°©ì§€ ì…ë ¥ë¬¸ì íŒì—… ì„¸íŒ…
         drawAutoPreventPop : function() {
 
             var autoHtml = '';
 
             autoHtml += '     <div class="popup-wrap" style="top: 65px; bottom: 150px;">';
             autoHtml += '         <div class="popup-head">';
-            autoHtml += '             <strong class="popup-title">¿¹¾à°¡´É</strong>';
-            autoHtml += '             <button type="button" class="btn-close" onclick="funcArray.removeReserLayer();" title="´İ±â">';
+            autoHtml += '             <strong class="popup-title">ì˜ˆì•½ê°€ëŠ¥</strong>';
+            autoHtml += '             <button type="button" class="btn-close" onclick="funcArray.removeReserLayer();" title="ë‹«ê¸°">';
             autoHtml += '                 <i class="icon-close"></i>';
             autoHtml += '             </button>';
             autoHtml += '         </div>';
             autoHtml += '         <div class="popup-container">';
             autoHtml += '             <table class="table">';
-            autoHtml += '                 <caption>ÀÚµ¿¹æÁö ÀÔ·Â¹®ÀÚ</caption>';
+            autoHtml += '                 <caption>ìë™ë°©ì§€ ì…ë ¥ë¬¸ì</caption>';
             autoHtml += '                 <colgroup>';
             autoHtml += '                     <col style="width: 140px;">';
             autoHtml += '                     <col>';
             autoHtml += '                 </colgroup>';
             autoHtml += '                 <tbody class="tbody">';
             autoHtml += '                     <tr>';
-            autoHtml += '                         <th scope="row">¿¹¾à»óÇ°</th>';
+            autoHtml += '                         <th scope="row">ì˜ˆì•½ìƒí’ˆ</th>';
             autoHtml += '                         <td id="txtShelterNm"></td>';
             autoHtml += '                     </tr>';
             autoHtml += '                     <tr>';
-            autoHtml += '                         <th scope="row">»ç¿ë±â°£</th>';
+            autoHtml += '                         <th scope="row">ì‚¬ìš©ê¸°ê°„</th>';
             autoHtml += '						  <td id="selRsrvtQntt"></td>';
             autoHtml += '                     </tr>';
             autoHtml += '                     <tr>';
-            autoHtml += '                         <th scope="row">ÀÔ½Ç³¯Â¥</th>';
+            autoHtml += '                         <th scope="row">ì…ì‹¤ë‚ ì§œ</th>';
             autoHtml += '                         <td id="txtUseBgnDate"></td>';
             autoHtml += '                     </tr>';
             autoHtml += '                     <tr>';
-            autoHtml += '                         <th scope="row">Åğ½Ç³¯Â¥</th>';
+            autoHtml += '                         <th scope="row">í‡´ì‹¤ë‚ ì§œ</th>';
             autoHtml += '                         <td id="txtUseEndDate"></td>';
             autoHtml += '                     </tr>';
             autoHtml += '                     <tr>';
-            autoHtml += '                         <th scope="row">Ãß°¡ÀÎ¿ø</th>';
+            autoHtml += '                         <th scope="row">ì¶”ê°€ì¸ì›</th>';
             autoHtml += '                         <td id="addInwon"></td>';
             autoHtml += '                     </tr>';
             autoHtml += '                     <tr>';
-            autoHtml += '                         <th scope="row">°áÁ¦(¿¹Á¤)±İ¾×</th>';
+            autoHtml += '                         <th scope="row">ê²°ì œ(ì˜ˆì •)ê¸ˆì•¡</th>';
             autoHtml += '                         <td id="selPrice"></td>';
             autoHtml += '                     </tr>';
             autoHtml += '                 </tbody>';
             autoHtml += '             </table>';
             autoHtml += '             <div class="captcha-area">';
-            autoHtml += '                 <span class="label">ÀÚµ¿¿¹¾à ¹æÁö¹®ÀÚ</span>';
-            autoHtml += '                 <span class="captcha" id="pnlRsrImg">Ä¸Ã­¿µ¿ª</span>';
-            autoHtml += '                 <label for="captInput" class="hidden-text">ÀÚµ¿¿¹¾à ¹æÁö¹®ÀÚ</label><input type="text" class="input-text" id="captInput" title="ÀÚµ¿¿¹¾à ¹æÁö¹®ÀÚ" maxlength="4">';
+            autoHtml += '                 <span class="label">ìë™ì˜ˆì•½ ë°©ì§€ë¬¸ì</span>';
+            autoHtml += '                 <span class="captcha" id="pnlRsrImg">ìº¡ì± ì˜ì—­</span>';
+            autoHtml += '                 <label for="captInput" class="hidden-text">ìë™ì˜ˆì•½ ë°©ì§€ë¬¸ì</label><input type="text" class="input-text" id="captInput" title="ìë™ì˜ˆì•½ ë°©ì§€ë¬¸ì" maxlength="4">';
             autoHtml += '             </div>';
-            autoHtml += '             <p class="copy-notice">¡Ø ¿¹¾à ¿Ï·áµÈ »óÇ°¿¡ ´ëÇØ¼­´Â ¸¶ÀÌÆäÀÌÁö ³ªÀÇ¿¹¾à¸ñ·Ï ¿¡¼­ È®ÀÎ ÈÄ °áÁ¦ °¡´ÉÇÕ´Ï´Ù.</p>';
+            autoHtml += '             <p class="copy-notice">â€» ì˜ˆì•½ ì™„ë£Œëœ ìƒí’ˆì— ëŒ€í•´ì„œëŠ” ë§ˆì´í˜ì´ì§€ ë‚˜ì˜ì˜ˆì•½ëª©ë¡ ì—ì„œ í™•ì¸ í›„ ê²°ì œ ê°€ëŠ¥í•©ë‹ˆë‹¤.</p>';
             autoHtml += '             <div class="btn-area">';
-            autoHtml += '                 <button class="btn btn-cancel" id="btnClose" onclick="funcArray.removeReserLayer();">Ãë¼Ò</button>';
-            autoHtml += '                 <button class="btn btn-confirm is-active" id="btnSubmit">È®ÀÎ</button>';
+            autoHtml += '                 <button class="btn btn-cancel" id="btnClose" onclick="funcArray.removeReserLayer();">ì·¨ì†Œ</button>';
+            autoHtml += '                 <button class="btn btn-confirm is-active" id="btnSubmit">í™•ì¸</button>';
             autoHtml += '             </div>';
             autoHtml += '         </div>';
             autoHtml += '     </div>';
@@ -997,27 +751,27 @@
 
         },
 
-        //¿¹¾à¿Ï·á ÆË¾÷
+        //ì˜ˆì•½ì™„ë£Œ íŒì—…
         drawSucReservPop : function(prdNm, expiDtm) {
 
             var popHtml = '';
 
             popHtml += '<div class="popup-wrap">';
             popHtml += '	<div class="popup-head">';
-            popHtml += '		<strong class="popup-title">¿¹¾à¿Ï·á¾È³»</strong>';
-            popHtml += '		<button type="button" class="btn-close" onclick="funcArray.closeSucReservPop();" title="´İ±â">';
+            popHtml += '		<strong class="popup-title">ì˜ˆì•½ì™„ë£Œì•ˆë‚´</strong>';
+            popHtml += '		<button type="button" class="btn-close" onclick="funcArray.closeSucReservPop();" title="ë‹«ê¸°">';
             popHtml += '			<i class="icon-close"></i>';
             popHtml += '		</button>';
             popHtml += '	</div>';
             popHtml += '	<div class="popup-container">';
             popHtml += '		<div class="center">';
             popHtml += '			<i class="icon-check"></i>';
-            popHtml += '			<strong class="title-1">¿¹¾àÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.</strong>';
-            popHtml += '			<p class="copy-mid">'+prdNm+'ÀÇ <br>°áÁ¦ ¸¸±âÀÏ½Ã´Â <em>'+expiDtm+'</em> ±îÁö ÀÔ´Ï´Ù.<br>¹Ì °áÁ¦½Ã ÀÚµ¿ Ãë¼ÒµÇ´Ï À¯ÀÇ ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.</p>';
-            popHtml += '			<p class="copy-sm">¸¶ÀÌÆäÀÌÁö ³ªÀÇ¿¹¾à¸ñ·Ï ¿¡¼­ È®ÀÎ ÈÄ °áÁ¦¸¦ °è¼Ó ÁøÇàÇØÁÖ¼¼¿ä.</p>';
+            popHtml += '			<strong class="title-1">ì˜ˆì•½ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.</strong>';
+            popHtml += '			<p class="copy-mid">'+prdNm+'ì˜ <br>ê²°ì œ ë§Œê¸°ì¼ì‹œëŠ” <em>'+expiDtm+'</em> ê¹Œì§€ ì…ë‹ˆë‹¤.<br>ë¯¸ ê²°ì œì‹œ ìë™ ì·¨ì†Œë˜ë‹ˆ ìœ ì˜ í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤.</p>';
+            popHtml += '			<p class="copy-sm">ë§ˆì´í˜ì´ì§€ ë‚˜ì˜ì˜ˆì•½ëª©ë¡ ì—ì„œ í™•ì¸ í›„ ê²°ì œë¥¼ ê³„ì† ì§„í–‰í•´ì£¼ì„¸ìš”.</p>';
             popHtml += '		</div>';
             popHtml += '		<div class="btn-area">';
-            popHtml += '			<a href="/mypage/dashBoard.do" class="btn btn-link">³ªÀÇ ¿¹¾à¸ñ·Ï º¸±â</a>';
+            popHtml += '			<a href="/mypage/dashBoard.do" class="btn btn-link">ë‚˜ì˜ ì˜ˆì•½ëª©ë¡ ë³´ê¸°</a>';
             popHtml += '		</div>';
             popHtml += '	</div>';
             popHtml += '</div>';
@@ -1027,20 +781,20 @@
 
         },
 
-        //¿¹¾àÇÏ±â Àü ÀÚµ¿¹æÁö¹®ÀÚ ÆË¾÷ ¼¼ÆÃ
+        //ì˜ˆì•½í•˜ê¸° ì „ ìë™ë°©ì§€ë¬¸ì íŒì—… ì„¸íŒ…
         beforeReser : function(prdNm, prdId) {
 
-            var parkNm = 'ÅÂ¹é»ê'; 	//±¹¸³°ø¿ø
-            var txtShelterNm = '';	//¹Î¹ÚÃÌ¸í
-            var txtUseBgnDate = '';	//½ÃÀÛÀÏ
-            var txtUseEndDate = '';	//Á¾·áÀÏ
-            var selRsrvtQntt = '';	//¹Ú¼ö
-            var selPrice = '';		//°¡°İ
+            var parkNm = 'íƒœë°±ì‚°'; 	//êµ­ë¦½ê³µì›
+            var txtShelterNm = '';	//ë¯¼ë°•ì´Œëª…
+            var txtUseBgnDate = '';	//ì‹œì‘ì¼
+            var txtUseEndDate = '';	//ì¢…ë£Œì¼
+            var selRsrvtQntt = '';	//ë°•ìˆ˜
+            var selPrice = '';		//ê°€ê²©
 
-            //ÀÚµ¿¹æÁö ÀÔ·Â¹®ÀÚ ÆË¾÷ ¼¼ÆÃ
+            //ìë™ë°©ì§€ ì…ë ¥ë¬¸ì íŒì—… ì„¸íŒ…
             funcArray.drawAutoPreventPop();
 
-            //Ã¼·ù±â°£ °ª(¹Ú¼ö)
+            //ì²´ë¥˜ê¸°ê°„ ê°’(ë°•ìˆ˜)
             var checkPer = '';
             $('.length-stay').each(function(){
                 if($(this).hasClass('selected')) {
@@ -1049,61 +803,61 @@
                 }
             });
 
-            //¼±ÅÃÇÑ ¹Î¹ÚÃÌ ¸í
+            //ì„ íƒí•œ ë¯¼ë°•ì´Œ ëª…
             txtShelterNm = prdNm;
-            //½ÃÀÛÀÏ
+            //ì‹œì‘ì¼
             txtUseBgnDate = $('#startDt').text();
-            //Á¾·áÀÏ
+            //ì¢…ë£Œì¼
             txtUseEndDate = $('#endDt').text();
-            //°¡°İ
+            //ê°€ê²©
             selPrice = $('.total').find('dd em').text();
 
-            //ÆË¾÷¿¡ ¼¼ÆÃ
-            $('#txtShelterNm').html(txtShelterNm);		//¹Î¹ÚÃÌ
-            $('#txtUseBgnDate').text(txtUseBgnDate);	//½ÃÀÛÀÏ
-            $('#txtUseEndDate').text(txtUseEndDate);	//Á¾·áÀÏ
-            $('#selRsrvtQntt').text(selRsrvtQntt);		//¹Ú¼ö
-            $('#selPrice').text(selPrice+'¿ø (ºÎ°¡¼¼ Æ÷ÇÔ)');			//°¡°İ
-            $("#period").val(checkPer);					//Ã¼·ù±â°£ °ª hidden
-            $('#addInwon').text($('.addPeopleNum').val() == 0 ? '¾øÀ½' : $('.addPeopleNum').val()+'¸í');
+            //íŒì—…ì— ì„¸íŒ…
+            $('#txtShelterNm').html(txtShelterNm);		//ë¯¼ë°•ì´Œ
+            $('#txtUseBgnDate').text(txtUseBgnDate);	//ì‹œì‘ì¼
+            $('#txtUseEndDate').text(txtUseEndDate);	//ì¢…ë£Œì¼
+            $('#selRsrvtQntt').text(selRsrvtQntt);		//ë°•ìˆ˜
+            $('#selPrice').text(selPrice+'ì› (ë¶€ê°€ì„¸ í¬í•¨)');			//ê°€ê²©
+            $("#period").val(checkPer);					//ì²´ë¥˜ê¸°ê°„ ê°’ hidden
+            $('#addInwon').text($('.addPeopleNum').val() == 0 ? 'ì—†ìŒ' : $('.addPeopleNum').val()+'ëª…');
 
-            //ÀÚµ¿¿¹¾à ¹æÁö¹®ÀÚ
+            //ìë™ì˜ˆì•½ ë°©ì§€ë¬¸ì
             $("#pnlRsrImg").html("");
-            $("#pnlRsrImg").append("<img alt='ÀÚµ¿¿¹¾à ¹æÁö¹®ÀÚ'/>").find("img:last").attr("src", "/reserCaptcha.do?dummy=" + (new Date()).getTime());
+            $("#pnlRsrImg").append("<img alt='ìë™ì˜ˆì•½ ë°©ì§€ë¬¸ì'/>").find("img:last").attr("src", "/reserCaptcha.do?dummy=" + (new Date()).getTime());
             $('.input-text').val("");
-            $('.input-text').attr('placeholder', 'À§ ¹®ÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.');
+            $('.input-text').attr('placeholder', 'ìœ„ ë¬¸ìë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');
             $('.input-text').attr('name', 'captcha').addClass('txt-captcha');
 
-            //ÀÚµ¿¹æÁö ÀÔ·Â¹®ÀÚ ÆË¾÷ ³ëÃâ
+            //ìë™ë°©ì§€ ì…ë ¥ë¬¸ì íŒì—… ë…¸ì¶œ
             $('#automatic-character').show();
             $('.txt-captcha').focus();
 
-            //±âº» hidden ¼¼ÆÃ
+            //ê¸°ë³¸ hidden ì„¸íŒ…
             $("#fRsrvtQntt").val(1);
-            $("#fUseBgnDtm").val(selectStartDate.replace(/-/g, ''));	//»ç¿ë½ÃÀÛÀÏ
-            $('#fUseEndDtm').val(selectEndDate.replace(/-/g, ''));		//»ç¿ëÁ¾·áÀÏ
-            $("#fFcltId").val(prdId);	//»óÇ°ID
+            $("#fUseBgnDtm").val(selectStartDate.replace(/-/g, ''));	//ì‚¬ìš©ì‹œì‘ì¼
+            $('#fUseEndDtm').val(selectEndDate.replace(/-/g, ''));		//ì‚¬ìš©ì¢…ë£Œì¼
+            $("#fFcltId").val(prdId);	//ìƒí’ˆID
             $("#fRsrvtType").val("R");
 
-            //¿¹¾à»ó¼¼¿¡ ³ÖÀ» °ª ´Ù½Ã È÷µç °è»ê(»óÇ°±İ¾× / ¹Ú¼ö)
-            var totPrice = Number($('div.payment dl:eq(0)').find('dd:eq(0)').text().replace(/,/g, '').replace(/¿ø/g, '')) / Number(checkPer);
+            //ì˜ˆì•½ìƒì„¸ì— ë„£ì„ ê°’ ë‹¤ì‹œ íˆë“  ê³„ì‚°(ìƒí’ˆê¸ˆì•¡ / ë°•ìˆ˜)
+            var totPrice = Number($('div.payment dl:eq(0)').find('dd:eq(0)').text().replace(/,/g, '').replace(/ì›/g, '')) / Number(checkPer);
 
             $('#detailPrice').val(totPrice);
         },
 
-        //¿¹¾àÇÏ±â ¹öÆ° Å¬¸¯
+        //ì˜ˆì•½í•˜ê¸° ë²„íŠ¼ í´ë¦­
         goReserv : function(prdNm, prdId){
 
-            //·Î±×ÀÎ Ã¼Å©
+            //ë¡œê·¸ì¸ ì²´í¬
             ajaxCall({
                 url :  '/common/ajax/checkResidencePolicy.do',
                 data : {},
                 success: function(dat){
-                    //¿¹¾àÇÏ±â Àü ·Î±×ÀÎÀÌ ¾È µÇ¾î ÀÖÀ» ¶§
+                    //ì˜ˆì•½í•˜ê¸° ì „ ë¡œê·¸ì¸ì´ ì•ˆ ë˜ì–´ ìˆì„ ë•Œ
                     if(dat.result == 'NLOGIN'){
                         loginPopup("funcArray.goReserv('"+prdNm+"','"+prdId+"');");
                     } else {
-                        //¿¹¾àÇÏ±â Àü ÀÚµ¿¹æÁö¹®ÀÚ ÆË¾÷ ¼¼ÆÃ
+                        //ì˜ˆì•½í•˜ê¸° ì „ ìë™ë°©ì§€ë¬¸ì íŒì—… ì„¸íŒ…
                         funcArray.beforeReser(prdNm, prdId);
                     }
 
@@ -1112,13 +866,13 @@
 
         },
 
-        //¿¹¾àÇÏ±â
+        //ì˜ˆì•½í•˜ê¸°
         reserStart : function(prdNm) {
 
             var txtCaptcha = $("#captInput");
 
             if(txtCaptcha.val() == null || txtCaptcha.val().trim() == "") {
-                toastrMsg("ÀÚµ¿¿¹¾à¹æÁö±ÛÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.","°æ°í ¸Ş½ÃÁö","e");
+                toastrMsg("ìë™ì˜ˆì•½ë°©ì§€ê¸€ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.","ê²½ê³  ë©”ì‹œì§€","e");
                 txtCaptcha.focus();
                 return;
             }
@@ -1147,7 +901,7 @@
                 },
                 success: function(dat){
 
-                    //ÆË¾÷ ÃÊ±âÈ­
+                    //íŒì—… ì´ˆê¸°í™”
                     funcArray.removeReserLayer();
                     funcArray.removeSucReservPop();
 
@@ -1160,14 +914,14 @@
                         return false;
                     }
 
-                    //Á¤Ã¥
+                    //ì •ì±…
                     if(dat.resultCd != null && dat.resultCd != '') {
 
                         if(dat.resultCd == 'F') {
                             //toastrMsg(dat.resultMsg);
                             alertPopup({
-                                title:'¿¹¾àºÒ°¡ ¾È³»',
-                                subTitle:'¿¹¾àºÒ°¡ ¾È³»',
+                                title:'ì˜ˆì•½ë¶ˆê°€ ì•ˆë‚´',
+                                subTitle:'ì˜ˆì•½ë¶ˆê°€ ì•ˆë‚´',
                                 content:dat.resultMsg,
                                 type:'error'
                             });
@@ -1184,14 +938,14 @@
                                     var hour = value.substring(8, 10);
                                     var minute = value.substring(10, 12);
                                     //var second = value.substring(12, 14);
-                                    return year + '³â ' + month + '¿ù ' + day + 'ÀÏ ' + hour + ':' + minute;
+                                    return year + 'ë…„ ' + month + 'ì›” ' + day + 'ì¼ ' + hour + ':' + minute;
                                 }
                                 return '';
                             };
 
-                            //STLM_EXPI_DTM °áÁ¦¸¸±âÀÏ½Ã
+                            //STLM_EXPI_DTM ê²°ì œë§Œê¸°ì¼ì‹œ
                             if(dat.reservationMap != null && dat.reservationMap != '') {
-                                //¿¹¾à¿Ï·á ÆË¾÷
+                                //ì˜ˆì•½ì™„ë£Œ íŒì—…
                                 funcArray.drawSucReservPop(prdNm, ymdhm(dat.dataMap.sttlmMtDtm2));
                             }
                         }
@@ -1202,19 +956,19 @@
             });
         },//reserStart end
 
-        //°´½Çº¸±â
+        //ê°ì‹¤ë³´ê¸°
         drawImage : function(){
 
             var minbakCheckLen = $('input[name="minbakChk"]:checked').length;
 			var minbakPrdId = $("input[name='selectBtn']:checked").val();
             if(minbakCheckLen == 0) {
-                toastrMsg("¹Î¹ÚÃÌ Å¸ÀÔÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+                toastrMsg("ë¯¼ë°•ì´Œ íƒ€ì…ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
                 return false;
             }
 
 
             if(minbakPrdId == null || minbakPrdId == '') {
-                toastrMsg("°´½ÇÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+                toastrMsg("ê°ì‹¤ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
                 return false;
             }
 
@@ -1231,53 +985,53 @@
                     openPopup("resi-view");
                 },
                 error : function(){
-                    toastrMsg("Á¶È¸ Áß ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+                    toastrMsg("ì¡°íšŒ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
                 }
             });
-        },//end ÀÌ¹ÌÁö load
+        },//end ì´ë¯¸ì§€ load
 
     }
 </script>
 			<div class="page-location">
-				<span>È¨</span> <span>¿¹¾àÇÏ±â</span> <span>¹Î¹ÚÃÌ</span>
+				<span>í™ˆ</span> <span>ì˜ˆì•½í•˜ê¸°</span> <span>ë¯¼ë°•ì´Œ</span>
 			</div>
 			<div class="reservation responsive">
-				<h3 class="title">¹Î¹ÚÃÌ ¿¹¾àÇÏ±â</h3>
+				<h3 class="title">ë¯¼ë°•ì´Œ ì˜ˆì•½í•˜ê¸°</h3>
 				<div class="title-area">
-					<span class="label"><i class="icon-location"></i> ÅÂ¹é»ê</span>
-					<h4 class="title">ÅÂ¹é»ê ¹Î¹ÚÃÌ ¿¹¾àÇöÈ²</h4>
-					<p class="copy">¹Î¹ÚÃÌÀº °³½Ã±â°£ ±âÁØ ¾ÆÀÌµğ ´ç 4°ÇÀ¸·Î Á¦ÇÑµÇ¸ç, µ¿ÀÏ ³¯Â¥ÀÇ ¹Î¹ÚÃÌÀº ¼±ÅÃºÒ°¡
-						ÇÕ´Ï´Ù.</p>
+					<span class="label"><i class="icon-location"></i> íƒœë°±ì‚°</span>
+					<h4 class="title">íƒœë°±ì‚° ë¯¼ë°•ì´Œ ì˜ˆì•½í˜„í™©</h4>
+					<p class="copy">ë¯¼ë°•ì´Œì€ ê°œì‹œê¸°ê°„ ê¸°ì¤€ ì•„ì´ë”” ë‹¹ 4ê±´ìœ¼ë¡œ ì œí•œë˜ë©°, ë™ì¼ ë‚ ì§œì˜ ë¯¼ë°•ì´Œì€ ì„ íƒë¶ˆê°€
+						í•©ë‹ˆë‹¤.</p>
 				</div>
 				<div class="box-guide">
 					<div class="monthly-check">
-						<strong class="title">¹Î¹ÚÃÌ ¿¹¾à °ü·ÃÇÏ¿© ÀüÃ¼ ¿ùº° ÀÜ¿©ÇöÈ²À» ¿ìÃø ¹öÆ°À» ´­·¯
-							È®ÀÎ °¡´É ÇÕ´Ï´Ù.</strong> <a href="searchResidenceMonthReservation.html"
-							class="btn btn-monthly">¿ùº° ÀÜ¿©ÇöÈ² È®ÀÎ</a>
+						<strong class="title">ë¯¼ë°•ì´Œ ì˜ˆì•½ ê´€ë ¨í•˜ì—¬ ì „ì²´ ì›”ë³„ ì”ì—¬í˜„í™©ì„ ìš°ì¸¡ ë²„íŠ¼ì„ ëˆŒëŸ¬
+							í™•ì¸ ê°€ëŠ¥ í•©ë‹ˆë‹¤.</strong> <a href="searchResidenceMonthReservation.html"
+							class="btn btn-monthly">ì›”ë³„ ì”ì—¬í˜„í™© í™•ì¸</a>
 					</div>
 					<ul class="dot-list">
-						<li>¹Î¹ÚÃÌÀº °³½Ã±â°£ ±âÁØ ¾ÆÀÌµğ ´ç 4°ÇÀ¸·Î Á¦ÇÑµÇ¸ç, µ¿ÀÏ ³¯Â¥ÀÇ ¹Î¹ÚÃÌÀº ¼±ÅÃ ºÒ°¡ ÇÕ´Ï´Ù.</li>
-						<li>ÀÎ±â ¹Î¹ÚÃÌÀº ÀÌ¿ëÀÚ°¡ ¸¹¾Æ ¼±ÅÃÀ» ÇÏ´Â µµÁß Á¶±â ¸¶°¨µÉ ¼ö ÀÖ½À´Ï´Ù.</li>
-						<li>°­¿ø ÅÂ¹é½Ã ÄÚ·Î³ª19 ÇöÈ² ÁÖ¼Ò : <a
+						<li>ë¯¼ë°•ì´Œì€ ê°œì‹œê¸°ê°„ ê¸°ì¤€ ì•„ì´ë”” ë‹¹ 4ê±´ìœ¼ë¡œ ì œí•œë˜ë©°, ë™ì¼ ë‚ ì§œì˜ ë¯¼ë°•ì´Œì€ ì„ íƒ ë¶ˆê°€ í•©ë‹ˆë‹¤.</li>
+						<li>ì¸ê¸° ë¯¼ë°•ì´Œì€ ì´ìš©ìê°€ ë§ì•„ ì„ íƒì„ í•˜ëŠ” ë„ì¤‘ ì¡°ê¸° ë§ˆê°ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.</li>
+						<li>ê°•ì› íƒœë°±ì‹œ ì½”ë¡œë‚˜19 í˜„í™© ì£¼ì†Œ : <a
 							href="https://www.taebaek.go.kr/intro.jsp">https://www.taebaek.go.kr/intro.jsp</a></li>
 					</ul>
 				</div>
-				<!-- ¿¹¾àÀÏ ¼³Á¤ -->
+				<!-- ì˜ˆì•½ì¼ ì„¤ì • -->
 				<div class="title-area">
-					<h4 class="title">¿¹¾àÀÏ ¼³Á¤</h4>
+					<h4 class="title">ì˜ˆì•½ì¼ ì„¤ì •</h4>
 					<div class="btn-area">
 						<button class="btn btn-refresh">
-							<i class="icon-refresh"></i> <span>»õ·Î°íÄ§</span>
+							<i class="icon-refresh"></i> <span>ìƒˆë¡œê³ ì¹¨</span>
 						</button>
 					</div>
 				</div>
 				<div class="detail-info">
 					<dl class="mb-block">
-						<dt>¿¹¾àÀÏ ¼±ÅÃ</dt>
+						<dt>ì˜ˆì•½ì¼ ì„ íƒ</dt>
 						<dd>
 							<div class="calendar-container">
 								<div class="calendar">
-									<!-- ÇöÀç¿ù Ä¶¸°´õ -->
+									<!-- í˜„ì¬ì›” ìº˜ë¦°ë” -->
 									<div class="calendar-head">
 										<div class="calendar-title">
 											<span>2022</span>. <span>11</span>
@@ -1427,7 +1181,7 @@
 									</div>
 								</div>
 
-								<!-- ´ÙÀ½ ´Ş Ä¶¸°´õ -->
+								<!-- ë‹¤ìŒ ë‹¬ ìº˜ë¦°ë” -->
 								<div class="calendar">
 									<div class="calendar-head">
 										<div class="calendar-title">
@@ -1555,7 +1309,7 @@
 									</div>
 								</div>
 
-								<!--¸¶Áö¸· ¿ù ºñÈ°¼ºÈ­ ¿¹Á¤ -->
+								<!--ë§ˆì§€ë§‰ ì›” ë¹„í™œì„±í™” ì˜ˆì • -->
 								<div class="calendar">
 									<div class="calendar-head">
 										<div class="calendar-title">
@@ -1674,45 +1428,45 @@
 						</dd>
 					</dl>
 					<dl>
-						<dt>»ç¿ë±â°£</dt>
+						<dt>ì‚¬ìš©ê¸°ê°„</dt>
 						<dd id="lengthTxt">-</dd>
 					</dl>
 					<dl>
-						<dt>ÀÔ½Ç³¯Â¥</dt>
+						<dt>ì…ì‹¤ë‚ ì§œ</dt>
 						<dd id="startDt">-</dd>
 					</dl>
 					<dl>
-						<dt>Åğ½Ç³¯Â¥</dt>
+						<dt>í‡´ì‹¤ë‚ ì§œ</dt>
 						<dd id="endDt">-</dd>
 					</dl>
 					<dl>
-						<dt>¹Î¹ÚÃÌ Å¸ÀÔ</dt>
+						<dt>ë¯¼ë°•ì´Œ íƒ€ì…</dt>
 						<dd class="form">
 							<ul class="radio-list" id="minbakTyps">
 
 								<li><span class="radio-1"> <input type="radio"
 										name="minbakChk" id="mbTp0" value="0300202"> <label
-										for="mbTp0">°³ÀÎÇü 29.7§³(9Æò/2¸í) Ä§´ë</label>
+										for="mbTp0">ê°œì¸í˜• 29.7ã¡(9í‰/2ëª…) ì¹¨ëŒ€</label>
 								</span></li>
 
 								<li><span class="radio-1"> <input type="radio"
 										name="minbakChk" id="mbTp1" value="0300201"> <label
-										for="mbTp1">°³ÀÎÇü 29.7§³(9Æò/2¸í) ¿Âµ¹</label>
+										for="mbTp1">ê°œì¸í˜• 29.7ã¡(9í‰/2ëª…) ì˜¨ëŒ</label>
 								</span></li>
 
 								<li><span class="radio-1"> <input type="radio"
 										name="minbakChk" id="mbTp2" value="0300101"> <label
-										for="mbTp2">°¡Á·Çü 49.5§³(15Æò/6¸í) º¹Ãş</label>
+										for="mbTp2">ê°€ì¡±í˜• 49.5ã¡(15í‰/6ëª…) ë³µì¸µ</label>
 								</span></li>
 
 								<li><span class="radio-1"> <input type="radio"
 										name="minbakChk" id="mbTp3" value="0300102"> <label
-										for="mbTp3">°¡Á·Çü 59.4§³(18Æò/6¸í) º¹Ãş</label>
+										for="mbTp3">ê°€ì¡±í˜• 59.4ã¡(18í‰/6ëª…) ë³µì¸µ</label>
 								</span></li>
 
 								<li><span class="radio-1"> <input type="radio"
 										name="minbakChk" id="mbTp4" value="0300301"> <label
-										for="mbTp4">´ÜÃ¼Çü 105.6§³(32Æò/13¸í) º¹Ãş</label>
+										for="mbTp4">ë‹¨ì²´í˜• 105.6ã¡(32í‰/13ëª…) ë³µì¸µ</label>
 								</span></li>
 
 							</ul>
@@ -1720,31 +1474,31 @@
 						</dd>
 					</dl>
 					<dl style="display: none;">
-						<dt>Ã¼·ù±â°£</dt>
+						<dt>ì²´ë¥˜ê¸°ê°„</dt>
 						<dd class="form">
 							<div class="stay-row">
-								<span class="length-stay" id="nightDays1" data-val="1">1¹Ú
-									2ÀÏ</span> <span class="length-stay" id="nightDays2" data-val="2">2¹Ú
-									3ÀÏ</span> <span class="length-stay" id="nightDays3" data-val="3">3¹Ú
-									4ÀÏ</span>
+								<span class="length-stay" id="nightDays1" data-val="1">1ë°•
+									2ì¼</span> <span class="length-stay" id="nightDays2" data-val="2">2ë°•
+									3ì¼</span> <span class="length-stay" id="nightDays3" data-val="3">3ë°•
+									4ì¼</span>
 							</div>
 						</dd>
 					</dl>
 				</div>
 
 				<button class="btn btn-search" onclick="funcArray.drawProgram();">
-					<i class="icon-search"></i> <span>¹Î¹ÚÃÌ ÀÜ¿©ÇöÈ² Á¶È¸</span>
+					<i class="icon-search"></i> <span>ë¯¼ë°•ì´Œ ì”ì—¬í˜„í™© ì¡°íšŒ</span>
 				</button>
 
 				<div class="title-area remainDiv" style="display: none;">
-					<h4 class="title">¹Î¹ÚÃÌ ÀÜ¿©ÇöÈ²</h4>
+					<h4 class="title">ë¯¼ë°•ì´Œ ì”ì—¬í˜„í™©</h4>
 					<div class="btn-area">
 						<button class="btn btn-view" onclick="funcArray.drawImage();"
-							id="drawImageButton" style="display: none">°´½Ç º¸±â</button>
+							id="drawImageButton" style="display: none">ê°ì‹¤ ë³´ê¸°</button>
 					</div>
 				</div>
 				<table class="table residenceProgram" style="display: none;">
-					<caption>¹Î¹ÚÃÌ ¿¹¾àÇöÈ²</caption>
+					<caption>ë¯¼ë°•ì´Œ ì˜ˆì•½í˜„í™©</caption>
 					<colgroup>
 						<col style="width: 8%;">
 						<col style="width: 40%">
@@ -1753,58 +1507,58 @@
 					</colgroup>
 					<thead class="thead">
 						<tr>
-							<th scope="col">¼±ÅÃ</th>
-							<th scope="col">°´½Ç</th>
-							<th scope="col">°´½Ç</th>
-							<th scope="col">ÀÌ¿ë±İ¾×</th>
+							<th scope="col">ì„ íƒ</th>
+							<th scope="col">ê°ì‹¤</th>
+							<th scope="col">ê°ì‹¤</th>
+							<th scope="col">ì´ìš©ê¸ˆì•¡</th>
 						</tr>
 					</thead>
 					<tbody class="tbody">
 					</tbody>
 				</table>
 
-				<!-- Ãß°¡ÀÎ¿ø ¼³Á¤ ºÎºĞ -->
+				<!-- ì¶”ê°€ì¸ì› ì„¤ì • ë¶€ë¶„ -->
 				<div class="border-box mt-10 addHum" style="display: none;">
 					<div class="option-wrap">
-						<h5>Ãß°¡ÀÎ¿ø ¼³Á¤</h5>
+						<h5>ì¶”ê°€ì¸ì› ì„¤ì •</h5>
 						<ul class="option-list">
 							<li><span class="quantity-input">
 									<button class="btn minus add" id="minusB">
 										<i class="icon-minus"></i>
-									</button> <label for="addPeopleNum" class="hidden-text">ÃÑÂü¿©ÀÎ¿ø</label> <input
+									</button> <label for="addPeopleNum" class="hidden-text">ì´ì°¸ì—¬ì¸ì›</label> <input
 									type="number" class="addPeopleNum" id="addPeopleNum" value="0"
-									readonly="" title="ÃÑ Âü¿© ÀÎ¿ø">
+									readonly="" title="ì´ ì°¸ì—¬ ì¸ì›">
 									<button class="btn plus add" id="plusB">
 										<i class="icon-plus"></i>
 									</button>
 							</span></li>
 						</ul>
 						<ul class="mt-10">
-							<li>¡Ø ¿¹¾àÇÒ ½Ã¼³ÀÇ ¼ö·® ¼±ÅÃÇÑ ÈÄ ÀÌ¿ë±İ¾×À» È®ÀÎÇÏ°í ¿¹¾àÇÏ±â ¹öÆ°À» ´©¸£¸é ¹Ù·Î Á¢¼ö°¡ ¿Ï·áµË´Ï´Ù.</li>
-							<li>¡Ø ¿¹¾à¿Ï·á ÈÄ °ğ¹Ù·Î ´Ù¸¥ ½Ã¼³ ¿¹¾àÀÌ °¡´ÉÇÕ´Ï´Ù.</li>
-							<li>¡Ø °´½Ç ¼ö¿ëÀÎ¿ø ¿Ü ÀÎ¿øÀ» Ãß°¡ÇÒ °æ¿ì, 1ÀÎ 1¹Ú´ç 5,000¿øÀÌ Ãß°¡µË´Ï´Ù. (ÃÖ´ë 2¸í)</li>
+							<li>â€» ì˜ˆì•½í•  ì‹œì„¤ì˜ ìˆ˜ëŸ‰ ì„ íƒí•œ í›„ ì´ìš©ê¸ˆì•¡ì„ í™•ì¸í•˜ê³  ì˜ˆì•½í•˜ê¸° ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ë°”ë¡œ ì ‘ìˆ˜ê°€ ì™„ë£Œë©ë‹ˆë‹¤.</li>
+							<li>â€» ì˜ˆì•½ì™„ë£Œ í›„ ê³§ë°”ë¡œ ë‹¤ë¥¸ ì‹œì„¤ ì˜ˆì•½ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.</li>
+							<li>â€» ê°ì‹¤ ìˆ˜ìš©ì¸ì› ì™¸ ì¸ì›ì„ ì¶”ê°€í•  ê²½ìš°, 1ì¸ 1ë°•ë‹¹ 5,000ì›ì´ ì¶”ê°€ë©ë‹ˆë‹¤. (ìµœëŒ€ 2ëª…)</li>
 						</ul>
 					</div>
 				</div>
 
-				<!-- ÃÑ ÀÌ¿ë±İ¾× ºÎºĞ -->
+				<!-- ì´ ì´ìš©ê¸ˆì•¡ ë¶€ë¶„ -->
 				<div class="title-area totTitle" style="display: none;">
-					<h4 class="title">ÃÑ ÀÌ¿ë±İ¾×</h4>
+					<h4 class="title">ì´ ì´ìš©ê¸ˆì•¡</h4>
 				</div>
 
 				<div class="payment" style="display: none;">
 					<dl>
 						<dt>-</dt>
-						<dd>0¿ø</dd>
+						<dd>0ì›</dd>
 					</dl>
 					<dl>
-						<dt>Ãß°¡ÀÎ¿ø : 0¸í</dt>
-						<dd>0¿ø</dd>
+						<dt>ì¶”ê°€ì¸ì› : 0ëª…</dt>
+						<dd>0ì›</dd>
 					</dl>
 					<dl class="total">
-						<dt>°áÁ¦(¿¹Á¤)±İ¾×</dt>
+						<dt>ê²°ì œ(ì˜ˆì •)ê¸ˆì•¡</dt>
 						<dd>
-							<em>0</em>¿ø
+							<em>0</em>ì›
 						</dd>
 					</dl>
 				</div>
@@ -1812,7 +1566,7 @@
 				<div class="board-bottom" style="display: none;">
 					<div class="center reserv">
 						<a href="javascript:void(0);" onclick=""
-							class="btn btn-register is-active">¿¹¾àÇÏ±â</a>
+							class="btn btn-register is-active">ì˜ˆì•½í•˜ê¸°</a>
 					</div>
 				</div>
 			</div>
@@ -1837,34 +1591,14 @@
 			<div class="modal-popup large" id="resi-view"></div>
 		</div>
 
-		<footer id="footer">
-			<ul class="content">
-				<li>
-					<address>(±¹¸³°ø¿ø°ø´Ü) °­¿øµµ ¿øÁÖ½Ã Çõ½Å·Î 22 (¿ì)26466</address>
-				</li>
-				<li>»ç¾÷ÀÚµî·Ï¹øÈ£: 211-82-06541</li>
-				<li>¿¹¾à¾È³»: <a href="tel:1670-9201">1670-9201</a> (ÆòÀÏ 09-18½Ã,
-					Á¡½É½Ã°£ 12-13½Ã)
-				</li>
-				<li>FAX: 033-769-9579</li>
-				<li>ÀÌ¸ŞÀÏ: csnp@knps.or.kr</li>
-			</ul>
-			<p class="copyright">Copyright@Korea National Park Service. All
-				Rights Reserved.</p>
-			<div class="policy-area">
-				<a href="../contents/copyrightPolicy.html" class="btn">ÀúÀÛ±ÇÁ¤Ã¥</a> <a
-					href="http://www.knps.or.kr/portal/main/contents.do?menuNo=7020135"
-					class="btn" target="_blank"
-					style="font-weight: bold; color: #0033cc; background: #ffffff;">°³ÀÎÁ¤º¸Ã³¸®¹æÄ§</a>
-			</div>
-		</footer>
+		<%@ include file="../common/footer.jsp"%>
 
 
 		<div class="modal-popup small" id="confirmPop">
 			<div class="popup-wrap">
 				<div class="popup-head">
 					<strong class="popup-title" id="confirmTitle"></strong>
-					<button type="button" class="btn-close" title="´İ±â"
+					<button type="button" class="btn-close" title="ë‹«ê¸°"
 						onclick="closePopup('confirmPop');">
 						<i class="icon-close"></i>
 					</button>
@@ -1878,8 +1612,8 @@
 					</div>
 					<div class="btn-area">
 						<button class="btn btn-cancel forMypageClass"
-							onclick="closePopup('confirmPop');">Ãë¼Ò</button>
-						<button class="btn btn-confirm is-active" id="btn-confirm">È®ÀÎ</button>
+							onclick="closePopup('confirmPop');">ì·¨ì†Œ</button>
+						<button class="btn btn-confirm is-active" id="btn-confirm">í™•ì¸</button>
 					</div>
 				</div>
 			</div>
@@ -1889,8 +1623,8 @@
 		<div class="modal-popup small" id="alertPop">
 			<div class="popup-wrap">
 				<div class="popup-head">
-					<strong class="popup-title" id="alertTitle">·Î±×ÀÎ</strong>
-					<button type="button" class="btn-close" title="´İ±â"
+					<strong class="popup-title" id="alertTitle">ë¡œê·¸ì¸</strong>
+					<button type="button" class="btn-close" title="ë‹«ê¸°"
 						onclick="closePopup('alertPop');">
 						<i class="icon-close"></i>
 					</button>
@@ -1904,7 +1638,7 @@
 					</div>
 					<div class="btn-area">
 						<button class="btn btn-confirm is-active"
-							onclick="closePopup('alertPop');">È®ÀÎ</button>
+							onclick="closePopup('alertPop');">í™•ì¸</button>
 					</div>
 				</div>
 			</div>
@@ -1913,8 +1647,8 @@
 		<div class="modal-popup small" id="loginPopup">
 			<div class="popup-wrap">
 				<div class="popup-head">
-					<strong class="popup-title" id="loginTitle">·Î±×ÀÎ</strong>
-					<button type="button" class="btn-close" title="´İ±â"
+					<strong class="popup-title" id="loginTitle">ë¡œê·¸ì¸</strong>
+					<button type="button" class="btn-close" title="ë‹«ê¸°"
 						onclick="closePopup('loginPopup');">
 						<i class="icon-close"></i>
 					</button>
@@ -1922,22 +1656,22 @@
 				<div class="popup-container" id="loginPopupDiv"></div>
 			</div>
 		</div>
-		<!-- ¾ÆÀÌÇÉ °¡»óÁÖ¹Î¹øÈ£ ¼­ºñ½º ÆË¾÷ È£Ãâ form -->
+		<!-- ì•„ì´í•€ ê°€ìƒì£¼ë¯¼ë²ˆí˜¸ ì„œë¹„ìŠ¤ íŒì—… í˜¸ì¶œ form -->
 		<form name="form_ipin" id="form_ipin" method="post">
-			<!-- ¿äÃ»¸ğµå (ÇÊ¼ö µ¥ÀÌÅÍ) -->
+			<!-- ìš”ì²­ëª¨ë“œ (í•„ìˆ˜ ë°ì´í„°) -->
 			<input type="hidden" name="m" value="pubmain">
-			<!-- ÀÎÁõ¿äÃ» ¾ÏÈ£È­ µ¥ÀÌÅÍ -->
+			<!-- ì¸ì¦ìš”ì²­ ì•”í˜¸í™” ë°ì´í„° -->
 			<input type="hidden" name="enc_data" id="enc_data" value="">
 		</form>
-		<!-- º»ÀÎÀÎÁõ ¼­ºñ½º ÆË¾÷À» È£ÃâÇÏ±â À§ÇØ¼­´Â ´ÙÀ½°ú °°Àº formÀÌ ÇÊ¿äÇÕ´Ï´Ù. -->
+		<!-- ë³¸ì¸ì¸ì¦ ì„œë¹„ìŠ¤ íŒì—…ì„ í˜¸ì¶œí•˜ê¸° ìœ„í•´ì„œëŠ” ë‹¤ìŒê³¼ ê°™ì€ formì´ í•„ìš”í•©ë‹ˆë‹¤. -->
 		<form name="form_chk" id="form_chk" method="post">
-			<!-- ÇÊ¼ö µ¥ÀÌÅ¸·Î, ´©¶ôÇÏ½Ã¸é ¾ÈµË´Ï´Ù. -->
+			<!-- í•„ìˆ˜ ë°ì´íƒ€ë¡œ, ëˆ„ë½í•˜ì‹œë©´ ì•ˆë©ë‹ˆë‹¤. -->
 			<input type="hidden" name="m" value="checkplusService">
-			<!-- ÀÎÁõ¿äÃ» ¾ÏÈ£È­ µ¥ÀÌÅÍ -->
+			<!-- ì¸ì¦ìš”ì²­ ì•”í˜¸í™” ë°ì´í„° -->
 			<input type="hidden" name="EncodeData" id="EncodeData" value="">
 		</form>
 	</div>
-	<img id="loadingImage" src="../assets/img/preloader.gif" alt="·ÎµùÀÌ¹ÌÁö"
+	<img id="loadingImage" src="../assets/img/preloader.gif" alt="ë¡œë”©ì´ë¯¸ì§€"
 		style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
 	<script>
 	$(function(){
