@@ -31,14 +31,14 @@
 <div class="login">
     <h3 class="title">로그인</h3>
 
-    <form id="loginForm" name="loginForm" method="post" action="" autocomplete="off">
+    <form action="loginproc" method="post">
         <input type="hidden" name="loginType" value="Member"/>
         <div class="login-form">
-            <label for="mmbId" class="hidden-text">아이디</label>
-            <input type="text" class="input-text" placeholder="아이디 입력" title="아이디" id="mmbId" name="mmbId" value="" onkeyup="funcArray.loginKeyPress(event);">
+            <label for="id" class="hidden-text">아이디</label>
+            <input type="text" class="input-text" placeholder="아이디 입력" title="아이디" name="id" >
             <label for="passWd" class="hidden-text">비밀번호</label>
-            <input type="password" class="input-text" placeholder="비밀번호 대,소문자 구분 9~15자로 입력" title="비밀번호" id="passWd" name="passWd" onkeyup="funcArray.loginKeyPress(event);">
-            <button type="button" class="btn btn-login" onclick="funcArray.userLogin();">로그인</button>
+            <input type="password" class="input-text" placeholder="비밀번호 대,소문자 구분 9~15자로 입력" title="비밀번호"name="pw" >
+            <input type="submit" class="btn btn-login" value="로그인">
         </div>
         <ul class="login-util">
             <li><a href="" target="_blank">아이디 찾기</a></li>

@@ -17,6 +17,18 @@
 	<script src="assets/js/scripts.js"></script>
 	<script src="assets/js/common9b00.js?ver4"></script>
 
+<script type="text/javascript">
+var req;
+function IdConfirm(){
+	req = new XMLHttpRequest();
+	req.onreadystatechange = printMsg;
+	req.open('post', 'IdConfirm');
+	req.send(document.getElementById('id').value);
+	
+}
+
+
+</script>
 <body>
 	<div id="wrap" class="sub">
 
@@ -32,24 +44,25 @@
     <h3 class="title">회 원 가 입</h3>
    
 
-    <form id="Register" name="nonLoginForm" method="post" action="" autocomplete="off">
-        <input type="text"class="input-text" name="id" id="id" placeholder="아이디"/> <button class="input-text" onclick="idconfirm">중복검사</button><br><br>
+    <form method="post" action="RegisterProc">
+        <input type="text"class="input-text" name="id" id="id" placeholder="아이디"/> 
+        <button class="input-text" onclick="IdConfirm">중복검사</button><br><br>
         <input type="password" class="input-text"name="pw" id="pw"placeholder="비밀번호"/><br><br>
         <input type="password" class="input-text"name="pwcon" id="pwcon"placeholder="비밀번호확인"/><br><br>
         <input type="text" class="input-text" name="name" id="name" placeholder="이름"/><br><br>
-        
+        <input type="hidden" name="member" value="nomal" >
         <div class="ipin-form">
             <label for="txtMail" class="hidden-text">이메일 주소</label>
-            <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="txtMail" name="txtMail">
+            <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="txtMail" name="email">
               <button type="button" class="btn btn-ipin" onclick="emailconfirm();">이메일인증</button>
              <input type="text" class="input-text" placeholder="인증번호 입력" id="mailnumber" name="Mailnumber">
             <label for="txtMobile" class="hidden-text">휴대폰 번호</label>
-            <input type="text" class="input-text" placeholder="&#34;-&#34; 없이 휴대전화 번호 입력" title="휴대폰 번호" id="txtMobile" name="txtMobile">
+            <input type="text" class="input-text" placeholder="&#34;-&#34; 없이 휴대전화 번호 입력" title="휴대폰 번호" id="Mobile" name="mobile">
           
         </div>
         
         <div class="login-form">
-            <button type="button" class="btn btn-login" onclick="">회원가입</button>
+            <input type="submit" class="btn btn-login" value="회원가입" >
         </div>
     </form>
 </div>

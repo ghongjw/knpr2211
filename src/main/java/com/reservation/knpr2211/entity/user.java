@@ -43,6 +43,8 @@ public class user {
 		@Column(nullable = false, insertable = true, updatable = true)
 		private String member;
 		
+	
+		
 		
 		@Builder
 		public user(String id, String pw, String name, String email, String mobile, String member) {
@@ -58,6 +60,8 @@ public class user {
 			
 			
 		}
+
+
 		
 	public user() {
 		
