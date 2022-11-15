@@ -1,7 +1,7 @@
 package com.reservation.knpr2211.information.controller;
 
 import javax.annotation.PostConstruct;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,6 +51,7 @@ public class ServiceInfomationController {
 	//로그인 버튼
 	@Autowired UserRepository user;	
 	@Autowired userService userservice;
+	@Autowired private HttpSession session;
 	@PostMapping(value =  "loginproc")
 	public String loginproc(String id, String pw) {
 	userservice.login(id, pw);	
@@ -62,7 +63,7 @@ public class ServiceInfomationController {
 	return "login/login";}
 	
 	
-	return "test";
+	return "login/login";
 	}
 		
 	//회원가입
@@ -77,15 +78,15 @@ public class ServiceInfomationController {
 	public String RegisterProc(String id, String pw, String pwcon, String name, String email, String mobile,String member ,Model model) {
 		
 		
-		userservice.register(id, pw, name, email, mobile, member);
-		String msg = userservice.register(id, pwcon, name, email, mobile, member);
+		userservice.register(id, pw,pwcon, name, email, mobile, member);
+		String msg = userservice.register(id,pw ,pwcon, name, email, mobile, member);
 		
 		if(msg.equals("회원가입 성공")) {
-			
+		System.out.println("회원가입 성공");
 		return "login/login";
 		}
-	
-		return "login/register";
+		System.out.println("회원가입 실패");
+		return msg;
 	}
 	
 	@PostMapping(value = "IdConfirm" , produces = "application/json; charset=UTF-8")
@@ -97,8 +98,19 @@ public class ServiceInfomationController {
 		return msg;
 	}	
 		
+	@PostMapping(value = "PwConfirm" , produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String PwConfirm(@RequestBody(required = false) String pw, String PwCon) {
+		System.out.println("비밀번호 확인: "+PwCon);
+		String msg = userservice.PwConfirm(pw, PwCon);
+		System.out.println(msg);
+		return msg;
+	}	
 	
-	
-	
+	@RequestMapping("logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:login";
+	} 
 	
 }

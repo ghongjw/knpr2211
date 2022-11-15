@@ -93,8 +93,15 @@
             </c:if>
                <!-- 비 로그인 상태 -->
             <c:if test="${not empty sessionScope.id }">
+            <a href="" class="btn-login">
+             	<i class="icon-user-check"></i>
                 <span>${sessionScope.id}님 반갑습니다</span>
             </a>
+            <a href="logout" class="btn-login">
+             	<i class="icon-user-check"></i>
+                <span>로그아웃</span>
+            </a>
+            
             </c:if>
     </div>
     <div class="util-area" data-device-mode="mobile">
@@ -113,6 +120,8 @@
            			 <c:if test="${empty sessionScope.id }">
        
                     <a href="" class="btn-login">로그인이<br>필요합니다.</a>
+                    
+                    
                     <a href="" class="btn-join" target="_blank">
                         <i class="icon-user-plus"></i>
                         <span>회원가입</span>

@@ -26,7 +26,23 @@ function IdConfirm(){
 	req.send(document.getElementById('id').value);
 	
 }
+function PwConfirm(){
+	
+	req = new XMLHttpRequest();
+	req.onreadystatechange = printMsg;
+	req.open('post', 'PwConfirm');
+	req.send(document.getElementById('pw').value);
+	req.send(document.getElementById('PwCon').value);
+	
+	
+	
+}
 
+
+function printMsg(){
+	var msg = document.getElementById('msg');
+	msg.innerHTML = req.responseText;
+}
 
 </script>
 <body>
@@ -36,23 +52,24 @@ function IdConfirm(){
 			<div id="container">
 				
 
-</script>
 <div class="page-location">
     <span>홈</span><span>회원가입</span>
 </div>
 <div class="login">
     <h3 class="title">회 원 가 입</h3>
    
-
+<h3>
+	<font color="red" id="msg">${msg } </font>
+</h3><br>
     <form method="post" action="RegisterProc">
         <input type="text"class="input-text" name="id" id="id" placeholder="아이디"/> 
-        <button class="input-text" onclick="IdConfirm">중복검사</button><br><br>
-        <input type="password" class="input-text"name="pw" id="pw"placeholder="비밀번호"/><br><br>
-        <input type="password" class="input-text"name="pwcon" id="pwcon"placeholder="비밀번호확인"/><br><br>
+        <input type="button" class="input-text" value="아이디중복확인" onclick="IdConfirm()"><br><br>
+        <input type="password" class="input-text"name="pw" id="pw"placeholder="비밀번호" /><br><br>
+        <input type="password" class="input-text"name="pwcon" id="PwCon"placeholder="비밀번호확인" onkeyup="PwConfirm()"/><br><br>
         <input type="text" class="input-text" name="name" id="name" placeholder="이름"/><br><br>
-        <input type="hidden" name="member" value="nomal" >
+        <input type="hidden" name="member" value="normal" >
         <div class="ipin-form">
-            <label for="txtMail" class="hidden-text">이메일 주소</label>
+            <label class="hidden-text">이메일 주소</label>
             <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="txtMail" name="email">
               <button type="button" class="btn btn-ipin" onclick="emailconfirm();">이메일인증</button>
              <input type="text" class="input-text" placeholder="인증번호 입력" id="mailnumber" name="Mailnumber">
@@ -62,7 +79,8 @@ function IdConfirm(){
         </div>
         
         <div class="login-form">
-            <input type="submit" class="btn btn-login" value="회원가입" >
+            <button type="submit" class="btn btn-login" >회원가입 </button>
+            <button type="button" class="btn btn-login" onclick="location.href='login'" > 취소</button>
         </div>
     </form>
 </div>
