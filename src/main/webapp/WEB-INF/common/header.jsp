@@ -3,7 +3,19 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
     <title>test</title>
+<link rel="stylesheet" href="/assets/style/commonb07b.css">
+    
+	<script src="/assets/js/lib/jquery-1.12.4.min.js"></script>
+	<script src="/assets/js/lib/swiper.js"></script>
+	<script src="/assets/js/lib/datepicker.min.js"></script>
+	<script src="/assets/js/lib/jquery.fs.zoomer.min.js"></script>
+	<script src="/assets/js/lib/jquery.rwdImageMaps.min.js"></script>
+	<script src="/assets/js/lib/toastr.min.js"></script>
+	<script src="/assets/js/scripts.js"></script>
+	<script src="/assets/js/common.js?ver4"></script>
+
     </head>
+   
 <header id="header">
     <h1>
         <a href="../../index.html" class="logo">국립공원 예약시스템</a>
