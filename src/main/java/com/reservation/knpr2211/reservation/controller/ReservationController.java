@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class reservationController {
+public class ReservationController {
 
 	// 예약(예외처리)
 	@RequestMapping("reservation")
@@ -12,15 +12,10 @@ public class reservationController {
 		return "reservation/ecoReservation";
 	}
 
-	// 캠핑장 예약
-	@RequestMapping("campReservation")
-	public String campReservation() {
-		return "reservation/campReservation";
-	}
-
 	// 생태탐방원 예약
 	@RequestMapping("ecoReservation")
-	public String ecoReservation() {
+	public String ecoReservation(String category) {
+		System.out.println(category);
 		return "reservation/ecoReservation";
 	}
 
@@ -29,5 +24,4 @@ public class reservationController {
 	public String cottageReservation() {
 		return "reservation/cottageReservation";
 	}
-
 }
