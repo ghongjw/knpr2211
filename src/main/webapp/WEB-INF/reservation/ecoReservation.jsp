@@ -5,18 +5,22 @@
 <html>
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
-<link rel="stylesheet" href="../assets/style/reservation/ecoReservation.css">
+<link rel="stylesheet"
+	href="../assets/style/reservation/ecoReservation.css">
 
 <script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
-<script src="../assets/js/lib/swiper.js"></script>
+<script src="../assets/js/reservation/ecoReservation.js"></script>
+<!-- 
+사용x 
 <script src="../assets/js/lib/datepicker.min.js"></script>
+
+<script src="../assets/js/lib/swiper.js"></script>
 <script src="../assets/js/lib/jquery.fs.zoomer.min.js"></script>
 <script src="../assets/js/lib/jquery.rwdImageMaps.min.js"></script>
 <script src="../assets/js/lib/toastr.min.js"></script>
 <script src="../assets/js/scripts.js"></script>
 <script src="../assets/js/common9b00.js?ver4"></script>
-
-<script src="../assets/js/reservation/ecoReservation.js"></script>
+-->
 <body>
 	<div id="wrap" class="sub">
 		<%@ include file="../common/header.jsp"%>
@@ -57,7 +61,8 @@
 												<div class="calendar-container">
 													<div class="calendar first">
 														<div class="calendar-head">
-															<div class="calendar-title first" style="font-weight: bold">
+															<div class="calendar-title first"
+																style="font-weight: bold">
 																<span>2022</span>. <span>11</span>
 															</div>
 														</div>
@@ -71,15 +76,13 @@
 																<div class="day sat">SAT</div>
 																<div class="day sun">SUN</div>
 															</div>
-															<div class="calendar-day frist">
-
-
-															</div>
+															<div class="calendar-day frist"></div>
 														</div>
 													</div>
 													<div class="calendar second">
 														<div class="calendar-head">
-															<div class="calendar-title second" style="font-weight: bold">
+															<div class="calendar-title second"
+																style="font-weight: bold">
 																<span>2022</span>. <span>11</span>
 															</div>
 														</div>
@@ -93,15 +96,13 @@
 																<div class="day sat">SAT</div>
 																<div class="day sun">SUN</div>
 															</div>
-															<div class="calendar-day second">
-
-
-															</div>
+															<div class="calendar-day second"></div>
 														</div>
 													</div>
 													<div class="calendar third">
 														<div class="calendar-head">
-															<div class="calendar-title third" style="font-weight: bold">
+															<div class="calendar-title third"
+																style="font-weight: bold">
 																<span>2022</span>. <span>11</span>
 															</div>
 														</div>
@@ -115,13 +116,94 @@
 																<div class="day sat">SAT</div>
 																<div class="day sun">SUN</div>
 															</div>
-															<div class="calendar-day third">
-
-
-															</div>
+															<div class="calendar-day third"></div>
 														</div>
 													</div>
 												</div>
+												<!-- 날짜 선택 이벤트-->
+												<script>
+													var selectStartDay;	// 입실일
+													var selectEndDay;	// 퇴실일
+													//console.log("ready selectStartDay : "+selectStartDay);
+													//console.log("ready selectEndDay : "+selectEndDay);
+													
+													var calendarClick = document.querySelector('.calendar-container');
+													
+													calendarClick.addEventListener('click',e=>{
+														var str = e.target.className;
+														var arr = str.split(" ");
+														//console.log("선택한 날짜 class : "+arr);
+														//console.log("선택한 날짜 세번째 class : "+arr[2]); 
+														
+														var todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+														var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+														
+														// arr[2] 형태 : 2022-01-02
+														var selectArr = arr[2].split("-");
+														var selectDate = new Date( selectArr[0], selectArr[1]-1, selectArr[2]);
+														
+														var diff = selectDate - todayDate ;
+														var check = parseInt(diff/currDay);
+														
+														// 날짜선택 이벤트 검증
+														if(check <0){// 선택한 날짜가 오늘보다 적으면 안됨.
+														}
+														else if(selectStartDay == null && selectEndDay == null){// 입실일 : 선택x , 퇴실일 : 선택x
+															
+															selectStartDay = arr[2];
+															$("."+selectStartDay).css("background", "#8BBDFF").css("border-radius", "5px");
+															$("#startDt").html(selectStartDay);
+															
+														}
+														else if(selectStartDay != null && selectEndDay == null){// 입실일 : 선택o , 퇴실일 : 선택x
+															
+															selectEndDay = arr[2];
+															$("."+selectEndDay).css("background", "#8BBDFF").css("border-radius", "5px");
+															$("#endDt").html(selectEndDay);
+															
+															// 체류기간(입실일 ~ 퇴실일)
+															var startArr = selectStartDay.split("-");
+															var startDate = new Date(startArr[0], startArr[1], startArr[2]);
+															
+															var endArr = selectEndDay.split("-");
+															var endDate = new Date(endArr[0], endArr[1], endArr[2]);
+															
+															diff = endDate - startDate;
+															check = parseInt(diff/currDay);
+															//console.log("일수 차이 >> "+check);
+															
+															if(check == 0){
+																$('#nightDays0').css("border-color","#004ea2").css("color","#004ea2");
+																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
+															}else if(check == 1){
+																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays1').css("border-color","#004ea2").css("color","#004ea2");
+																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
+															}else if(check == 2){
+																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays2').css("border-color","#004ea2").css("color","#004ea2");
+																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
+															}
+															else if(check == 3){
+																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
+																$('#nightDays3').css("border-color","#004ea2").css("color","#004ea2");
+															}else{
+																location.reload();
+															}
+														}else if(selectStartDay != null && selectEndDay != null){// 입실일 : 선택o , 퇴실일 : 선택o
+															location.reload();
+														}
+														
+													})
+													
+													
+												</script>
 												<ul class="dot-list">
 													<li>예약할 기간을 달력에서 선택하세요.</li>
 													<li>예약이 가능한 마지막 날짜를 선택할 경우는 당일과 1박2일만 가능합니다.</li>
@@ -151,7 +233,7 @@
 											<dt>객실 구분</dt>
 											<dd class="form">
 												<button type="button" class="btn btn-view"
-													onclick="fun	cArray.drawImage('06001');">객실 보기</button>
+													onclick="funcArray.drawImage('06001');">객실 보기</button>
 												<button type="button" class="btn btn-charge"
 													onclick="openPopup('livingAmtPop');">요금표</button>
 												<!-- 객식 구분 체크박스 넣기 -->
@@ -166,7 +248,6 @@
 											</dd>
 										</dl>
 									</div>
-
 
 									<!-- 총 선택 이용금액 -->
 									<div class="title-area">
@@ -208,9 +289,7 @@
 									</div>
 									<div class="board-bottom">
 										<div class="center">
-											<a href=""
-												class="btn btn-register is-active"
-												onclick="">예약하기</a>
+											<a href="" class="btn btn-register is-active" onclick="">예약하기</a>
 										</div>
 									</div>
 								</div>

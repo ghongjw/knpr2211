@@ -15,6 +15,8 @@ public class ReservationController {
 	// 생태탐방원 예약
 	@RequestMapping("ecoReservation")
 	public String ecoReservation(String category) {
+		//if(category.isEmpty() || category.equals("") || category == null)
+		//category = "C08";
 		System.out.println(category);
 		return "reservation/ecoReservation";
 	}
