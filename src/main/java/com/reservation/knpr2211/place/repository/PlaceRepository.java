@@ -1,3 +1,4 @@
+
 package com.reservation.knpr2211.place.repository;
 
 import java.util.List;
@@ -8,9 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.reservation.knpr2211.place.entity.Place;
 
 @Repository
-public interface PlaceRepository extends JpaRepository<Place,String>{
+public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	List<Place> findAll();
-	
-	Place findByCategory3(String category3);
-	
+
+	List<Place> findByCategory2AndCategory3(String category2, String category3); 
+
+
 }

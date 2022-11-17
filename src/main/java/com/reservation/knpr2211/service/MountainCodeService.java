@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MountainCodeService {
 	public String findCategory(String parkId) {
+		
 		if(parkId.length()==1) {
 			return category1(parkId);
 		}
@@ -21,6 +22,7 @@ public class MountainCodeService {
 		}
 		return "실패";
 	}
+	
 	public String category1(String parkId) {
 		char cat=parkId.charAt(0);
 		String category = "";
@@ -77,7 +79,7 @@ public class MountainCodeService {
 	}
 	public String category3(String parkId) {
 		if(parkId.length()==3) {
-			parkId += "01";
+			parkId = parkId+"01";
 		}
 		String category = parkId.substring(0,1);
 		String category1 = parkId.substring(1,3);
@@ -86,7 +88,7 @@ public class MountainCodeService {
 		int intcat = Integer.parseInt(category2)-1;
 		ArrayList<String> list = new ArrayList<>();
 		
-		switch (category1) {
+		switch (category+category1) {
 		//야영장
 		case "A01": list.add("삼정"); list.add("치인"); list.add("백운동"); 
 			break;
@@ -132,36 +134,32 @@ public class MountainCodeService {
 			list.add("뱅사골자동차"); list.add("뱅사골힐링"); list.add("소막골"); list.add("내원"); list.add("백무동");
 			break;
 
-		case "A15": list.add("동학사");
+		case "A15": list.add("구룡"); list.add("금대");
 			break;
 
-		case "A16": list.add("동학사");
+		case "A16": list.add("소도");
 			break;
 
-		case "A17": list.add("동학사");
+		case "A17": list.add("몽산포"); list.add("학암포");
 			break;
 
-		case "A18": list.add("동학사");
-			break;
-			
-		case "A19": list.add("동학사");
-			break;
-
-		case "A20": list.add("동학사");
+		case "A18": list.add("학동");
 			break;
 
 		//대피소
-		case "B01": list.add("삼정"); list.add("치인"); list.add("백운동"); 
+		case "B01": list.add("삿갓재대피소");
 			break;	
 		
-		case "B02": list.add("동학사"); 
+		case "B02": list.add("수렴동대피소");  list.add("중청대피소"); list.add("양폭대피소");  list.add("소청대피소");  list.add("희운각대피소"); 
 			break;
 		
-		case "B03": list.add("가인"); list.add("내장"); 
+		case "B03": list.add("제2연화봉대피소");
 			break;
 		
-		case "B04": list.add("팔영상"); list.add("염포"); list.add("구계동"); 
-			break;
+		case "B04": list.add("벽소령대피소"); list.add("세석대피소"); list.add("장터목대피소"); 
+		list.add("로타리대피소"); list.add("노고단대피소"); list.add("치밭목대피소"); 
+		list.add("연하천대피소");
+		break;
 
 		default:
 			break;
@@ -298,6 +296,18 @@ public class MountainCodeService {
 		else if(category.equals("A1702")) {
 			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
 		}else if(category.equals("A1801")) {
+			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
+		}
+		
+		else if(category.equals("B0101")) {
+			list.add(" ");
+		}
+		else if(category.equals("B0301")) {
+			list.add("자동차야영장");
+		}
+		else if(category.equals("B0405")) {
+			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
+		}else if(category.equals("B0406")) {
 			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
 		}
 		return list.get(intcat);

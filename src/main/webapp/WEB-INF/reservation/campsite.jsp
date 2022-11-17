@@ -1,5 +1,7 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -18,41 +20,257 @@
 	<script src="/assets/js/lib/toastr.min.js"></script>
 	<script src="/assets/js/scripts.js"></script>
 	<script src="/assets/js/common.js?ver4"></script> -->
-
+	
+	
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
 
 <script>
 
-/*  	function selectPlace(sel1, sel2){
+/*   	function selectPlace(sel1, sel2){
 	req = new XMLHttpRequest();
-	req.onreadystatechange = clickPlace(sel1, sel2);
-	req.open('post', 'selectInfo');
-	var userSelect = "A"+ sel1 + sel2 ;
+	req.onreadystatechange = inputLabel;
+	req.open('post', 'selectPlace');
+	var userSelect = sel1 + sel2 ;
 	req.send(userSelect);
-} 
+}  */
 
-function printMsg(){
-	
-	var msg = document.getElementById('msg');
-	msg.innerHTML = req.responseText;
-	
-} */
+
+
+ 
+$.ajax({cache: false });
+$.ajax({async: false });
 
 
 function clickPlace(sel1, sel2){
+
 	if(sel1 != null && sel2 != null){
-		alert(sel1);
+		//alert("들어옴");
+		//console.log(sel1+" "+sel2)
 		document.getElementById("content-view").style.display = 'block';
 		document.getElementById("nodata").style.display = 'none';
 	}
+	
+	sendData(sel1, sel2);
+	inputLabel(sel1, sel2);
+	
 }
 
-/* function display(){
-	if(req.readyState == 4 && req.status == 200){
-		$("#content-view").show();
-		$(".nodata").hide();
-	}
-} */
 
+
+function sendData(sel1, sel2){
+		
+    var id = sel1 + sel2;
+    var codeName = "A" + sel1 + sel2; 
+    //$(document).on("click", $('#'+id), function(){
+    	
+		$.ajax({
+			url : "/sendData",
+			type : "post",
+			cache : false,
+			data : {
+				code : codeName
+			},
+			
+			success : function(result) {
+				var list = data.list;
+				alert(list);
+				console.log(list+"되는 것이냐");
+		     },
+			error : function() {
+				alert("error");
+			}
+		});
+		
+	//}); 
+    
+			
+}
+
+
+function inputLabel(sel1, sel2){
+	index1 = parseInt(sel1)-1;
+	index2 = parseInt(sel2);
+	
+	inputValue2 = "";
+	
+	const arr = new Array( "가야산", "계룡산", "내장산", "다도해해상", "덕유산",
+	"무등산", "변산반도", "설악산", "소백산", "오대산", 
+	"월악산", "월출산", "주왕산", "지리산", "치악산",	 
+	"태백산", "태안해안", "한려해상");
+	
+	if(arr[index1] == "가야산"){
+		if(index2 == 1){
+			inputValue2 = "삼정 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "치인 야영장 예약현황";
+			
+		}else if(index2 == 3){
+			inputValue2 = "백운동 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "계룡산"){
+		if(index2 == 1){
+			inputValue2 = "동학사 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "내장산"){
+		if(index2 == 1){
+			inputValue2 = "가인 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "내장 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "다도해상"){
+		if(index2 == 1){
+			inputValue2 = "팔영상 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "염포 야영장 예약현황";
+			
+		}else if(index2 == 3){
+			inputValue2 = "구계동 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "덕유산"){
+		if(index2 == 1){
+			inputValue2 = "덕유대 체류형 숙박시설 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "덕유대 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "무등산"){
+		if(index2 == 1){
+			inputValue2 = "도원 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "변산반도"){
+		if(index2 == 1){
+			inputValue2 = "고사포 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "설악산"){
+		if(index2 == 1){
+			inputValue2 = "설악 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "소백산"){
+		if(index2 == 1){
+			inputValue2 = "삼가 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "남천 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "오대산"){
+		if(index2 == 1){
+			inputValue2 = "소금강 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "월악산"){
+		if(index2 == 1){
+			inputValue2 = "닷돈재 풀옵션 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "닷돈재 자동차 야영장 예약현황";
+			
+		}else if(index2 == 3){
+			inputValue2 = "덕주 야영장 예약현황";
+			
+		}else if(index2 == 4){
+			inputValue2 = "송계 야영장 예약현황";
+			
+		}else if(index2 == 5){
+			inputValue2 = "용하 야영장 예약현황";
+			
+		}else if(index2 == 6){
+			inputValue2 = "하선암 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "월출산"){
+		if(index2 == 1){
+			inputValue2 = "천황 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "주왕산"){
+		if(index2 == 1){
+			inputValue2 = "상의 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "지리산"){
+		if(index2 == 1){
+			inputValue2 = "학천카라반 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "덕동 야영장 예약현황";
+			
+		}else if(index2 == 3){
+			inputValue2 = "달궁힐링 예약현황";
+			
+		}else if(index2 == 4){
+			inputValue2 = "달궁자동차 예약현황";
+			
+		}else if(index2 == 5){
+			inputValue2 = "뱅사골자동차 야영장 예약현황";
+			
+		}else if(index2 == 6){
+			inputValue2 = "뱅사골힐링 야영장 예약현황";
+			
+		}else if(index2 == 7){
+			inputValue2 = "소막골 야영장 예약현황";
+			
+		}else if(index2 == 8){
+			inputValue2 = "내원 야영장 예약현황";
+			
+		}else if(index2 == 9){
+			inputValue2 = "백무동 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "치악산"){
+		if(index2 == 1){
+			inputValue2 = "구룡 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "금대 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "태백산"){
+		if(index2 == 1){
+			inputValue2 = "소도 야영장 예약현황";
+		}
+		
+	}else if(arr[index1] == "태백해안"){
+		if(index2 == 1){
+			inputValue2 = "몽산포 야영장 예약현황";
+			
+		}else if(index2 == 2){
+			inputValue2 = "학암포 야영장 예약현황";
+		}
+	
+	}else if(arr[index1] == "한려해상"){
+		if(index2 == 1){
+			inputValue2 = "학동 야영장 예약현황";
+		}
+		
+	}
+
+	
+	inputValue1 = arr[index1]
+	
+	
+	category2 = document.getElementById('category2');
+	category2.innerHTML = inputValue1; 
+	
+	
+	category3 = document.getElementById('category3');
+	category3.innerHTML = inputValue2; 
+
+} 
+
+  
 
 
 </script>
@@ -97,11 +315,11 @@ function clickPlace(sel1, sel2){
 	                         <ul class="nav-tabs tab-menu">
 	                         	
                        		
-                       			<li><a href="javascript:void(0);" onclick="javascript:clickPlace('01','01'); ">삼정 </a></li>
+                       			<li><a id="0101"  href="" onclick="clickPlace('01','01');">삼정 </a></li>
  
-                       			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('01','02'); return false;">치인 </a></li>
+                       			<li><a id="0102" href="" onclick="clickPlace('01','02'); ">치인 </a></li>
 
-                       			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('01','02'); return false;">백운동 </a></li>
+                       			<li><a id="0103" href="" onclick="clickPlace('01','03'); ">백운동 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -114,7 +332,7 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('02','01'); return false;">동학사 </a></li>
+	                         			<li><a id="0201" href="" onclick="clickPlace('02','01');">동학사 </a></li>
 	
 	                             
 	                         </ul>
@@ -128,9 +346,9 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('03','01'); return false;">가인 </a></li>
+	                         			<li><a id="0301" href="" onclick="clickPlace('03','01');">가인 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('03','02'); return false;">내장 </a></li>
+	                         			<li><a id="0302" href="" onclick="clickPlace('03','02');">내장 </a></li>
 	                         		
 
 	                         </ul>
@@ -142,11 +360,11 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('04','01'); return false;">팔영산 </a></li>
+	                         			<li><a id="0401" href="" onclick="clickPlace('04','01');">팔영산 </a></li>
    		
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('04','02'); return false;">염포 </a></li>
+	                         			<li><a id="0402" href="" onclick="clickPlace('04','02');">염포 </a></li>
   		
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('04','03'); return false;">구계등 </a></li>
+	                         			<li><a id="0403" href="" onclick="clickPlace('04','03');">구계등 </a></li>
 	
 	                             
 	                         </ul>
@@ -162,9 +380,9 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('05','01'); return false;">덕유대 체류형 숙박시설 </a></li>
+	                         			<li><a id="0501" href="" onclick="clickPlace('05','01');">덕유대 체류형 숙박시설 </a></li>
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('05','02'); return false;">덕유대 야영장 </a></li>
+	                         			<li><a id="0502" href="" onclick="clickPlace('05','02');">덕유대 야영장 </a></li>
 	                         		
 	                             
 	                         </ul>
@@ -179,7 +397,7 @@ function clickPlace(sel1, sel2){
 	                         <ul class="nav-tabs tab-menu">
 
 	                         		
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('06','01'); return false;">도원 </a></li>
+	                         			<li><a id="0601" href="" onclick="clickPlace('06','01');">도원 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -192,7 +410,7 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('07','01'); return false;">고사포 </a></li>
+	                         			<li><a id="0701" href="" onclick="clickPlace('07','01'); ">고사포 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -203,7 +421,7 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('08','01'); return false;">설악 </a></li>
+	                         			<li><a id="0801" href="" onclick="clickPlace('08','01'); ">설악 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -218,9 +436,9 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('09','01'); return false;">삼가 </a></li>
+	                         			<li><a id="0901" href="" onclick="clickPlace('09','01'); ">삼가 </a></li>
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('09','02'); return false;">남천 </a></li>
+	                         			<li><a id="0902" href="" onclick="clickPlace('09','02'); ">남천 </a></li>
    
 	                         </ul>
 	                     </div>
@@ -233,7 +451,7 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('10','01'); return false;">소금강 </a></li>
+	                         			<li><a id="1001" href="" onclick="clickPlace('10','01');">소금강 </a></li>
 	
 	                             
 	                         </ul>
@@ -248,17 +466,17 @@ function clickPlace(sel1, sel2){
 	                         <ul class="nav-tabs tab-menu">
 	                         	
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('11','01'); return false;">닷돈재풀옵션 </a></li>
+	                         			<li><a id="1101" href="" onclick="clickPlace('11','01'); ">닷돈재풀옵션 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('11','02'); return false;">닷돈재자동차 </a></li>
+	                         			<li><a id="1102" href="" onclick="clickPlace('11','02'); ">닷돈재자동차 </a></li>
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('11','03'); return false;">덕주 </a></li>
+	                         			<li><a id="1103" href="" onclick="clickPlace('11','03'); ">덕주 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('11','04'); return false;">송계 </a></li>
+	                         			<li><a id="1104" href="" onclick="clickPlace('11','04'); ">송계 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('11','05'); return false;">용하 </a></li>
+	                         			<li><a id="1105" href="" onclick="clickPlace('11','05'); ">용하 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('11','06'); return false;">하선암 </a></li>
+	                         			<li><a id="1106" href="" onclick="clickPlace('11','06'); ">하선암 </a></li>
 	                         		
  
 	                         </ul>
@@ -271,7 +489,7 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('12','01'); return false;">천황 </a></li>
+	                         			<li><a id="1201" href="" onclick="clickPlace('12','01'); ">천황 </a></li>
 	                         		
 	
 	                             
@@ -289,7 +507,7 @@ function clickPlace(sel1, sel2){
 	                         <ul class="nav-tabs tab-menu">
 	                         	
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('13','01'); return false;">상의 </a></li>
+	                         			<li><a id="1301" href="" onclick="clickPlace('13','01'); ">상의 </a></li>
 	
 	                             
 	                         </ul>
@@ -301,23 +519,23 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','01'); return false;">학천카라반 </a></li>
+	                         			<li><a id="1401" href="" onclick="clickPlace('14','01'); ">학천카라반 </a></li>
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','02'); return false;">덕동 </a></li>
+	                         			<li><a id="1402" href="" onclick="clickPlace('14','02'); ">덕동 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','03'); return false;">달궁힐링 </a></li>
+	                         			<li><a id="1403" href="" onclick="clickPlace('14','03'); ">달궁힐링 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','04'); return false;">달궁자동차 </a></li>
+	                         			<li><a id="1404" href="" onclick="clickPlace('14','04'); ">달궁자동차 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','05'); return false;">뱀사골자동차 </a></li>
+	                         			<li><a id="1405" href="" onclick="clickPlace('14','05'); ">뱀사골자동차 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','06'); return false;">뱀사골힐링 </a></li>
+	                         			<li><a id="1406" href="" onclick="clickPlace('14','06'); ">뱀사골힐링 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','07'); return false;">소막골 </a></li>
+	                         			<li><a id="1407" href="" onclick="clickPlace('14','07'); ">소막골 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','08'); return false;">내원 </a></li>
+	                         			<li><a id="1408" href="" onclick="clickPlace('14','08'); ">내원 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('14','09'); return false;">백무동 </a></li>
+	                         			<li><a id="1409" href="" onclick="clickPlace('14','09'); ">백무동 </a></li>
 	
 	                             
 	                         </ul>
@@ -331,9 +549,9 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('15','01'); return false;">구룡 </a></li>
+	                         			<li><a id="1501" href="" onclick="clickPlace('15','01'); ">구룡 </a></li>
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('15','02'); return false;">금대 </a></li>
+	                         			<li><a id="1502" href="" onclick="clickPlace('15','02'); ">금대 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -344,7 +562,7 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('16','01'); return false;">소도 </a></li>
+	                         			<li><a id="1601" href="" onclick="clickPlace('16','01'); return">소도 </a></li>
 	
 	                             
 	                         </ul>
@@ -361,9 +579,9 @@ function clickPlace(sel1, sel2){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('17','01'); return false;">몽산포 </a></li>
+	                         			<li><a id="1701" href="" onclick="clickPlace('17','01'); ">몽산포 </a></li>
 	
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('17','02'); return false;">학암포 </a></li>
+	                         			<li><a id="1702" href="" onclick="clickPlace('17','02'); ">학암포 </a></li>
 	                         		
 	
 	                         </ul>
@@ -378,7 +596,7 @@ function clickPlace(sel1, sel2){
 	                         <ul class="nav-tabs tab-menu">
 	                         	
 
-	                         			<li><a href="javascript:void(0);" onclick="javascript:selectPlace('18','01'); return false;">학동 </a></li>
+	                         			<li><a id="1801" href="" onclick="clickPlace('18','01');">학동 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -397,11 +615,15 @@ function clickPlace(sel1, sel2){
          
          
          
+        
+        
+         
+         
          <div class="content-view" id="content-view" style="display:none;">
                     <div class="tab-pane is-active" id="tab14-5">
                         <div class="title-area">
-                            <span class="label"><i class="icon-location"></i> 가야산</span>
-                            <h4 class="title">삼정 야영장 예약현황</h4>
+                            <span class="label" id="category2"><i class="icon-location"></i> 가야산</span>
+                            <h4 class="title" id="category3">삼정 야영장 예약현황</h4>
                             <span class="copy">야영장은 개시기간 기준 아이디 당 2건으로 제한 됩니다.</span>
                         </div>
 
