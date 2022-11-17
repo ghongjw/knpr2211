@@ -7,7 +7,7 @@
                 </li>
                 <li>사업자등록번호: 1234-12-1234</li>
                 <li>예약안내: 010-1234-1234 (평일 09-18시, 점심시간 12-13시)</li>
-                <li>이메일: csnp@knps.or.kr</li>
+                <li>이메일: csnp@knps.or.kra</li>
             </ul>
             <p class="copyright">Copyright@Korea National Park Service. All Rights Reserved.</p>
             <div class="policy-area">
