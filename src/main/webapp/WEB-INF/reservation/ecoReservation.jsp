@@ -141,32 +141,32 @@
 														// arr[2] 형태 : 2022-01-02
 														var selectArr = arr[2].split("-");
 														var selectDate = new Date( selectArr[0], selectArr[1]-1, selectArr[2]);
-														
 														var diff = selectDate - todayDate ;
 														var check = parseInt(diff/currDay);
 														
 														// 날짜선택 이벤트 검증
-														if(check <0){// 선택한 날짜가 오늘보다 적으면 안됨.
+														if(arr[2] == "disable"){
+															event.preventDefault();
+														}
+														else if(check <0){// 선택한 날짜가 오늘보다 적으면 안됨.
 														}
 														else if(selectStartDay == null && selectEndDay == null){// 입실일 : 선택x , 퇴실일 : 선택x
-															
 															selectStartDay = arr[2];
 															$("."+selectStartDay).css("background", "#8BBDFF").css("border-radius", "5px");
 															$("#startDt").html(selectStartDay);
 															
 														}
 														else if(selectStartDay != null && selectEndDay == null){// 입실일 : 선택o , 퇴실일 : 선택x
-															
 															selectEndDay = arr[2];
 															$("."+selectEndDay).css("background", "#8BBDFF").css("border-radius", "5px");
 															$("#endDt").html(selectEndDay);
 															
 															// 체류기간(입실일 ~ 퇴실일)
 															var startArr = selectStartDay.split("-");
-															var startDate = new Date(startArr[0], startArr[1], startArr[2]);
+															var startDate = new Date(startArr[0], startArr[1]-1, startArr[2]);
 															
 															var endArr = selectEndDay.split("-");
-															var endDate = new Date(endArr[0], endArr[1], endArr[2]);
+															var endDate = new Date(endArr[0], endArr[1]-1, endArr[2]);
 															
 															diff = endDate - startDate;
 															check = parseInt(diff/currDay);
