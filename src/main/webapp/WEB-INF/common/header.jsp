@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
    <meta name="viewport" content="width=device-width">
-   <c:url var="root" value="/" />
+<%--    <c:url var="root" value="/" /> --%>
 	<link rel="stylesheet" href="${root }assets/style/commonb07b.css?ver1">
 	<link rel="stylesheet" href="${root }assets/style/commonb07b.css">
 	<script src="${root }assets/js/lib/jquery-1.12.4.min.js"></script>

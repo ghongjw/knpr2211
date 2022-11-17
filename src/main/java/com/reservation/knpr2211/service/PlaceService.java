@@ -27,9 +27,15 @@ public class PlaceService implements IPlaceService {
 	@Transactional
 	public ArrayList<PlaceDTO> selectPlace(String parkId,String parkDetail){
 		
-		
+		if(parkDetail==null && parkDetail.isEmpty() && parkId == null && parkId.isEmpty()) {
+			
+			parkId="A01";
+			parkDetail = "A0101";
+		}
 		if(parkDetail==null||parkDetail.isEmpty()) {
 			parkDetail = parkId+"01";
+		}if(parkId==null&&parkDetail!=null) {
+			parkId = parkDetail.substring(0,3);
 		}
 		if(!parkId.equals(parkDetail.substring(0, 3))) {
 			parkDetail = parkId+"01";
@@ -40,6 +46,7 @@ public class PlaceService implements IPlaceService {
 		//카테고리별 중복제거 값 불러오기
 		ArrayList<String> category2s = pr.findDistintCategory2(category1);
 		ArrayList<String> category3s = pr.findDistintCategory3(category2);
+		
 		//카테고리별 값 한국어로 바꾸기
 		ArrayList<String> nameOfCategory2s = new ArrayList<>();
 		
@@ -51,17 +58,21 @@ public class PlaceService implements IPlaceService {
 		for(String a : category3s) {
 			a = mcs.findCategory(a); 
 			nameOfCategory3s.add(a);
+			//System.out.println("a"+a);
 		}
+		
 		session.setAttribute("category2s", category2s);
 		session.setAttribute("category3s", category3s);
 		session.setAttribute("nameOfCategory2s", nameOfCategory2s);
 		session.setAttribute("nameOfCategory3s", nameOfCategory3s);
 		session.setAttribute("selectedParkDetail", parkDetail);
 		
-		if(parkId.length() == 3) {
-			parkId = parkId+"01";
-		}
-		ArrayList<Place>  places= pr.findByCategory3(parkDetail);
+		ArrayList<Place>  places;
+		if(category1.equals("C")||category1.equals("D")) {
+			places= pr.find(parkId);
+		}else
+		places= pr.findByCategory3(parkDetail);
+		
 		System.out.println("places"+places);
 		ArrayList<PlaceDTO> placeDtos = new ArrayList<>();
 		
@@ -94,16 +105,16 @@ public class PlaceService implements IPlaceService {
 			placeDto.setY(a.getY());
 			
 			placeDtos.add(placeDto);
-			System.out.println(placeDtos);
+			//System.out.println(placeDtos);
+			//System.out.println("placeDto"+placeDto.getNameCategory3());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 		int imagecount = imageFile(parkDetail);
 		session.setAttribute("imagecount", imagecount);
-	
+		System.out.println(imagecount);
 	 return placeDtos;
 	 
 	}

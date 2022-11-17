@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MountainCodeService {
+	
+	//이 메서드에 코드를 넣으면 그 코드에 합당하는 이름을 반환한다
 	public String findCategory(String parkId) {
 		
 		if(parkId.length()==1) {

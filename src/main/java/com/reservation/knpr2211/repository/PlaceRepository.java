@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.reservation.knpr2211.entity.Place;
@@ -26,6 +27,11 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	
 	@Query(nativeQuery=true, value = "select distinct category3 from place where category2 = ?1")
 	ArrayList<String> findDistintCategory3(String category2);
+
+	@Query(nativeQuery=true, value = "select * from place where category2 like CONCAT('%',:category2,'%')")
+	ArrayList<Place> find(@Param("category2") String category2);
+	
+	
 	
 	
 }

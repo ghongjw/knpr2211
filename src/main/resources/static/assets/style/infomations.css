@@ -1,7 +1,9 @@
 @charset "UTF-8";
 
-.yeobeck {
-	height: 100px;
+
+.detailInfo{
+    margin: 64px auto 0;
+    padding: 20px 20px 60px;
 }
 .pageLocation{
 	margin: 0 30px;
@@ -167,15 +169,23 @@
     border-bottom: 1px solid #1e1f21;
 	}
 .c-wrap{
-	align-items: flex-start;
-	display:wrap;
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    height: 56px;
+    padding: 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
 }
   	.c-wrap .arcordion{
 	display: flex;
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
-    height: 56px;
+    height: 100%;
     padding: 0 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -192,10 +202,9 @@
     color: #666;
     line-height: 24px;
 	}
-	.arc dd{
-	
+	.conArea{
+	float:left; height:100px; width:130%;
 	}
-
 .information .title-area .btn-area .btn.btn-bookmark.is-active > i {
   color: #fff;
 }
@@ -320,6 +329,14 @@
 	.gongbeck{
 	width:100%;
 	height:50px;
+	}
+	.detailInfo{
+    margin: 64px auto 0;
+    padding: 20px 20px 60px;
+    
+}
+.conArea{
+	float:left; height:100px; width:130%;
 	}
 }
 
