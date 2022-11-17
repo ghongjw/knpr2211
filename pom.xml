@@ -74,11 +74,15 @@
 		<version>2.4</version>
 		</dependency>
 
+<<<<<<< HEAD
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-core</artifactId>
 </dependency>
+=======
+
+>>>>>>> 8f083e2352479ff19eb4ebc23b1d6fb30d6b5965
 
 <dependency>
     <groupId>org.projectlombok</groupId>
@@ -102,6 +106,22 @@
 
 	<build>
 		<plugins>
+		<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.0.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
+							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

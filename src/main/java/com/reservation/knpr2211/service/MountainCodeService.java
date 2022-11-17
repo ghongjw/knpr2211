@@ -21,7 +21,6 @@ public class MountainCodeService {
 		}
 		return "실패";
 	}
-	
 	public String category1(String parkId) {
 		char cat=parkId.charAt(0);
 		String category = "";
@@ -78,7 +77,9 @@ public class MountainCodeService {
 	}
 	public String category3(String parkId) {
 		if(parkId.length()==3) {
+
 			parkId = parkId+"01";
+
 		}
 		String category = parkId.substring(0,1);
 		String category1 = parkId.substring(1,3);
@@ -87,7 +88,9 @@ public class MountainCodeService {
 		int intcat = Integer.parseInt(category2)-1;
 		ArrayList<String> list = new ArrayList<>();
 		
+
 		switch (category+category1) {
+
 		//야영장
 		case "A01": list.add("삼정"); list.add("치인"); list.add("백운동"); 
 			break;

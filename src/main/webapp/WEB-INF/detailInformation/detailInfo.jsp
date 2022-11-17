@@ -13,13 +13,13 @@
 	$('document').ready(function(){
 		
 	})
-	
 </script>
 <%@ include file="../common/header.jsp" %>
 <div class="yeobeck"></div>
 <div class = "pageLocation">
     <span>홈</span>
     <span class="loca">이용안내</span>
+<<<<<<< HEAD
     <span class="loca">${cat[0].category1}</span>
 </div>
 <div class = "detailInformation">
@@ -39,6 +39,15 @@
 			<td style="width: 80px; height:40px;" align="center">${list.memo } </td>
 		</tr>
 	</c:forEach>
+
+    <span class="loca">${cat.getCategory1()}</span>
+</div>
+<div class = "detailInformation">
+	<h3 class = "title">${cat.getCategory1()} 이용안내</h3>
+	<div class = "serchBox">
+	<select id="category2">
+	
+
 	</select>
 	</div>
 </div>

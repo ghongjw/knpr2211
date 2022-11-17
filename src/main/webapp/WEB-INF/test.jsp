@@ -419,6 +419,7 @@ function calendarInit() {
 </head>
 <body>
 
+<<<<<<< HEAD
 <div class="sec_cal">
   <div class="cal_nav">
     <a href="javascript:;" class="nav-btn go-prev">prev</a>
@@ -438,6 +439,9 @@ function calendarInit() {
     <div class="dates"></div>
   </div>
 </div>
+
+hello world!!
+hello
 
 </body>
 </html>
