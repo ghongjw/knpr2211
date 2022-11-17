@@ -1,6 +1,6 @@
 package com.reservation.knpr2211.notification.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,7 +21,7 @@ import lombok.Setter;
 public class Notice {
 	
 	@Id
-	private int id;
+	private long id;
 	
 	private String title;
 	
@@ -33,15 +33,21 @@ public class Notice {
 	
 	private String file;
 	
-	private int notice_yn;
+	private char notice_yn;
 	
-	private int delete_yn;
+	private char delete_yn;
 	
-	private Date createDate;
+	private LocalDateTime createDate = LocalDateTime.now();
 	
-	private Date modifiedDate;
+	private LocalDateTime modifiedDate;
 	
-	public Notice() {
-		
+	public Notice(String title, String content, String category1, int hit, String file, char notice_yn, char delete_yn) {
+		this.title = title;
+		this.content = content;
+		this.category1 = category1;
+		this.hit = hit;
+		this.file = file;
+		this.notice_yn = notice_yn;
+		this.delete_yn = delete_yn;
 	}
 }
