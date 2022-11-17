@@ -131,7 +131,7 @@
                 
                  <tbody class="tbody">
                  
-                <c:choose>
+                <c:choose> 
                 <c:when test="${detailInfo[0].category1 eq 'C' }"> 
 	                <c:forEach var = "list" items="${detailInfo}">
 	                    <tr>
@@ -153,10 +153,8 @@
                  </c:forEach>
             
                 </c:when>
-                    <tr>
-                
-                </tr>
-                </c:choose>
+                 
+               </c:choose> 
                 </tbody>
             </table>
             
