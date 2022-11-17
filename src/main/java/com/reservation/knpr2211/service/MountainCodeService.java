@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MountainCodeService {
 	public String findCategory(String parkId) {
-		
+
 		if(parkId.length()==1) {
 			return category1(parkId);
 		}
@@ -22,7 +22,7 @@ public class MountainCodeService {
 		}
 		return "실패";
 	}
-	
+
 	public String category1(String parkId) {
 		char cat=parkId.charAt(0);
 		String category = "";
@@ -79,7 +79,9 @@ public class MountainCodeService {
 	}
 	public String category3(String parkId) {
 		if(parkId.length()==3) {
+
 			parkId = parkId+"01";
+
 		}
 		String category = parkId.substring(0,1);
 		String category1 = parkId.substring(1,3);
@@ -88,7 +90,9 @@ public class MountainCodeService {
 		int intcat = Integer.parseInt(category2)-1;
 		ArrayList<String> list = new ArrayList<>();
 		
+
 		switch (category+category1) {
+
 		//야영장
 		case "A01": list.add("삼정"); list.add("치인"); list.add("백운동"); 
 			break;
@@ -133,6 +137,7 @@ public class MountainCodeService {
 		case "A14": list.add("학천카라반"); list.add("덕동"); list.add("달궁힐링"); list.add("달궁자동차"); 
 			list.add("뱅사골자동차"); list.add("뱅사골힐링"); list.add("소막골"); list.add("내원"); list.add("백무동");
 			break;
+
 
 		case "A15": list.add("구룡"); list.add("금대");
 			break;
@@ -298,18 +303,7 @@ public class MountainCodeService {
 		}else if(category.equals("A1801")) {
 			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
 		}
-		
-		else if(category.equals("B0101")) {
-			list.add(" ");
-		}
-		else if(category.equals("B0301")) {
-			list.add("자동차야영장");
-		}
-		else if(category.equals("B0405")) {
-			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
-		}else if(category.equals("B0406")) {
-			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
-		}
+
 		return list.get(intcat);
 	}
 }

@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
-    <title>test</title>
+
+   
 <link rel="stylesheet" href="/assets/style/commonb07b.css">
     
 	<script src="/assets/js/lib/jquery-1.12.4.min.js"></script>
@@ -14,11 +15,18 @@
 	<script src="/assets/js/scripts.js"></script>
 	<script src="/assets/js/common.js?ver4"></script>
 
+
+   <meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
+
+    
+    <title>knpr2211</title>
+
     </head>
    
 <header id="header">
     <h1>
-        <a href="../../index.html" class="logo">국립공원 예약시스템</a>
+        <a href="index" class="logo">국립공원 예약시스템</a>
     </h1>
     <nav>
         <ul class="gnb">
@@ -29,7 +37,7 @@
                         
                             <li><a href="campsiteInfo">야영장</a></li>
                         
-                            <li><a href="selterInfo">대피소</a></li>
+                            <li><a href="shelterInfo">대피소</a></li>
                         
                             <li><a href="ecologyInfo">생태탐방원</a></li>
                         
@@ -57,13 +65,13 @@
                     <a href="javascript:void(0);" class="depth1">알림마당</a>
                     <ul class="depth2">
                         
-                            <li><a href="">공지사항</a></li>
+                            <li><a href="notice">공지사항</a></li>
                         
-                            <li><a href="">자주하는 질문</a></li>
+                            <li><a href="faq">자주하는 질문</a></li>
                         
-                            <li><a href="">묻고 답하기</a></li>
+                            <li><a href="board">묻고 답하기</a></li>
                         
-                            <li><a href="">예약·환불정책</a></li>
+                            <li><a href="policy">예약·환불정책</a></li>
                         
                     </ul>
                 </li>
@@ -94,19 +102,28 @@
         
             <!-- 비 로그인 상태 -->
             <c:if test="${empty sessionScope.id }">
-            <a href="" class="btn-login">
+            <a href="login" class="btn-login">
                 <i class="icon-user-check"></i>
                 <span>로그인</span>
             </a>
-            <a href="" class="btn-join" target="_blank">
+            <a href="register" class="btn-join">
                 <i class="icon-user-plus"></i>
                 <span>회원가입</span>
             </a>
             </c:if>
-               <!-- 비 로그인 상태 -->
+               <!--  로그인 상태 -->
             <c:if test="${not empty sessionScope.id }">
-                <span>${sessionScope.id}님 반갑습니다</span>
-            </a>
+            
+			  <div class="lang-area">
+                        <button class="btn btn-toggle" data-popup="layer-language">
+                            <i class="icon-globe"></i>
+                            <span>${sessionScope.id}님 반갑습니다</span>
+                        </button>
+                        <div class="layer-language" id="layer-language2">
+                            <button class="btn is-active" onclick="location.href='logout'" >로그아웃</button>
+                            <button class="btn" onclick="">회원정보 수정</button>
+                        </div>
+                    </div>
             </c:if>
     </div>
     <div class="util-area" data-device-mode="mobile">
@@ -125,6 +142,8 @@
            			 <c:if test="${empty sessionScope.id }">
        
                     <a href="" class="btn-login">로그인이<br>필요합니다.</a>
+                    
+                    
                     <a href="" class="btn-join" target="_blank">
                         <i class="icon-user-plus"></i>
                         <span>회원가입</span>
@@ -147,7 +166,7 @@
                         
                             <li><a href="campsiteInfo">야영장</a></li>
                         
-                            <li><a href="selterInfo">대피소</a></li>
+                            <li><a href="shelterInfo">대피소</a></li>
                         
                             <li><a href="ecologyInfo">생태탐방원</a></li>
                         
