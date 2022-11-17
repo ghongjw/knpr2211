@@ -16,9 +16,9 @@ public class ServiceInfomationController {
 		return  "serviceGuide/campsiteInfo";
 	}
 	//대피소
-	@RequestMapping("selterInfo")
+	@RequestMapping("shelterInfo")
 	public String selterInfo() {
-		return  "serviceGuide/selterInfo";
+		return  "serviceGuide/shelterInfo";
 	}
 	//생태탐방원
 	@RequestMapping("ecologyInfo")

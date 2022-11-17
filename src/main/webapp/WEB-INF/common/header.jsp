@@ -2,7 +2,18 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
-    <title>test</title>
+   <meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
+	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/lib/swiper.js"></script>
+	<script src="assets/js/lib/datepicker.min.js"></script>
+	<script src="assets/js/lib/jquery.fs.zoomer.min.js"></script>
+	<script src="assets/js/lib/jquery.rwdImageMaps.min.js"></script>
+	<script src="assets/js/lib/toastr.min.js"></script>
+	<script src="assets/js/scripts.js"></script>
+	<script src="assets/js/common9b00.js?ver4"></script>
+    
+    <title>knpr2211</title>
     </head>
 <header id="header">
     <h1>
@@ -17,7 +28,7 @@
                         
                             <li><a href="campsiteInfo">야영장</a></li>
                         
-                            <li><a href="selterInfo">대피소</a></li>
+                            <li><a href="shelterInfo">대피소</a></li>
                         
                             <li><a href="ecologyInfo">생태탐방원</a></li>
                         
@@ -135,7 +146,7 @@
                         
                             <li><a href="campsiteInfo">야영장</a></li>
                         
-                            <li><a href="selterInfo">대피소</a></li>
+                            <li><a href="shelterInfo">대피소</a></li>
                         
                             <li><a href="ecologyInfo">생태탐방원</a></li>
                         
