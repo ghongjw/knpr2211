@@ -3,16 +3,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
    <meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
-	<link rel="stylesheet" href="assets/style/commonb07b.css">
-	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="assets/js/lib/swiper.js"></script>
-	<script src="assets/js/lib/datepicker.min.js"></script>
-	<script src="assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="assets/js/lib/toastr.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/common9b00.js?ver4"></script>
+   <c:url var="root" value="/" />
+	<link rel="stylesheet" href="${root }assets/style/commonb07b.css?ver1">
+	<link rel="stylesheet" href="${root }assets/style/commonb07b.css">
+	<script src="${root }assets/js/lib/jquery-1.12.4.min.js"></script>
+	<script src="${root }assets/js/lib/swiper.js"></script>
+	<script src="${root }assets/js/lib/datepicker.min.js"></script>
+	<script src="${root }assets/js/lib/jquery.fs.zoomer.min.js"></script>
+	<script src="${root }assets/js/lib/jquery.rwdImageMaps.min.js"></script>
+	<script src="${root }assets/js/lib/toastr.min.js"></script>
+	<script src="${root }assets/js/scripts.js"></script>
+	<script src="${root }assets/js/common9b00.js?ver4"></script>
     
     <title>knpr2211</title>
     </head>

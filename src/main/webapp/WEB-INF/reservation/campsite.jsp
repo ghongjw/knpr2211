@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<c:url var="root" value="/" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<title>국립공원공단 예약시스템</title>
