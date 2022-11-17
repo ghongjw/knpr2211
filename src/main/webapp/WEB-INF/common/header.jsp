@@ -6,7 +6,7 @@
     </head>
 <header id="header">
     <h1>
-        <a href="../../index.html" class="logo">국립공원 예약시스템</a>
+        <a href="index" class="logo">국립공원 예약시스템</a>
     </h1>
     <nav>
         <ul class="gnb">
@@ -91,17 +91,19 @@
                 <span>회원가입</span>
             </a>
             </c:if>
-               <!-- 비 로그인 상태 -->
+               <!--  로그인 상태 -->
             <c:if test="${not empty sessionScope.id }">
-            <a href="" class="btn-login">
-             	<i class="icon-user-check"></i>
-                <span>${sessionScope.id}님 반갑습니다</span>
-            </a>
-            <a href="logout" class="btn-login">
-             	<i class="icon-user-check"></i>
-                <span>로그아웃</span>
-            </a>
             
+			  <div class="lang-area">
+                        <button class="btn btn-toggle" data-popup="layer-language">
+                            <i class="icon-globe"></i>
+                            <span>${sessionScope.id}님 반갑습니다</span>
+                        </button>
+                        <div class="layer-language" id="layer-language2">
+                            <button class="btn is-active" onclick="location.href='logout'" >로그아웃</button>
+                            <button class="btn" onclick="">회원정보 수정</button>
+                        </div>
+                    </div>
             </c:if>
     </div>
     <div class="util-area" data-device-mode="mobile">

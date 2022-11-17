@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
@@ -26,6 +27,8 @@ public class userService {
 
 		if (pw == null || pw.isEmpty())
 			return "비밀번호를 입력하세요.";
+		
+		
 
 		if (pw.equals(pwcon) == false)
 			return "비밀번호가 일치하지않습니다.";
@@ -39,7 +42,11 @@ public class userService {
 		if (mobile == null || mobile.isEmpty())
 			return "연락처를 입력하세요.";
 
-		user entity = user.builder().id(id).pw(pw).name(name).email(email).mobile(mobile).member(member).build();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		String securePw = encoder.encode(pw);
+		
+		user entity = user.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";
@@ -53,8 +60,11 @@ public class userService {
 			return "아이디를 입력하세요";
 		}
 
-		if (pw.equals(userRepository.findByid(id).getPw())) {
-			session.setAttribute("id", id);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		if (encoder.matches(pw, userRepository.findByid(id ).getPw())) {
+			
+			session.setAttribute("id", userRepository.findByid(id).getName());
 
 			return "로그인 성공";
 		}

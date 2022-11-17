@@ -1,6 +1,5 @@
 package com.reservation.knpr2211.information.controller;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +111,11 @@ public class ServiceInfomationController {
 		session.invalidate();
 		return "redirect:login";
 	} 
+	
+	@RequestMapping("index")
+	public String index() {
+		
+		return "login/index";
+	}
 	
 }

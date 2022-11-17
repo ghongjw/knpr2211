@@ -24,7 +24,6 @@
 			<div id="container">
 				
 
-</script>
 <div class="page-location">
     <span>홈</span><span>로그인</span>
 </div>

@@ -37,7 +37,25 @@ function PwConfirm(){
 	
 	
 }
-
+function MailSend(){
+	
+	req = new XMLHttpRequest();
+	req.onreadystatechange = printMsg;
+	req.open('post', 'MailSend');
+	req.send(document.getElementById('email').value);
+	
+}
+function MailCheck(){
+	
+	req = new XMLHTTPRequest();
+	req.onreadystatechange = printMsg;
+	req.open('post', 'MailCheck');
+	req.send(document.getElementById('mailnumber').value);
+	var data = {mailnumber:number};
+	data = JSON.stringify(data);
+	req.send(data);
+	
+}
 
 function printMsg(){
 	var msg = document.getElementById('msg');
@@ -70,9 +88,10 @@ function printMsg(){
         <input type="hidden" name="member" value="normal" >
         <div class="ipin-form">
             <label class="hidden-text">이메일 주소</label>
-            <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="txtMail" name="email">
-              <button type="button" class="btn btn-ipin" onclick="emailconfirm();">이메일인증</button>
+            <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="email" name="email">
+              <button type="button" class="btn btn-ipin" onclick="MailSend();">이메일인증</button>
              <input type="text" class="input-text" placeholder="인증번호 입력" id="mailnumber" name="Mailnumber">
+             <button type="button" class="btn btn-ipin" onclick="MailCheck();">인증번호 확인</button><br><br>
             <label for="txtMobile" class="hidden-text">휴대폰 번호</label>
             <input type="text" class="input-text" placeholder="&#34;-&#34; 없이 휴대전화 번호 입력" title="휴대폰 번호" id="Mobile" name="mobile">
           
