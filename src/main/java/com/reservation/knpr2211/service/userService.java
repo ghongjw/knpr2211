@@ -8,8 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
-import com.reservation.knpr2211.Repository.UserRepository;
 import com.reservation.knpr2211.entity.user;
+import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
 public class userService {
