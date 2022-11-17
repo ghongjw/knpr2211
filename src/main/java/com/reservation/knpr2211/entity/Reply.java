@@ -1,4 +1,4 @@
-package com.reservation.knpr2211.notification.entity;
+package com.reservation.knpr2211.entity;
 
 import java.util.Date;
 

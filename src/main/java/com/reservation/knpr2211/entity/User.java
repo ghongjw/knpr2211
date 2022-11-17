@@ -21,7 +21,7 @@ import lombok.Setter;
 @DynamicUpdate
 @Table(name="user")
 
-public class user {
+public class User {
 
 	//아이디 
 		@Id
@@ -47,7 +47,7 @@ public class user {
 		
 		
 		@Builder
-		public user(String id, String pw, String name, String email, String mobile, String member) {
+		public User(String id, String pw, String name, String email, String mobile, String member) {
 			
 			this.id = id;
 			this.pw = pw;
@@ -63,7 +63,7 @@ public class user {
 
 
 		
-	public user() {
+	public User() {
 		
 	}
 }

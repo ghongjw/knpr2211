@@ -8,11 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
-import com.reservation.knpr2211.entity.user;
+import com.reservation.knpr2211.entity.User;
 import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
-public class userService {
+public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
@@ -46,7 +46,7 @@ public class userService {
 		
 		String securePw = encoder.encode(pw);
 		
-		user entity = user.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";

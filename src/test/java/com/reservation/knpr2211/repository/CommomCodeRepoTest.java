@@ -4,6 +4,5 @@ public class CommomCodeRepoTest {
 	
 
 
-public class CommomCodeRepoTest {
 	
 }

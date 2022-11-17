@@ -11,7 +11,7 @@ import lombok.Setter;
 public class PlaceDTO {
 	public int seq;
 	
-	public String category1;Ø
+	public String category1;
 	
 	public String category2;
 	

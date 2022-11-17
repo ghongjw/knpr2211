@@ -1,4 +1,4 @@
-package com.reservation.knpr2211.notification.service;
+package com.reservation.knpr2211.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.reservation.knpr2211.notification.entity.Board;
-import com.reservation.knpr2211.notification.repository.BoardRepository;
+import com.reservation.knpr2211.entity.Board;
+import com.reservation.knpr2211.repository.BoardRepository;
 
 
 @Service

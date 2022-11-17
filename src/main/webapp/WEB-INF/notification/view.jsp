@@ -1,5 +1,5 @@
 <%@page import="java.util.Optional"%>
-<%@page import="com.reservation.knpr2211.notification.entity.Board"%>
+<%@page import="com.reservation.knpr2211.entity.Board"%>
 
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

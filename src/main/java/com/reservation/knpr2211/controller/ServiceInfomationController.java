@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.reservation.knpr2211.repository.UserRepository;
-import com.reservation.knpr2211.service.userService;
+import com.reservation.knpr2211.service.UserService;
 
 @Controller
 public class ServiceInfomationController {
@@ -49,7 +49,7 @@ public class ServiceInfomationController {
 		
 	//로그인 버튼
 	@Autowired UserRepository user;	
-	@Autowired userService userservice;
+	@Autowired UserService userservice;
 	@Autowired private HttpSession session;
 	@PostMapping(value =  "loginproc")
 	public String loginproc(String id, String pw) {

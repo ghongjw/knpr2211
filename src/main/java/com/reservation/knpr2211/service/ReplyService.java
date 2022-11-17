@@ -1,4 +1,4 @@
-package com.reservation.knpr2211.notification.service;
+package com.reservation.knpr2211.service;
 
 import org.springframework.stereotype.Service;
 

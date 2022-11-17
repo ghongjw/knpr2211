@@ -74,15 +74,13 @@
 		<version>2.4</version>
 		</dependency>
 
-<<<<<<< HEAD
+
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-core</artifactId>
 </dependency>
-=======
 
->>>>>>> 8f083e2352479ff19eb4ebc23b1d6fb30d6b5965
 
 <dependency>
     <groupId>org.projectlombok</groupId>
