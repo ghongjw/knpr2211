@@ -78,6 +78,10 @@ function calendarInit() {
 		}
 
 	}
-
+	
 }
+
+/* 계산 출력 */
+
+
 

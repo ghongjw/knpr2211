@@ -2,6 +2,8 @@ package com.reservation.knpr2211.place.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -21,6 +23,7 @@ import lombok.Setter;
 public class Place {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seq;
 	
 	private String category1;

@@ -4,16 +4,15 @@
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
+
 <link rel="stylesheet"
 	href="../assets/style/reservation/ecoReservation.css">
-
 <script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/reservation/ecoReservation.js"></script>
 <!-- 
 사용x 
+<link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
 <script src="../assets/js/lib/datepicker.min.js"></script>
-
 <script src="../assets/js/lib/swiper.js"></script>
 <script src="../assets/js/lib/jquery.fs.zoomer.min.js"></script>
 <script src="../assets/js/lib/jquery.rwdImageMaps.min.js"></script>
@@ -173,22 +172,26 @@
 															//console.log("일수 차이 >> "+check);
 															
 															if(check == 0){
+																$('#nightDays').html("0");
 																$('#nightDays0').css("border-color","#004ea2").css("color","#004ea2");
 																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
 															}else if(check == 1){
+																$('#nightDays').html("1");
 																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays1').css("border-color","#004ea2").css("color","#004ea2");
 																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
 															}else if(check == 2){
+																$('#nightDays').html("2");
 																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays2').css("border-color","#004ea2").css("color","#004ea2");
 																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
 															}
 															else if(check == 3){
+																$('#nightDays').html("3");
 																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
@@ -199,9 +202,7 @@
 														}else if(selectStartDay != null && selectEndDay != null){// 입실일 : 선택o , 퇴실일 : 선택o
 															location.reload();
 														}
-														
 													})
-													
 													
 												</script>
 												<ul class="dot-list">
@@ -226,6 +227,7 @@
 														class="length-stay" id="nightDays1">1박 2일</span> <span
 														class="length-stay" id="nightDays2">2박 3일</span> <span
 														class="length-stay" id="nightDays3">3박 4일</span>
+														<span style="display: none" id="nightDays"></span>
 												</div>
 											</dd>
 										</dl>
@@ -233,18 +235,18 @@
 											<dt>객실 구분</dt>
 											<dd class="form">
 												<button type="button" class="btn btn-view"
-													onclick="funcArray.drawImage('06001');">객실 보기</button>
+													onclick="funcArray.drawImage('06001');">객실 보기</button>&nbsp;&nbsp;&nbsp;
 												<button type="button" class="btn btn-charge"
 													onclick="openPopup('livingAmtPop');">요금표</button>
 												<!-- 객식 구분 체크박스 넣기 -->
-												<span class="check-area"> <span class="radio-1">
-														<input type="radio" id="txblPblcN" name="txblPblcYn"
-														checked="checked" value="N"> <label
-														for="txblPblcN">개인</label>
-												</span> <span class="radio-1"> <input type="radio"
-														id="txblPblcY" name="txblPblcYn" value="Y"> <label
-														for="txblPblcY">단체</label>
-												</span>
+												<span class="check-area">
+													<c:forEach var="list" items="${roomTypeList}">
+														<span class="radio-1">
+															<input type="radio" id="txblPblcN" name="txblPblcYn" value="${list.priceDay}">
+															<label for="txblPblcN">${list.category3}</label>
+														</span>
+													</c:forEach>
+			                                    </span>
 											</dd>
 										</dl>
 									</div>
@@ -263,12 +265,6 @@
 										<dl class="surtax">
 											<dt>
 												<em>과세 합계</em>
-											</dt>
-											<dd>
-												<em>0</em>원
-											</dd>
-											<dt>
-												<em>면세 합계*</em>
 											</dt>
 											<dd>
 												<em>0</em>원

@@ -10,8 +10,6 @@ import com.reservation.knpr2211.place.entity.Place;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,String>{
 	
-	List<Place> findAll();
-	
-	List<Place> findByCategory3(String category3);
+	List<Place> findAllByCategory2(String category2);
 	
 }
