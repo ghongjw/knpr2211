@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+.yeobeck {
+	height: 100px;
+}
+.pageLocation{
+	margin: 0 30px;
+}
+.loca::before{
+  content: "\e902";
+  margin: 0 6px;
+  font-family: "Iconmoon";
+}
+.information {
+	padding: 20px 0 100px;
+}
+
+.information .map {
+	position: relative;
+	z-index: 10;
+	width: 100%;
+}
+
+.information .map::before {
+	position: absolute;
+	top: 0;
+	right: -20px;
+	bottom: 0;
+	left: -20px;
+	height: 100%;
+	background-color: #f5f8fb;
+}
+.imageMap{
+	 position: relative;
+  z-index: 10;
+  width: 100%;
+}
+.imageMapList {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 26px -4px 0;
+	text-align: center;
+}
+
+.imageMapList .btn {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	width: calc(50% - 8px);
+	height: 48px;
+	margin: 4px 0;
+	padding-left: 10px;
+	background-color: #f5f8fb;
+	border-radius: 16px;
+	text-indent: 6px;
+	box-sizing: border-box;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.imageMapList .btn::before {
+	content: "\e917";
+	font-family: "Iconmoon";
+	color: #d4dde5;
+	text-indent: 0;
+}
+
+.imageMapList .btn::after {
+	content: "\e902";
+	position: absolute;
+	top: calc(50% - 8px);
+	right: 16px;
+	font-family: "Iconmoon";
+	font-size: 16px;
+	color: #d4dde5;
+	text-indent: 0;
+}
+
+.imageMapList .btn.is-active {
+	color: #fff;
+	box-shadow: 0 4px 4px 0 rgb(0 160 101/ 20%);
+	background: linear-gradient(106deg, #009f96 -4%, #00a242 117%);
+}
+
+@media all and (min-width: 1023px) {
+	.information::after{
+	content: "";
+    display: block;
+    clear: both;
+	}
+	.information .imageMap {
+		float: left;
+		width: 680px;
+		margin: 0;
+	}
+	.information .map {
+		width: auto;
+		height: 545px;
+		margin: 0 auto;
+	}
+	.information .map::before {
+		right: 0;
+		left: 0;
+		border-radius: 20px;
+	}
+	.imageMapList {
+		width: 680px;
+		position: absolute;
+   		 left: 600px;
+		justify-content: flex-start;
+		margin: -5px 0 -5px 40px;
+		position: abnsolute;
+	}
+	.imageMapList .btn {
+		position: relative;
+		width: calc(33.3333% - 10px);
+		height: 65px;
+		margin: 5px;
+		padding-left: 20px;
+		text-indent: 12px;
+		font-size: 16px;
+	}
+	.imageMapList .btn::before {
+		font-size: 20px;
+	}
+}
+
+@font-face {
+	font-family: "Iconmoon";
+	src: url("../font/Iconmoon/icomoon49de.eot?siud0k");
+	src: url("../font/Iconmoon/icomoon49de.eot?siud0k#iefix")
+		format("embedded-opentype"),
+		url("../font/Iconmoon/icomoon49de.ttf?siud0k") format("truetype"),
+		url("../font/Iconmoon/icomoon49de.woff?siud0k") format("woff"),
+		url("../img/svg/icon49de.svg?siud0k#icomoon") format("svg");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+@media all and (max-width: 1023px) {
+  [data-device-mode=pc] {
+    display: none !important;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  [data-device-mode=mobile] {
+    display: none !important;
+  }
+}
