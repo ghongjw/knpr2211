@@ -10,16 +10,16 @@
 	<meta name="viewport" content="width=device-width">
 	<title>국립공원공단 예약시스템</title>
 
-<link rel="stylesheet" href="/assets/style/reservation/campsite.css"> 
-<!-- 	<link rel="stylesheet" href="assets/style/commonb07b.css"> -->
-<!-- <script src="/assets/js/lib/jquery-1.12.4.min.js"></script> -->
-<!-- 	<script src="/assets/js/lib/swiper.js"></script> -->
-<!-- 	<script src="/assets/js/lib/datepicker.min.js"></script> -->
-<!-- 	<script src="/assets/js/lib/jquery.fs.zoomer.min.js"></script> -->
-<!-- 	<script src="/assets/js/lib/jquery.rwdImageMaps.min.js"></script> -->
-<!-- 	<script src="/assets/js/lib/toastr.min.js"></script> -->
-<!-- 	<script src="/assets/js/scripts.js"></script> -->
-<!-- 	<script src="/assets/js/common.js?ver4"></script>  -->
+<link rel="stylesheet" href="/assets/style/commonb07b.css">
+
+<script src="/assets/js/lib/jquery-1.12.4.min.js"></script>
+<!-- 	<script src="/assets/js/lib/swiper.js"></script>
+	<script src="/assets/js/lib/datepicker.min.js"></script>
+	<script src="/assets/js/lib/jquery.fs.zoomer.min.js"></script>
+	<script src="/assets/js/lib/jquery.rwdImageMaps.min.js"></script>
+	<script src="/assets/js/lib/toastr.min.js"></script>
+	<script src="/assets/js/scripts.js"></script>
+	<script src="/assets/js/common.js?ver4"></script> -->
 	
 	
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -72,8 +72,8 @@ function sendData(sel1, sel2){
 				code : codeName
 			},
 			
-			success : function(result) {
-				var list = result.list;
+			success : function(data) {
+				var list = data.list;
 				alert(list);
 				console.log(list+"되는 것이냐");
 		     },
@@ -269,15 +269,26 @@ function inputLabel(sel1, sel2){
 	category3.innerHTML = inputValue2; 
 
 } 
+
+  
+
+
 </script>
 
 	
 </head>
 
+
+
+
 <body>
-<%@ include file="../common/header.jsp" %>
 	<div id="wrap" class="sub">
 			
+
+
+
+<%@ include file="../common/header.jsp" %>
+
 
 <div id="container">
 
