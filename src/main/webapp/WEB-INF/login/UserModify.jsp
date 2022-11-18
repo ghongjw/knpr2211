@@ -1,32 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
 	<meta name="viewport" content="width=device-width">
 	
-
-	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
-
-	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="assets/js/lib/swiper.js"></script>
-	<script src="assets/js/lib/datepicker.min.js"></script>
-	<script src="assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="assets/js/lib/toastr.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/common9b00.js?ver4"></script>
-
 <script type="text/javascript">
 var req;
-
-function IdConfirm(){
-	req = new XMLHttpRequest();
-	req.onreadystatechange = printMsg;
-	req.open('post', 'IdConfirm');
-	req.send(document.getElementById('id').value);
-	
-}
 
 function MailSend(){
 	
@@ -53,6 +34,7 @@ function printMsg(){
 }
 
 </script>
+
 <body>
 	<div id="wrap" class="sub">
 
@@ -61,35 +43,40 @@ function printMsg(){
 				
 
 <div class="page-location">
-    <span>홈</span><span>회원가입</span>
+    <span>홈</span><span>회원정보수정</span>
 </div>
 <div class="login">
-    <h3 class="title">회 원 가 입</h3>
+    <h3 class="title">회원정보수정</h3>
    
 <h3>
 	<font color="red" id="msg">${msg } </font>
 </h3><br>
     <form method="post" action="RegisterProc">
-        <input type="text"class="input-text" name="id" id="id" placeholder="아이디"/> 
-        <input type="button" class="input-text" value="아이디중복확인" onclick="IdConfirm()"><br><br>
+        <input type="text"class="input-text" name="id" id="id"  value="${sessionScope.id}" readonly="readonly"/> 
+       
+       
+       
         <input type="password" class="input-text"name="pw" id="pw"placeholder="비밀번호" /><br><br>
+        
         <input type="password" class="input-text"name="PwCon" id="PwCon"placeholder="비밀번호확인" onkeyup="PwConfirm()"/><br><br>
-        <input type="text" class="input-text" name="name" id="name" placeholder="이름"/><br><br>
+        
+        
+        <input type="text" class="input-text" name="name" id="name" value="${sessionScope.name}" /><br><br>
         <input type="hidden" name="member" value="normal" >
         <div class="ipin-form">
             <label class="hidden-text">이메일 주소</label>
-            <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="email" name="email">
+            <input type="text" class="input-text" value="${sessionScope.email}" title="이메일 주소" id="email" name="email">
               <button type="button" class="btn btn-ipin" onclick="MailSend()">이메일인증</button>
              <input type="text" class="input-text" placeholder="인증번호 입력" id="authNumber" name="mailnumber">
              <button type="button" class="btn btn-ipin" onclick="checkAuth()">인증번호 확인</button><br><br>
             <label for="txtMobile" class="hidden-text">휴대폰 번호</label>
-            <input type="text" class="input-text" placeholder="&#34;-&#34; 없이 휴대전화 번호 입력" title="휴대폰 번호" id="Mobile" name="mobile">
+            <input type="text" class="input-text" value="${sessionScope.mobile}" title="휴대폰 번호" id="Mobile" name="mobile">
           
         </div>
         
         <div class="login-form">
-            <button type="submit" class="btn btn-login" >회원가입 </button>
-            <button type="button" class="btn btn-login" onclick="location.href='login'" > 취소</button>
+            <button type="submit" class="btn btn-login" >회원정보수정</button>
+            <button type="button" class="btn btn-login" onclick="location.href='index'" > 취소</button>
         </div>
     </form>
 </div>

@@ -4,22 +4,10 @@
 <html>
 
 	<meta name="viewport" content="width=device-width">
-	
-
-	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
-
-	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="assets/js/lib/swiper.js"></script>
-	<script src="assets/js/lib/datepicker.min.js"></script>
-	<script src="assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="assets/js/lib/toastr.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/common9b00.js?ver4"></script>
 
 <body>
+    <div id="wrap" class="main scroll-x">
 	<div id="wrap" class="sub">
-
 <%@ include file="../common/header.jsp" %>
 			<div id="container">
 		<script>
@@ -103,16 +91,6 @@
                         rsdnChangeStep('1');
                     }
 
-                }else if(tabId == 'tab5'){
-                    $(".slide-popup").next().find(".progressbar > span:eq(1)").html("STEP.1");
-                    $(".slide-popup").next().attr("class", "reservation-area step1");
-                    $('#tab5').find(".grid-row").show();
-                    $('#tab5').find(".grid-column").hide();
-                }else if(tabId == 'tab6'){
-                    $(".slide-popup").next().find(".progressbar > span:eq(1)").html("STEP.1");
-                    $(".slide-popup").next().attr("class", "reservation-area step1");
-                    $('#tab6').find(".grid-row").show();
-                    $('#tab6').find(".grid-column").hide();
                 }
                 //한번 클릭했으면 값 Y로 변경 ( 다음 클릭 시 조회 하지 않기 위해 )
                 isSelect[tabId] = 'Y';
@@ -197,10 +175,13 @@
 </script>
 <div>
     <main>
+    
+    <!-- 슬라이더 시작 -->
         <section>
             <div class="slide-popup">
                 <h3 class="title">주요공지</h3>
                 
+
 
 
 <script>
@@ -234,6 +215,7 @@
         });
     })
 </script>
+<!-- 슬라이더 jsp -->
 <div class="swiper">
     <div class="swiper-wrapper">
         
@@ -280,6 +262,8 @@
         
     </div>
 </div>
+
+<!--예약 서비스 시작 -->
 <div class="swiper-btn">
     <div class="swiper-button-prev" id="popupBtnPrev"></div>
     <div class="swiper-pagination"></div>
@@ -298,8 +282,6 @@
                         <li class="is-active" data-tabid="tab2"><a href="#tab2">대피소</a></li>
                         <li data-tabid="tab3"><a href="#tab3">생태탐방원</a></li>
                         <li data-tabid="tab4"><a href="#tab4">민박촌</a></li>
-                        <li data-tabid="tab5"><a href="#tab5">탐방로 예약제</a></li>
-                        <li data-tabid="tab6"><a href="#tab6">탐방프로그램</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="tab1">
@@ -346,7 +328,8 @@
 	};
 	
 	commn.callAjax = function(props){
-		
+		//로딩바 불러
+				
 		var settings = {};
 		props.isShowLoading = props.isShowLoading || 'Y';
 		settings.dataType = 'json';
@@ -370,6 +353,9 @@
 		
 		return $.ajax(settings);
 	};
+	
+	
+	//날짜 불러옴 
 	
 	commn.getDayWeekNm = function(dayWeek){
         switch (dayWeek) {
@@ -417,6 +403,7 @@
 	    return '' + yy + '-' +  mm  + '-' + dd;
 	};
 	
+	
 	commn.toNumber = function(str){
 		
 		return Number(commn.nvl(str, '0'));
@@ -424,7 +411,7 @@
 	
 	
 	$(function(){
-		
+		//콤마 정규식 변
 		Handlebars.registerHelper('numberWithCommas', function(v1) {
 			if(!v1){
 				v1 = '0';
@@ -434,6 +421,7 @@
 			}
 			return '';
 		});
+		//v1 v2 가 같은지 비교하는 handlebar helper
 		Handlebars.registerHelper('ifCond', function(v1, v2, options) {
 			if(v1 === v2) {
 			  return options.fn(this);
@@ -471,6 +459,7 @@
 				$campTabBtn.trigger('click');
 			}
 		};
+		// 상품명 데이터 불러옴 
 		
 		var refreshDate = function(){
 			
@@ -578,7 +567,7 @@
 				toastrMsg("일시적으로 장애가 발생하였습니다. 잠시 후 다시 시도하여 주시기 바랍니다.","메세지"); //<br />원활한 서비스를 위해 최선을 다하겠습니다.
 			});
 		}
-		
+		//step 1,2 넘어가는 function 
 		var updateStep = function(step){
 			
 			switch(step) {
@@ -601,6 +590,7 @@
 			    	break;
 			}
 		};
+		//산 클릭 (가야산, 지리산 등등 )
 		
 		var campListBindEvents = function(){
 			
@@ -932,14 +922,24 @@
 					
 					updateStep('2');
 					var $prds = $campTab.find('[data-template-id="camp-step2-template"]');
+					
+					//handlebar start
+					//핸들바 템플릿 가져오기 
 					var prdsSource = $('#' + $prds.data('template-id')).html(); 
+					//핸들바 템플릿 컴파일
 					var prdsTemplate = Handlebars.compile(prdsSource);
+					//핸들바 템플릿에 바인딩 할 데이터
 					var prdsTemplateParam = {};
+					
 					var $selectedDept = $campTab.find('[data-dept-dept-nm]:checked');
 					
+					//predsTemplateParam 에 들어갈 내용 (avails, deptParam, deptNm 등등 )
 					prdsTemplateParam.avails = res.avails;
+					//가야산 
 					prdsTemplateParam.deptParentNm = $selectedDept.data('dept-dept-parent-nm');
+					//삼정
 					prdsTemplateParam.deptNm = $selectedDept.data('dept-dept-nm');
+					// B131001
 					prdsTemplateParam.deptId = $selectedDept.data('dept-dept-id');
 					//$campTab.find('[data-area-name="camp-reservation-info"]')
 					prdsTemplateParam.periodText = $info.data('info-period-text');
@@ -948,9 +948,8 @@
 					prdsTemplateParam.endDateText = $info.data('info-end-date-text');
 					prdsTemplateParam.useBgnDtm = $info.data('info-use-bgn-dtm');
 					prdsTemplateParam.useEndDtm = $info.data('info-use-end-dtm');
-					
 					prdsTemplateParam.reserTp = $campTab.find('[name="camp-reservation2"]:checked').val() == 'W' ? 'W' : 'R'; 
-					
+					//데이터 바인딩 해서 HTML생성 일듯?
 					$prds.html(prdsTemplate(prdsTemplateParam));
 					
 					$campTab.find('[data-area-name="step2TotalCnt"]').html(commn.nvl(res.avails).length);
@@ -1056,21 +1055,475 @@
 
 //]]>
 </script>
-
 <div class="grid-row" data-reservation-step="1">
     <div class="grid-cell">
         <h3 class="title">위치</h3>
         <ul class="check-area" data-template-id="camp-group-template">
-        	
-        </ul>
+	<li>
+        <label for="camp-radio1-0" class="radio-check">
+            <input type="radio" id="camp-radio1-0" name="camp-mountain" value="가야산">
+            <span>가야산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-1" class="radio-check">
+            <input type="radio" id="camp-radio1-1" name="camp-mountain" value="계룡산">
+            <span>계룡산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-2" class="radio-check">
+            <input type="radio" id="camp-radio1-2" name="camp-mountain" value="내장산">
+            <span>내장산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-3" class="radio-check">
+            <input type="radio" id="camp-radio1-3" name="camp-mountain" value="다도해해상">
+            <span>다도해해상</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-4" class="radio-check">
+            <input type="radio" id="camp-radio1-4" name="camp-mountain" value="덕유산">
+            <span>덕유산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-5" class="radio-check">
+            <input type="radio" id="camp-radio1-5" name="camp-mountain" value="무등산">
+            <span>무등산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-6" class="radio-check">
+            <input type="radio" id="camp-radio1-6" name="camp-mountain" value="변산반도">
+            <span>변산반도</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-7" class="radio-check">
+            <input type="radio" id="camp-radio1-7" name="camp-mountain" value="설악산">
+            <span>설악산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-8" class="radio-check">
+            <input type="radio" id="camp-radio1-8" name="camp-mountain" value="소백산">
+            <span>소백산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-9" class="radio-check">
+            <input type="radio" id="camp-radio1-9" name="camp-mountain" value="오대산">
+            <span>오대산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-10" class="radio-check">
+            <input type="radio" id="camp-radio1-10" name="camp-mountain" value="월악산">
+            <span>월악산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-11" class="radio-check">
+            <input type="radio" id="camp-radio1-11" name="camp-mountain" value="월출산">
+            <span>월출산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-12" class="radio-check">
+            <input type="radio" id="camp-radio1-12" name="camp-mountain" value="주왕산">
+            <span>주왕산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-13" class="radio-check">
+            <input type="radio" id="camp-radio1-13" name="camp-mountain" value="지리산">
+            <span>지리산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-14" class="radio-check">
+            <input type="radio" id="camp-radio1-14" name="camp-mountain" value="치악산">
+            <span>치악산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-15" class="radio-check">
+            <input type="radio" id="camp-radio1-15" name="camp-mountain" value="태백산">
+            <span>태백산</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-16" class="radio-check">
+            <input type="radio" id="camp-radio1-16" name="camp-mountain" value="태안해안">
+            <span>태안해안</span>
+        </label>
+    </li>
+	<li>
+        <label for="camp-radio1-17" class="radio-check">
+            <input type="radio" id="camp-radio1-17" name="camp-mountain" value="한려해상">
+            <span>한려해상</span>
+        </label>
+    </li>
+</ul>
         <ul class="check-area" data-template-id="camp-dept-template">
-        	
-        </ul>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-0" name="camp-location" data-dept-dept-id="B131001" data-dept-park-id="B13" data-dept-dept-nm="삼정" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">
+            <label for="camp-location1-0">삼정</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-1" name="camp-location" data-dept-dept-id="B131003" data-dept-park-id="B13" data-dept-dept-nm="치인" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">
+            <label for="camp-location1-1">치인</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-2" name="camp-location" data-dept-dept-id="B131002" data-dept-park-id="B13" data-dept-dept-nm="백운동" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">
+            <label for="camp-location1-2">백운동</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-3" name="camp-location" data-dept-dept-id="B161001" data-dept-park-id="B16" data-dept-dept-nm="동학사" data-dept-dept-parent-nm="계룡산" data-dept-dept-parent-id="B161">
+            <label for="camp-location1-3">동학사</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-4" name="camp-location" data-dept-dept-id="B041001" data-dept-park-id="B04" data-dept-dept-nm="가인" data-dept-dept-parent-nm="내장산" data-dept-dept-parent-id="B041">
+            <label for="camp-location1-4">가인</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-5" name="camp-location" data-dept-dept-id="B042001" data-dept-park-id="B04" data-dept-dept-nm="내장" data-dept-dept-parent-nm="내장산" data-dept-dept-parent-id="B042">
+            <label for="camp-location1-5">내장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-6" name="camp-location" data-dept-dept-id="B091001" data-dept-park-id="B09" data-dept-dept-nm="팔영산" data-dept-dept-parent-nm="다도해해상" data-dept-dept-parent-id="B091">
+            <label for="camp-location1-6">팔영산</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-7" name="camp-location" data-dept-dept-id="B091003" data-dept-park-id="B09" data-dept-dept-nm="염포" data-dept-dept-parent-nm="다도해해상" data-dept-dept-parent-id="B091">
+            <label for="camp-location1-7">염포</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-8" name="camp-location" data-dept-dept-id="B091004" data-dept-park-id="B09" data-dept-dept-nm="구계등" data-dept-dept-parent-nm="다도해해상" data-dept-dept-parent-id="B091">
+            <label for="camp-location1-8">구계등</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-9" name="camp-location" data-dept-dept-id="B051006" data-dept-park-id="B05" data-dept-dept-nm="덕유대 체류형 숙박시설" data-dept-dept-parent-nm="덕유산" data-dept-dept-parent-id="B051">
+            <label for="camp-location1-9">덕유대 체류형 숙박시설</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-10" name="camp-location" data-dept-dept-id="B051002" data-dept-park-id="B05" data-dept-dept-nm="덕유대 야영장" data-dept-dept-parent-nm="덕유산" data-dept-dept-parent-id="B051">
+            <label for="camp-location1-10">덕유대 야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-11" name="camp-location" data-dept-dept-id="B172002" data-dept-park-id="B17" data-dept-dept-nm="도원" data-dept-dept-parent-nm="무등산" data-dept-dept-parent-id="B172">
+            <label for="camp-location1-11">도원</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-12" name="camp-location" data-dept-dept-id="B181002" data-dept-park-id="B18" data-dept-dept-nm="고사포" data-dept-dept-parent-nm="변산반도" data-dept-dept-parent-id="B181">
+            <label for="camp-location1-12">고사포</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-13" name="camp-location" data-dept-dept-id="B031005" data-dept-park-id="B03" data-dept-dept-nm="설악" data-dept-dept-parent-nm="설악산" data-dept-dept-parent-id="B031">
+            <label for="camp-location1-13">설악</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-14" name="camp-location" data-dept-dept-id="B121001" data-dept-park-id="B12" data-dept-dept-nm="삼가" data-dept-dept-parent-nm="소백산" data-dept-dept-parent-id="B121">
+            <label for="camp-location1-14">삼가</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-15" name="camp-location" data-dept-dept-id="B122001" data-dept-park-id="B12" data-dept-dept-nm="남천" data-dept-dept-parent-nm="소백산" data-dept-dept-parent-id="B122">
+            <label for="camp-location1-15">남천</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-16" name="camp-location" data-dept-dept-id="B061001" data-dept-park-id="B06" data-dept-dept-nm="소금강" data-dept-dept-parent-nm="오대산" data-dept-dept-parent-id="B061">
+            <label for="camp-location1-16">소금강</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-17" name="camp-location" data-dept-dept-id="B111001" data-dept-park-id="B11" data-dept-dept-nm="닷돈재풀옵션" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-17">닷돈재풀옵션</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-18" name="camp-location" data-dept-dept-id="B111003" data-dept-park-id="B11" data-dept-dept-nm="닷돈재자동차" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-18">닷돈재자동차</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-19" name="camp-location" data-dept-dept-id="B111007" data-dept-park-id="B11" data-dept-dept-nm="덕주" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-19">덕주</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-20" name="camp-location" data-dept-dept-id="B111002" data-dept-park-id="B11" data-dept-dept-nm="송계" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-20">송계</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-21" name="camp-location" data-dept-dept-id="B111004" data-dept-park-id="B11" data-dept-dept-nm="용하" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-21">용하</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-22" name="camp-location" data-dept-dept-id="B111008" data-dept-park-id="B11" data-dept-dept-nm="하선암" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-22">하선암</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-23" name="camp-location" data-dept-dept-id="B201001" data-dept-park-id="B20" data-dept-dept-nm="천황" data-dept-dept-parent-nm="월출산" data-dept-dept-parent-id="B201">
+            <label for="camp-location1-23">천황</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-24" name="camp-location" data-dept-dept-id="B071001" data-dept-park-id="B07" data-dept-dept-nm="상의" data-dept-dept-parent-nm="주왕산" data-dept-dept-parent-id="B071">
+            <label for="camp-location1-24">상의</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-25" name="camp-location" data-dept-dept-id="B012010" data-dept-park-id="B01" data-dept-dept-nm="학천카라반" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B012">
+            <label for="camp-location1-25">학천카라반</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-26" name="camp-location" data-dept-dept-id="B012003" data-dept-park-id="B01" data-dept-dept-nm="덕동" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B012">
+            <label for="camp-location1-26">덕동</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-27" name="camp-location" data-dept-dept-id="B012005" data-dept-park-id="B01" data-dept-dept-nm="달궁힐링" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B012">
+            <label for="camp-location1-27">달궁힐링</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-28" name="camp-location" data-dept-dept-id="B012002" data-dept-park-id="B01" data-dept-dept-nm="달궁자동차" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B012">
+            <label for="camp-location1-28">달궁자동차</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-29" name="camp-location" data-dept-dept-id="B012006" data-dept-park-id="B01" data-dept-dept-nm="뱀사골자동차" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B012">
+            <label for="camp-location1-29">뱀사골자동차</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-30" name="camp-location" data-dept-dept-id="B012004" data-dept-park-id="B01" data-dept-dept-nm="뱀사골힐링" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B012">
+            <label for="camp-location1-30">뱀사골힐링</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-31" name="camp-location" data-dept-dept-id="B011006" data-dept-park-id="B01" data-dept-dept-nm="소막골" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B011">
+            <label for="camp-location1-31">소막골</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-32" name="camp-location" data-dept-dept-id="B011005" data-dept-park-id="B01" data-dept-dept-nm="내원" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B011">
+            <label for="camp-location1-32">내원</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-33" name="camp-location" data-dept-dept-id="B011007" data-dept-park-id="B01" data-dept-dept-nm="백무동" data-dept-dept-parent-nm="지리산" data-dept-dept-parent-id="B011">
+            <label for="camp-location1-33">백무동</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-34" name="camp-location" data-dept-dept-id="B101001" data-dept-park-id="B10" data-dept-dept-nm="구룡" data-dept-dept-parent-nm="치악산" data-dept-dept-parent-id="B101">
+            <label for="camp-location1-34">구룡</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-35" name="camp-location" data-dept-dept-id="B101002" data-dept-park-id="B10" data-dept-dept-nm="금대" data-dept-dept-parent-nm="치악산" data-dept-dept-parent-id="B101">
+            <label for="camp-location1-35">금대</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-36" name="camp-location" data-dept-dept-id="B221004" data-dept-park-id="B22" data-dept-dept-nm="소도" data-dept-dept-parent-nm="태백산" data-dept-dept-parent-id="B221">
+            <label for="camp-location1-36">소도</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-37" name="camp-location" data-dept-dept-id="B081002" data-dept-park-id="B08" data-dept-dept-nm="몽산포" data-dept-dept-parent-nm="태안해안" data-dept-dept-parent-id="B081">
+            <label for="camp-location1-37">몽산포</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-38" name="camp-location" data-dept-dept-id="B081001" data-dept-park-id="B08" data-dept-dept-nm="학암포" data-dept-dept-parent-nm="태안해안" data-dept-dept-parent-id="B081">
+            <label for="camp-location1-38">학암포</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-39" name="camp-location" data-dept-dept-id="B021001" data-dept-park-id="B02" data-dept-dept-nm="학동" data-dept-dept-parent-nm="한려해상" data-dept-dept-parent-id="B021">
+            <label for="camp-location1-39">학동</label>
+        </span>
+    </li>
+</ul>
     </div>
     <div class="grid-cell" data-template-id="camp-calendar-template">
         <h3 class="title">날짜</h3>
         
-        <div class="reservation-info" data-area-name="camp-reservation-info">
+        
+    <div class="calendar" data-area-name="camp-calendar">
+        <div class="calendar-head">
+            <div class="calendar-title">
+                <span>2022</span>. <span>11</span>
+            </div>
+        </div>
+        <div class="calendar-body">
+            <div class="calendar-week">
+    			<div class="day sun">SUN</div>
+                <div class="day">MON</div>
+                <div class="day">TUE</div>
+                <div class="day">WED</div>
+                <div class="day">THE</div>
+                <div class="day">FRI</div>
+                <div class="day sat">SAT</div>
+            </div>
+            <div class="calendar-day">
+    			<div class="calendar-cell"></div>
+    			<div class="calendar-cell"></div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="1" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-01" data-calendar-cell-day-week="2">1</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="2" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-02" data-calendar-cell-day-week="3">2</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="3" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-03" data-calendar-cell-day-week="4">3</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="4" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-04" data-calendar-cell-day-week="5">4</div>
+    			<div class="calendar-cell  disabled sat" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="5" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-05" data-calendar-cell-day-week="6">5</div>
+    			<div class="calendar-cell  disabled sun" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="6" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-06" data-calendar-cell-day-week="7">6</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="7" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-07" data-calendar-cell-day-week="1">7</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="8" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-08" data-calendar-cell-day-week="2">8</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="9" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-09" data-calendar-cell-day-week="3">9</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="10" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-10" data-calendar-cell-day-week="4">10</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="11" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-11" data-calendar-cell-day-week="5">11</div>
+    			<div class="calendar-cell  disabled sat" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="12" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-12" data-calendar-cell-day-week="6">12</div>
+    			<div class="calendar-cell  disabled sun" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="13" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-13" data-calendar-cell-day-week="7">13</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="14" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-14" data-calendar-cell-day-week="1">14</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="15" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-15" data-calendar-cell-day-week="2">15</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="16" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-16" data-calendar-cell-day-week="3">16</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="17" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-17" data-calendar-cell-day-week="4">17</div>
+    			<div class="calendar-cell today  " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="18" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-18" data-calendar-cell-day-week="5">18</div>
+    			<div class="calendar-cell   sat" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="19" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-19" data-calendar-cell-day-week="6">19</div>
+    			<div class="calendar-cell   sun" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="20" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-20" data-calendar-cell-day-week="7">20</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="21" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-21" data-calendar-cell-day-week="1">21</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="22" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-22" data-calendar-cell-day-week="2">22</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="23" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-23" data-calendar-cell-day-week="3">23</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="24" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-24" data-calendar-cell-day-week="4">24</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="25" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-25" data-calendar-cell-day-week="5">25</div>
+    			<div class="calendar-cell   sat" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="26" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-26" data-calendar-cell-day-week="6">26</div>
+    			<div class="calendar-cell   sun" data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="27" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-27" data-calendar-cell-day-week="7">27</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="28" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-28" data-calendar-cell-day-week="1">28</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="29" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-29" data-calendar-cell-day-week="2">29</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="11" data-calendar-cell-day="30" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-11-30" data-calendar-cell-day-week="3">30</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendar" data-area-name="camp-calendar">
+        <div class="calendar-head">
+            <div class="calendar-title">
+                <span>2022</span>. <span>12</span>
+            </div>
+        </div>
+        <div class="calendar-body">
+            <div class="calendar-week">
+    			<div class="day sun">SUN</div>
+                <div class="day">MON</div>
+                <div class="day">TUE</div>
+                <div class="day">WED</div>
+                <div class="day">THE</div>
+                <div class="day">FRI</div>
+                <div class="day sat">SAT</div>
+            </div>
+            <div class="calendar-day">
+    			<div class="calendar-cell"></div>
+    			<div class="calendar-cell"></div>
+    			<div class="calendar-cell"></div>
+    			<div class="calendar-cell"></div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="1" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-01" data-calendar-cell-day-week="4">1</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="2" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-02" data-calendar-cell-day-week="5">2</div>
+    			<div class="calendar-cell   sat" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="3" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-03" data-calendar-cell-day-week="6">3</div>
+    			<div class="calendar-cell   sun" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="4" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-04" data-calendar-cell-day-week="7">4</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="5" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-05" data-calendar-cell-day-week="1">5</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="6" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-06" data-calendar-cell-day-week="2">6</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="7" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-07" data-calendar-cell-day-week="3">7</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="8" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-08" data-calendar-cell-day-week="4">8</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="9" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-09" data-calendar-cell-day-week="5">9</div>
+    			<div class="calendar-cell   sat" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="10" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-10" data-calendar-cell-day-week="6">10</div>
+    			<div class="calendar-cell   sun" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="11" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-11" data-calendar-cell-day-week="7">11</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="12" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-12" data-calendar-cell-day-week="1">12</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="13" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-13" data-calendar-cell-day-week="2">13</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="14" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-14" data-calendar-cell-day-week="3">14</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="15" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-15" data-calendar-cell-day-week="4">15</div>
+    			<div class="calendar-cell   " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="16" data-calendar-cell-is-end-dt="Y" data-calendar-cell-yyyy-mm-dd="2022-12-16" data-calendar-cell-day-week="5">16</div>
+    			<div class="calendar-cell  disabled sat" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="17" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-17" data-calendar-cell-day-week="6">17</div>
+    			<div class="calendar-cell  disabled sun" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="18" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-18" data-calendar-cell-day-week="7">18</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="19" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-19" data-calendar-cell-day-week="1">19</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="20" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-20" data-calendar-cell-day-week="2">20</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="21" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-21" data-calendar-cell-day-week="3">21</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="22" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-22" data-calendar-cell-day-week="4">22</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="23" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-23" data-calendar-cell-day-week="5">23</div>
+    			<div class="calendar-cell  disabled sat" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="24" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-24" data-calendar-cell-day-week="6">24</div>
+    			<div class="calendar-cell  disabled sun" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="25" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-25" data-calendar-cell-day-week="7">25</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="26" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-26" data-calendar-cell-day-week="1">26</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="27" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-27" data-calendar-cell-day-week="2">27</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="28" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-28" data-calendar-cell-day-week="3">28</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="29" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-29" data-calendar-cell-day-week="4">29</div>
+    			<div class="calendar-cell  disabled " data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="30" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-30" data-calendar-cell-day-week="5">30</div>
+    			<div class="calendar-cell  disabled sat" data-calendar-cell-year="2022" data-calendar-cell-month="12" data-calendar-cell-day="31" data-calendar-cell-is-end-dt="" data-calendar-cell-yyyy-mm-dd="2022-12-31" data-calendar-cell-day-week="6">31</div>
+            </div>
+        </div>
+    </div>
+<div class="reservation-info" data-area-name="camp-reservation-info">
             <p class="period" data-area-name="camp-period-selected" style="display:none;"><em data-area-name="camp-period"><!-- 2박 3일 --></em>을 선택하셨습니다.</p>
             <p class="period" data-area-name="camp-period-default"><em>날짜</em>를 선택해주세요.</p>
             <dl>
@@ -1086,13 +1539,518 @@
     <div class="grid-cell">
         <h3 class="title">유형</h3>
         <ul class="check-area" data-template-id="camp-gubun-template">
-            <!-- <li>
-                <span class="checkbox-1">
-                    <input type="checkbox" id="check10">
-                    <label for="check10">자동차 야영장</label>
-                </span>
-            </li> -->
-        </ul>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-0" data-gubun-dept-nm="구계등" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="대형(41~60㎡)" data-gubun-dept-id="B091004">
+            <label for="camp-check10-0">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-1" data-gubun-dept-nm="달궁힐링" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="일반야영장" data-gubun-dept-id="B012005">
+            <label for="camp-check10-1">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-2" data-gubun-dept-nm="백무동" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="일반야영장" data-gubun-dept-id="B011007">
+            <label for="camp-check10-2">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-3" data-gubun-dept-nm="뱀사골힐링" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="일반야영장" data-gubun-dept-id="B012004">
+            <label for="camp-check10-3">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-4" data-gubun-dept-nm="소막골" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="일반야영장" data-gubun-dept-id="B011006">
+            <label for="camp-check10-4">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-5" data-gubun-dept-nm="염포" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="대형(41~60㎡)" data-gubun-dept-id="B091003">
+            <label for="camp-check10-5">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-6" data-gubun-dept-nm="중산리" data-gubun-hrk-prd-ctg-id="02001" data-gubun-hrk-prd-ctg-nm="일반야영장" data-gubun-prd-ctg-id="02001" data-gubun-prd-ctg-nm="일반야영장" data-gubun-dept-id="B011009">
+            <label for="camp-check10-6">일반야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-7" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02003" data-gubun-hrk-prd-ctg-nm="일반야영장(1영지)" data-gubun-prd-ctg-id="02003" data-gubun-prd-ctg-nm="일반형(30~40㎡)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-7">일반야영장(1영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-8" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02004" data-gubun-hrk-prd-ctg-nm="일반야영장(2영지)" data-gubun-prd-ctg-id="02004" data-gubun-prd-ctg-nm="대형(41~60㎡)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-8">일반야영장(2영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-9" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02005" data-gubun-hrk-prd-ctg-nm="일반야영장(3영지)" data-gubun-prd-ctg-id="02005" data-gubun-prd-ctg-nm="대형(41~60㎡)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-9">일반야영장(3영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-10" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02006" data-gubun-hrk-prd-ctg-nm="일반야영장(4영지)" data-gubun-prd-ctg-id="02006" data-gubun-prd-ctg-nm="대형(41~60㎡)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-10">일반야영장(4영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-11" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02007" data-gubun-hrk-prd-ctg-nm="일반야영장(5영지)" data-gubun-prd-ctg-id="02007" data-gubun-prd-ctg-nm="대형(41~60㎡)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-11">일반야영장(5영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-12" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02008" data-gubun-hrk-prd-ctg-nm="일반야영장(6영지)" data-gubun-prd-ctg-id="02008" data-gubun-prd-ctg-nm="일반형(30~40㎡)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-12">일반야영장(6영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-13" data-gubun-dept-nm="백무동" data-gubun-hrk-prd-ctg-id="02009" data-gubun-hrk-prd-ctg-nm="일반야영장(데크)" data-gubun-prd-ctg-id="02009" data-gubun-prd-ctg-nm="일반야영장(데크)" data-gubun-dept-id="B011007">
+            <label for="camp-check10-13">일반야영장(데크)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-14" data-gubun-dept-nm="소막골" data-gubun-hrk-prd-ctg-id="02009" data-gubun-hrk-prd-ctg-nm="일반야영장(데크)" data-gubun-prd-ctg-id="02009" data-gubun-prd-ctg-nm="일반야영장(데크)" data-gubun-dept-id="B011006">
+            <label for="camp-check10-14">일반야영장(데크)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-15" data-gubun-dept-nm="가인" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="6x9m" data-gubun-dept-id="B041001">
+            <label for="camp-check10-15">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-16" data-gubun-dept-nm="고사포" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B181002">
+            <label for="camp-check10-16">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-17" data-gubun-dept-nm="구룡" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="4x7m" data-gubun-dept-id="B101001">
+            <label for="camp-check10-17">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-18" data-gubun-dept-nm="금대" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B101002">
+            <label for="camp-check10-18">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-19" data-gubun-dept-nm="남천" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B122001">
+            <label for="camp-check10-19">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-20" data-gubun-dept-nm="내원" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B011005">
+            <label for="camp-check10-20">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-21" data-gubun-dept-nm="내장" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B042001">
+            <label for="camp-check10-21">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-22" data-gubun-dept-nm="달궁자동차" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B012002">
+            <label for="camp-check10-22">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-23" data-gubun-dept-nm="닷돈재자동차" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B111003">
+            <label for="camp-check10-23">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-24" data-gubun-dept-nm="덕동" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B012003">
+            <label for="camp-check10-24">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-25" data-gubun-dept-nm="덕주" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B111007">
+            <label for="camp-check10-25">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-26" data-gubun-dept-nm="도원" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B172002">
+            <label for="camp-check10-26">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-27" data-gubun-dept-nm="동학사" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B161001">
+            <label for="camp-check10-27">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-28" data-gubun-dept-nm="몽산포" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B081002">
+            <label for="camp-check10-28">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-29" data-gubun-dept-nm="백운동" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B131002">
+            <label for="camp-check10-29">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-30" data-gubun-dept-nm="뱀사골자동차" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B012006">
+            <label for="camp-check10-30">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-31" data-gubun-dept-nm="삼가" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B121001">
+            <label for="camp-check10-31">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-32" data-gubun-dept-nm="삼정" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B131001">
+            <label for="camp-check10-32">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-33" data-gubun-dept-nm="상의" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B071001">
+            <label for="camp-check10-33">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-34" data-gubun-dept-nm="송계" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="5x5m" data-gubun-dept-id="B111002">
+            <label for="camp-check10-34">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-35" data-gubun-dept-nm="용하" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B111004">
+            <label for="camp-check10-35">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-36" data-gubun-dept-nm="천황" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B201001">
+            <label for="camp-check10-36">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-37" data-gubun-dept-nm="치인" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B131003">
+            <label for="camp-check10-37">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-38" data-gubun-dept-nm="팔영산" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B091001">
+            <label for="camp-check10-38">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-39" data-gubun-dept-nm="학동" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B021001">
+            <label for="camp-check10-39">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-40" data-gubun-dept-nm="학암포" data-gubun-hrk-prd-ctg-id="02011" data-gubun-hrk-prd-ctg-nm="자동차야영장" data-gubun-prd-ctg-id="02011" data-gubun-prd-ctg-nm="선택안함" data-gubun-dept-id="B081001">
+            <label for="camp-check10-40">자동차야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-41" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02012" data-gubun-hrk-prd-ctg-nm="자동차야영장(7영지)" data-gubun-prd-ctg-id="02012" data-gubun-prd-ctg-nm="자동차야영장(7영지)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-41">자동차야영장(7영지)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-42" data-gubun-dept-nm="설악" data-gubun-hrk-prd-ctg-id="02013" data-gubun-hrk-prd-ctg-nm="자동차야영장(전기O)" data-gubun-prd-ctg-id="02013" data-gubun-prd-ctg-nm="자동차야영장(전기O)" data-gubun-dept-id="B031005">
+            <label for="camp-check10-42">자동차야영장(전기O)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-43" data-gubun-dept-nm="소금강" data-gubun-hrk-prd-ctg-id="02013" data-gubun-hrk-prd-ctg-nm="자동차야영장(전기O)" data-gubun-prd-ctg-id="02013" data-gubun-prd-ctg-nm="자동차야영장(전기O)" data-gubun-dept-id="B061001">
+            <label for="camp-check10-43">자동차야영장(전기O)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-44" data-gubun-dept-nm="설악" data-gubun-hrk-prd-ctg-id="02014" data-gubun-hrk-prd-ctg-nm="자동차야영장(전기X)" data-gubun-prd-ctg-id="02014" data-gubun-prd-ctg-nm="자동차야영장(전기X)" data-gubun-dept-id="B031005">
+            <label for="camp-check10-44">자동차야영장(전기X)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-45" data-gubun-dept-nm="소금강" data-gubun-hrk-prd-ctg-id="02014" data-gubun-hrk-prd-ctg-nm="자동차야영장(전기X)" data-gubun-prd-ctg-id="02014" data-gubun-prd-ctg-nm="자동차야영장(전기X)" data-gubun-dept-id="B061001">
+            <label for="camp-check10-45">자동차야영장(전기X)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-46" data-gubun-dept-nm="하선암" data-gubun-hrk-prd-ctg-id="02015" data-gubun-hrk-prd-ctg-nm="자동차야영장(캠핑카)" data-gubun-prd-ctg-id="02015" data-gubun-prd-ctg-nm="캠핑카 전용영지" data-gubun-dept-id="B111008">
+            <label for="camp-check10-46">자동차야영장(캠핑카)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-47" data-gubun-dept-nm="학암포" data-gubun-hrk-prd-ctg-id="02015" data-gubun-hrk-prd-ctg-nm="자동차야영장(캠핑카)" data-gubun-prd-ctg-id="02015" data-gubun-prd-ctg-nm="캠핑카 전용영지" data-gubun-dept-id="B081001">
+            <label for="camp-check10-47">자동차야영장(캠핑카)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-48" data-gubun-dept-nm="고사포" data-gubun-hrk-prd-ctg-id="02043" data-gubun-hrk-prd-ctg-nm="자연의집(바람채)" data-gubun-prd-ctg-id="02043" data-gubun-prd-ctg-nm="자연의집(바람채)" data-gubun-dept-id="B181002">
+            <label for="camp-check10-48">자연의집(바람채)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-49" data-gubun-dept-nm="구룡" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B101001">
+            <label for="camp-check10-49">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-50" data-gubun-dept-nm="내원" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B011005">
+            <label for="camp-check10-50">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-51" data-gubun-dept-nm="내장" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B042001">
+            <label for="camp-check10-51">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-52" data-gubun-dept-nm="닷돈재풀옵션" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B111001">
+            <label for="camp-check10-52">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-53" data-gubun-dept-nm="덕동" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B012003">
+            <label for="camp-check10-53">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-54" data-gubun-dept-nm="덕유대 체류형 숙박시설" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B051006">
+            <label for="camp-check10-54">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-55" data-gubun-dept-nm="백운동" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B131002">
+            <label for="camp-check10-55">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-56" data-gubun-dept-nm="삼가" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B121001">
+            <label for="camp-check10-56">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-57" data-gubun-dept-nm="소금강" data-gubun-hrk-prd-ctg-id="02044" data-gubun-hrk-prd-ctg-nm="자연의집(솔막)" data-gubun-prd-ctg-id="02044" data-gubun-prd-ctg-nm="자연의집(솔막)" data-gubun-dept-id="B061001">
+            <label for="camp-check10-57">자연의집(솔막)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-58" data-gubun-dept-nm="소금강" data-gubun-hrk-prd-ctg-id="02046" data-gubun-hrk-prd-ctg-nm="자연의집(특화형-4인)" data-gubun-prd-ctg-id="02046" data-gubun-prd-ctg-nm="특화형(22~37㎡(4인))" data-gubun-dept-id="B061001">
+            <label for="camp-check10-58">자연의집(특화형-4인)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-59" data-gubun-dept-nm="천황" data-gubun-hrk-prd-ctg-id="02046" data-gubun-hrk-prd-ctg-nm="자연의집(특화형-4인)" data-gubun-prd-ctg-id="02046" data-gubun-prd-ctg-nm="특화형(22~37㎡(4인))" data-gubun-dept-id="B201001">
+            <label for="camp-check10-59">자연의집(특화형-4인)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-60" data-gubun-dept-nm="내원" data-gubun-hrk-prd-ctg-id="02045" data-gubun-hrk-prd-ctg-nm="자연의집(하늘채)" data-gubun-prd-ctg-id="02045" data-gubun-prd-ctg-nm="자연의집(하늘채)" data-gubun-dept-id="B011005">
+            <label for="camp-check10-60">자연의집(하늘채)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-61" data-gubun-dept-nm="천황" data-gubun-hrk-prd-ctg-id="02045" data-gubun-hrk-prd-ctg-nm="자연의집(하늘채)" data-gubun-prd-ctg-id="02045" data-gubun-prd-ctg-nm="자연의집(하늘채)" data-gubun-dept-id="B201001">
+            <label for="camp-check10-61">자연의집(하늘채)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-62" data-gubun-dept-nm="송계" data-gubun-hrk-prd-ctg-id="02034" data-gubun-hrk-prd-ctg-nm="카라반 겸용영지" data-gubun-prd-ctg-id="02034" data-gubun-prd-ctg-nm="카라반 겸용영지" data-gubun-dept-id="B111002">
+            <label for="camp-check10-62">카라반 겸용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-63" data-gubun-dept-nm="하선암" data-gubun-hrk-prd-ctg-id="02034" data-gubun-hrk-prd-ctg-nm="카라반 겸용영지" data-gubun-prd-ctg-id="02034" data-gubun-prd-ctg-nm="카라반 겸용영지" data-gubun-dept-id="B111008">
+            <label for="camp-check10-63">카라반 겸용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-64" data-gubun-dept-nm="학동" data-gubun-hrk-prd-ctg-id="02034" data-gubun-hrk-prd-ctg-nm="카라반 겸용영지" data-gubun-prd-ctg-id="02034" data-gubun-prd-ctg-nm="카라반 겸용영지" data-gubun-dept-id="B021001">
+            <label for="camp-check10-64">카라반 겸용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-65" data-gubun-dept-nm="내원" data-gubun-hrk-prd-ctg-id="02033" data-gubun-hrk-prd-ctg-nm="카라반 전용영지" data-gubun-prd-ctg-id="02033" data-gubun-prd-ctg-nm="카라반 전용영지(캠핑카)" data-gubun-dept-id="B011005">
+            <label for="camp-check10-65">카라반 전용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-66" data-gubun-dept-nm="덕유대 야영장" data-gubun-hrk-prd-ctg-id="02033" data-gubun-hrk-prd-ctg-nm="카라반 전용영지" data-gubun-prd-ctg-id="02033" data-gubun-prd-ctg-nm="카라반 전용영지(캠핑카)" data-gubun-dept-id="B051002">
+            <label for="camp-check10-66">카라반 전용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-67" data-gubun-dept-nm="설악" data-gubun-hrk-prd-ctg-id="02033" data-gubun-hrk-prd-ctg-nm="카라반 전용영지" data-gubun-prd-ctg-id="02033" data-gubun-prd-ctg-nm="카라반 전용영지(캠핑카)" data-gubun-dept-id="B031005">
+            <label for="camp-check10-67">카라반 전용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-68" data-gubun-dept-nm="소금강" data-gubun-hrk-prd-ctg-id="02033" data-gubun-hrk-prd-ctg-nm="카라반 전용영지" data-gubun-prd-ctg-id="02033" data-gubun-prd-ctg-nm="카라반 전용영지(캠핑카)" data-gubun-dept-id="B061001">
+            <label for="camp-check10-68">카라반 전용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-69" data-gubun-dept-nm="학천카라반" data-gubun-hrk-prd-ctg-id="02033" data-gubun-hrk-prd-ctg-nm="카라반 전용영지" data-gubun-prd-ctg-id="02033" data-gubun-prd-ctg-nm="카라반 전용영지(캠핑카)" data-gubun-dept-id="B012010">
+            <label for="camp-check10-69">카라반 전용영지</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-70" data-gubun-dept-nm="가인" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="26㎡(6인)" data-gubun-dept-id="B041001">
+            <label for="camp-check10-70">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-71" data-gubun-dept-nm="구룡" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="26㎡(6인)" data-gubun-dept-id="B101001">
+            <label for="camp-check10-71">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-72" data-gubun-dept-nm="내원" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="16㎡(4인)" data-gubun-dept-id="B011005">
+            <label for="camp-check10-72">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-73" data-gubun-dept-nm="덕유대 체류형 숙박시설" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="카라반(체류형)" data-gubun-dept-id="B051006">
+            <label for="camp-check10-73">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-74" data-gubun-dept-nm="상의" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="16㎡(4인)" data-gubun-dept-id="B071001">
+            <label for="camp-check10-74">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-75" data-gubun-dept-nm="설악" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="16㎡(4인)" data-gubun-dept-id="B031005">
+            <label for="camp-check10-75">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-76" data-gubun-dept-nm="소금강" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="16㎡(4인)" data-gubun-dept-id="B061001">
+            <label for="camp-check10-76">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-77" data-gubun-dept-nm="학동" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="26㎡(6인)" data-gubun-dept-id="B021001">
+            <label for="camp-check10-77">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-78" data-gubun-dept-nm="학천카라반" data-gubun-hrk-prd-ctg-id="02032" data-gubun-hrk-prd-ctg-nm="카라반(체류형)" data-gubun-prd-ctg-id="02032" data-gubun-prd-ctg-nm="16㎡(4인)" data-gubun-dept-id="B012010">
+            <label for="camp-check10-78">카라반(체류형)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-79" data-gubun-dept-nm="덕유대 체류형 숙박시설" data-gubun-hrk-prd-ctg-id="02041" data-gubun-hrk-prd-ctg-nm="통나무집" data-gubun-prd-ctg-id="02041" data-gubun-prd-ctg-nm="35㎡(4인)" data-gubun-dept-id="B051006">
+            <label for="camp-check10-79">통나무집</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-80" data-gubun-dept-nm="남천" data-gubun-hrk-prd-ctg-id="02023" data-gubun-hrk-prd-ctg-nm="풀옵션야영장(산막텐트)" data-gubun-prd-ctg-id="02023" data-gubun-prd-ctg-nm="풀옵션야영장(산막텐트)" data-gubun-dept-id="B122001">
+            <label for="camp-check10-80">풀옵션야영장(산막텐트)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-81" data-gubun-dept-nm="도원" data-gubun-hrk-prd-ctg-id="02023" data-gubun-hrk-prd-ctg-nm="풀옵션야영장(산막텐트)" data-gubun-prd-ctg-id="02023" data-gubun-prd-ctg-nm="풀옵션야영장(산막텐트)" data-gubun-dept-id="B172002">
+            <label for="camp-check10-81">풀옵션야영장(산막텐트)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-82" data-gubun-dept-nm="삼가" data-gubun-hrk-prd-ctg-id="02023" data-gubun-hrk-prd-ctg-nm="풀옵션야영장(산막텐트)" data-gubun-prd-ctg-id="02023" data-gubun-prd-ctg-nm="풀옵션야영장(산막텐트)" data-gubun-dept-id="B121001">
+            <label for="camp-check10-82">풀옵션야영장(산막텐트)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-83" data-gubun-dept-nm="남천" data-gubun-hrk-prd-ctg-id="02021" data-gubun-hrk-prd-ctg-nm="풀옵션야영장(일반텐트)" data-gubun-prd-ctg-id="02021" data-gubun-prd-ctg-nm="풀옵션야영장(일반텐트)" data-gubun-dept-id="B122001">
+            <label for="camp-check10-83">풀옵션야영장(일반텐트)</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="checkbox-1">
+            <input type="checkbox" id="camp-check10-84" data-gubun-dept-nm="덕유대 체류형 숙박시설" data-gubun-hrk-prd-ctg-id="02042" data-gubun-hrk-prd-ctg-nm="황토집" data-gubun-prd-ctg-id="02042" data-gubun-prd-ctg-nm="50㎡(6인)" data-gubun-dept-id="B051006">
+            <label for="camp-check10-84">황토집</label>
+        </span>
+    </li>
+	<li style="display:none; color:#fff;" data-area-name="empty-gubun-text">현재 조성중인 시설입니다.</li>
+</ul>
         <ul class="radio-area column">
             <li>
                 <span class="radio-1">
@@ -1795,7 +2753,10 @@ function goAuthiPin(){
 </script>
 
                         </div>
-                        <div class="tab-pane is-active" id="tab2">
+                        
+                        
+           <div class="tab-pane is-active" id="tab2">
+                    
                             <!-- 대피소 -->
                             
 
@@ -3049,1648 +4010,15 @@ function goAuthiPin(){
 </script>
 
                         </div>
+                        
+                        
                         <div class="tab-pane" id="tab3">
                             <!-- 생태탐방원은 ajax로 호출.. -->
                         </div>
                         <div class="tab-pane" id="tab4">
                             <!-- 민박촌  ajax로 호출..-->
                         </div>
-                        <div class="tab-pane" id="tab5">
-                            <!-- 탐방로예약제 -->
-                            
 
-    
-  
-
-<script>
-var $trailTab = $('#tab5');
-var $trailTabBtn = $('[href="#tab5"]').closest('li');
-var trail = {};
-var plusFlag = true;
-$(function(){
-	
-	$trailTabBtn.on("click",  function(event){
-		// 스텝1 호출
-		if(trail.cource == undefined){
-			currentStep(1);
-			showLoading();
-			
-			$.ajax({
-				type:'post',
-				async:'true',
-				url:'/trail/searchSimpleTrailEasyReservationList.do',
-				dataType: 'html',
-				success:function(result) {
-				    //정상 요청, 응답 시 처리 작업
-				    $("#tab5").html("");
-					$("#tab5").prepend(result);
-					trailEasyInit(1);
-				},
-				error : function(xhr,status,error) {
-				    //오류 발생 시 처리
-					maskBackgroundOff();
-				},
-				complete:function(data,textStatus) {
-				    //작업 완료 후 처리
-					maskBackgroundOff();
-				}
-			});
-		}else{
-			$('.trBtnRefresh').trigger('click');
-		}
-	});
-	
-	//	위치 show/hidden
-	$(document).on("change", "input[name='trailmountain']", function(event){
-		//event.preventDefault();
-		var parentNm = $(this).parent().parent().data("group-name");
-		var itemLen = $('#tab5').find(".column > li").length;
-
-		for (var i = 0; i < itemLen; i++) {
-			if(parentNm == $('#tab5').find(".column > li").eq(i).data("parent-name")){
-				$('#tab5').find(".column > li").eq(i).show();
-			}else{
-				$("#tab5").find(".column > li").eq(i).hide();
-				$("#tab5").find(".column > li").eq(i).find("input:radio").attr('checked', false);
-			}
-		}
-        for (var i = 0; i < $("#noticeContent").find("div").length; i++) {
-            $("#noticeContent").find("div").eq(i).data("parknm");
-            if(parentNm == $('#tab5').find(".column > li").eq(i).data("parent-name")){
-                $('#tab5').find(".column > li").eq(i).show();
-            }else{
-                $("#tab5").find(".column > li").eq(i).hide();
-                $("#tab5").find(".column > li").eq(i).find("input:radio").attr('checked', false);
-            }
-        }
-		trailEasyInit(trail.cource);
-		
-	});
-	
-	// 예약정보 > 탐방코스 show/hidden
-	$(document).on("change", "input[name='refuge-trail']", function(event){
-		trailEasyInit(trail.cource);
-		
-		var parentNm = $(this).parent().parent().data("name");
-
-		trail.prdNm = parentNm;
-		trail.prdId = $(this).parent().parent().data("prod-id");
-		trail.operSchDesc = $("input[name='"+parentNm+"']").val();
-		
-		var checkBoxLen = $('#tab5').find(".reservation-check").find(".check-area > li").length;
-		for (var i = 0; i < checkBoxLen; i++) {
-			if(parentNm == $('#tab5').find(".reservation-check").find(".check-area > li").eq(i).data("prd-name")){
-				trail.courceFlag = true;
-				$('#tab5').find(".reservation-check").children().show();
-				$('#tab5').find(".reservation-check").find(".check-area > li").eq(0).show();
-				$('#tab5').find(".reservation-check").find(".check-area > li").eq(i).show();
-				
-			}else{
-				$('#tab5').find(".reservation-check").find(".check-area > li").eq(i).hide();
-				$('#tab5').find(".reservation-check").find(".check-area > li").eq(i).find("input:radio").attr('checked', false);
-			}
-			
-			
-		}
-		
-		$('#tab5').find(".reservation-check").find(".check-area > li").eq(0).find("input").trigger("click");
-	});
-	
-	// 전체선택
-	$(document).on("click", "input[name='prdCtgId']", function(event){
-		trail.prdCtgId = '';
-		var listVar = $(this).val();
-		var checked = $(this).is(":checked");
-		if(listVar == "all" && checked){
-			$("input[name='prdCtgId']").prop('checked', true); 
-		}else if(listVar == "all" && !checked){
-			$("input[name='prdCtgId']").prop('checked', false);
-			
-		}else if(listVar != "all" && !checked){
-			$("input[name='prdCtgId']").eq(0).prop('checked', false);
-		}
-		
-	});
-	
-	// 새로고침
-	$(document).on("click", ".trBtnRefresh", function(){
-		trail = {};
-		$trailTabBtn.trigger("click");
-	});
-	
-	// 스텝2 > 인원 마이너스
-	$(document).on("click", ".trail_totcnt .minus", function(){
-		plusFlag = true;
-		var ptt_nop_cnt = Number($("input[name='ptt_nop_cnt']").val());
-		if(ptt_nop_cnt > 1){
-			ptt_nop_cnt = ptt_nop_cnt - 1;	
-		}
-		$("input[name='ptt_nop_cnt']").val(ptt_nop_cnt);
-		
-		if(ptt_nop_cnt == 1 && trail.prdId == "TB011XXX02"){
-			$('#tab5').find(".detail-info").find("dl:eq(2)").html("<dt>동행인</dt><dd>동행인 없음</dd>");
-		}else if(trail.prdId == "TB011XXX02"){
-			$('#tab5').find(".detail-info").find("dl:eq(2)").find("li:eq("+(ptt_nop_cnt-1)+")").remove();
-		}
-	});
-	
-	// 스텝2 > 인원 플러스
-	$(document).on("click", ".trail_totcnt .plus", function(e){
-		e.preventDefault();
-		var ptt_nop_cnt = Number($("input[name='ptt_nop_cnt']").val());
-		if(ptt_nop_cnt < 10){
-			ptt_nop_cnt = ptt_nop_cnt + 1;	
-		}
-		$("input[name='ptt_nop_cnt']").val(ptt_nop_cnt);
-		
-		if(ptt_nop_cnt > 10){
-			return;
-		}
-		
-		var personHtml = "";
-		if(plusFlag){
-			if(ptt_nop_cnt == 2 && trail.prdId == "TB011XXX02"){
-				personHtml += "<dt>동행인</dt>";
-				personHtml += "<dd class=\"form\">";
-				personHtml += "	<ul class=\"row-list three\">";
-				personHtml += $("#personTemplate").html().replace(/{{idx}}/gi, 2);
-				personHtml += "</ul>";
-				personHtml += "</dd>";
-				$('#tab5').find(".detail-info").find("dl:eq(2)").html(personHtml);
-			}else if(ptt_nop_cnt == 10 && trail.prdId == "TB011XXX02"){
-				plusFlag = false;
-				personHtml += $("#personTemplate").html().replace(/{{idx}}/gi, $('#tab5').find(".detail-info").find("dl:eq(2)").find("li").length+2);
-				$('#tab5').find(".detail-info").find("dl:eq(2)").find("li:last").after(personHtml);
-			}else if(ptt_nop_cnt > 2 && trail.prdId == "TB011XXX02"){
-				personHtml += $("#personTemplate").html().replace(/{{idx}}/gi, $('#tab5').find(".detail-info").find("dl:eq(2)").find("li").length+2);
-				$('#tab5').find(".detail-info").find("dl:eq(2)").find("li:last").after(personHtml);
-			}
-		}
-	});
-	
-	
-	// 스텝2 > 성별
-	$(document).on("change", "select[name='sexCodes']", function(){
-		// 지리산 칠석계곡이 아닐시에만
-		if(trail.prdId != 'TB011XXX02'){
-			trail.sex_cnt = 0;
-			var selected_val = $(this).val();
-			var man_cnt = Number($($("select[name='sexCodes']")[0]).val());
-			var girl_cnt = Number($($("select[name='sexCodes']")[1]).val());
-			
-			trail.sex_cnt = man_cnt + girl_cnt;
-			
-			// 인원 6명 초과 시 초기화
-			if(trail.sex_cnt > Number($("input[name='ptt_nop_cnt']").val())){
-				trail.sex_cnt = 0;
-				toastrMsg('전체인원 수를 초과할수 없습니다.');
-				$($("select[name='sexCodes']")[0]).val("0");
-				$($("select[name='sexCodes']")[1]).val("0");
-				return;
-			}			
-		}
-	});
-	
-	
-	// 스텝2 > 연령
-	$(document).on("change", "select[name='ageCodes']", function(){
-		trail.age_cnt = 0;
-		var selected_val = $(this).val();
-		var baby_cnt = Number($($("select[name='ageCodes']")[0]).val());
-		var boy_cnt = Number($($("select[name='ageCodes']")[1]).val());
-		var mid_cnt = Number($($("select[name='ageCodes']")[2]).val());
-		var high_cnt = Number($($("select[name='ageCodes']")[3]).val());
-		
-		var age_20_cnt = Number($($("select[name='ageCodes']")[4]).val());
-		var age_30_cnt = Number($($("select[name='ageCodes']")[5]).val());
-		var age_40_cnt = Number($($("select[name='ageCodes']")[6]).val());
-		var age_50_cnt = Number($($("select[name='ageCodes']")[7]).val());
-		var age_60_cnt = Number($($("select[name='ageCodes']")[8]).val());
-		
-		trail.age_cnt = baby_cnt + boy_cnt + mid_cnt + high_cnt + age_20_cnt + age_30_cnt + age_40_cnt + age_50_cnt + age_60_cnt;
-		
-		// 인원 10명 초과 시 초기화
-		if(trail.age_cnt > Number($("input[name='ptt_nop_cnt']").val())){
-			trail.age_cnt = 0;
-			toastrMsg("성별인원 최대 "+Number($("input[name='ptt_nop_cnt']").val())+"명까지 예약 가능.");
-			$($("select[name='ageCodes']")[0]).val("0");
-			$($("select[name='ageCodes']")[1]).val("0");
-			$($("select[name='ageCodes']")[2]).val("0");
-			$($("select[name='ageCodes']")[3]).val("0");
-			
-			$($("select[name='ageCodes']")[4]).val("0");
-			$($("select[name='ageCodes']")[5]).val("0");
-			$($("select[name='ageCodes']")[6]).val("0");
-			$($("select[name='ageCodes']")[7]).val("0");
-			$($("select[name='ageCodes']")[8]).val("0");
-			return;
-		}
-	});
-	
-});
-
-// 탐방로 간편결제 초기화
-function trailEasyInit(courceIdx){
-	
-	//$('#tab5').find(".reservation-info").hide();
-	$('#tab5').find(".reservation-check").children().hide();
-	
-	$("input[name='prdCtgId']").prop('checked', false); 
-	
-	var checkBoxLen = $('#tab5').find(".reservation-check").find(".check-area > li").length;
-	for (var i = 0; i < checkBoxLen; i++) {
-		$('#tab5').find(".reservation-check").find(".check-area > li").eq(i).hide();
-	}
-	
-	$('#tab5').find('div').removeClass("selected choose");
-	
-	$('#tab5').find(".reservation-info > dl:eq(0) > dd").html("");
-	$('#tab5').find(".reservation-info > dl:eq(1) > dd").html("");
-	
-	trail = {};
-	trail.cource = courceIdx;
-}
-
-// 날짜 선택
-function courceDate(year, month, day, bgn_day, end_day){
-	
-	var diff_day = year+""+month+""+day;
-	
-	if(month.length == 1){
-		month = "0" + month;
-	}
-	if(day.length == 1){
-		day = "0" + day;
-	}
-	
-	var selected_day = year+""+month+""+day;
-
-	$('#tab5').find('div').removeClass("selected choose");
-	for (var i = 0; i < $('#tab5').find('.calendar').find('.calendar-day').find('div').length; i++) {
-		if($('#tab5').find('.calendar').find('.calendar-day').find('div').eq(i).data("calendar-day") == diff_day){
-			$('#tab5').find('.calendar').find('.calendar-day').find('div').eq(i).addClass("selected choose");
-		}
-	}
-	
-	// 탐방일자 
-	courceDateWrite(selected_day);	
-}
-
-function courceDateWrite(selected_day){
-	selected_avail_date = selected_day.substring(0,4) + "-" + selected_day.substring(4,6) + "-" + selected_day.substring(6,8) + "[" +getWeekDate(selected_day)+ "]";
-
-	$('#tab5').find(".reservation-info > dl:eq(0) > dd").html(selected_avail_date);
-	$('#tab5').find(".reservation-info > dl:eq(1) > dd").html(trail.operSchDesc);
-	
-	calendar_flag = true;
-	trail.availDate = selected_day;
-	trail.selectedAvailDate = selected_avail_date;
-	
-	$('#tab5').find(".reservation-info").show();
-}
-
-function getWeekDate(day){
-	var week = ['일', '월', '화', '수', '목', '금', '토'];
-	var dayOfWeek = week[new Date(day.substring(0,4), Number(day.substring(4,6))-1, day.substring(6,8)).getDay()];
-	return dayOfWeek;
-}
-
-function currentStep(idx){
-
-    //step3 추가 주의사항 끼워넣기
-	if(idx == 3){
-        if(!$("input[name='refuge-trail']").is(':checked')){
-            toastrMsg('위치를 선택해주세요.');
-            $("input[name='refuge-trail']").eq(0).focus();
-            return;
-        }
-        if(trail.availDate == '' || trail.availDate == undefined){
-            toastrMsg('날짜를 선택해주세요.');
-            return;
-        }
-        if(trail.courceFlag && !$("input:checkbox[name='prdCtgId']").is(':checked')){
-            toastrMsg('탐방코스를 선택해주세요.');
-            $("input:checkbox[name='prdCtgId']").eq(0).focus();
-            return;
-        }
-
-        ajaxCall({
-            url: '/reservation/selectTrailNoticeCn.do;jsessionid=B10F1063E24840FADF4994E69491FEB4.U2007',
-            data: { 'prdId' : trail.prdId },
-            success: function (dat) {
-                if(dat.result == 'Y'){
-                    $("#noticeContent").html('');
-                    if(dat.noticeCn.prdNtcCn != ''){
-                        $("#noticeContent").append(dat.noticeCn.prdNtcCn);
-                        openPopup('trailNoticePopup');
-                    }else{
-                        currentStep('2');
-                    }
-                }else{
-                    currentStep('2');
-                }
-            }
-        });
-
-    }else{
-        closePopup('trailNoticePopup');
-
-        trail.cource = idx;
-        if(idx == 2){
-
-            // 데이터 초기화
-            trail.prd_id = '';
-            trail.max_rsvt_nop_cnt = 0;
-            trail.avail_rsvt_nop_cnt = 0;
-            trail.prd_ctg_id = '';
-            trail.dept_id = '';
-            trail.oper_schd_sn = 1;
-            trail.age_cnt = 0;
-            trail.reser_cnt = 0;
-            trail.sex_cnt = 0;
-            trail.listCnt = 0;
-
-            $("input[name='ptt_nop_cnt']").val(1);
-            $($("select[name='sexCodes']")[0]).val("0");
-            $($("select[name='sexCodes']")[1]).val("0");
-            for (var i = 0; i < 9; i++) {
-                $($("select[name='ageCodes']")[i]).val("0");
-            }
-
-            if(!$("input[name='refuge-trail']").is(':checked')){
-                toastrMsg('위치를 선택해주세요.');
-                $("input[name='refuge-trail']").eq(0).focus();
-                return;
-            }
-            if(trail.availDate == '' || trail.availDate == undefined){
-                toastrMsg('날짜를 선택해주세요.');
-                return;
-            }
-            if(trail.courceFlag && !$("input:checkbox[name='prdCtgId']").is(':checked')){
-                toastrMsg('탐방코스를 선택해주세요.');
-                $("input:checkbox[name='prdCtgId']").eq(0).focus();
-                return;
-            }
-
-            var checkBoxLen = $('#tab5').find(".reservation-check").find(".check-area > li").length;
-            var checkBoxCnt = 1;
-            // 탐방코스 데이터가 있을때
-            if(trail.courceFlag){
-                trail.prdCtgId = '';
-                for (var i = 1; i < checkBoxLen; i++) {
-                    if(trail.prdNm == $('#tab5').find(".reservation-check").find(".check-area > li").eq(i).data("prd-name")){
-                        if(checkBoxCnt > 1){
-                            trail.prdCtgId += ",";
-                        }
-                        if($("input:checkbox[name='prdCtgId']").eq(i).is(':checked')){
-                            trail.prdCtgId += $("input:checkbox[name='prdCtgId']").eq(i).val();
-                            checkBoxCnt++;
-                        }
-                    }
-                }
-
-                //전체검색일때 코스 조회조건 제거
-                if($("input:checkbox[name='prdCtgId']").eq(0).is(':checked')){
-                    trail.prdCtgId = "";
-                }
-            }
-            if(trail.prdId == "TB011XXX02"){
-                var personHtml = "";
-                personHtml += "<dt>예약자</dt>";
-                personHtml += "<dd class=\"form\">";
-                personHtml += "	<ul class=\"row-list three\">";
-                personHtml += $("#personTemplate").html().replace(/{{idx}}/gi, 1);
-                personHtml += "</ul>";
-                personHtml += "</dd>";
-                $('#tab5').find(".detail-info").find("dl:eq(1)").html(personHtml);
-                $('#tab5').find(".detail-info").find("dl:eq(2)").html("<dt>동행인</dt><dd>동행인 없음</dd>");
-
-                if('' != ''){
-                    $('#tab5').find(".detail-info").find("dl:eq(1)").find("input").val("");
-                    $('#tab5').find(".detail-info").find("dl:eq(1)").find("select:eq(0)").val("");
-                    var memberBirthYY = "".substring(0,4);
-                    var memAge = Number(getToday().substring(0,4)) - Number(memberBirthYY);
-                    var memAgeCd = "";
-                    if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) >= 6){
-                        memAgeCd = "06";
-                    }else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 5){
-                        memAgeCd = "05";
-                    }else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 4){
-                        memAgeCd = "04";
-                    }else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 3){
-                        memAgeCd = "03";
-                    }else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 2){
-                        memAgeCd = "02";
-                    }else if(memAge > 17 && memAge < 19){
-                        memAgeCd = "14";
-                    }else if(memAge > 14 && memAge < 16){
-                        memAgeCd = "13";
-                    }else if(memAge > 8 && memAge < 13){
-                        memAgeCd = "12";
-                    }else{
-                        memAgeCd = "11";
-                    }
-                    $('#tab5').find(".detail-info").find("dl:eq(1)").find("select:eq(1)").val(memAgeCd);
-                }else{
-                    getTrailLoginData();
-                }
-            }
-
-            showLoading();
-
-            var resultListHtml = "";
-            ajaxCall({
-                url:'/reservation/simpleTrailProdList.do',
-                data:{
-                    "prd_id" : trail.prdId
-                    , "avail_date" : trail.availDate
-                    , "selected_avail_date" : trail.selectedAvailDate
-                    , "prd_ctg_id" : trail.prdCtgId
-                },
-                success:function(result) {
-
-                    if(result.result=='N'){
-                        toastrMsg(result.resultMsg);
-                        currentStep(1);
-                        return false;
-                    }
-
-                    //정상 요청, 응답 시 처리 작업
-                    trail.listCnt = result.prodList.length;
-                    var h3Html = trail.prdNm+" 탐방코스를 선택하고, 탐방인원 정보를 입력해주세요.";
-                    h3Html += "<span class=\"stay-period\"><span>"+trail.selectedAvailDate+"</span>";
-                    h3Html += "<span class=\"total-result\">(총 <em>"+result.prodList.length+"개</em>의 예약가능 상품이 있습니다.)</span></span>";
-                    $('#tab5').find(".grid-column").find(".title").html(h3Html);
-
-                    for (var i = 0; i < result.prodList.length; i++) {
-                        resultListHtml += "<tr>";
-                        resultListHtml += "<td class=\"form\">";
-                        resultListHtml += "<span class=\"radio-1\">";
-                        if((Number(result.prodList[i].MAX_RSVT_NOP_CNT) - Number(result.prodList[i].AVAIL_RSVT_NOP_CNT)) <= 0){
-                            resultListHtml += '<input disabled type="radio" id="radio'+i+'" name="prd_id" value='+result.prodList[i].PRD_ID+' onchange="javascript:getTrailInfo('+"'"+''+result.prodList[i].PRD_ID+"'"+','+"'"+''+result.prodList[i].MAX_RSVT_NOP_CNT+"'"+','+"'"+''+result.prodList[i].AVAIL_RSVT_NOP_CNT+"'"+','+"'"+''+result.prodList[i].PRD_CTG_ID+"'"+','+"'"+''+result.prodList[i].DEPT_ID+"'"+','+"'"+''+result.prodList[i].OPER_SCHD_SN+"'"+')">';
-                        }else{
-                            resultListHtml += '<input type="radio" id="radio'+i+'" name="prd_id" value='+result.prodList[i].PRD_ID+' onchange="javascript:getTrailInfo('+"'"+''+result.prodList[i].PRD_ID+"'"+','+"'"+''+result.prodList[i].MAX_RSVT_NOP_CNT+"'"+','+"'"+''+result.prodList[i].AVAIL_RSVT_NOP_CNT+"'"+','+"'"+''+result.prodList[i].PRD_CTG_ID+"'"+','+"'"+''+result.prodList[i].DEPT_ID+"'"+','+"'"+''+result.prodList[i].OPER_SCHD_SN+"'"+')">';
-                        }
-                        resultListHtml += '<label for="radio'+i+'"></label>';
-                        resultListHtml += "</span>";
-                        resultListHtml += "</td>";
-                        if(Number(result.prodList[i].MAX_RSVT_NOP_CNT) - Number(result.prodList[i].AVAIL_RSVT_NOP_CNT)<=0){
-                            resultListHtml += "<td>["+result.prodList[i].PRD_NM+"] "+result.prodList[i].PRD_CTG_NM+" [잔여: 0명]</td>";
-                        }else{
-                            resultListHtml += "<td>["+result.prodList[i].PRD_NM+"] "+result.prodList[i].PRD_CTG_NM+" [잔여: "+(Number(result.prodList[i].MAX_RSVT_NOP_CNT) - Number(result.prodList[i].AVAIL_RSVT_NOP_CNT))+"명]</td>";
-                        }
-                        resultListHtml += "<td>"+result.prodList[i].OPER_SCHD_DESC+"</td>";
-                        resultListHtml += "</tr>";
-                    }
-
-                    if(result.prodList.length == 0){
-                        toastrMsg("검색결과가 없습니다. 다른조건으로 검색해주세요.","메세지");
-                        currentStep(1);
-                        return;
-                    }
-
-                    $('#tab5').find(".trail-list").html(resultListHtml);
-                }
-            })
-
-            $(".slide-popup").next().find(".progressbar > span:eq(1)").html("STEP.2");
-            $(".slide-popup").next().attr("class", "reservation-area step2");
-            $('#tab5').find(".grid-row").hide();
-            $('#tab5').find(".grid-column").show();
-
-        }else{
-            $(".slide-popup").next().find(".progressbar > span:eq(1)").html("STEP.1");
-            $(".slide-popup").next().attr("class", "reservation-area step1");
-            $('#tab5').find(".grid-row").show();
-            $('#tab5').find(".grid-column").hide();
-        }
-    }
-}
-
-function getTrailInfo(prd_id, max_rsvt_nop_cnt, avail_rsvt_nop_cnt, prd_ctg_id, dept_id, oper_schd_sn){
-	trail.prd_id = prd_id;
-	trail.max_rsvt_nop_cnt = Number(max_rsvt_nop_cnt);
-	trail.avail_rsvt_nop_cnt = Number(avail_rsvt_nop_cnt);
-	trail.prd_ctg_id = prd_ctg_id;
-	trail.dept_id = dept_id;
-	trail.oper_schd_sn = Number(oper_schd_sn);
-}
-
-function reservationAuth(){
-	
-	$.ajax({
-		'url': '/reservation/auth.do',
-		/* 'data': param, */
-		'dataType' : 'json'
-	})
-	.done(reservation)
-	.fail(function(e){
-		if(e.status == '401'){
-			loginPopup("getTrailLoginData();");
-		}else{
-			toastrMsg("일시적으로 장애가 발생하였습니다. 잠시 후 다시 시도하여 주시기 바랍니다.","메세지"); //<br />원활한 서비스를 위해 최선을 다하겠습니다.
-		}
-	});
-}
-function getTrailLoginData(){
-	if(loginData.mmbBrdt !== undefined && trail.prdId == "TB011XXX02"){
-		$('#tab5').find(".detail-info").find("dl:eq(1)").find("input").val(loginData.mmbNm);
-		$('#tab5').find(".detail-info").find("dl:eq(1)").find("select:eq(0)").val(loginData.sexDvcd);
-		var memberBirthYY = loginData.mmbBrdt.substring(0,4);
-		var memAge = Number(getToday().substring(0,4)) - Number(memberBirthYY);
-		var memAgeCd = "";
-		
-		if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) >= 6){
-				memAgeCd = "06";
-		}else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 5){
-				memAgeCd = "05";
-		}else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 4){
-				memAgeCd = "04";
-		}else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 3){
-				memAgeCd = "03";
-		}else if(memAge.toString().length > 1 && Number(memAge.toString().substring(0,1)) == 2){
-				memAgeCd = "02";
-		}else if(memAge > 17 && memAge < 19){
-				memAgeCd = "14";
-		}else if(memAge > 14 && memAge < 16){
-				memAgeCd = "13";
-		}else if(memAge > 8 && memAge < 13){
-				memAgeCd = "12";
-		}else{
-			memAgeCd = "11";
-		}
-		$('#tab5').find(".detail-info").find("dl:eq(1)").find("select:eq(1)").val(memAgeCd);
-	}
-}
-// 예약하기
-function reservation(){
-	
-	var dt = new Date();
-	var todayYear = dt.getFullYear();
-    var todayMonth = dt.getMonth() + 1;    //1월이 0으로 되기때문에 +1을 함.
-    var todayDay = dt.getDate();
-
-    todayMonth = todayMonth >=10 ? todayMonth : "0" + todayMonth;
-    todayDay  = todayDay  >= 10 ? todayDay : "0" + todayDay;
-    var toDay = todayYear+""+todayMonth+""+todayDay;
-    
-	var tomorrow = new Date(dt.setDate(dt.getDate()+1));
-	var tomorrowyear = tomorrow.getFullYear();
-    var tomorrowmonth = tomorrow.getMonth() + 1;    //1월이 0으로 되기때문에 +1을 함.
-    var tomorrowdate = tomorrow.getDate();
-    tomorrowmonth = tomorrowmonth >=10 ? tomorrowmonth : "0" + tomorrowmonth;
-    tomorrowdate  = tomorrowdate  >= 10 ? tomorrowdate : "0" + tomorrowdate;
-    var tomorrowDay = tomorrowyear+""+tomorrowmonth+""+tomorrowdate;
-    
-	if(trail.prdNm.indexOf("노고단") < 0 && trail.prdNm.indexOf("우이령") < 0){
-		if(toDay == trail.availDate || (tomorrowDay == trail.availDate && dt.getHours() >= 17)){
-			toastrMsg('예약기간이 아닙니다.');
-			return;
-		} 
-	}else{
-		if(toDay == trail.availDate && dt.getHours() >= 16){
-			toastrMsg('예약기간이 아닙니다.');
-			return;
-		} 
-	}
-	
-	if(toDay > trail.availDate){
-		toastrMsg('예약기간이 아닙니다.');
-		return;
-	}
-	
-	var max_cnt = Number(trail.max_rsvt_nop_cnt);		//최대정원
-	var avail_cnt = Number(trail.avail_rsvt_nop_cnt);	//예약건수
-	
-	// 예약 총 인원
-	trail.reser_cnt = Number($("input[name='ptt_nop_cnt']").val());
-
-	if(trail.listCnt == 0 || trail.listCnt == undefined){
-		toastrMsg("조회 결과가 없습니다.");
-		return;
-	}
-	
-	if(trail.prd_id == '' || trail.prd_id == undefined){
-		toastrMsg("탐방코스를 선택해주세요.");
-		return;
-	} 
-	
-	// 지리산 칠선계곡 예외처리
-	if(trail.prdId == 'TB011XXX02'){
-		for (var i = 0; i < trail.reser_cnt; i++) {
-			if($("#trailPersonNm_"+(i+1)).val() == ""){
-				toastrMsg("이름을 입력해주세요.");
-				$("#trailPersonNm_"+(i+1)).focus();
-				return false;
-			} 
-			if($("#select-sexCodes-"+(i+1)).val() == ""){
-				toastrMsg("성별을 선택해주세요.");
-				$("#select-sexCodes-"+(i+1)).focus();
-				return false;
-			} 
-			if($("#select-ageCodes-"+(i+1)).val() == ""){
-				toastrMsg("연령을 선택해주세요.");
-				$("#select-ageCodes-"+(i+1)).focus();
-				return false;
-			} 
-		}
-	}else{
-		if(trail.reser_cnt != trail.sex_cnt || trail.sex_cnt < trail.age_cnt || trail.sex_cnt == 0 || trail.sex_cnt == undefined){
-			toastrMsg("성별 인원 선택해주세요.");
-			return
-		}		
-		
-		if(trail.reser_cnt != trail.age_cnt || trail.age_cnt < trail.sex_cnt || trail.age_cnt == undefined){
-			toastrMsg("연령 인원 선택해주세요.");
-			return;
-		}
-		
-		if(trail.reser_cnt > max_cnt || (trail.max_cnt - avail_cnt) < trail.reser_cnt){
-			toastrMsg("최대예약 가능건수를 초과하여 예약할 수 없습니다.");
-			return;
-		}
-	}
-	
-	$("input[name='prd_id']").val(trail.prd_id);
-	$("input[name='max_rsvt_nop_cnt']").val(trail.max_rsvt_nop_cnt);
-	$("input[name='prd_ctg_id']").val(trail.prd_ctg_id);
-	$("input[name='dept_id']").val(trail.dept_id);
-	$("input[name='oper_schd_sn']").val(trail.oper_schd_sn);
-	$("input[name='avail_date']").val(trail.availDate);
-	$("input[name='selected_avail_date']").val(trail.selectedAvailDate);
-	
-	showLoading();
-	
-	 $.ajax({
-		type:'post',
-		async:true,
-		url:'/trail/registTrailReservation.do',
-		data:$("#frmTrailReservation").serialize(),
-		dataType: 'json',
-		success:function(result) {
-			//정상 요청, 응답 시 처리 작업
-		    if(result.resultCd == "S"){
-//		    	toastrMsg("예약 성공.");
-		    	// 예약안내 레이어팝업
-		    	var sexHtml = "";
-		    	var ageHtml = "";
-		    	var sexCnt = 0;
-				var ageCnt = 0;
-				
-		    	// 지리산 칠선계곡 예외처리
-		    	if(trail.prdId == 'TB011XXX02'){
-		    		var manCnt = 0;
-					var girlCnt = 0;
-		    		for(var i=0;i<$("select[name='sexCodes'] option:selected").length;i++){
-						if($("select[name='sexCodes']:eq("+i+") option:selected").val() == "01"){	//남
-							manCnt++;
-						}else if($("select[name='sexCodes']:eq("+i+") option:selected").val() == "02"){ //여
-							girlCnt++;
-						}
-					}
-		    		if(manCnt > 0 && girlCnt > 0){
-		    			sexHtml += "남 "+manCnt+"명  / 여 "+girlCnt+"명";
-		    		}else if(manCnt > 0){
-		    			sexHtml += "남 "+manCnt+"명";
-		    		}else{
-		    			sexHtml += "여 "+girlCnt+"명";
-		    		}
-		    		
-		    		var baby_cnt = 0;
-		    		var boy_cnt = 0;
-		    		var mid_cnt = 0;
-		    		var high_cnt = 0;
-		    		
-		    		var age_20_cnt = 0;
-		    		var age_30_cnt = 0;
-		    		var age_40_cnt = 0;
-		    		var age_50_cnt = 0;
-		    		var age_60_cnt = 0;
-					for(var i=0;i<$("select[name='ageCodes'] option:selected").length;i++){
-						if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "11"){
-							baby_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "12"){
-							boy_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "13"){
-							mid_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "14"){
-							high_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "02"){
-							age_20_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "03"){
-							age_30_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "04"){
-							age_40_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "05"){
-							age_50_cnt++;
-						}else if($("select[name='ageCodes']:eq("+i+") option:selected").val() == "06"){
-							age_60_cnt++;
-						}
-					}
-					
-					var prefixCnt = 0;
-					if(baby_cnt > 0){
-						ageHtml += "유아 "+baby_cnt+"명";
-						prefixCnt++;
-		    		}
-					if(boy_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "초등학생 "+boy_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(mid_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "중학생 "+mid_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(high_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "고등학생 "+high_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(age_20_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "20대 "+age_20_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(age_30_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "30대 "+age_30_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(age_40_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "40대 "+age_40_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(age_50_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "50대 "+age_50_cnt+"명";
-		    			prefixCnt++;
-		    		}
-					if(age_60_cnt > 0){
-						if(prefixCnt > 0){
-							ageHtml += " / ";	
-						}
-		    			ageHtml += "60대 "+age_60_cnt+"명";
-		    			prefixCnt++;
-		    		}
-		    	}else{
-		    		for(var i=0;i<$("select[name='sexCodes'] option:selected").length;i++){
-						if($("select[name='sexCodes']:eq("+i+") option:selected").text() != "선택안함"){
-							if(sexCnt > 0){
-								sexHtml += " / ";	
-							}
-							sexHtml += $("select[name='sexCodes']:eq("+i+") option:selected").parent().parent().parent().find(".label").text() + " " + $("select[name='sexCodes']:eq("+i+") option:selected").text();
-							sexCnt++;
-						}
-						
-					}
-					for(var i=0;i<$("select[name='ageCodes'] option:selected").length;i++){
-						if($("select[name='ageCodes']:eq("+i+") option:selected").text() != "선택안함"){
-							if(ageCnt > 0){
-								ageHtml += " / ";	
-							}
-							ageHtml += $("select[name='ageCodes']:eq("+i+") option:selected").parent().parent().parent().find(".label").text() + " " +$("select[name='ageCodes']:eq("+i+") option:selected").text();
-							ageCnt++;
-						}
-						
-					}
-		    	}
-				
-				var today = result.dataMap.today;
-				if(today != undefined){
-					today = today.substring(0,4) + "-" + today.substring(4,6) + "-" + today.substring(6,8) + "[" +getWeekDate(today)+ "]";	
-				} 
-				$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(0).find("td").html(result.dataMap.rsvt_id);
-				$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(1).find("td").html(result.dataMap.mmbNm);
-				$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(2).find("td").html(today);
-				$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(3).find("td").html("["+result.trailProductInfo.PRD_NM+"] "+result.trailProductInfo.PRD_CTG_NM );  //탐방로
-				$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(4).find("td").html(trail.selectedAvailDate);  //탐방날짜
-				
-				if(result.trailProductInfo.DEPT_ID == 'B013'){
-					if(result.trailProductInfo.PRD_NM.indexOf("칠선계곡") > -1){
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("th").html("집결시간");
-					}else if(result.trailProductInfo.PRD_NM.indexOf("칠선계곡") < 0){
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("th").html("입장시간");
-					}
-					
-					if(result.trailProductInfo.PRD_ASSM_PLC_NM != "" && result.trailProductInfo.PRD_ASSM_PLC_NM != undefined){
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("td").html(result.trailProductInfo.OPER_SCHD_DESC + ", " + result.trailProductInfo.PRD_ASSM_PLC_NM);  //집결장소	
-					}else{
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("td").html(result.trailProductInfo.OPER_SCHD_DESC);  //집결장소
-					}
-					
-				}else{
-					if(result.trailProductInfo.DEPT_ID == 'B101' ){
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("th").html("입장시간");
-					}else if(result.trailProductInfo.PRD_NM.indexOf("칠선계곡") < 0){
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("th").html("탐방시간");
-					}
-					
-					if(result.trailProductInfo.PRD_ASSM_PLC_NM != "" && result.trailProductInfo.PRD_ASSM_PLC_NM != undefined){
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("td").html(result.trailProductInfo.OPER_SCHD_DESC + ", " + result.trailProductInfo.PRD_ASSM_PLC_NM);  //집결장소	
-					}else{
-						$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("td").html(result.trailProductInfo.OPER_SCHD_DESC);  //집결장소
-					}
-				}
-				$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(6).find("td").html(sexHtml + "</br>" +ageHtml);
-		    	$.layerPopup();
-		    	$('[data-popup="reservation-information1-trail"]').trigger('click');
-		    }else{
-		    	toastrMsg(result.resultMsg,"메세지","e");
-		    }
-		},
-		error : function(xhr,status,error) {
-		    //오류 발생 시 처리
-			maskBackgroundOff();
-		},
-		complete:function(data,textStatus) {
-		    //작업 완료 후 처리
-			maskBackgroundOff();
-		}
-	});  
-}
-
-window.cancelTrailRegister = function(){
-
-	confirmPopup({
-        title:'예약 취소',
-        subTitle:'예약 취소',
-        content:'취소한 설정값은 복구되지 않습니다.<br/>처음부터 다시 진행하시겠습니까?',
-        type:'error',
-        send_type : 'POST',
-        urlFun:'window.trailChangeStep()'
-    });
-};
-
-window.trailChangeStep = function(){
-	
-	closePopup('confirmPop');
-	currentStep('1')
-	$('.trBtnRefresh').trigger('click');
-};
-
-$.layerPopup();
-function trailPrint(){
-	var _body = document.body.innerHTML; 
-	
-	var printCopyDom = "";
-	printCopyDom += "<div class=\"confirmation-document\">";
-	printCopyDom += "<strong class=\"title-2\">예약내역</strong>";
-	printCopyDom += "<table class=\"table\">";
-	printCopyDom += "<caption>예약자정보</caption>";
-	printCopyDom += "<colgroup>";
-	printCopyDom += "<col style=\"width: 200px;\">";
-	printCopyDom += "<col>";
-	printCopyDom += "</colgroup>";
-	printCopyDom += "<tbody class=\"tbody\">";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약번호</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(0).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약자</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(1).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약날짜</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(2).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">탐방로</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(3).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">탐방날짜</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(4).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">탐방시간</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(5).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약인원</th>";
-	printCopyDom += "	<td>"+$("#reservation-information1-trail").find(".popup-container").find("tbody").children("tr").eq(6).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "        </tbody>";
-	printCopyDom += "</table>";
-	printCopyDom += "</div>";
-	
-	window.onbeforeprint = function () { 
-		document.body.innerHTML = printCopyDom; 
-	} 
-	window.onafterprint = function () { 
-		document.body.innerHTML = _body; 
-	} 
-	window.print();
-	location.href = "index.html";
-}
-
-</script> 
-
-                        </div>
-                        <div class="tab-pane" id="tab6">
-                            <!-- 탐방로프로그램 -->
-                            
-
-    
-  
-
-<script>
-
-var $trailPrTabBtn = $('[href="#tab6"]').closest('li');
-var trailPr = {};
-$(function(){
-	$.layerPopup();
-	
-	$trailPrTabBtn.on("click",  function(event){
-		// 스텝1 호출
-		if(trailPr.cource == undefined){
-			currentTrailProgramStep(1);
-			showLoading();
-			
-			$.ajax({
-				type:'post',
-				async:'true',
-				url:'/trprogram/searchSimpleTrailProgramList.do',
-				dataType: 'html',
-				success:function(result) {
-				    //정상 요청, 응답 시 처리 작업
-				    $("#tab6").html("");
-					$("#tab6").html(result);
-					trailProgramEasyInit(1);
-				},
-				error : function(xhr,status,error) {
-				    //오류 발생 시 처리
-					maskBackgroundOff();
-				},
-				complete:function(data,textStatus) {
-				    //작업 완료 후 처리
-					maskBackgroundOff();
-				}
-			});
-		}else{
-			currentTrailProgramStep(1);
-			//currentTrailProgramStep(trailPr.cource);
-		}
-	});
-	
-	$(document).on("change", "input[name='trPrgTime']", function(event){
-		$("input[name='trPrgTotCnt']").val("0");
-		var trPrgTime = $("input[name='trPrgTime']:checked").val().split("_");
-		
-		trailPr.avaliCnt = Number(trPrgTime[3]) - Number(trPrgTime[2]);
-
-	});
-	//	위치 선택 (탐방프로그램 show/hidden)
-	$(document).on("change", "input[name='trailPrMountain']", function(event){
-		var parentNm = $(this).parent().parent().data("group-name");
-		var parentId = $(this).parent().parent().data("group-id");
-		var itemLen = $('#tab6').find("#select-tr-program > option").length;
-
-		//탐방프로그램 show/hidden
-		$('#tab6').find("#select-tr-program").eq(0).val("");
-		
-		for (var i = 1; i < itemLen; i++) {
-			if(parentId == $('#tab6').find("#select-tr-program > option").eq(i).val().split("_")[1]){
-				$('#tab6').find("#select-tr-program > option").eq(i).show();
-			}else{
-				$('#tab6').find("#select-tr-program > option").eq(i).hide();
-			}
-		}
-		trailProgramEasyInit(trailPr.cource);
-		trailPr.parentNm = parentNm;
-		trailPr.parentId = parentId;
-		
-	});
-	
-	// 예약정보 > 탐방프로그램 선택 (집합장소 show/hidden)
-	$(document).on("change", "#select-tr-program", function(event){
-		trailProgramEasyInit(trailPr.cource);
-		
-		var selectOptVal = $(this).val().split("_")[0];
-		trailPr.prdId = selectOptVal;
-		trailPr.deptId = $(this).val().split("_")[1];
-		trailPr.prdInqTlno = $(this).val().split("_")[2];
-		
-		var selectBoxLen = $('#tab6').find("#select-tr-place > option").length;
-		for (var i = 1; i < selectBoxLen; i++) {
-			if(selectOptVal == $('#tab6').find("#select-tr-place > option").eq(i).val().split("_")[0]){
-				$('#tab6').find("#select-tr-place > option").eq(i).show();
-			}else{
-				$('#tab6').find("#select-tr-place > option").eq(i).hide();
-			}
-		}
-	});
-	
-	// 예약정보 > 집합장소 선택 
-	$(document).on("change", "#select-tr-place", function(event){
-		//회차정보
-		trailPr.operSchdSn = $(this).val().split("_")[1]
-		// 소요시간
-		getTrailProgramTime();
-	});
-	
-	// 예약구분 (당일형,숙박형)
-	$(document).on("click", "input[name='trPrgGubun']", function(event){
-		getTrailProgramTime($(this).val());
-	});
-	
-	// 새로고침
-	$(document).on("click", ".trailPrgBtnRefresh", function(){
-		trailPr = {};
-		$trailPrTabBtn.trigger("click");
-	});
-	
-	// 스텝2 > 인원 마이너스
-	$(document).on("click", ".trailPrg_totcnt .minus", function(){
-		var trPrgTotCnt = Number($("input[name='trPrgTotCnt']").val());
-		if(trPrgTotCnt > 0){
-			trPrgTotCnt = trPrgTotCnt - 1;	
-		}
-		$("input[name='trPrgTotCnt']").val(trPrgTotCnt);
-	});
-	
-	// 스텝2 > 인원 플러스
-	$(document).on("click", ".trailPrg_totcnt .plus", function(){
-		var trPrgTotCnt = Number($("input[name='trPrgTotCnt']").val());
-		if(trPrgTotCnt < Number(trailPr.avaliCnt)){
-			trPrgTotCnt = trPrgTotCnt + 1;	
-		}
-		$("input[name='trPrgTotCnt']").val(trPrgTotCnt);
-	});
-	
-	
-	// 스텝2 > 성별
-	$(document).on("change", "select[name='tr_sexCodes']", function(){
-		trailPr.sex_cnt = 0;
-		var selected_val = $(this).val();
-		var man_cnt = Number($($("select[name='tr_sexCodes']")[0]).val());
-		var girl_cnt = Number($($("select[name='tr_sexCodes']")[1]).val());
-		
-		trailPr.sex_cnt = man_cnt + girl_cnt;
-		
-		// 인원 6명 초과 시 초기화
-		if(trailPr.sex_cnt > Number(trailPr.trPrgTotCnt)){
-			trailPr.sex_cnt = 0;
-			toastrMsg('전체인원 수를 초과할수 없습니다.');
-			$($("select[name='tr_sexCodes']")[0]).val("0");
-			$($("select[name='tr_sexCodes']")[1]).val("0");
-			return;
-		}
-	});
-	
-	
-	// 스텝2 > 연령
-	$(document).on("change", "select[name='tr_ageCodes']", function(){
-		trailPr.age_cnt = 0;
-		var selected_val = $(this).val();
-		var baby_cnt = Number($($("select[name='tr_ageCodes']")[0]).val());
-		var boy_cnt = Number($($("select[name='tr_ageCodes']")[1]).val());
-		var mid_cnt = Number($($("select[name='tr_ageCodes']")[2]).val());
-		var high_cnt = Number($($("select[name='tr_ageCodes']")[3]).val());
-		
-		var age_20_cnt = Number($($("select[name='tr_ageCodes']")[4]).val());
-		var age_30_cnt = Number($($("select[name='tr_ageCodes']")[5]).val());
-		var age_40_cnt = Number($($("select[name='tr_ageCodes']")[6]).val());
-		var age_50_cnt = Number($($("select[name='tr_ageCodes']")[7]).val());
-		var age_60_cnt = Number($($("select[name='tr_ageCodes']")[8]).val());
-		
-		trailPr.age_cnt = baby_cnt + boy_cnt + mid_cnt + high_cnt + age_20_cnt + age_30_cnt + age_40_cnt + age_50_cnt + age_60_cnt;
-		
-		// 인원 6명 초과 시 초기화
-		if(trailPr.age_cnt > trailPr.trPrgTotCnt){
-			trailPr.age_cnt = 0;
-			toastrMsg("성별인원 최대 "+Number(trailPr.trPrgTotCnt)+"명까지 예약 가능.");
-			$($("select[name='tr_ageCodes']")[0]).val("0");
-			$($("select[name='tr_ageCodes']")[1]).val("0");
-			$($("select[name='tr_ageCodes']")[2]).val("0");
-			$($("select[name='tr_ageCodes']")[3]).val("0");
-			
-			$($("select[name='tr_ageCodes']")[4]).val("0");
-			$($("select[name='tr_ageCodes']")[5]).val("0");
-			$($("select[name='tr_ageCodes']")[6]).val("0");
-			$($("select[name='tr_ageCodes']")[7]).val("0");
-			$($("select[name='tr_ageCodes']")[8]).val("0");
-			return;
-		}
-	});
-	
-});
-
-//탐방프로그램 소요시간 GET
-function getTrailProgramTime(reserType){
-	$("input[name='trPrgTotCnt']").val("0");
-	trailPr.avaliCnt = 0;
-
-	if((trailPr.operSchdSn == "" || trailPr.operSchdSn == undefined) || (trailPr.availDate == "" || trailPr.availDate == undefined) || (trailPr.prdId == "" || trailPr.prdId == undefined)){
-		return;
-	}
-	var reserTp = $("input[name='trPrgGubun']:checked").val();
-	
-	//예약구분, 소요시간 초기화
-	$(".radio-trPrgTime-desc").html("");
-	$(".trPrgReserType").html(""); 
-	
-	showLoading();
-	
-	$.ajax({
-		type:'post',
-		async:true,
-		url:'/trprogram/getTrailProgramTimeList.do',
-		data:{
-			"use_dtm" : trailPr.availDate
-			, "prd_id" : trailPr.prdId
-			, "prod_dvcd" : "G"
-		},
-		dataType: 'json',
-		success:function(result) {
-			//정상 요청, 응답 시 처리 작업
-
-		    if(result != null){
-		    	
-		    	// 예약구분
-				var periodTypeHtml = "";
-				if(result.todayYn !== undefined && result.todayYn == "Y"){	//당일형 데이터가 존재
-					periodTypeHtml += "<li>";
-					periodTypeHtml += "<span class=\"radio-1\">";
-					if(reserType == "1" || reserType === undefined){
-						periodTypeHtml += "    <input type=\"radio\" id=\"radio_tr_program_gb_1\" value=\"1\" name=\"trPrgGubun\" checked>";	
-					}else{
-						periodTypeHtml += "    <input type=\"radio\" id=\"radio_tr_program_gb_1\" value=\"1\" name=\"trPrgGubun\" >";
-					}
-					periodTypeHtml += "    <label for=\"radio_tr_program_gb_1\">당일형</label>";
-					periodTypeHtml += "</span>";
-					periodTypeHtml += "</li>";
-				}
-				if(result.periodYn !== undefined && result.periodYn == "Y"){	//숙박형 데이터가 존재
-					periodTypeHtml += "<li>";
-					periodTypeHtml += "<span class=\"radio-1\">";
-					if(reserType == "2" || (result.todayYn == "N" && reserType === undefined)){
-						periodTypeHtml += "    <input type=\"radio\" id=\"radio_tr_program_gb_2\" value=\"2\" name=\"trPrgGubun\" checked>";	
-					}else{
-						periodTypeHtml += "    <input type=\"radio\" id=\"radio_tr_program_gb_2\" value=\"2\" name=\"trPrgGubun\" >";
-					}
-					
-					periodTypeHtml += "    <label for=\"radio_tr_program_gb_2\">숙박형</label>";
-					periodTypeHtml += "</span>";
-					periodTypeHtml += "</li>";
-				}
-				$(".trPrgReserType").html(periodTypeHtml);
-				
-				if(reserTp == undefined){
-					reserTp = $("input:radio[name='trPrgGubun']:checked").val();
-				}
-				
-		    	var addHtml = "";
-		    	var timeCnt = 0;
-		    	var periodCnt = 0;
-				for (var i = 0; i < result.times.length; i++) {
-					if(Number(result.times[i].AVAIL_RSVT_NOP_CNT) < Number(result.times[i].MAX_RSVT_NOP_CNT)){
-
-						if(reserTp == "1" && result.times[i].OPER_RSVT_DVCD == "00" ){
-							addHtml += "<li>";
-							addHtml += "<span class=\"radio-1\">";
-							addHtml += "<input type=\"radio\" id=\"radio_tr_program_time_"+timeCnt+"\" name=\"trPrgTime\" value="+result.times[i].OPER_RSVT_DVCD+"_"+result.times[i].OPER_SCHD_SN+"_"+result.times[i].AVAIL_RSVT_NOP_CNT+"_"+result.times[i].MAX_RSVT_NOP_CNT+"_"+result.times[i].CTT_YN+">";								
-							addHtml += "<label for=\"radio_tr_program_time_"+timeCnt+"\">"+result.times[i].PRD_USE_BGN_TD + " ~ " + result.times[i].PRD_USE_END_TD + " (" + result.times[i].AVAIL_RSVT_NOP_CNT + "명/" + result.times[i].MAX_RSVT_NOP_CNT + "명)</label>";
-							addHtml += "</span>";
-							addHtml += "</li>";
-						    timeCnt++;
-						}else if(reserTp == "2" && result.times[i].OPER_RSVT_DVCD != "00" ){
-							addHtml += "<li>";
-							addHtml += "<span class=\"radio-1\">";
-							addHtml += "<input type=\"radio\" id=\"radio_tr_program_time_"+periodCnt+"\" name=\"trPrgTime\" value="+result.times[i].OPER_RSVT_DVCD+"_"+result.times[i].OPER_SCHD_SN+"_"+result.times[i].AVAIL_RSVT_NOP_CNT+"_"+result.times[i].MAX_RSVT_NOP_CNT+"_"+result.times[i].CTT_YN+">";
-							addHtml += "<label for=\"radio_tr_program_time_"+periodCnt+"\">"+result.times[i].DTL_CD_NM + " (" + result.times[i].AVAIL_RSVT_NOP_CNT + "명/" + result.times[i].MAX_RSVT_NOP_CNT + "명)</label>";
-							addHtml += "</span>";
-						    addHtml += "</li>";
-							periodCnt++;
-						}
-					}
-				}
-				
-				if(periodCnt == 0 && timeCnt == 0){
-					addHtml += "<li><span>등록된 시간이 없습니다.</span></li>";
-					trailPr.courceFlag = false;
-					$(".radio-trPrgTime").hide();
-					toastrMsg("검색결과가 없습니다. 다른조건으로 검색해주세요.","메세지");
-				}else{
-					trailPr.courceFlag = true;
-					$(".radio-trPrgTime").show();
-				}
-				$(".radio-trPrgTime-desc").html(addHtml);
-				
-		    }else{
-		    	trailPr.courceFlag = false;
-		    	toastrMsg(result.resultMsg,"메세지","e");
-		    }
-		},
-		error : function(xhr,status,error) {
-		    //오류 발생 시 처리
-			maskBackgroundOff();
-			trailPr.courceFlag = false;
-		},
-		complete:function(data,textStatus) {
-			
-		    //작업 완료 후 처리
-			maskBackgroundOff();
-		}
-	}); 
-}
-
-// 탐방로 간편결제 초기화
-function trailProgramEasyInit(courceIdx){
-	
-	//집합장소
-	$("#tab6").find("#select-tr-place").eq(0).val("");
-	$('#tab6').find("#select-tr-place > option").hide();
-	//소요시간
-	$(".radio-trPrgTime").hide();
-
-	//날짜
-	//$('#tab6').find(".reservation-info").hide();
-	$('#tab6').find('div').removeClass("selected choose");
-	$('#tab6').find(".reservation-info > dl:eq(0) > dd").html("");
-	
-	trailPr = {};
-	trailPr.cource = courceIdx;
-}
-
-// 날짜 선택
-function courceDateTrailPrg(year, month, day, bgn_day, end_day){
-	
-	var diff_day = year+""+month+""+day;
-	
-	if(month.length == 1){
-		month = "0" + month;
-	}
-	if(day.length == 1){
-		day = "0" + day;
-	}
-	
-	var selected_day = year+""+month+""+day;
-
-	$('#tab6').find('div').removeClass("selected choose");
-	for (var i = 0; i < $('#tab6').find('.calendar').find('.calendar-day').find('div').length; i++) {
-		if($('#tab6').find('.calendar').find('.calendar-day').find('div').eq(i).data("calendar-day") == diff_day){
-			$('#tab6').find('.calendar').find('.calendar-day').find('div').eq(i).addClass("selected choose");
-		}
-	}
-	
-	// 탐방일자 
-	courceDateTrailPrgWrite(selected_day);	
-}
-
-function courceDateTrailPrgWrite(selected_day){
-	var selected_avail_date = selected_day.substring(0,4) + "-" + selected_day.substring(4,6) + "-" + selected_day.substring(6,8) + "[" +getWeekDate(selected_day)+ "]";
-
-	$('#tab6').find(".reservation-info > dl:eq(0) > dd").html(selected_avail_date);
-	$('#tab6').find(".reservation-info > dl:eq(1) > dd").html(trailPr.operSchDesc);
-	
-	calendar_flag = true;
-	trailPr.availDate = selected_day;
-	trailPr.selectedAvailDate = selected_avail_date;
-	
-	$('#tab6').find(".reservation-info").show();
-	
-	//소요시간
-	getTrailProgramTime();
-}
-
-function getWeekDate(day){
-	var week = ['일', '월', '화', '수', '목', '금', '토'];
-	var dayOfWeek = week[new Date(day.substring(0,4), Number(day.substring(4,6))-1, day.substring(6,8)).getDay()];
-	return dayOfWeek;
-}
-
-function currentTrailProgramStep(idx){
-	
-	trailPr.cource = idx;
-	if(idx == 2){
-
-		// 데이터 초기화
-		trailPr.max_rsvt_nop_cnt = 0;
-		trailPr.avail_rsvt_nop_cnt = 0;
-		trailPr.age_cnt = 0;
-		trailPr.reser_cnt = 0;
-		trailPr.sex_cnt = 0;
-		trailPr.listCnt = 0;
-		$($("select[name='tr_ageCodes']")[0]).val("0");
-		$($("select[name='tr_sexCodes']")[1]).val("0");
-		for (var i = 0; i < 9; i++) {
-			$($("select[name='tr_ageCodes']")[i]).val("0");
-		}
-		
-		if(!$("input[name='trailPrMountain']").is(':checked')){
-			toastrMsg('위치를 선택해주세요.');
-			$("input[name='trailPrMountain']").eq(0).focus();
-			return;
-		}
-		
-		if($("#select-tr-program").val() == ''){
-			toastrMsg('프로그램을 선택해주세요.');
-			$("#select-tr-program > option").eq(0).focus();
-			return;
-		}
-		
-		if($("#select-tr-place").val() == ''){
-			toastrMsg('집합장소를 선택해주세요.');
-			$("#select-tr-place > option").eq(0).focus();
-			return;
-		}
-		
-		if(trailPr.availDate == '' || trailPr.availDate == undefined){
-			toastrMsg('날짜를 선택해주세요.');
-			return;
-		}
-		
-		if(!trailPr.courceFlag || trailPr.courceFlag == undefined){
-			toastrMsg('소요시간을 선택해주세요.');
-			return;
-		}
-		
-		if($("input[name='trPrgTime']:checked").val() == '' || $("input[name='trPrgTime']:checked").val() == undefined){
-			toastrMsg('예약가능한 날짜가 아니거나, 소요 시간을 선택하여 주세요.');
-			return;
-		}
-		
-		if(Number($("input[name='trPrgTotCnt']").val()) == 0){
-			toastrMsg('전체인원 선택하여 주세요.');
-			return;
-		}
-		
-		var trPrgTime = $("input[name='trPrgTime']:checked").val().split("_");
-		var availCnt = Number(trPrgTime[2]) + Number($("input[name='trPrgTotCnt']").val());
-		
-		trailPr.operSchdSn = Number(trPrgTime[1]);
-		trailPr.avaliCnt = Number(trPrgTime[3]) - Number(trPrgTime[2]);
-		trailPr.max_rsvt_nop_cnt = Number(trPrgTime[3]);
-		trailPr.cttYn = trPrgTime[4];
-		
-		if(availCnt > Number(trPrgTime[3])){
-			toastrMsg('정원을 초과하여 예약할수 없습니다.');
-			$("input[name='trPrgTotCnt']").focus();
-			return;
-		}
-		trailPr.trPrgTotCnt = Number($("input[name='trPrgTotCnt']").val());
-
-	 	var h3Html = $("input[name='trailPrMountain']:checked").val()+" 해설·생태관광 프로그램 탐방인원 정보를 입력해주세요.";
-	    h3Html += "<span class=\"stay-period\"><span>"+trailPr.selectedAvailDate+"</span>";
-	    $('#tab6').find(".grid-column").find(".title").html(h3Html);
-		
-		var trPrgTimeTxt = $("input[name='trPrgTime']:checked").next().text();
-		trPrgTimeTxt = trPrgTimeTxt.substring(0, trPrgTimeTxt.indexOf("("));
-
-		$(".trProgramInfo > dl").eq(0).children("dd").html($("#select-tr-program option:selected").text());
-		$(".trProgramInfo > dl").eq(1).children("dd").html($("#select-tr-place option:selected").text());
-		$(".trProgramInfo > dl").eq(2).children("dd").html(trPrgTimeTxt);
-		$(".trProgramInfo > dl").eq(3).children("dd").html($("input[name='trPrgTotCnt']").val()+"명");
-		
-		var optionHtml = "<option selected=\"selected\" value=\"0\">선택안함</option>";
-		for (var i = 1; i <= Number($("input[name='trPrgTotCnt']").val()); i++) {
-			optionHtml += "<option value="+i+">"+i+"명</option>";
-		}
-		
-		$("#tr_sexCodes1").html(optionHtml);
-		$("#tr_sexCodes2").html(optionHtml);
-		$("#tr_ageCodes1").html(optionHtml);
-		$("#tr_ageCodes2").html(optionHtml);
-		$("#tr_ageCodes3").html(optionHtml);
-		$("#tr_ageCodes4").html(optionHtml);
-		$("#tr_ageList1").html(optionHtml);
-		$("#tr_ageList2").html(optionHtml);
-		$("#tr_ageList3").html(optionHtml);
-		$("#tr_ageList4").html(optionHtml);
-		$("#tr_ageList5").html(optionHtml);
-		
-		$(".slide-popup").next().find(".progressbar > span:eq(1)").html("STEP.2");
-		$(".slide-popup").next().attr("class", "reservation-area step2");
-		$('#tab6').find(".grid-row").hide();
-		$('#tab6').find(".grid-column").show();
-		
-	}else{
-		$(".trProgramInfo > dl").eq(0).children("dd").html("");
-		$(".trProgramInfo > dl").eq(1).children("dd").html("");
-		$(".trProgramInfo > dl").eq(2).children("dd").html("");
-		$(".trProgramInfo > dl").eq(3).children("dd").html("");
-		$(".slide-popup").next().find(".progressbar > span:eq(1)").html("STEP.1");
-		$(".slide-popup").next().attr("class", "reservation-area step1");
-		$('#tab6').find(".grid-row").show();
-		$('#tab6').find(".grid-column").hide();
-	}
-}
-
-function reservationTrailProgramAuth(){
-	
-	$.ajax({
-		'url': '/reservation/auth.do',
-		/* 'data': param, */
-		'dataType' : 'json'
-	})
-	.done(reservationTrailProgram)
-	.fail(function(e){
-		
-		if(e.status == '401'){
-			
-			loginPopup('reservationTrailProgram();');
-		}else{
-			
-			toastrMsg("일시적으로 장애가 발생하였습니다. 잠시 후 다시 시도하여 주시기 바랍니다.","메세지"); //<br />원활한 서비스를 위해 최선을 다하겠습니다.
-		}
-	});
-}
-// 예약하기
-function reservationTrailProgram(){
-	
-	var max_cnt = Number(trailPr.max_rsvt_nop_cnt);		//최대정원
-	var avail_cnt = Number(trailPr.avail_rsvt_nop_cnt);	//예약건수
-	
-	// 예약 총 인원
-	trailPr.reser_cnt = Number($("input[name='trPrgTotCnt']").val());
-
-	if(trailPr.prdId == '' || trailPr.prdId == undefined){
-		toastrMsg("탐방코스를 선택해주세요.");
-		return;
-	}
-	
-	if(trailPr.trPrgTotCnt != trailPr.sex_cnt){
-		toastrMsg("성별 인원 선택해주세요.");
-		return;
-	}
-	
-	if(trailPr.trPrgTotCnt != trailPr.age_cnt){
-		toastrMsg("연령 인원 선택해주세요.");
-		return;
-	}
-	
-	if(trailPr.trPrgTotCnt > max_cnt || (trailPr.max_cnt - avail_cnt) < trailPr.trPrgTotCnt){
-		toastrMsg("최대예약 가능건수를 초과하여 예약할 수 없습니다.");
-		return;
-	}
-	$("input[name='prd_id']").val(trailPr.prdId);
-	$("input[name='max_rsvt_nop_cnt']").val(trailPr.max_rsvt_nop_cnt);
-	$("input[name='cttYn']").val(trailPr.cttYn);
-	$("input[name='dept_id']").val(trailPr.deptId);
-	$("input[name='oper_schd_sn']").val(trailPr.operSchdSn);
-	$("input[name='avail_date']").val(trailPr.availDate);
-	$("input[name='selected_avail_date']").val(trailPr.selectedAvailDate);
-	$("input[name='useBgnDtm']").val(trailPr.availDate);
-	$("input[name='useDtm']").val(trailPr.availDate);
-	$("input[name='res-time']").val("00_"+trailPr.operSchdSn);
-	
-	
-	showLoading();
-	
-	 $.ajax({
-		type:'post',
-		async:true,
-		url:'/trprogram/registTrailProgram.do',
-		data:$("#frmReservation1").serialize(),
-		dataType: 'json',
-		success:function(result) {
-			//정상 요청, 응답 시 처리 작업
-		    if(result.resultCd == "S"){
-		    	var sexHtml = "";
-		    	var sexCnt = 0;
-				for(var i=0;i<$("select[name='tr_sexCodes'] option:selected").length;i++){
-					if($("select[name='tr_sexCodes']:eq("+i+") option:selected").text() != "선택안함"){
-						if(sexCnt > 0){
-							sexHtml += " / ";	
-						}
-						sexHtml += $("select[name='tr_sexCodes']:eq("+i+") option:selected").parent().parent().parent().find(".label").text() + " " + $("select[name='tr_sexCodes']:eq("+i+") option:selected").text();
-						sexCnt++;
-					}
-					
-				}
-				var ageHtml = "";
-				var ageCnt = 0;
-				for(var i=0;i<$("select[name='tr_ageCodes'] option:selected").length;i++){
-					if($("select[name='tr_ageCodes']:eq("+i+") option:selected").text() != "선택안함"){
-						if(ageCnt > 0){
-							ageHtml += " / ";	
-						}
-						ageHtml += $("select[name='tr_ageCodes']:eq("+i+") option:selected").parent().parent().parent().find(".label").text() + " " +$("select[name='tr_ageCodes']:eq("+i+") option:selected").text();
-						ageCnt++;
-					}
-					
-				}
-				
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(0).find("td").html(result.dataMap.rsvt_id);
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(1).find("td").html($('.trProgramInfo').find("dl:eq(0)").find('dd').text());
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(2).find("td").html(trailPr.selectedAvailDate);	//예약날짜
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(3).find("td").html($('.trProgramInfo').find("dl:eq(2)").find('dd').text());  //예약시간
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(4).find("td").html($('.trProgramInfo').find("dl:eq(1)").find('dd').text());  //집결장소	
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(5).find("td").html(trailPr.prdInqTlno);  //문의전화
-				$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(6).find("td").html(sexHtml + "</br>" +ageHtml);
-		    	$.layerPopup();
-		    	$('[data-popup="reservation-information-trprogram"]').trigger('click');
-		    }else{
-		    	toastrMsg(result.resultMsg,"메세지","e");
-		    }
-		},
-		error : function(xhr,status,error) {
-		    //오류 발생 시 처리
-			maskBackgroundOff();
-		},
-		complete:function(data,textStatus) {
-		    //작업 완료 후 처리
-			maskBackgroundOff();
-		}
-	});
-	 
-}
-
-function trailProgramPrint(){
-	var _body = document.body.innerHTML; 
-	
-	var printCopyDom = "";
-	printCopyDom += "<div class=\"confirmation-document\">";
-	printCopyDom += "<strong class=\"title-2\">예약내역</strong>";
-	printCopyDom += "<table class=\"table\">";
-	printCopyDom += "<caption>예약자정보</caption>";
-	printCopyDom += "<colgroup>";
-	printCopyDom += "<col style=\"width: 200px;\">";
-	printCopyDom += "<col>";
-	printCopyDom += "</colgroup>";
-	printCopyDom += "<tbody class=\"tbody\">";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약번호</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(0).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">프로그램명</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(1).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약날짜</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(2).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약시간</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(3).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">집결장소</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(4).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">문의전화</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(5).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "<tr>";
-	printCopyDom += "	<th scope=\"row\">예약인원</th>";
-	printCopyDom += "	<td>"+$("#reservation-information-trprogram").find(".popup-container").find("tbody").children("tr").eq(6).find("td").text()+"</td>";
-	printCopyDom += "</tr>";
-	printCopyDom += "        </tbody>";
-	printCopyDom += "</table>";
-	printCopyDom += "</div>";
-	
-	window.onbeforeprint = function () { 
-		document.body.innerHTML = printCopyDom; 
-	} 
-	window.onafterprint = function () { 
-		document.body.innerHTML = _body; 
-	} 
-	window.print();
-	location.href = "index.html";
-}
-
-window.cancelTrailProgramRegister = function(){
-
-	confirmPopup({
-        title:'예약 취소',
-        subTitle:'예약 취소',
-        content:'취소한 설정값은 복구되지 않습니다.<br/>처음부터 다시 진행하시겠습니까?',
-        type:'error',
-        send_type : 'POST',
-        urlFun:'window.trailProgramChangeStep()'
-    });
-};
-
-window.trailProgramChangeStep = function(){
-	
-	closePopup('confirmPop');
-	currentTrailProgramStep('1')
-	$('.trailPrgBtnRefresh').trigger('click');
-};
-</script>
-
-
-                        </div>
                     </div>
                 </div>
             </div>
@@ -4940,7 +4268,7 @@ window.trailProgramChangeStep = function(){
         </div>
 				
 
-
+</div>
 			
 <%@ include file="../common/footer.jsp" %>
 

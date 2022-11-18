@@ -18,7 +18,7 @@ public class UserService {
 	UserRepository userRepository;
 	@Autowired
 	HttpSession session;
-
+	
 	// 회원가입
 	public String register(String id, String pw, String pwcon, String name, String email, String mobile,
 			String member) {
@@ -28,11 +28,10 @@ public class UserService {
 		if (pw == null || pw.isEmpty())
 			return "비밀번호를 입력하세요.";
 		
-		
-
-		if (pw.equals(pwcon) == false)
+		if (pw.equals(pwcon)==false)
 			return "비밀번호가 일치하지않습니다.";
 
+	
 		if (name == null || name.isEmpty())
 			return "이름을 입력하세요.";
 
@@ -64,8 +63,12 @@ public class UserService {
 		
 		if (encoder.matches(pw, userRepository.findByid(id ).getPw())) {
 			
-			session.setAttribute("id", userRepository.findByid(id).getName());
+			session.setAttribute("name", userRepository.findByid(id).getName());
+			session.setAttribute("id", userRepository.findByid(id).getId());
+			session.setAttribute("email", userRepository.findByid(id).getEmail());
+			session.setAttribute("mobile", userRepository.findByid(id).getMobile());
 
+			
 			return "로그인 성공";
 		}
 
@@ -81,16 +84,8 @@ public class UserService {
 		}
 
 		return "중복된 아이디 입니다.";
+		
+
 	}
-	// 아이디 중복체크
-		public String PwConfirm(String pw , String pwcon) {
-			System.out.println(pw);
-			System.out.println(pwcon);
-			if (pw.equals(pwcon))
-				return "비밀번호가 일치합니다.";
-
-			
-
-			return "비밀번호가 일치하지 않습니다.";
-		}
+	
 }

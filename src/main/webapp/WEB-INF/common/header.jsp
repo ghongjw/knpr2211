@@ -109,11 +109,11 @@
 			  <div class="lang-area">
                         <button class="btn btn-toggle" data-popup="layer-language">
                             <i class="icon-globe"></i>
-                            <span>${sessionScope.id}님 반갑습니다</span>
+                            <span>${sessionScope.name}님 반갑습니다</span>
                         </button>
                         <div class="layer-language" id="layer-language2">
                             <button class="btn is-active" onclick="location.href='logout'" >로그아웃</button>
-                            <button class="btn" onclick="">회원정보 수정</button>
+                            <button class="btn" onclick="location.href='UserModify'">회원정보 수정</button>
                         </div>
                     </div>
             </c:if>
