@@ -1,6 +1,8 @@
 package com.reservation.knpr2211.controller;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import com.reservation.knpr2211.service.PlaceService;
 @Controller
 public class DetailInforController {
 	@Autowired PlaceService service;
+	@Autowired HttpSession session;
 	
 	@RequestMapping("detailInfo")
 	public String detailInfo(Model model, String parkId, String parkDetail) {
@@ -21,7 +24,7 @@ public class DetailInforController {
 			parkDetail = parkId+"01";
 		}
 		model.addAttribute("detailInfo",service.selectPlace(parkId,parkDetail));
-		
+		System.out.println(session.getAttribute("imagecount"));
 		
 		
 		return "detailInformation/detailInfo";

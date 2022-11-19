@@ -10,6 +10,9 @@
 <script src="../../assets/js/lib/jquery-1.12.4.min.js"></script>
 <script src="../../assets/js/lib/swiper.js"></script>
 <link rel="shortcut icon" href="#">
+
+<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
+
 <link rel="stylesheet" href="assets/style/infomations.css">
 </head>
 <body>
@@ -19,7 +22,7 @@
 						function() {
 
 							var swipe1 = ''
-							var cnt = ${imagecounts}
+							var cnt = ${imagecount }
 							for (i = 1; i <= cnt; i++) {
 								swipe1 = swipe1
 										+ '<div class=\"swiper-slide\">'
@@ -82,7 +85,12 @@
 		</form>
 		<div class="title favorite">
 			<span class="informTitle">[${detailInfo[0].nameCategory2}]
-				${detailInfo[0].nameCategory3} ${detailInfo[0].nameCategory1}</span>
+				<c:choose>
+				<c:when test="${detailInfo[0].category1 eq 'C' or detailInfo[0].category1 eq 'D'}"></c:when>
+				<c:when test="${detailInfo[0].category1 eq 'A' or detailInfo[0].category1 eq 'B'}">${detailInfo[0].nameCategory3} </c:when>
+				
+				</c:choose>
+				${detailInfo[0].nameCategory1}</span>
 			<button type="button" class="btn btn-bookmark ">
 				<i class="icon-bookmark"></i> <span>즐겨찾기</span>
 			</button>
@@ -100,46 +108,40 @@
 				</div>
 				<div class="gongbeck"></div>
 			</div>
-
-			<div class="detail-info">
-				<dl>
-					<dt>주소</dt>
-					<dd>${detailInfo[0].address }<button class="btn-location"></button>
-					</dd>
-					<dt>문의처</dt>
-					<dd>${detailInfo[0].mobile }</dd>
-				</dl>
-				<dl>
-					<dt>입/퇴실시간</dt>
-					<dd>${detailInfo[0].time }</dd>
-				</dl>
-				<dl>
-					<dt>이용금액</dt>
-					<dd>
-						<table class="table">
-							<caption>이용금액</caption>
-							<colgroup>
-								<col>
-								<col>
-								<col>
-							<thead class="thead">
+<!--  ----------------------------------- -->
+			<div class="detailInfo">
+			<table class="detailInfoTable">
+				<tr>
+					<th>주소</th>
+					<td>${detailInfo[0].address }</td>
+				</tr>
+				<tr>
+					<th>문의처</th>
+					<td>${detailInfo[0].mobile }</td>
+				</tr>
+				<tr>
+					<th>입/퇴실시간</th>
+					<td>${detailInfo[0].time }</td>
+				</tr>
+				<tr>
+					<th>이용금액</th>
+					<td>
+					<table class="table">
+							
 								<tr>
-									<th scope="col">구분</th>
-									<th scope="col" class="ta-r">주말 및 성수기</th>
-									<th scope="col" class="ta-r">주중</th>
+									<th scope="col" >구분</th>
+									<th scope="col" >주말 및 성수기</th>
+									<th scope="col" >주중</th>
 								</tr>
-							</thead>
-
-							<tbody class="tbody">
-
+							
 								<c:choose>
 									<c:when
 										test="${detailInfo[0].category1 eq 'C' or detailInfo[0].category1 eq 'D'}">
 										<c:forEach var="list" items="${detailInfo}">
 											<tr>
 												<td><em>${list.nameCategory3 } </em></td>
-												<td class="ta-r"><em>${list.priceWeekend }</em>원</td>
-												<td class="ta-r"><em>${list.priceDay }</em>원</td>
+												<td><em>${list.priceWeekend }</em>원</td>
+												<td><em>${list.priceDay }</em>원</td>
 											</tr>
 										</c:forEach>
 									</c:when>
@@ -157,61 +159,78 @@
 									</c:when>
 
 								</c:choose>
-							</tbody>
+							
 						</table>
-						</dd>
-						</dl>
-						
-						<dl>
+					</td>
+				</tr>
+				<tr>
+				<td colspan=2>
+					<dl class = "a-warp">
 						<dd>
-						<div class="conArea">
-							<div class="c-wrap">
-								<button class="arcodion">편의시설</button>
-								<div class="arc" style="display: none">
-									<dl>
-										<dt class="panel is-active">편의시설</dt>
-										<dd>${detailInfo[0].memo}</dd>
-									</dl>
+							<button class="accordion">편의시설</button>
+								<div class="panel">
+	 							 <p>${detailInfo[0].memo}</p>
 								</div>
-								
-							</div>
-							</div>
-							</dd>
-						</dl>
+						</dd>
+					</dl>
+				</td>
+				</tr>
+				<tr>
+				<td colspan=2>
+				<div class="bottom-area">
+					<c:choose>
+								<c:when test="${detailInfo[0].category1 eq 'C'}">
+						<button type="button" class="btn btn-programs"  onclick="location.href='programInfo?parkId=${detailInfo[0].category2}'">프로그램 보기</button>
+						</c:when>
+						<c:when test="${detailInfo[0].category1 != 'C'}"></c:when>
+					</c:choose>
+						<button type="button" class="btn btn-reservation" onclick="">예약하기</button>
 						
-							<div class="bottom-area">
-									<button type="button" class="btn btn-reservation" onclick="">예약하기</button>
+				</div>
+				</td>
+				</tr>
+			</table>
 
-								</div>
-						</div>
-					</dd>
-				</dl>
-
-
+					
+				</div>
 			</div>
 
 		</div>
 		<script>
-			var acodian = {
-				click : function(target) {
-					var $target = $(".arcodion");
-					$target.on('click', function() {
 
-						if ($(this).hasClass('is-active')) {
-							slideUp($target);
-						} else {
-							slideUp($target);
-							$(this).addClass('is-active').next().slideDown();
-						}
+var acc = document.getElementsByClassName("accordion");
+var i;
 
-						function slideUp($target) {
-							$target.removeClass('is-active').next().slideUp();
-						}
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
 
-					});
-				}
-			};
-			acodian.click('.accodian > dt');
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+}
+
+
 
 			let init = {
 				loadImg : function() {

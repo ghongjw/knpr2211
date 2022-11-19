@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.SessionScope;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.entity.Place;
@@ -67,6 +68,7 @@ public class PlaceService implements IPlaceService {
 		session.setAttribute("nameOfCategory3s", nameOfCategory3s);
 		session.setAttribute("selectedParkDetail", parkDetail);
 		
+		
 		ArrayList<Place>  places;
 		if(category1.equals("C")||category1.equals("D")) {
 			places= pr.find(parkId);
@@ -76,19 +78,23 @@ public class PlaceService implements IPlaceService {
 		System.out.println("places"+places);
 		ArrayList<PlaceDTO> placeDtos = new ArrayList<>();
 		
-		for(Place a : places)
-		try {
+		for(Place a : places){
+			
 			PlaceDTO placeDto = new PlaceDTO();
+			
 			placeDto.setSeq(a.getSeq());
 			placeDto.setCategory1(a.getCategory1());
 			placeDto.setCategory2(a.getCategory2());
 			placeDto.setCategory3(a.getCategory3());
+			
 			if(a.getCategory4()!=null||!a.getCategory4().isEmpty()) {
 			placeDto.setCategory4(a.getCategory4());
 			}
+			
 			placeDto.setNameCategory1(mcs.findCategory(a.getCategory1()));
 			placeDto.setNameCategory2(mcs.findCategory(a.getCategory2()));
 			placeDto.setNameCategory3(mcs.findCategory(a.getCategory3()));
+			
 			if(a.getCategory4()!=null||!a.getCategory4().isEmpty())
 			placeDto.setNameCategory4(mcs.findCategory(a.getCategory4()));
 			
@@ -105,11 +111,7 @@ public class PlaceService implements IPlaceService {
 			placeDto.setY(a.getY());
 			
 			placeDtos.add(placeDto);
-			//System.out.println(placeDtos);
-			//System.out.println("placeDto"+placeDto.getNameCategory3());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} 
 		
 		
 		int imagecount = imageFile(parkDetail);
