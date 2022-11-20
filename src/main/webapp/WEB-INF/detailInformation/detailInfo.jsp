@@ -17,9 +17,7 @@
 </head>
 <body>
 	<script>
-		$('document')
-				.ready(
-						function() {
+		$('document').ready(function() {
 
 							var swipe1 = ''
 							var cnt = ${imagecount }
@@ -43,7 +41,65 @@
 							$(".input2").change(function() {
 								$("#f").submit()
 							})
-
+							
+							
+							var bookmarkChecked = "n"
+							if(${sessionScope.id != null}){
+							var param = "${detailInfo[0].category3}"
+							console.log("${detailInfo[0].category3}")
+							
+							$.ajax({
+								type:'post',
+								url:'checkFavorite',
+								data: param,
+								success: function(data){
+									console.log(data)
+								if(data =='y'){
+									$("#favorite_bookmark").addClass("is-active");
+									$("#favorite_bookmark").value("on");
+									bookmarkChecked = "y"
+								
+									}else {
+										$("#favorite_bookmark").value("off");
+										bookmarkChecked = "n"
+									}
+							},
+							error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+								
+							}
+							})
+						}
+							$("#favorite_bookmark").on('click',function(){
+								var params = {
+										'bookmarkChecked' : bookmarkChecked
+										,'parkId' : '${detailInfo[0].category3}'
+								}
+								$.ajax({
+									type:'post',
+									url:'bookmarkChecked',
+									data: JSON.stringify(params) ,
+									dataType: "text",
+									contentType:"application/json; charset=UTF-8",
+									success: function(data){  
+									if(data=='y'){
+										$("#favorite_bookmark").addClass("is-active");
+										$("#favorite_bookmark").value("on");
+										bookmarkChecked = "y"
+									
+										}else if(data == 'n'){
+											$("#favorite_bookmark").removeClass("is-active");
+											bookmarkChecked = "n"
+										}else{
+											alert("로그인을 해주세요")
+										}
+									console.log(bookmarkChecked)
+								},
+								error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+								console.log("here")
+								}
+								})
+							})
+				
 						});
 	</script>
 	<%@ include file="../common/header.jsp"%>
@@ -91,7 +147,7 @@
 				
 				</c:choose>
 				${detailInfo[0].nameCategory1}</span>
-			<button type="button" class="btn btn-bookmark ">
+			<button type="button" id = "favorite_bookmark"class="btn btn-bookmark" value="">
 				<i class="icon-bookmark"></i> <span>즐겨찾기</span>
 			</button>
 		</div>

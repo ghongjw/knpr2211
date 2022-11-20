@@ -104,7 +104,7 @@ public class MountainCodeService {
 		case "A04": list.add("팔영상"); list.add("염포"); list.add("구계동"); 
 			break;
 			
-		case "A05": list.add("덕유대 체류형 숙박시설"); list.add("덕유대 야영장");
+		case "A05": list.add("덕유대 체류형 숙박시설"); list.add("덕유대");
 			break;
 			
 		case "A06": list.add("도원"); 
@@ -149,18 +149,18 @@ public class MountainCodeService {
 			break;
 
 		//대피소
-		case "B01": list.add("삿갓재대피소");
+		case "B01": list.add("삿갓재");
 			break;	
 		
-		case "B02": list.add("수렴동대피소");  list.add("중청대피소"); list.add("양폭대피소");  list.add("소청대피소");  list.add("희운각대피소"); 
+		case "B02": list.add("수렴동");  list.add("중청"); list.add("양폭");  list.add("소청");  list.add("희운각"); 
 			break;
 		
 		case "B03": list.add("제2연화봉대피소");
 			break;
 		
-		case "B04": list.add("벽소령대피소"); list.add("세석대피소"); list.add("장터목대피소"); 
-		list.add("로타리대피소"); list.add("노고단대피소"); list.add("치밭목대피소"); 
-		list.add("연하천대피소");
+		case "B04": list.add("벽소령"); list.add("세석"); list.add("장터목"); 
+		list.add("로타리"); list.add("노고단"); list.add("치밭목"); 
+		list.add("연하천");
 		break;
 
 		default:
@@ -304,14 +304,34 @@ public class MountainCodeService {
 		else if(category.equals("B0101")) {
 			list.add(" ");
 		}
+		else if(category.equals("B0201")) {
+			list.add(" ");}
+		else if(category.equals("B0202")) {
+			list.add(" ");}
+		else if(category.equals("B0203")) {
+			list.add(" ");}
+		else if(category.equals("B0204")) {
+			list.add(" ");}
+		else if(category.equals("B0205")) {
+			list.add(" ");}
 		else if(category.equals("B0301")) {
 			list.add("자동차야영장");
 		}
+		else if(category.equals("B0401")) {
+			list.add(" ");}
+		else if(category.equals("B0402")) {
+			list.add(" ");}
+		else if(category.equals("B0403")) {
+			list.add(" ");}
+		else if(category.equals("B0404")) {
+			list.add(" ");}
 		else if(category.equals("B0405")) {
 			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
 		}else if(category.equals("B0406")) {
 			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
 		}
+		else if(category.equals("B0407")) {
+			list.add(" ");}
 		return list.get(intcat);
 	}
 }

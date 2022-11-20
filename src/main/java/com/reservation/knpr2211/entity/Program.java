@@ -1,10 +1,16 @@
 package com.reservation.knpr2211.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,22 +18,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@DynamicInsert
+@DynamicUpdate
 @SequenceGenerator(
 		 name = "Program_SEQ_GENERATOR",
-		 sequenceName = "Progrtam_SEQ", //매핑할 데이터베이스 시퀀스 이름
+		 sequenceName = "Program_SEQ", //매핑할 데이터베이스 시퀀스 이름
 		 initialValue = 1, allocationSize = 1)
 @Entity
 public class Program {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "MEMBER_SEQ_GENERATOR")
-	private long seq;
+	@Column(nullable = false, insertable = true, updatable = false, unique = true)
+	private String place;
 	
 	private String type; //생태관광 프로그램 환경교육 특화프로그램 등.
 	
 	private String title;
-	
-	private String place;
 	
 	private String duration;//소요시간
 	
@@ -55,4 +61,5 @@ public class Program {
 			this.schedule_R = schedule_R;
 		
 	}
+	public Program() {}
 }

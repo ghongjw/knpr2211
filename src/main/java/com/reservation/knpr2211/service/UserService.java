@@ -1,14 +1,13 @@
 package com.reservation.knpr2211.service;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 import com.reservation.knpr2211.entity.User;
+import com.reservation.knpr2211.repository.FavoriteRepository;
 import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
@@ -18,6 +17,7 @@ public class UserService {
 	UserRepository userRepository;
 	@Autowired
 	HttpSession session;
+	 
 
 	// 회원가입
 	public String register(String id, String pw, String pwcon, String name, String email, String mobile,
@@ -93,4 +93,6 @@ public class UserService {
 
 			return "비밀번호가 일치하지 않습니다.";
 		}
+		
+	
 }

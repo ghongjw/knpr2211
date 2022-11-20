@@ -114,8 +114,8 @@ public class ServiceInfomationController {
 	
 	@RequestMapping("index")
 	public String index() {
-		
 		return "login/index";
 	}
+	
 	
 }

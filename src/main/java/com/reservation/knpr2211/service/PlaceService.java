@@ -3,31 +3,35 @@ package com.reservation.knpr2211.service;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.SessionScope;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
+import com.reservation.knpr2211.entity.Favorite;
 import com.reservation.knpr2211.entity.Place;
+import com.reservation.knpr2211.entity.User;
+import com.reservation.knpr2211.repository.FavoriteRepository;
 import com.reservation.knpr2211.repository.PlaceRepository;
+import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
 public class PlaceService implements IPlaceService {
 	@Autowired MountainCodeService mcs;
 	@Autowired PlaceRepository pr;
+	@Autowired UserRepository ur;
+	@Autowired FavoriteRepository fr;
 	@Autowired HttpSession session;
-	@PersistenceContext
-	private EntityManager em;
+
 
 	@Transactional
 	public ArrayList<PlaceDTO> selectPlace(String parkId,String parkDetail){
-		
+		System.out.println("parkId : "+parkId);
 		if(parkDetail==null && parkDetail.isEmpty() && parkId == null && parkId.isEmpty()) {
 			
 			parkId="A01";
@@ -137,6 +141,62 @@ public class PlaceService implements IPlaceService {
 		for (i = 0; i < files.length; i++) {
 		   System.out.println("file: " + files[i]);
 		}		return i;
+	}
+	
+	//즐겨찾기 조회
+	public String checkFavorite(String param) {
+		User entity = ur.findByid((String)session.getAttribute("id"));
+		//User entity = ur.findByid("admin");
+		param = param.substring(0, param.length() - 1);
+		List<Favorite> list = fr.findByFavorite(entity);
+	
+		for(Favorite f : list) {
+			if(f.getPlace().equals(param)) {
+				if(f.isChecked()==true) {
+					return "y";
+				}else {
+					return "n";
+				}
+			}
+		}return "n";
+	}
+
+	//즐겨찾기 토글
+	public String toggleCheck(HashMap<String, String> map) {
+		if(session.getAttribute("id")==null) return "goLoginFirst";
+		User entity = ur.findByid((String)session.getAttribute("id"));
+	//	String id = "admin";
+	//	User entity = ur.findByid(id);
+		
+		System.out.println("User Entity : "+entity);
+		
+		
+		List<Favorite> list = fr.findByFavorite(entity);
+		if(list.isEmpty()||list==null) {
+			
+			System.out.println("map : " + map.get("parkId"));
+			Favorite f = Favorite.builder().place(map.get("parkId")).checked(true).favorite(entity).build();
+			fr.save(f);
+			return "y";
+		}
+		for(Favorite f : list) {
+			if(f.getPlace().equals(map.get("parkId"))) {
+				if(f.isChecked()==true) {
+					f = Favorite.builder().place(map.get("parkId")).checked(false).favorite(entity).build();
+					System.out.println("here : " + f);
+					fr.save(f);
+					return "n";
+				}else {
+				f = Favorite.builder().place(map.get("parkId")).checked(true).favorite(entity).build();
+				fr.save(f);
+				return "y";
+				}
+			
+				}
+			}
+		Favorite f = Favorite.builder().place(map.get("parkId")).checked(true).favorite(entity).build();
+		fr.save(f);
+		return "y";
 	}
 	
 

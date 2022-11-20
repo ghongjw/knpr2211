@@ -10,9 +10,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,24 +24,32 @@ import lombok.Setter;
 @DynamicUpdate
 @Entity
 @Table(name = "favorite")
-@SequenceGenerator(
-		 name = "Favorite_SEQ_GENERATOR",
-		 sequenceName = "Favorite_SEQ", //매핑할 데이터베이스 시퀀스 이름
-		 initialValue = 1, allocationSize = 1)
 public class Favorite {
 	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Favorite_SEQ_GENERATOR")
-	private long id;
-	
-	@Column(nullable = false, insertable = true, updatable = false, unique = true)
+	@Column(nullable=false, insertable = true, updatable=true)
 	private String place;
 	
-	@Column(nullable = false, insertable = true, updatable = true, unique = true)
+	@Column(nullable=false, insertable = true, updatable=true)
+	@ColumnDefault(value = "false")
 	private boolean checked;
 	
 	@OneToOne
-	@JoinColumn(name = "user", referencedColumnName = "id", nullable = true, updatable = true)
-	private User user;
+	@JoinColumn(name = "user", referencedColumnName = "id", insertable = true, updatable = true)
+	private User favorite;
+	
+	@Builder
+	public Favorite (String place, boolean checked, User favorite) {
+		
+		this.place = place;
+		this.checked = checked;
+		this.favorite = favorite;
+				
+	}
+	public Favorite() {
+		
+	}
+	
 	 
 }

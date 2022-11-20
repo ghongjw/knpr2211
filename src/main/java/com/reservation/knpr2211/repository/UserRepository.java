@@ -11,6 +11,5 @@ import com.reservation.knpr2211.entity.User;
 public interface UserRepository extends JpaRepository<User, String>{
 
 		User findByid(String id);
-		
 	
 }

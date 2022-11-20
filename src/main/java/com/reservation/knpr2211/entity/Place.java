@@ -61,9 +61,6 @@ public class Place {
 	
 	private String y;
 	
-	@OneToMany(mappedBy = "program", targetEntity = Program.class)
-	private List<Program> program = new ArrayList<Program>();
-	
 	public Place(){
 		
 	}
