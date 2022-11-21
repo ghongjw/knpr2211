@@ -16,13 +16,18 @@ public class ProgramService {
 	@Autowired HttpSession session;
 	@Autowired MountainCodeService mcs;
 	
-	public String setProgram(String parkId) {
+	public String setProgram(String parkId, String type) {
 		
 		System.out.println(parkId);
-		List<Program> programs = pr.findByPlace(parkId);
+		List<Program> programs = pr.findByPlaceAndType(parkId,type);
+		Long cnt = pr.countByPlaceAndType(parkId,type);
+		
 		session.setAttribute("programs", programs);
+		session.setAttribute("programs_cnt", cnt);
+		
 		System.out.println(programs);
 		return mcs.findCategory(parkId);
 	}
+	
 
 }

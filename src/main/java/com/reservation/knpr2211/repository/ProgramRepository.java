@@ -14,6 +14,8 @@ public interface ProgramRepository extends JpaRepository<Program, Long>{
 
 	List<Program> findByPlace(String parkId);
 
+	List<Program> findByPlaceAndType(String parkId, String type);
+	Long countByPlaceAndType(String parkId, String type);
 		
 	
 }
