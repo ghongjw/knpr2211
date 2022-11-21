@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .detailInfo {
-	margin: 64px auto 0;
+	margin: 70px auto 0;
 	padding: 20px 20px 60px;
 }
 
@@ -169,13 +169,15 @@
 .btn.btn-bookmark.is-active {
 	background-color: #004ea2;
 	border-color: #004ea2;
-	color:white !important;
+	color: white !important;
 }
-.btn.btn-bookmark.is-active span{
-	color:white !important;
+
+.btn.btn-bookmark.is-active span {
+	color: white !important;
 }
-.btn.btn-bookmark.is-active i{
-	color:white !important;
+
+.btn.btn-bookmark.is-active i {
+	color: white !important;
 }
 
 .title.favorite {
@@ -186,6 +188,7 @@
 }
 
 .detailInfo {
+	margin-top: 70px;
 	flex-wrap: wrap;
 }
 
@@ -204,8 +207,9 @@
 	min-width: 150px;
 	line-height: 50px;
 }
-.table td{
-	text-align:center;
+
+.table td {
+	text-align: center;
 }
 
 .accordion {
@@ -251,6 +255,60 @@
 	width: 100%
 }
 
+.programInfo {
+	margin: 75px auto 0;
+}
+.typeArea{
+	
+	display:flex;
+	}
+.programtab{
+
+	width:100%;
+	position: relative;
+    display: block;
+    padding: 18px 0;
+    font-size: 18px;
+    text-align: center;
+}
+.programtab.is-active{
+    box-shadow: 10px 10px 20px 0 rgb(0 107 222 / 20%);
+    background: linear-gradient(95deg, #009f9a, #006eb8);
+    border-radius: 6px;
+    color:white;
+
+}
+
+.program_tumbnail{
+	display:grid;
+	overflow: hidden;
+    width: 100%;
+    height:300px;
+    padding: 6px 20px 20px 20px;
+}
+
+.program_tumbnail img{
+	width:100% !important;
+    display: block;
+ 
+}
+.program_tumbnail .imgForTunbnail{
+	width:100% !important;
+    display: block;
+    border-radius: 30px !important;
+     height: 250px;
+}
+.program_tumbnail .titleForThumbnail{
+	
+    font-size: 18px;
+    top: -472px;
+    background: white;
+    height: 60px;
+    line-height: 35px;
+	
+
+}
+	
 @media all and (min-width: 1023px) {
 	.information::after {
 		content: "";
@@ -370,7 +428,7 @@
 		height: 50px;
 	}
 	.detailInfo {
-		margin: 0 auto 0;
+		margin: 70px auto 0;
 		padding: 20px 20px 60px;
 		display: flex;
 		flex-direction: column;
@@ -402,6 +460,54 @@
 	}
 	.detailInfoTable td {
 		min-width: 100px !important;
+	}
+	.programInfo {
+		margin: 75px auto 0;
+	}
+	.programtab{
+    width: 100%;
+    height: 26px;
+	border-top:1px solid rgba(0,0,0,0.2);
+	border-bottom:1px solid rgba(0,0,0,0.2);
+    line-height:26px;
+	}
+	.programtab.is-active{
+    width: calc(100% + 4px);
+    height: 30px;
+    box-shadow: 10px 10px 20px 0 rgb(0 107 222 / 20%);
+    background: linear-gradient(95deg, #009f9a, #006eb8);
+    border-radius: 6px;
+    color:white;
+    line-height:26px;
+	}
+	.program_Aria{
+	display:grid;
+	grid-template-columns: 33% 33% 33%;
+	margin:60px 50px;
+	}
+	.program_tumbnail{
+	float:left; 
+	height:270px;
+	width:100%;
+	text-align:center;
+	padding:10px;
+	overflow: inherit;
+	}
+	.program_tumbnail .imgForTunbnail {
+    width: 100% !important;
+    display: block;
+    border-radius: 30px !important;
+    height: 225px;
+}
+	.program_tumbnail img{
+	height:230px;
+	width:100%;
+ 	border-radius: 20px; 
+	padding:10px;
+	
+	}
+	.program_tumbnail .titleForThumbnail{
+	font-size:18px;
 	}
 }
 

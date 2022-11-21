@@ -48,6 +48,7 @@ public class PlaceService implements IPlaceService {
 		
 		String category1 = parkDetail.substring(0,1);
 		String category2 = parkDetail.substring(0,3);
+		
 		//카테고리별 중복제거 값 불러오기
 		ArrayList<String> category2s = pr.findDistintCategory2(category1);
 		ArrayList<String> category3s = pr.findDistintCategory3(category2);

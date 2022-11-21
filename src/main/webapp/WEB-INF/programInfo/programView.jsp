@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,20 +8,48 @@
 <script src="assets/js/lib/jquery-1.12.4.min.js"></script>
 <link rel="shortcut icon" href="#">
 <link rel="stylesheet" href="assets/style/infomations.css">
-
+<script>
+	$('document').ready(function(){
+		$(".programtab").off().on("click", function () {
+		      $(".programtab").removeClass("is-active");
+		      $(this).addClass("is-active");
+		})
+		 let send = function(type){
+			console.log(type)
+		}
+	})
+	
+</script>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<div class = "pageLocation">
-    <span>홈</span>
-    <span class="loca">이용안내</span>
-    <span class="loca">생태탐방원</span>
-    <span class="loca">프로그램</span>
-    <div class="program">
-    <h3 class="title">${detailInfo[0].nameCategory2} 생태탐방원 프로그램</h3>
-    </div>
-</div>
+<div class = "programInfo">
+	<div class = "pageLocation">
+	    <span>홈</span>
+	    <span class="loca">이용안내</span>
+	    <span class="loca">생태탐방원</span>
+	    <span class="loca">프로그램</span>
+	</div>
+	<div class="program">
+	    <h3 class="title">${parkId} 생태탐방원 프로그램</h3>
+	</div>
+	<div class="typeArea">
+	    <a href="javascript:void(0)" class = "programtab" onclick="send('e')">생태관광프로그램</a>
+	    <a href="javascript:void(0)" class = "programtab" onclick="send('f')">환경교육</a>
+	    <a href="javascript:void(0)" class = "programtab" onclick="send('g')">특화프로그램</a>
+	</div>
+	<div class="program_Aria">
 
+		<c:forEach var = "program" items = "${sessionScope.programs }" >
+	<div class = "program_tumbnail">
+		<span class = "imgForTunbnail">
+		<img src="../../cntnts/p_${sessionScope.programs[0].seq}/thumbnail.jpg">
+		</span>
+		<span class="titleForThumbnail">${sessionScope.programs[0].title }</span>
+		</div>	
+		</c:forEach>
+	</div>
+	</div>
 
 <%@ include file="../common/footer.jsp" %>
 </body>

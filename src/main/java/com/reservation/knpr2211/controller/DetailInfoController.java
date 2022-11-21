@@ -17,7 +17,7 @@ import com.reservation.knpr2211.service.PlaceService;
 import com.reservation.knpr2211.service.UserService;
 
 @Controller
-public class DetailInforController {
+public class DetailInfoController {
 	@Autowired PlaceService service;
 	@Autowired UserService us;
 	@Autowired HttpSession session;

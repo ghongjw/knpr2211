@@ -21,14 +21,18 @@ import lombok.Setter;
 @DynamicInsert
 @DynamicUpdate
 @SequenceGenerator(
-		 name = "Program_SEQ_GENERATOR",
-		 sequenceName = "Program_SEQ", //매핑할 데이터베이스 시퀀스 이름
+		 name = "PROGRAM_SEQ_GENERATOR",
+		 sequenceName = "PROGRAM_SEQ", //매핑할 데이터베이스 시퀀스 이름
 		 initialValue = 1, allocationSize = 1)
 @Entity
 public class Program {
 
 	@Id
-	@Column(nullable = false, insertable = true, updatable = false, unique = true)
+	@Column(nullable = false, insertable = true, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "PROGRAM_SEQ_GENERATOR")
+	private long seq;
+	
+	@Column(name="place")
 	private String place;
 	
 	private String type; //생태관광 프로그램 환경교육 특화프로그램 등.
