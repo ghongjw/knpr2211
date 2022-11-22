@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -44,6 +45,10 @@ public class User {
 		//관리자,회원
 		@Column(nullable = false, insertable = true, updatable = true)
 		private String member;
+		//삭제여부
+		@Column(nullable = false, insertable = true, updatable = true)
+		@ColumnDefault(value = "false")
+		private String delete;
 		
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
