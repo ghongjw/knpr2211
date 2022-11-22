@@ -24,14 +24,10 @@ public class ProgramController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value="programType", produces = "application/json; charset=UTF-8")
-	public String programType(@RequestBody HashMap<String,String> map) {
-		String parkId = map.get("parkId");
-		String type = map.get("type");
-		System.out.println(parkId + type);
-		
-		//model.addAttribute("parkId", ps.setProgram(parkId,type));
-		return "programInfo/programView";
+	@PostMapping(value="imgCount", produces = "text/html; charset=UTF-8")
+	public String programType(@RequestBody String seq) {
+	
+		return ps.imageFile(seq);
 	}
 	
 }

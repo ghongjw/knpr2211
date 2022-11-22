@@ -1,5 +1,7 @@
 package com.reservation.knpr2211.service;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,23 +13,44 @@ import com.reservation.knpr2211.entity.Program;
 import com.reservation.knpr2211.repository.ProgramRepository;
 
 @Service
-public class ProgramService {
+public class ProgramService implements IProgramService{
 	@Autowired ProgramRepository pr;
 	@Autowired HttpSession session;
 	@Autowired MountainCodeService mcs;
 	
 	public String setProgram(String parkId, String type) {
 		
-		System.out.println(parkId);
-		List<Program> programs = pr.findByPlaceAndType(parkId,type);
-		Long cnt = pr.countByPlaceAndType(parkId,type);
-		
+		List<Program> programs = pr.findByPlace(parkId);
+		session.removeAttribute("programs");
 		session.setAttribute("programs", programs);
-		session.setAttribute("programs_cnt", cnt);
+		System.out.println("여기오나요??");
+		System.out.println("programs : " + programs);
+		System.out.println("session : " + session.getAttribute("programs"));
 		
-		System.out.println(programs);
+		for(Program p : programs) {
+			System.out.println(p.getTitle());
+			System.out.println(p.getPlace());
+		}
 		return mcs.findCategory(parkId);
 	}
-	
+	@Override
+	public String imageFile(String seq) {
+		seq=seq.substring(0, seq.length()-1);
+		String location = FILE_LOCATION+"p_"+seq;
+		String nameLike = "p"+seq+"_";
+		System.out.println(location+" : "+nameLike);
+		File dir = new File(location);
+		FilenameFilter filter = new FilenameFilter() {
+		    public boolean accept(File f, String name) {
+		        return name.startsWith(nameLike);
+		    }
+		};
+		File files[] = dir.listFiles(filter);
+		int i = 0;
+		for (i = 0; i < files.length; i++) {
+		System.out.println("file: " + files[i]);
+		}String str = Integer.toString(i);
+		return str;
+	}
 
 }

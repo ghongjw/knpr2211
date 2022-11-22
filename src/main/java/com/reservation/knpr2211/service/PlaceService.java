@@ -169,8 +169,6 @@ public class PlaceService implements IPlaceService {
 	//	String id = "admin";
 	//	User entity = ur.findByid(id);
 		
-		System.out.println("User Entity : "+entity);
-		
 		
 		List<Favorite> list = fr.findByFavorite(entity);
 		if(list.isEmpty()||list==null) {

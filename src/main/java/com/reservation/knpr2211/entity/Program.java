@@ -47,10 +47,6 @@ public class Program {
 	
 	private String extra;//기타사항
 	
-	private String schedule_N;//일반 프로그램
-	
-	private String schedule_R;//대체프로그램
-	
 	@Builder
 	public Program(String type, String title,String place,String duration, String target,String people,
 		String extra, String schedule_N, String schedule_R) {
@@ -61,8 +57,6 @@ public class Program {
 			this.target = target;
 			this.people = people;
 			this.extra = extra;
-			this.schedule_N = schedule_N;
-			this.schedule_R = schedule_R;
 		
 	}
 	public Program() {}
