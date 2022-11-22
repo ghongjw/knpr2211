@@ -56,9 +56,6 @@ public class User {
 		@OneToMany(mappedBy = "reservation", targetEntity = Reservation.class)
 		private List<Reservation> reservation = new ArrayList<Reservation>(); 
 		
-		@OneToMany(mappedBy = "pay", targetEntity = Pay.class)
-		private List<Pay> pay = new ArrayList<Pay>(); 
-		
 		
 		@Builder
 		public User(String id, String pw, String name, String email, String mobile, String member) {

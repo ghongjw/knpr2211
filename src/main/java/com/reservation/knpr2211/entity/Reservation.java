@@ -37,6 +37,8 @@ public class Reservation {
 		
 		private String room;
 		
+		private Timestamp orderTime;
+		
 		private Timestamp startDay;
 		
 		private Timestamp endDay;
