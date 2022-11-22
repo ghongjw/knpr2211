@@ -4,16 +4,15 @@
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
+
 <link rel="stylesheet"
 	href="../assets/style/reservation/ecoReservation.css">
-
 <script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/reservation/ecoReservation.js"></script>
 <!-- 
 사용x 
+<link rel="stylesheet" href="../assets/style/commonb07b.css?ver1">
 <script src="../assets/js/lib/datepicker.min.js"></script>
-
 <script src="../assets/js/lib/swiper.js"></script>
 <script src="../assets/js/lib/jquery.fs.zoomer.min.js"></script>
 <script src="../assets/js/lib/jquery.rwdImageMaps.min.js"></script>
@@ -21,6 +20,26 @@
 <script src="../assets/js/scripts.js"></script>
 <script src="../assets/js/common9b00.js?ver4"></script>
 -->
+<script>
+	// (ajax)총 결제 예정 금액 
+	var req;
+	function send(){
+		req = new XMLHttpRequest();
+		req.onreadystatechange = changeText
+		req.open('post', "ecoReservation")
+		var category3 = $("input[name='txblPblc']:checked").attr('id');
+		req.send(category3);
+	}
+	function changeText(){
+		if(req.readyState == 4 && req.status == 200){
+			var em = Number(req.responseText)*0.1;
+			var total = Number(req.responseText) + em;
+			$(".surtax").find('em:eq(1)').html(req.responseText);
+			$(".surtax").find('em:eq(3)').html(String(em));
+			$(".total").find('em:eq(0)').html(String(total));
+		}				
+	}
+</script>
 <body>
 	<div id="wrap" class="sub">
 		<%@ include file="../common/header.jsp"%>
@@ -33,7 +52,7 @@
 				<div class="tab-content">
 					<div class="tab-pane is-active">
 						<ul class="nav-tabs type2">
-							<li class="is-active"><a href="ecoReservation?category=C08">북한산</a></li>
+							<li class=""><a href="ecoReservation?category=C08">북한산</a></li>
 							<li class=""><a href="ecoReservation?category=C06">지리산</a></li>
 							<li class=""><a href="ecoReservation?category=C05">소백산</a></li>
 							<li class=""><a href="ecoReservation?category=C04">설악산</a></li>
@@ -50,8 +69,10 @@
 							<div class="tab-content">
 								<div class="tab-pane is-active">
 									<div class="title-area">
-										<span class="label"><i class="icon-location"></i>북한산</span>
-										<h4 class="title" id="deptTitle">북한산 생태탐방원</h4>
+										<c:set var="cateory1" value="${roomTypeList.get(0)}">
+										<span class="label"><i class="icon-location"></i>${category1.nameCategory1}</span>
+										<h4 class="title" id="deptTitle">${category1} 생태탐방원</h4>
+										</c:set>
 									</div>
 									<!-- 예약일 설정 -->
 									<div class="detail-info">
@@ -127,7 +148,7 @@
 													//console.log("ready selectStartDay : "+selectStartDay);
 													//console.log("ready selectEndDay : "+selectEndDay);
 													
-													var calendarClick = document.querySelector('.calendar-container');
+														var calendarClick = document.querySelector('.calendar-container');
 													
 													calendarClick.addEventListener('click',e=>{
 														var str = e.target.className;
@@ -141,54 +162,58 @@
 														// arr[2] 형태 : 2022-01-02
 														var selectArr = arr[2].split("-");
 														var selectDate = new Date( selectArr[0], selectArr[1]-1, selectArr[2]);
-														
 														var diff = selectDate - todayDate ;
 														var check = parseInt(diff/currDay);
 														
 														// 날짜선택 이벤트 검증
-														if(check <0){// 선택한 날짜가 오늘보다 적으면 안됨.
+														if(arr[2] == "disable"){
+															event.preventDefault();
+														}
+														else if(check <0){// 선택한 날짜가 오늘보다 적으면 안됨.
 														}
 														else if(selectStartDay == null && selectEndDay == null){// 입실일 : 선택x , 퇴실일 : 선택x
-															
 															selectStartDay = arr[2];
 															$("."+selectStartDay).css("background", "#8BBDFF").css("border-radius", "5px");
 															$("#startDt").html(selectStartDay);
 															
 														}
 														else if(selectStartDay != null && selectEndDay == null){// 입실일 : 선택o , 퇴실일 : 선택x
-															
 															selectEndDay = arr[2];
 															$("."+selectEndDay).css("background", "#8BBDFF").css("border-radius", "5px");
 															$("#endDt").html(selectEndDay);
 															
 															// 체류기간(입실일 ~ 퇴실일)
 															var startArr = selectStartDay.split("-");
-															var startDate = new Date(startArr[0], startArr[1], startArr[2]);
+															var startDate = new Date(startArr[0], startArr[1]-1, startArr[2]);
 															
 															var endArr = selectEndDay.split("-");
-															var endDate = new Date(endArr[0], endArr[1], endArr[2]);
+															var endDate = new Date(endArr[0], endArr[1]-1, endArr[2]);
 															
 															diff = endDate - startDate;
 															check = parseInt(diff/currDay);
 															//console.log("일수 차이 >> "+check);
 															
 															if(check == 0){
+																$('#nightDays').html("0");
 																$('#nightDays0').css("border-color","#004ea2").css("color","#004ea2");
 																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
 															}else if(check == 1){
+																$('#nightDays').html("1");
 																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays1').css("border-color","#004ea2").css("color","#004ea2");
 																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
 															}else if(check == 2){
+																$('#nightDays').html("2");
 																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays2').css("border-color","#004ea2").css("color","#004ea2");
 																$('#nightDays3').css("border-color","#ccc").css("color","#ccc");
 															}
 															else if(check == 3){
+																$('#nightDays').html("3");
 																$('#nightDays0').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays1').css("border-color","#ccc").css("color","#ccc");
 																$('#nightDays2').css("border-color","#ccc").css("color","#ccc");
@@ -199,9 +224,7 @@
 														}else if(selectStartDay != null && selectEndDay != null){// 입실일 : 선택o , 퇴실일 : 선택o
 															location.reload();
 														}
-														
 													})
-													
 													
 												</script>
 												<ul class="dot-list">
@@ -225,7 +248,8 @@
 													<span class="length-stay" id="nightDays0">당일</span> <span
 														class="length-stay" id="nightDays1">1박 2일</span> <span
 														class="length-stay" id="nightDays2">2박 3일</span> <span
-														class="length-stay" id="nightDays3">3박 4일</span>
+														class="length-stay" id="nightDays3">3박 4일</span> <span
+														style="display: none" id="nightDays"></span>
 												</div>
 											</dd>
 										</dl>
@@ -234,21 +258,77 @@
 											<dd class="form">
 												<button type="button" class="btn btn-view"
 													onclick="funcArray.drawImage('06001');">객실 보기</button>
+												&nbsp;&nbsp;&nbsp;
 												<button type="button" class="btn btn-charge"
 													onclick="openPopup('livingAmtPop');">요금표</button>
 												<!-- 객식 구분 체크박스 넣기 -->
-												<span class="check-area"> <span class="radio-1">
-														<input type="radio" id="txblPblcN" name="txblPblcYn"
-														checked="checked" value="N"> <label
-														for="txblPblcN">개인</label>
-												</span> <span class="radio-1"> <input type="radio"
-														id="txblPblcY" name="txblPblcYn" value="Y"> <label
-														for="txblPblcY">단체</label>
+												<span class="check-area"> <c:forEach var="list"
+														items="${roomTypeList}">
+														<span class="radio-1"> <input type="radio"
+															id="${list.category3}" name="txblPblc"
+															value="${list.peopleMax}" onclick="send()"> <label for="txblPblcN">${list.nameCategory3}</label>
+														</span>
+													</c:forEach> <span style="display: none" id="peopleMax"></span>
 												</span>
 											</dd>
 										</dl>
 									</div>
-
+									<div class="border-box" style="display: none">
+										<dl>
+											<dt>사용인원 설정</dt>
+											<dd class="form">
+												<span class="quantity-input">
+													<button type="button"
+														class="btn minus livingRoom-prsn-minus">
+														<i class="icon-minus"  onclick="send()"></i>
+													</button> <label for="livingPrsnCnt" class="hidden-text">총참여인원</label>
+													<input type="number" value="1" readonly="" title="총 참여 인원"
+													name="livingPrsnCnt" id="livingPrsnCnt">
+													<button type="button" class="btn plus livingRoom-prsn-plus"  onclick="send()">
+														<i class="icon-plus"></i>
+													</button>
+												</span>
+											</dd>
+										</dl>
+									</div>
+									<!-- 객실 선택시 인원선택 -->
+									<script>
+										// 날짜 선택 여부 체크
+										$("input[name='txblPblc']").on("click",function(e){
+											if($("#nightDays").html()==0){
+												$("input[name='txblPblc']").prop('checked',false);
+												toastrMsg("1박 이상일때 예약이 가능합니다.");
+											}else if($("#endDt").html()=="-"){
+												$("input[name='txblPblc']").prop('checked',false);
+												toastrMsg("날짜를 먼저 선택해주세요.");
+												 
+											}else{
+												$(".border-box").css("display","block");
+												var num = $("input[name='txblPblc']:checked").val();
+												$("#peopleMax").html(num);
+												$("#livingPrsnCnt").attr("value","1");
+											}
+										})
+										
+										// 객실별 최대 수용 인원 선택x
+										$('.btn.plus').on("click",function(e){
+											var max = Number($("#peopleMax").html());
+											var selectNum = Number($("#livingPrsnCnt").val());
+											if(selectNum<max){
+												selectNum ++;
+												$("#livingPrsnCnt").attr("value",selectNum);
+											}
+										})
+										$('.btn.minus').on("click",function(e){
+											var max = Number($("#peopleMax").html());
+											var selectNum = Number($("#livingPrsnCnt").val());
+											if(selectNum!=1){
+												selectNum --;
+												$("#livingPrsnCnt").attr("value",selectNum);
+											}
+												
+										})
+									</script>
 									<!-- 총 선택 이용금액 -->
 									<div class="title-area">
 										<h4 class="title">총 결제 예정 금액</h4>
@@ -263,12 +343,6 @@
 										<dl class="surtax">
 											<dt>
 												<em>과세 합계</em>
-											</dt>
-											<dd>
-												<em>0</em>원
-											</dd>
-											<dt>
-												<em>면세 합계*</em>
 											</dt>
 											<dd>
 												<em>0</em>원
@@ -289,7 +363,7 @@
 									</div>
 									<div class="board-bottom">
 										<div class="center">
-											<a href="" class="btn btn-register is-active" onclick="">예약하기</a>
+											<a href="javascript:void(0);" class="btn btn-register is-active" onclick="reservationClick()">예약하기</a>
 										</div>
 									</div>
 								</div>
@@ -340,18 +414,12 @@
 								</tr>
 							</thead>
 							<tbody class="tbody">
+								<c:forEach var="list" items="${roomTypeList}">
 								<tr>
-									<th class="ta-c" scope="row">A타입</th>
-									<td class="ta-c">60,000원</td>
+									<th class="ta-c" scope="row">${list.nameCategory3}</th>
+									<td class="ta-c">${list.priceDay}원</td>
 								</tr>
-								<tr>
-									<th class="ta-c" scope="row">B타입</th>
-									<td class="ta-c">90,000원</td>
-								</tr>
-								<tr>
-									<th class="ta-c" scope="row">C타입</th>
-									<td class="ta-c">120,000원</td>
-								</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 						<div class="btn-area">

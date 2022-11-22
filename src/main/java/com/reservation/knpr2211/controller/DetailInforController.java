@@ -22,8 +22,6 @@ public class DetailInforController {
 		}
 		model.addAttribute("detailInfo",service.selectPlace(parkId,parkDetail));
 		
-		
-		
 		return "detailInformation/detailInfo";
 	}
 }
