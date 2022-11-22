@@ -48,7 +48,7 @@ public class User {
 		//삭제여부
 		@Column(nullable = false, insertable = true, updatable = true)
 		@ColumnDefault(value = "false")
-		private String delete;
+		private String deleted;
 		
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
