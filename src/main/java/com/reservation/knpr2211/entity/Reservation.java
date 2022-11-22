@@ -5,6 +5,8 @@ import java.security.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -48,6 +50,10 @@ public class Reservation {
 		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "false")
 		private Boolean checked;
+		
+		@OneToOne
+		@JoinColumn(name = "user", referencedColumnName = "id", insertable = true, updatable = true)
+		private User reservation;
 		
 		public Reservation() {
 			
