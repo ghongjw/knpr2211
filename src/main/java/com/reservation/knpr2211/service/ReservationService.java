@@ -57,7 +57,7 @@ public class ReservationService {
 	// 생태탐방원 객실종류 출력 (코드입력 'A08')
 	public List<PlaceDTO> selectEcoRoomType(String parkId) {
 		// (출력 : C0801, C0802, C0803)
-		List<PlaceDTO> listDate = rr.findAllByCategory2(parkId);
+		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
 		System.out.println("리스트 출력: "+listDate);
 		for (PlaceDTO list : listDate) {
 			String result = mcs.category1(list.getCategory1());
@@ -71,7 +71,7 @@ public class ReservationService {
 	// 민박촌 객실종류 출력 (코드입력 'A08')
 	public List<PlaceDTO> selectCotRoomType(String parkId) {
 		// (출력 : C0801, C0802, C0803)
-		List<PlaceDTO> listDate = rr.findAllByCategory2(parkId);
+		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
 		for (PlaceDTO list : listDate) {
 			String result = mcs.category1(list.getCategory1());
 			list.setNameCategory1(result);

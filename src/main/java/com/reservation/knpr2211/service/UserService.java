@@ -96,14 +96,14 @@ public class UserService {
 			if(userRepository.findByid(id ).getMember().equals("admin")) {
 				return "어드민 계정 로그인 성공";
 			}
-			session.setAttribute("id", userRepository.findByid(id).getName());
-			return "회원 로그인 성공";
-			session.setAttribute("name", userRepository.findByid(id).getName());
+		
 			session.setAttribute("id", userRepository.findByid(id).getId());
 			session.setAttribute("email", userRepository.findByid(id).getEmail());
 			session.setAttribute("mobile", userRepository.findByid(id).getMobile());
+			session.setAttribute("name", userRepository.findByid(id).getName());
 			
-			return "로그인 성공";
+			return "회원 로그인 성공";
+			
 		}
 
 		return "아이디 또는 비밀번호를 확인하세요.";
