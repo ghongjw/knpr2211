@@ -474,7 +474,7 @@ $('document').ready(function(){
         </div>
     </div>
     <div class="grid-cell">
-        <h3 class="title">유형</h3>
+        <h3 class="title">유형1</h3>
 
         <div class="btn-area">
             <button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
