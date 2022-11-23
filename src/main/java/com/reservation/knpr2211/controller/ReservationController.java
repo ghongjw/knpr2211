@@ -17,6 +17,8 @@ import com.reservation.knpr2211.service.ReservationService;
 
 @Controller
 public class ReservationController {
+	@Autowired
+	ReservationService rs;
 	
 	// 예약(예외처리)
 	@RequestMapping("reservation")
@@ -38,25 +40,24 @@ public class ReservationController {
 	public String cottageReservation() {
 		return "reservation/cottageReservation";
 	}
-	@Autowired
-	ReservationService rs;
+
 
 	// 야영장 예약페이지 열림
-	@RequestMapping("reservation/campsite")
+	@RequestMapping("campsite")
 	public String campsite() {
 		System.out.println("확인1");
 		return "reservation/campsite";
 	}
 
 	// 대피소 예약페이지 열림
-	@RequestMapping("reservation/shelter")
+	@RequestMapping("shelter")
 	public String shelter() {
 		System.out.println("확인2");
 		return "reservation/shelter";
 	}
 
 	@ResponseBody
-	@PostMapping(value = "reservation/selectInfo", produces = "text/html; charset=UTF-8")
+	@PostMapping(value = "selectInfo", produces = "text/html; charset=UTF-8")
 	public String selectInfo(@RequestBody(required = false) String reqData) {
 		String code = reqData;
 
@@ -65,17 +66,36 @@ public class ReservationController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "/sendData")
-	public Map<String, Object> sendData(@RequestParam Map<String, String> map) throws Exception {
+	@PostMapping(value = "/campsiteView")
+	public Map<String, Object> campsiteView(@RequestParam Map<String, String> map) throws Exception {
 		
 		Map<String, Object> result = new HashMap<>();
 		String code = map.get("code");
-		System.out.println(code);
+		//System.out.println(code);
 		
 		List<PlaceDTO> list = rs.campsiteView(code);
-		System.out.println(list.toString());
-		
+		List<String> checkList = rs.checkBoxList(code);
+		//System.out.println(list.toString());
+
 		result.put("list", list);
+		result.put("checkList", checkList);
 		return result;
 	}
+	
+	
+	@ResponseBody
+	@PostMapping(value = "/roomView")
+	public Map<String, Object> roomView(@RequestParam Map<String, String> map) throws Exception {
+		
+		String code = map.get("code");
+		//System.out.println(code);
+	
+		List<PlaceDTO> rooms = rs.roomView(code);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("rooms", rooms);
+		
+		return result;
+	}
+		
 }

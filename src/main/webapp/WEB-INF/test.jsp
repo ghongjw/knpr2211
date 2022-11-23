@@ -5,7 +5,7 @@
 <head>
 <style type="text/css">
 /* section calendar */
-/*test ddd */
+
 .sec_cal {
     width: 360px;
     margin: 0 auto;
