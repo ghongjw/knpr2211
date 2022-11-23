@@ -48,9 +48,9 @@
                     <a href="javascript:void(0);" class="depth1">예약하기</a>
                     <ul class="depth2">
                         
-                            <li><a href="">야영장</a></li>
+                            <li><a href="campsite">야영장</a></li>
                         
-                            <li><a href="">대피소</a></li>
+                            <li><a href="shelter">대피소</a></li>
                         
                             <li><a href="ecoReservation">생태탐방원</a></li>
                         

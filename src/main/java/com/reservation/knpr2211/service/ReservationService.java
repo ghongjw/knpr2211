@@ -1,7 +1,6 @@
 
 package com.reservation.knpr2211.service;
 
-import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.entity.Place;
-import com.reservation.knpr2211.entity.Reservation;
 import com.reservation.knpr2211.repository.PlaceRepository;
 import com.reservation.knpr2211.repository.ReservationRepository;
 
@@ -48,7 +46,7 @@ public class ReservationService {
 		// Place op = pr.findById(1).get();
 		// System.out.println(op.toString());
 
-		List<Place> places = pr.findByCategory2AndCategory3(category2, category3);
+		//List<Place> places = pr.findByCategory2AndCategory3(category2, category3);
 
 		for (Place place : places) {
 			PlaceDTO dto = new PlaceDTO();

@@ -28,7 +28,7 @@ public class AdminMemberListService {
 		
 		System.out.println(members);
 		for(User user : members) {
-			
+			System.out.println(user.getId());
 		}
 		
 		model.addAttribute("members", members);
