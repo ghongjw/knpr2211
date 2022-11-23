@@ -156,9 +156,10 @@ public class MountainCodeService {
 		case "B03": list.add("제2연화봉대피소");
 			break;
 		
-		case "B04": list.add("벽소령대피소"); list.add("세석대피소"); list.add("장터목대피소"); 
-		list.add("로타리대피소"); list.add("노고단대피소"); list.add("치밭목대피소"); 
-		list.add("연하천대피소");
+		case "B04": list.add("벽소령"); list.add("세석"); list.add("장터목"); 
+		list.add("로타리"); list.add("노고단"); list.add("치밭목"); 
+		list.add("연하천");
+		break;
 		
 		//생태탐방원
 		case "C01": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)");
@@ -315,14 +316,34 @@ public class MountainCodeService {
 		else if(category.equals("B0101")) {
 			list.add(" ");
 		}
+		else if(category.equals("B0201")) {
+			list.add(" ");}
+		else if(category.equals("B0202")) {
+			list.add(" ");}
+		else if(category.equals("B0203")) {
+			list.add(" ");}
+		else if(category.equals("B0204")) {
+			list.add(" ");}
+		else if(category.equals("B0205")) {
+			list.add(" ");}
 		else if(category.equals("B0301")) {
 			list.add("자동차야영장");
 		}
+		else if(category.equals("B0401")) {
+			list.add(" ");}
+		else if(category.equals("B0402")) {
+			list.add(" ");}
+		else if(category.equals("B0403")) {
+			list.add(" ");}
+		else if(category.equals("B0404")) {
+			list.add(" ");}
 		else if(category.equals("B0405")) {
 			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
 		}else if(category.equals("B0406")) {
 			list.add("자동차야영장");	list.add("카라반 겸용영지"); list.add("카라반(체류형)");
 		}
+		else if(category.equals("B0407")) {
+			list.add(" ");}
 		return list.get(intcat);
 	}
 }

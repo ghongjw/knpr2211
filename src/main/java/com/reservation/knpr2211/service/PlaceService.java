@@ -144,7 +144,7 @@ public class PlaceService implements IPlaceService {
 		}		return i;
 	}
 	
-<<<<<<< HEAD
+
 	//즐겨찾기 조회
 	public String checkFavorite(String param) {
 		User entity = ur.findByid((String)session.getAttribute("id"));
@@ -162,7 +162,6 @@ public class PlaceService implements IPlaceService {
 			}
 		}return "n";
 	}
-
 	//즐겨찾기 토글
 	public String toggleCheck(HashMap<String, String> map) {
 		if(session.getAttribute("id")==null) return "goLoginFirst";
@@ -199,9 +198,4 @@ public class PlaceService implements IPlaceService {
 		return "y";
 	}
 	
-
-=======
-	
-	
->>>>>>> df70c8b4def6cb10b039a17b1166bf8f13d65a87
 }
