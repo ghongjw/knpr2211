@@ -1,8 +1,12 @@
 package com.reservation.knpr2211.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -61,23 +65,4 @@ public class Place {
 		
 	}
 	
-	@Builder
-	public Place(Place place) throws Exception{
-		this.seq=place.getSeq();
-		this.category1 = place.getCategory1().toString();
-		this.category2 = place.getCategory2();
-		this.category3 = place.getCategory3();
-		this.category4 = place.getCategory4() != null ? place.getCategory4():"";
-		this.room=place.getRoom();
-		this.roomMax=place.getRoomMax();
-		this.address = place.getAddress();
-		this.mobile = place.getMobile();
-		this.time = place.getTime();
-		this.priceWeekend = place.getPriceWeekend()!= null ? place.getPriceWeekend():"";
-		this.priceDay = place.getPriceDay();
-		this.peopleMax = place.getPeopleMax();
-		this.memo = place.getMemo();
-		this.x =place.getX();
-		this.y=place.getY();
-	}
 }

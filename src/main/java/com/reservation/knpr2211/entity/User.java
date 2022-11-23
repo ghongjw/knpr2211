@@ -1,21 +1,25 @@
 package com.reservation.knpr2211.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.domain.PageRequest;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
+@Getter 
 @Setter
 @DynamicInsert
 @DynamicUpdate
@@ -42,12 +46,16 @@ public class User {
 		//관리자,회원
 		@Column(nullable = false, insertable = true, updatable = true)
 		private String member;
+		//삭제여부
+		@Column(nullable = false, insertable = true, updatable = true)
+		@ColumnDefault(value = "false")
+		private String deleted;
 		
-	
-		
+		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
+		private List<Favorite> favorite = new ArrayList<Favorite>(); 
 		
 		@Builder
-		public User(String id, String pw, String name, String email, String mobile, String member) {
+		public User(String id, String pw, String name, String email, String mobile, String member, String deleted) {
 			
 			this.id = id;
 			this.pw = pw;
@@ -55,9 +63,7 @@ public class User {
 			this.email = email;
 			this.mobile = mobile;
 			this.member = member;
-			
-			
-			
+			this.deleted = deleted;
 			
 		}
 
@@ -66,4 +72,7 @@ public class User {
 	public User() {
 		
 	}
+
+
+
 }
