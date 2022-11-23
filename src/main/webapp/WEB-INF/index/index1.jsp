@@ -427,20 +427,34 @@ $('document').ready(function(){
 </ul>
  
 </form>
-    <form action="LocationSelect">
-    <ul class="check-area" data-template-id="camp-dept-template">
+<script type="text/javascript">
+
+$('document').ready(function(){
+	
+	$("#location1").change(function(){
+		$("#l").submit()
+	})
+	
+	});
+
+
+</script>
+
+
+
+    <ul class="check-area" id="location1" data-template-id="camp-dept-template">
     
-    <c:forEach var="a" items="${category3s }" varStatus="status" >
+    <c:forEach var="a" items="${Locations }" varStatus="status" >
 	<li>
 	
         <span class="radio-1">
-            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfCategory3s[status.index]}" >
-            ${nameOfCategory3s[status.index] }
+            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfLocations[status.index]}" >
+            <label for="camp-location1-0">${nameOfLocations[status.index] }</label>
         </span>
     </li>
 	</c:forEach>
 	</ul>   
-      </form>
+
     </div>
     <div class="grid-cell" data-template-id="camp-calendar-template">
         <h3 class="title">날짜</h3>
@@ -551,7 +565,7 @@ $('document').ready(function(){
 
             <li>
                 <label for="shelterMountainRadio1" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio1" name="mountain" value="B01">
+                    <input type="radio" id="shelterMountainRadio1" name="mountain" value="B04">
                     <span>지리산</span>
                 </label>
             </li>
@@ -563,13 +577,13 @@ $('document').ready(function(){
             </li>
             <li>
                 <label for="shelterMountainRadio3" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio3" name="mountain" value="B03">
+                    <input type="radio" id="shelterMountainRadio3" name="mountain" value="B01">
                     <span>덕유산</span>
                 </label>
             </li>
             <li>
                 <label for="shelterMountainRadio4" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio4" name="mountain" value="B04">
+                    <input type="radio" id="shelterMountainRadio4" name="mountain" value="B03">
                     <span>소백산</span>
                 </label>
             </li>
@@ -837,7 +851,7 @@ $('document').ready(function(){
        <ul class="check-area" id="tab4">
             <li>
                 <label for="rsdnMountainRdio" class="radio-check">
-                    <input type="radio" id="rsdnMountainRdio" name="rsdnMountain1" checked="checked" value="">
+                    <input type="radio" id="rsdnMountainRdio" name="rsdnMountain1" value="">
                     <span>태백산</span>
                 </label>
             </li>

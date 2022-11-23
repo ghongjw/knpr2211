@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.reservation.knpr2211.service.IndexService;
 import com.reservation.knpr2211.service.PlaceService;
 
 @Controller
@@ -18,12 +19,12 @@ public class IndexController {
 		return "index/index1";
 	}
 	
-	@Autowired PlaceService service;
+	@Autowired IndexService Iservice;
 	@RequestMapping("MountainSelect")
 	public String MountainSelect(String mountain, Model model) {
 		
 		System.out.println("선택된 산 : "+mountain);
-		model.addAttribute(mountain, service.selectMountain(mountain));	
+		model.addAttribute(mountain, Iservice.selectMountain(mountain));	
 		
 		return "redirect:index1";
 	}

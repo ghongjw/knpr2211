@@ -1,7 +1,6 @@
 package com.reservation.knpr2211.service;
 
-import java.io.File;
-import java.io.FilenameFilter;
+
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
@@ -109,22 +108,48 @@ public class IndexService implements IPlaceService {
 	}
 
 	
+	@Transactional
+	public ArrayList<PlaceDTO> selectMountain(String mountain){
+		
+		
+		String category1 = mountain.substring(0,1);
+		String category2 = mountain.substring(0,3);
+		//카테고리별 중복제거 값 불러오기
+		ArrayList<String> category2s = pr.findDistintCategory2(category1);
+		ArrayList<String> category3s = pr.findDistintCategory3(category2);
+		//카테고리별 값 한국어로 바꾸기
+		ArrayList<String> nameOfCategory2s = new ArrayList<>();
+		
+		for(String a : category2s) {
+			a = mcs.findCategory(a); 
+			nameOfCategory2s.add(a);
+		}
+		ArrayList<String> nameOfCategory3s = new ArrayList<>();
+		for(String a : category3s) {
+			a = mcs.findCategory(a); 
+			nameOfCategory3s.add(a);
+		}
+		session.setAttribute("mountains", category2s);
+		session.setAttribute("Locations", category3s);
+		session.setAttribute("nameOfMountains", nameOfCategory2s);
+		session.setAttribute("nameOfLocations", nameOfCategory3s);
+		
+		ArrayList<PlaceDTO> placeDtos = new ArrayList<>();
+	
+		
+		
+	
+	 return placeDtos;
+	 
+	}
+
+
 	@Override
 	public int imageFile(String parkDetail) {
-		
-		File dir = new File(FILE_LOCATION);
-		FilenameFilter filter = new FilenameFilter() {
-		    public boolean accept(File f, String name) {
-		        return name.startsWith(parkDetail);
-		    }
-		};
-		
-		File files[] = dir.listFiles(filter);
-		int i = 0;
-		for (i = 0; i < files.length; i++) {
-		   System.out.println("file: " + files[i]);
-		}		return i;
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
+
+
 
 }
