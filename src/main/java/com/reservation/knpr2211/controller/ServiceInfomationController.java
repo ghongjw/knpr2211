@@ -57,7 +57,7 @@ public class ServiceInfomationController {
 	System.out.println(userservice.login(id, pw));
 	String msg= userservice.login(id, pw);
 	
-	if(msg.equals("아이디를 입력하세요")) {
+	if(msg.equals("로그인 성공")) {
 		
 	return "login/login";
 	}
@@ -80,19 +80,35 @@ public class ServiceInfomationController {
 	}
 	//회원가입 버튼 
 	@RequestMapping ("RegisterProc")
-	public String RegisterProc(String id, String pw, String pwcon, String name, String email, String mobile,String member ,Model model) {
+	public String RegisterProc(String id, String pw, String PwCon, String name, String email, String mobile,String member ,Model model) {
 		
 		
-		userservice.register(id, pw,pwcon, name, email, mobile, member);
-		String msg = userservice.register(id,pw ,pwcon, name, email, mobile, member);
-		
+		String msg = userservice.register(id,pw ,PwCon, name, email, mobile, member);
+		System.out.println(msg);
 		if(msg.equals("회원가입 성공")) {
 		System.out.println("회원가입 성공");
-		return "login/login";
+		return "redirect:login";
 		}
 		System.out.println("회원가입 실패");
-		return msg;
+		return "redirect:register";
 	}
+	//회원가입 버튼 
+		@RequestMapping ("UserModifyProc")
+		public String UserModifyProc(String id,String pw, String PwCon, String name, String email, String mobile,String member ,Model model) {
+			
+			
+
+			
+			String msg = userservice.UserModify(id, pw ,PwCon, name, email, mobile, member);
+			System.out.println(msg);
+			if(msg.equals("회원정보 수정 성공")) {
+			System.out.println("회원정보수정 성공");
+			return "redirect:index";
+			}
+			System.out.println("회원정보수정 실패");
+			return "redirect:register";
+		}
+	
 	
 	
 	
@@ -105,15 +121,6 @@ public class ServiceInfomationController {
 		return msg;
 	}	
 		
-	@PostMapping(value = "PwConfirm" , produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public String PwConfirm(@RequestBody(required = false) String pw, String PwCon) {
-		System.out.println("비밀번호 확인: "+PwCon);
-		String msg = userservice.PwConfirm(pw, PwCon);
-		System.out.println(msg);
-		return msg;
-	}	
-	
 	@RequestMapping("logout")
 	public String logout() {
 		session.invalidate();
@@ -123,6 +130,15 @@ public class ServiceInfomationController {
 	@RequestMapping("index")
 	public String index() {
 		return "login/index";
+	}
+
+	@RequestMapping("UserModify")
+	public String UserModity() {
+		
+		
+		return "login/UserModify";
+	
+
 	}
 	
 	
