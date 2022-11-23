@@ -17,7 +17,7 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	List<Place> findAll();
 
 	List<Place> findByCategory2AndCategory3(String category2, String category3); 
-
+	
 	
 	ArrayList<Place> findByCategory2(String parkId);
 	ArrayList<Place> findByCategory3(String parkId);
@@ -32,6 +32,6 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	@Query(nativeQuery=true, value = "select * from place where category2 like CONCAT('%',:category2,'%')")
 	ArrayList<Place> find(@Param("category2") String category2);
 	
-	
+	List<PlaceDTO> findAllByCategory2(String category2);
 	
 }
