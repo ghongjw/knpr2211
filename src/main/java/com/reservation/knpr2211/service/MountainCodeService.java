@@ -159,17 +159,30 @@ public class MountainCodeService {
 		case "B04": list.add("벽소령대피소"); list.add("세석대피소"); list.add("장터목대피소"); 
 		list.add("로타리대피소"); list.add("노고단대피소"); list.add("치밭목대피소"); 
 		list.add("연하천대피소");
+		
+		//생태탐방원
+		case "C01": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)");
+		
+		case "C02": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)"); list.add("자연의집(3인실)");
+		
+		case "C03": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)");
+		
+		case "C04": list.add("A타입(4인실)"); list.add("C타입(8인실)");
+		
+		case "C05": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)");
+		
+		case "C06": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("자연의집(3인실)");
+		
+		case "C07": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("자연의집(3인실)");
+		
+		case "C08": list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)");
 		break;
 
 		default:
 			break;
 		}
-		//생태탐방원
-		if(category.equals("C")) {
-			list.add("A타입(4인실)"); list.add("B타입(6인실)"); list.add("C타입(8인실)"); list.add("자연의집(3인실)");
-		}
 		//민박촌
-			else if(category.equals("D")) {
+			if(category.equals("D")) {
 			list.add("온돌"); list.add("침대"); list.add("15평"); list.add("18평"); list.add("32평");
 		}
 		

@@ -33,26 +33,44 @@ public class ReservationController {
 	// 생태탐방원 예약
 	@GetMapping(value = "ecoReservation")
 	public String GetEcoReservation(String category, Model model) {
-		System.out.println(category);
 		if (category == null) {
 			category = "C08";
 		}
+		// 제목 category1(대분류), category2(중분류) 코드 해석
+		String[] result = rs.transtitleCode(category); 
+		model.addAttribute("category1", result[0]);
+		model.addAttribute("category2", result[1]);
 		// 룸타입 가져오기
-		List<PlaceDTO> roomTypeList = rs.selectRoomType(category);
+		List<PlaceDTO> roomTypeList = rs.selectEcoRoomType(category);
 		model.addAttribute("roomTypeList", roomTypeList);
 		return "reservation/ecoReservation";
 	}
 	@ResponseBody
 	@PostMapping(value="ecoReservation", produces="application/json; charset=UTF-8")
 	public String PostEcoReservation(@RequestBody(required = false) String code){
-		System.out.println("podst로 넘어온 code : "+code);
-		//System.out.println("금액 : "+rs.selectPlace(code));
-		return rs.selectPlace(code);
+		String result = rs.selectCategory3(code).getPriceDay();
+		return result;
 	}
 	
-	// 민박원 예약
-	@RequestMapping(value = "cottageReservation")
-	public String cottageReservation() {
+	// 민박촌 예약
+	@GetMapping(value = "cottageReservation")
+	public String getCottageReservation(String category, Model model) {
+		System.out.println(category);
+		if (category == null) {
+			category = "D01";
+		}
+		// category2(중분류) 코드해석
+		String[] result = rs.transtitleCode(category); 
+		model.addAttribute("category1", result[0]);
+		model.addAttribute("category2", result[1]);
+		// 룸타입 가져오기
+		List<PlaceDTO> roomTypeList = rs.selectCotRoomType(category);
+		model.addAttribute("roomTypeList", roomTypeList);
+		return "reservation/cottageReservation";
+	}
+	@PostMapping(value = "cottageReservation", produces = "text/html; charset=UTF-8")
+	public String postCottageReservation(@RequestBody(required = false) HashMap<String, String> keyData) {
+		rs.mol(keyData.get("category3"), keyData.get("startDay"), keyData.get("endDay"));
 		return "reservation/cottageReservation";
 	}
 

@@ -28,6 +28,4 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	@Query(nativeQuery=true, value = "select distinct category3 from place where category2 = ?1")
 	ArrayList<String> findDistintCategory3(String category2);
 	
-	//작성자: 김수정
-	List<PlaceDTO> findAllByCategory2(String category2);
 }
