@@ -3,6 +3,10 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
    <meta name="viewport" content="width=device-width">
+
+	<script src="assets/js/common.js?ver4"></script> <!-- 추가필요 -->
+      
+
 <%--    <c:url var="root" value="/" /> --%>
 	<link rel="stylesheet" href="${root }assets/style/commonb07b.css?ver1">
 	<link rel="stylesheet" href="${root }assets/style/commonb07b.css">
@@ -15,6 +19,7 @@
 	<script src="${root }assets/js/scripts.js"></script>
 	<script src="${root }assets/js/common9b00.js?ver4"></script>
     
+
     <title>knpr2211</title>
     </head>
 <header id="header">
