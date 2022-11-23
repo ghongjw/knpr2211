@@ -1,5 +1,7 @@
+<%@page import="com.reservation.knpr2211.service.MountainCodeService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
@@ -1055,119 +1057,37 @@
 
 //]]>
 </script>
+
+<script type="text/javascript">
+
+$('document').ready(function(){
+	
+	$(".check-area").change(function(){
+		$("#m").submit()
+	})
+	
+	});
+
+	
+</script>
+
+
 <div class="grid-row" data-reservation-step="1">
     <div class="grid-cell">
         <h3 class="title">위치</h3>
+        <form action="MountainSelect" method="post" id="m">
         <ul class="check-area" data-template-id="camp-group-template">
+                
+        <c:forEach var="a" items="${category2s }" varStatus = "status">
 	<li>
-        <label for="camp-radio1-0" class="radio-check">
-            <input type="radio" id="camp-radio1-0" name="camp-mountain" value="가야산">
-            <span>가야산</span>
+        <label for="camp-radio1-${a }" class="radio-check">
+            <input type="radio" id="camp-radio1-${a }" name="mountain" value="${nameOfCategory2s[status.index]}">
+            <span>${nameOfCategory2s[status.index] } </span>
         </label>
     </li>
-	<li>
-        <label for="camp-radio1-1" class="radio-check">
-            <input type="radio" id="camp-radio1-1" name="camp-mountain" value="계룡산">
-            <span>계룡산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-2" class="radio-check">
-            <input type="radio" id="camp-radio1-2" name="camp-mountain" value="내장산">
-            <span>내장산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-3" class="radio-check">
-            <input type="radio" id="camp-radio1-3" name="camp-mountain" value="다도해해상">
-            <span>다도해해상</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-4" class="radio-check">
-            <input type="radio" id="camp-radio1-4" name="camp-mountain" value="덕유산">
-            <span>덕유산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-5" class="radio-check">
-            <input type="radio" id="camp-radio1-5" name="camp-mountain" value="무등산">
-            <span>무등산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-6" class="radio-check">
-            <input type="radio" id="camp-radio1-6" name="camp-mountain" value="변산반도">
-            <span>변산반도</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-7" class="radio-check">
-            <input type="radio" id="camp-radio1-7" name="camp-mountain" value="설악산">
-            <span>설악산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-8" class="radio-check">
-            <input type="radio" id="camp-radio1-8" name="camp-mountain" value="소백산">
-            <span>소백산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-9" class="radio-check">
-            <input type="radio" id="camp-radio1-9" name="camp-mountain" value="오대산">
-            <span>오대산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-10" class="radio-check">
-            <input type="radio" id="camp-radio1-10" name="camp-mountain" value="월악산">
-            <span>월악산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-11" class="radio-check">
-            <input type="radio" id="camp-radio1-11" name="camp-mountain" value="월출산">
-            <span>월출산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-12" class="radio-check">
-            <input type="radio" id="camp-radio1-12" name="camp-mountain" value="주왕산">
-            <span>주왕산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-13" class="radio-check">
-            <input type="radio" id="camp-radio1-13" name="camp-mountain" value="지리산">
-            <span>지리산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-14" class="radio-check">
-            <input type="radio" id="camp-radio1-14" name="camp-mountain" value="치악산">
-            <span>치악산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-15" class="radio-check">
-            <input type="radio" id="camp-radio1-15" name="camp-mountain" value="태백산">
-            <span>태백산</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-16" class="radio-check">
-            <input type="radio" id="camp-radio1-16" name="camp-mountain" value="태안해안">
-            <span>태안해안</span>
-        </label>
-    </li>
-	<li>
-        <label for="camp-radio1-17" class="radio-check">
-            <input type="radio" id="camp-radio1-17" name="camp-mountain" value="한려해상">
-            <span>한려해상</span>
-        </label>
-    </li>
+    </c:forEach>
 </ul>
+</form>
         <ul class="check-area" data-template-id="camp-dept-template">
 	<li style="display:none;">
         <span class="radio-1">
@@ -3670,32 +3590,16 @@ function goAuthiPin(){
     <div class="grid-cell">
         <h3 class="title">위치</h3>
         <ul class="check-area">
-            
-
+		<c:forEach var="b" items="${category2s }" varStatus = "status">
             <li>
-                <label for="shelterMountainRadio1" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio1" name="shelterMountain" value="B01">
-                    <span>지리산</span>
+                <label for="shelterMountainRadio${b }" class="radio-check">
+                    <input type="radio" id="shelterMountainRadio${b }" name="shelterMountain" value="${nameOfCategory2s[status.index] }">
+                    <span>${nameOfCategory2s[status.index] } </span>
                 </label>
             </li>
-            <li>
-                <label for="shelterMountainRadio2" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio2" name="shelterMountain" value="B03">
-                    <span>설악산</span>
-                </label>
-            </li>
-            <li>
-                <label for="shelterMountainRadio3" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio3" name="shelterMountain" value="B05">
-                    <span>덕유산</span>
-                </label>
-            </li>
-            <li>
-                <label for="shelterMountainRadio4" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio4" name="shelterMountain" value="B12">
-                    <span>소백산</span>
-                </label>
-            </li>
+            </c:forEach>
+           
+        
         </ul>
         <ul class="radio-area row" data-template-id="shelter-shelters-template">
         </ul>

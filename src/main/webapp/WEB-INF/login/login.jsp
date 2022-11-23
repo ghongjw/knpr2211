@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
+
+<c:if test="${not empty sessionScope.id }">
+	<script>
+		location.href = 'index';
+	</script>
+</c:if>
 <html>
 
 	<meta name="viewport" content="width=device-width">

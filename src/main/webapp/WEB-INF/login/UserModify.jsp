@@ -34,7 +34,11 @@ function printMsg(){
 }
 
 </script>
-
+<c:if test="${empty sessionScope.id }">
+	<script>
+		location.href = 'index';
+	</script>
+</c:if>
 <body>
 	<div id="wrap" class="sub">
 
@@ -51,7 +55,7 @@ function printMsg(){
 <h3>
 	<font color="red" id="msg">${msg } </font>
 </h3><br>
-    <form method="post" action="RegisterProc">
+    <form method="post" action="UserModifyProc">
         <input type="text"class="input-text" name="id" id="id"  value="${sessionScope.id}" readonly="readonly"/> 
        
        

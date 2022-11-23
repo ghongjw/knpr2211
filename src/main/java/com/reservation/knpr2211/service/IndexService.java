@@ -17,7 +17,7 @@ import com.reservation.knpr2211.entity.Place;
 import com.reservation.knpr2211.repository.PlaceRepository;
 
 @Service
-public class PlaceService implements IPlaceService {
+public class IndexService implements IPlaceService {
 	@Autowired MountainCodeService mcs;
 	@Autowired PlaceRepository pr;
 	@Autowired HttpSession session;
@@ -126,77 +126,5 @@ public class PlaceService implements IPlaceService {
 		}		return i;
 	}
 	
-	@Transactional
-	public ArrayList<PlaceDTO> selectMountain(String mountain){
-		
-		
-		String category1 = mountain.substring(0,1);
-		String category2 = mountain.substring(0,3);
-		//카테고리별 중복제거 값 불러오기
-		ArrayList<String> category2s = pr.findDistintCategory2(category1);
-		ArrayList<String> category3s = pr.findDistintCategory3(category2);
-		//카테고리별 값 한국어로 바꾸기
-		ArrayList<String> nameOfCategory2s = new ArrayList<>();
-		
-		for(String a : category2s) {
-			a = mcs.findCategory(a); 
-			nameOfCategory2s.add(a);
-		}
-		ArrayList<String> nameOfCategory3s = new ArrayList<>();
-		for(String a : category3s) {
-			a = mcs.findCategory(a); 
-			nameOfCategory3s.add(a);
-		}
-		session.setAttribute("category2s", category2s);
-		session.setAttribute("category3s", category3s);
-		session.setAttribute("nameOfCategory2s", nameOfCategory2s);
-		session.setAttribute("nameOfCategory3s", nameOfCategory3s);
-		
-		
-		ArrayList<Place>  places= pr.findByCategory3(mountain);
-		System.out.println("places"+places);
-		ArrayList<PlaceDTO> placeDtos = new ArrayList<>();
-		
-		for(Place a : places)
-		try {
-			PlaceDTO placeDto = new PlaceDTO();
-			placeDto.setSeq(a.getSeq());
-			placeDto.setCategory1(a.getCategory1());
-			placeDto.setCategory2(a.getCategory2());
-			placeDto.setCategory3(a.getCategory3());
-			if(a.getCategory4()!=null||!a.getCategory4().isEmpty()) {
-			placeDto.setCategory4(a.getCategory4());
-			}
-			placeDto.setNameCategory1(mcs.findCategory(a.getCategory1()));
-			placeDto.setNameCategory2(mcs.findCategory(a.getCategory2()));
-			placeDto.setNameCategory3(mcs.findCategory(a.getCategory3()));
-			if(a.getCategory4()!=null||!a.getCategory4().isEmpty())
-			placeDto.setNameCategory4(mcs.findCategory(a.getCategory4()));
-			
-			placeDto.setRoom(a.getRoom());
-			placeDto.setRoomMax(a.getRoomMax());
-			placeDto.setAddress(a.getAddress());
-			placeDto.setMobile(a.getMobile());
-			placeDto.setTime(a.getTime());
-			placeDto.setPriceWeekend(a.getPriceWeekend());
-			placeDto.setPriceDay(a.getPriceDay());
-			placeDto.setPeopleMax(a.getPeopleMax());
-			placeDto.setMemo(a.getMemo());
-			placeDto.setX(a.getX());
-			placeDto.setY(a.getY());
-			
-			placeDtos.add(placeDto);
-			System.out.println(placeDtos);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	
-	 return placeDtos;
-	 
-	}
-
 
 }

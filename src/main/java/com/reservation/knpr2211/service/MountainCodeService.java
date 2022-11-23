@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import com.reservation.knpr2211.entity.Place;
+
 @Service
 public class MountainCodeService {
 	public String findCategory(String parkId) {
@@ -76,6 +78,8 @@ public class MountainCodeService {
 			cat2 = parkD.get(intcat2);
 		}
 		return cat2;
+		
+	
 	}
 	public String category3(String parkId) {
 		if(parkId.length()==3) {
