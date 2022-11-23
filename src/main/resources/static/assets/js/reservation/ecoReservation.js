@@ -107,8 +107,9 @@ function ecoChangeText() {
 
 // (ajax) 민박촌 - 총 결제 예정 금액 
 function sendCot() {
+	console.log("sendcot메서드 실행")
 	// 날짜 선택 여부 체크
-	var startDate = $("#startDate").html()
+	var startDt = $("#startDt").html()
 	var endDt = $("#endDt").html()
 	if (endDt == "-") {
 		$("input[name='minbakChk']").prop('checked', false);
@@ -123,10 +124,12 @@ function sendCot() {
 
 		req = new XMLHttpRequest()
 		req.onreadystatechange = ecoChangeText
-		req.open('post', "cotReservation")
+		req.open('post', "cottageReservation")
 		
-		var category3 = $("input[name='minbakChk']:checked").attr('id'); //category3 code
-		var reqData = {cateogry3: category3, startDate: startDate, endDt: endDt}
+		var category3code = $("input[name='minbakChk']:checked").attr('id') //category3 code
+		//console.log("코드: "+category3code+", 입실일: "+startDt+", 퇴실일: "+endDt);
+		
+		var reqData = {'category3':category3code, 'startDate':startDt, 'endDate':endDt}
 		reqData = JSON.stringify(reqData)
 		req.setRequestHeader('Content-Type',"application/json; charset=UTF-8")
 		req.send(reqData);
