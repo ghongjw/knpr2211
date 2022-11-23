@@ -106,7 +106,7 @@ public class MountainCodeService {
 		case "A04": list.add("팔영상"); list.add("염포"); list.add("구계동"); 
 			break;
 			
-		case "A05": list.add("덕유대 체류형 숙박시설"); list.add("덕유대 야영장");
+		case "A05": list.add("덕유대 체류형 숙박시설"); list.add("덕유대"); //수정
 			break;
 			
 		case "A06": list.add("도원"); 
@@ -202,22 +202,22 @@ public class MountainCodeService {
 		ArrayList<String> list = new ArrayList<>();
 		
 		if(category.equals("A0101")) {
-			list.add("자동차 야영장");
+			list.add("자동차야영장");
 		}else if(category.equals("A0102")) {
-			list.add("자동차 야영장");
+			list.add("자동차야영장");
 		}else if(category.equals("A0103")) {
-			list.add("자동차 영지"); list.add("자연의집(솔막)");
+			list.add("자동차야영장"); list.add("자연의집(솔막)");
 		}else if(category.equals("A0201")) {
-			list.add("자동차 야영장");
+			list.add("자동차야영장");
 		}
 		else if(category.equals("A0301")) {
-			list.add("자동차 영지"); 
+			list.add("자동차야영장"); 
 		}
 		else if(category.equals("A0302")) {
-			list.add("자동차 야영장"); list.add("자연의집(솔막)");
+			list.add("자동차야영장"); list.add("자연의집(솔막)");
 		}
 		else if(category.equals("A0401")) {
-			list.add("자동차 야영장"); 
+			list.add("자동차야영장"); 
 		}
 		else if(category.equals("A0402")) {
 			list.add("일반야영장"); 
