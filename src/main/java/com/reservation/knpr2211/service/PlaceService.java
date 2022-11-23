@@ -144,6 +144,7 @@ public class PlaceService implements IPlaceService {
 		}		return i;
 	}
 	
+<<<<<<< HEAD
 	//즐겨찾기 조회
 	public String checkFavorite(String param) {
 		User entity = ur.findByid((String)session.getAttribute("id"));
@@ -199,4 +200,8 @@ public class PlaceService implements IPlaceService {
 	}
 	
 
+=======
+	
+	
+>>>>>>> df70c8b4def6cb10b039a17b1166bf8f13d65a87
 }

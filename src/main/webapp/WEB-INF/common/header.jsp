@@ -47,9 +47,9 @@
                         
                             <li><a href="">대피소</a></li>
                         
-                            <li><a href="">생태탐방원</a></li>
+                            <li><a href="ecoReservation">생태탐방원</a></li>
                         
-                            <li><a href="">민박촌</a></li>
+                            <li><a href="cottageReservation">민박촌</a></li>
                         
                     </ul>
                 </li>
@@ -175,10 +175,10 @@
                             
                                 <li><a href="">대피소</a></li>
                             
-                                <li><a href="" >생태탐방원</a></li>
-                            
-                                <li><a href="">민박촌</a></li>
-                            
+                                <li><a href="ecoReservation">생태탐방원</a></li>
+                        
+                           		<li><a href="cottageReservation">민박촌</a></li>
+                         	   
                         </ul>
                     </li>
                 
