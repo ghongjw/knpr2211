@@ -2,11 +2,21 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:url var="root" value="/" />
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+     $("document").ready(function(){
+            $("div.title").css("cursor", "pointer").click(function(){
+                  let no = $(this).attr("id");
+                  location.href='viewProc?writeNo=' + no;
+            });
+     });
+</script>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -20,27 +30,28 @@
 </div>
 		<div class="notification">
 			<h3 class="title">공지사항</h3>
+			 
 			<!-- 조회 -->
 			<form action="${root }noticeProc" id="searchForm" name="searchForm" method="POST">
 				 <div class="search-area">
             <input type="hidden" name="pageNo" id="pageNo" value="1">
             <input type="hidden" name="seq" id="seq" value="">
             <span class="select">
-                <select id="national-park1" name="select">
-                    <option value="">국립공원 전체</option>
-                    <option value="B000">본부</option>
-                    <option value="B011">지리산경남</option>
-                    <option value="B021">한려해상동부</option>
-                    <option value="B022">한려해상</option>
-                    <option value="B031">설악산</option>
-                    <option value="B041">내장산백암</option>
-                    <option value="B051">덕유산</option>
-                    <option value="B061">오대산</option>
-                    <option value="B071">주왕산</option>
-                    <option value="B081">태안해안</option>
-                    <option value="B091">다도해해상</option>
-                    <option value="B101">치악산</option>
-                    <option value="B111">월악산</option>
+                <select id="national-park1" name="category1">
+                    <option value="국립공원 전체">국립공원 전체</option>
+                    <option value="본부">본부</option>
+                    <option value="지리산경남">지리산경남</option>
+                    <option value="한려해상동부">한려해상동부</option>
+                    <option value="한려해상">한려해상</option>
+                    <option value="설악산">설악산</option>
+                    <option value="내장산백암">내장산백암</option>
+                    <option value="덕유산">덕유산</option>
+                    <option value="오대산">오대산</option>
+                    <option value="주왕산">주왕산</option>
+                    <option value="태안해안">태안해안</option>
+                    <option value="다도해해상">다도해해상</option>
+                    <option value="치악산">치악산</option>
+                    <option value="월악산">월악산</option>
                     <option value="B121">소백산</option>
                     <option value="B131">가야산</option>
                     <option value="B141">북한산</option>
@@ -74,9 +85,9 @@
             </span>
             <span class="select">
                 <select id="national-park2" name="select">
-                    <option value="all">전체</option>
-                    <option value="sj">제목</option>
-                    <option value="cn">내용</option>
+                    <option value="">전체</option>
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
                 </select>
             </span>
             <input type="text" class="input-text" name='search' title="검색값을 입력해주세요." value="">
@@ -108,24 +119,33 @@
 	                <th scope="col">조회수</th>
 	                <th scope="col">등록일</th>
 	            </tr>
+	           
 	            </thead>
 	            <tbody class="tbody">
 		            <c:forEach var="list" items="${noticeList}">
 		            	<tr> 
 		            		<td>${list.no}</td>
 		            		<td>${list.category1}</td>
-		            		<td><div id="${list.no }" class="title">${list.title }</div></td>
+		            		<td><div id=${list.no } class="title">${list.title } </div></td>
 		            		<td>${list.hit}</td>
+		            		<td>${list.createDate}</td>
 						</tr>
 		            </c:forEach> 
 	            </tbody>
 	        </table>
+	      		<div class="board-bottom">
+            		<div class="right">
+            			<a class="btn btn-list" href="write">글쓰기</a>
+            		</div>
+        		</div>
     		</div>
     		</form>
-    		${page }
+    			<div class="paginator">${page }</div>
 		</div>
 	</div>
 </div>
+
 <%@ include file="../common/footer.jsp" %>
+
 </body>
 </html>

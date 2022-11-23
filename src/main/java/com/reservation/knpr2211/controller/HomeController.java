@@ -16,7 +16,8 @@ public class HomeController {
 	
 	//공지사항
 	@RequestMapping(value = "notice")
-	public String board() {
+	public String notice() {
 		return "notice/noticeForm";
 	}
+	
 }

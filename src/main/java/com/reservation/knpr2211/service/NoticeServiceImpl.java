@@ -31,16 +31,18 @@ public class NoticeServiceImpl implements INoticeService{
 	//공지사항 등록
 	@Override
 	public void writeProc(MultipartHttpServletRequest req) {
-		System.out.println("noticeList");
 		String id = (String)session.getAttribute("id");
 		String title = req.getParameter("title");
 		String content= req.getParameter("content");
-		
-		
+		String category1= req.getParameter("category1");
 		
 		NoticeDTO notice = new NoticeDTO();
-		notice.setId(id);		notice.setTitle(title);
-		notice.setContent(content);		notice.setHit(0);
+		notice.setId(id);		
+		notice.setTitle(title); 
+		notice.setCategory1(category1);
+		notice.setContent(content);		
+		notice.setHit(0);
+		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		notice.setCreateDate(sdf.format(date));
@@ -76,6 +78,7 @@ public class NoticeServiceImpl implements INoticeService{
 
 		ArrayList<NoticeDTO> noticeList = mapper.noticeProc(begin, end, select, search);
 		model.addAttribute("noticeList", noticeList);
+		
 		//페이징 전환은 이것으로 사용(멤버 서비스 보다는)
 		String url = req.getContextPath() + "/noticeProc?";
 		if(select != null) {

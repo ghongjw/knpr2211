@@ -7,7 +7,7 @@ public class PageService {
 			blockCnt++;
 		String result = "";
 		if (currentPage != 1)
-			result += "<a href='" + url + (currentPage - 1) + "'> [이전] </a>";
+			result += "<a href='" + url + (currentPage - 1) + "'> <<<이전 </a>";
 		for (int i = 1; i <= blockCnt; i++) {
 			if (currentPage == i)
 				result += "<b>";
@@ -16,7 +16,7 @@ public class PageService {
 				result += "</b>";
 		}
 		if (currentPage != blockCnt)
-			result += "<a href='" + url + (currentPage + 1) + "'> [다음] </a>";
+			result += "<a href='" + url + (currentPage + 1) + "'> 다음>>> </a>";
 		return result;
 	}
 }

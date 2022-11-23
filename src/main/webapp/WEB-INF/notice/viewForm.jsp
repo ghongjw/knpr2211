@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 상세페이지</title>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -18,24 +18,25 @@
 			<!-- view -->
 			<div class="board-area view">
             	<div class="view-head">
-                <strong class="view-title">제목</strong>
-                <span class="date">날짜들어갑니다</span>
-                <span class="inquiry">조회수 <span>조회수 들어갑니다</span></span>
+                <strong class="view-title">${notice.title}</strong>
+                <span class="date">${notice.createDate}</span>
+                <span class="inquiry">조회수 <span>${notice.hit}</span></span>
             	</div>
             	<div class="view-body">
-            		<p>내용이 들어갑니다</p>
+            		<p>${notice.content}</p>
             	</div>
             	<div class="file-area">
                 	<ul class="file-list">
-                    	<c:if test="${board.fileName != '파일 없음' }">
-							<a href="${root }download?fileName=${board.fileName }">${board.fileName }</a>
+                    	<c:if test="${notice.fileName != '파일 없음' }">
+							<a href="${root }download?fileName=${notice.fileName }">${notice.fileName }</a>
 						</c:if>
                 	</ul>
             	</div>
             	<div class="board-bottom">
                 	<div class="center">
-                    	<a href="javascript:void(0);" class="btn btn-list">목록</a>
-                    	<input type=button class="btn btn-list" style="width: 60px; " value='목록' onclick="location.href='${root}noticeProc'"/>
+                    	<input type=button class="btn btn-list" value='수정' onclick="location.href='${root}modifyProc'"/>
+                		<input type=button class="btn btn-list" value='목록' onclick="location.href='${root}noticeProc'"/>
+						<input type=button class="btn btn-list" value='삭제' onclick="location.href='${root}deleteProc'"/>
                 	</div>
             	</div>
         	</div>

@@ -9,7 +9,7 @@ import com.reservation.knpr2211.dto.NoticeDTO;
 
 public interface INoticeService {
 	
-	String FILE_LOCATION = "/opt/tomcat/tomcat-9/webapps/upload";
+	String FILE_LOCATION = "C:\\javas\\final_workspace\\upload";
 	
 	void writeProc(MultipartHttpServletRequest multi);
 

@@ -131,9 +131,6 @@
             		<div class="right">
             			 <a href="/post" class="btn btn-list">글쓰기</a>
             		</div>
-            		
-            		
-   					
         		</div>
         		<!-- 페이징 -->
             		<div class="paginator">

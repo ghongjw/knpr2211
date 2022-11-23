@@ -36,8 +36,10 @@ public class NoticeController {
 	public String noticeProc(Model model, 
 			@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
 			String search, String select, HttpServletRequest req ) {
+		System.out.println("asdsad");
 		service.noticeProc(model, currentPage, search, select, req);
-		return "forward:/index?formpath=notice";
+		/* return "forward:noticeForm?formpath=notice"; */
+		return "notice/noticeForm";
 	}
 	
 	//상세페이지
@@ -49,7 +51,7 @@ public class NoticeController {
 		int no = Integer.parseInt(writeNo);
 		service.viewProc(no, model);
 		service.upHit(no);
-		return "forward:/index?formpath=view";
+		return "notice/viewForm";
 	}
 	//파일 다운로드
 	@RequestMapping(value = "download")

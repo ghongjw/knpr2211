@@ -24,8 +24,8 @@
 	<select id="noticeProc" resultType="NoticeDTO">
 		SELECT B.* FROM(SELECT A.*, @ROWNUM:=@ROWNUM + 1 as rn FROM(SELECT * FROM notice
 				<choose>
-					<when test="sel == 'title'">WHERE id LIKE CONCAT('%',#{search},'%')</when>
-					<when test="sel == 'content'">WHERE title LIKE CONCAT('%',#{search},'%')</when>
+					<when test="sel == 'title'">WHERE title LIKE CONCAT('%',#{search},'%')</when>
+					<when test="sel == 'content'">WHERE content LIKE CONCAT('%',#{search},'%')</when>
 				</choose>
 		)A WHERE (@ROWNUM:=0) = 0)B WHERE rn BETWEEN #{b} and #{e}
 	</select> 
@@ -33,8 +33,8 @@
 	<select id="noticeCount" resultType="int"  parameterType="HashMap">
 		SELECT count(*) FROM notice 
 		<choose>
-			<when test="select == 'title'">WHERE id LIKE '%'||#{search}||'%'</when>
-			<when test="select == 'content'">WHERE title LIKE '%'||#{search}||'%'</when>
+			<when test="select == 'title'">WHERE title LIKE '%'||#{search}||'%'</when>
+			<when test="select == 'content'">WHERE content LIKE '%'||#{search}||'%'</when>
 		</choose>
 	</select>
 	

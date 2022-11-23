@@ -45,12 +45,8 @@ Optional<Board> op = (Optional<Board>) request.getAttribute("boardList");
                 	</dl>
                		<!-- 답변 -->
                		</div>
-               		
-            
-               		
-               		 
-               		 
-               		 
+               	
+               	
 					<div class="board-bottom">
 						<div class="center">
                 	<a href="/post/edit/${boardDto.bno}" class="btn btn-modify">수정</a>
@@ -59,9 +55,9 @@ Optional<Board> op = (Optional<Board>) request.getAttribute("boardList");
            				<input type="hidden" name="_method" value="delete"/>
             			<button class="btn btn-modify" id="delete-btn">삭제</button>
         			</form>
-                    <div>
-    </div>   
-            </div>
+                    			<div>
+   				 			</div>   
+            			</div>
 					</div>
 				</div>
 				<!-- // view -->

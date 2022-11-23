@@ -16,16 +16,20 @@ package com.reservation.knpr2211.dto;
 
 public class NoticeDTO {
 	private int no;
+	private int hit;
+	private String fileName;
+	private boolean notice_yn;
+	private String createDate;
+	private String id;
+	private String category1;
+	private String title;
+	private String content;
 	public int getNo() {
 		return no;
 	}
 	public void setNo(int no) {
 		this.no = no;
 	}
-	private String id;
-	private String category1;
-	private String title;
-	private String content;
 	
 	public String getId() {
 		return id;
@@ -75,9 +79,6 @@ public class NoticeDTO {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	private int hit;
-	private String fileName;
-	private boolean notice_yn;
-	private String createDate;
+	
 	
 }
