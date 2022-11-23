@@ -12,8 +12,6 @@ public class HomeController {
 		return "login/index"; 
 		}
 	 
-	
-	
 	//공지사항
 	@RequestMapping(value = "notice")
 	public String notice() {
