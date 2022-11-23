@@ -6,8 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 	
-	@RequestMapping("/")
-	public String index() {
-		return  "test";
+	
+	@RequestMapping("/") 
+	public String index() { 
+		return "login/index"; 
+		}
+	 
+	
+	
+	//공지사항
+	@RequestMapping(value = "notice")
+	public String board() {
+		return "notice/noticeForm";
 	}
 }
