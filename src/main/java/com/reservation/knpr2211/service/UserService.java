@@ -22,6 +22,7 @@ public class UserService {
 	// 회원가입
 	public String register(String id, String pw, String pwcon, String name, String email, String mobile,
 			String member) {
+		member = "normal";
 		if (id == null || id.isEmpty())
 			return "아이디를 입력하세요.";
 
@@ -46,7 +47,7 @@ public class UserService {
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted("false").build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";
@@ -63,10 +64,11 @@ public class UserService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		if (encoder.matches(pw, userRepository.findByid(id ).getPw())) {
-			
+			if(userRepository.findByid(id ).getMember().equals("admin")) {
+				return "어드민 계정 로그인 성공";
+			}
 			session.setAttribute("id", userRepository.findByid(id).getName());
-
-			return "로그인 성공";
+			return "회원 로그인 성공";
 		}
 
 		return "아이디 또는 비밀번호를 확인하세요.";

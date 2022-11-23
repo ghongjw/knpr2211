@@ -59,11 +59,17 @@ public class ServiceInfomationController {
 	
 	if(msg.equals("아이디를 입력하세요")) {
 		
-	return "login/login";}
-	
-	
 	return "login/login";
 	}
+	if(msg.equals("어드민 계정 로그인 성공")) {
+		System.out.println("로그인");
+	return "redirect:adminIndex";
+	}
+	
+	else return "redirect:index";
+	
+	}
+	
 		
 	//회원가입
 	@RequestMapping("register")
@@ -87,6 +93,8 @@ public class ServiceInfomationController {
 		System.out.println("회원가입 실패");
 		return msg;
 	}
+	
+	
 	
 	@PostMapping(value = "IdConfirm" , produces = "application/json; charset=UTF-8")
 	@ResponseBody

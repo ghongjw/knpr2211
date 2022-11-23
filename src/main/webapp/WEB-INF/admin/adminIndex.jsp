@@ -7,6 +7,8 @@
 <title>Knpr_manager</title>
 </head>
 <body>
-어드민 페이지 시작입니다.
+
+<%@ include file="../common/headerAdmin.jsp" %>
+
 </body>
 </html>
