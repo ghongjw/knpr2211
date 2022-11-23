@@ -58,11 +58,11 @@
                     <a href="javascript:void(0);" class="depth1">알림마당</a>
                     <ul class="depth2">
                         
-                            <li><a href="notice">공지사항</a></li>
+                            <li><a href="noticeProc">공지사항</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         
-                            <li><a href="board">묻고 답하기</a></li>
+                            <li><a href="list">묻고 답하기</a></li>
                         
                             <li><a href="policy">예약·환불정책</a></li>
                         
@@ -186,13 +186,13 @@
                         <a href="javascript:void(0);" class="depth1">알림마당</a>
                         <ul class="depth2">
                             
-                                <li><a href=""  >공지사항</a></li>
-                            
-                                <li><a href="">자주하는 질문</a></li>
-                            
-                                <li><a href="" >묻고 답하기</a></li>
-                            
-                                <li><a href="" >예약·환불정책</a></li>
+                            <li><a href="noticeProc">공지사항</a></li>
+                        
+                            <li><a href="faq">자주하는 질문</a></li>
+                        
+                            <li><a href="list">묻고 답하기</a></li>
+                        
+                            <li><a href="policy">예약·환불정책</a></li>
                             
                         </ul>
                     </li>
