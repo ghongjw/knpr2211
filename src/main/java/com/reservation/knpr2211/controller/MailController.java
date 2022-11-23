@@ -37,31 +37,28 @@ public class MailController {
 		return "이메일을 입력하세요.";
 	}
 	
-@ResponseBody
-@PostMapping(value = "MailCheck" ,produces = "application/json; charset=UTF-8")
-public String MailCheck(@RequestBody(required = false) Map<String, String> map) {
-	
-	System.out.println("고객이 입력한 인증 번호 :" + map.get("mailnumber"));
-
-	String sessionAuthNumber = (String)session.getAttribute("mailnumber");
-	String clientAuthNumber	= map.get("mailnumber");
-	
-	if(sessionAuthNumber == null) {
-		return "인증번호를 생성하세요";
-	}
-	
-	if(clientAuthNumber.isEmpty()) {
-		return "인증번호를 입력하세요";
-	}
-	
-	session.setAttribute("authStatus", false);
-	if(sessionAuthNumber.equals(clientAuthNumber)) {
+	@ResponseBody
+	@PostMapping(value="checkAuth", produces = "application/json; charset=UTF-8")
+	public String checkAuth(@RequestBody(required = false) Map<String, String> map) {
+		System.out.println("고객이 입력한 인증 번호 : " + map.get("authNumber"));
 		
-		session.setAttribute("authStatus", true);
-		return "인증 성공";
+		// sendAuth 메소드에서 생성한 인증번호와 고객이 입력한 인증번호를 비교
+		String sessionAuthNumber = (String)session.getAttribute("authNumber");
+		String clientAuthNumber = map.get("authNumber");
+		if(sessionAuthNumber == null ) {
+			return "인증 번호를 생성하세요.";
+		}
+		if(clientAuthNumber.isEmpty()) {
+			return "인증 번호를 입력하세요.";
+		}
+		
+		session.setAttribute("authStatus", false);
+		if(sessionAuthNumber.equals(clientAuthNumber)) {
+			session.setAttribute("authStatus", true);
+			return "인증 성공";
+		}
+		
+		return "인증 실패";
 	}
-	
-	
-	return "인증 실패";
-}
+		
 }
