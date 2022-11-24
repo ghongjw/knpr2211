@@ -7,6 +7,7 @@
 <title>Knpr_manager</title>
 </head>
 <body>
+	<wrap id = "adminIndex">
 
 <%@ include file="../common/headerAdmin.jsp" %>
 

@@ -85,7 +85,7 @@ let memberModify = function(num){
 				</td>
 				</tr>
 			<tr style="height:150px; text-align:center; line-height:100px;">
-			<td colspan=2 >
+			<td colspan="2" id = "infotd" >
 				<input type = "hidden" value = "false" name = "deleted" >
 				<button class="modiA" style="width:20%; margin-left:10px;" onclick = "memberModify('0'); return false;">회원수정</button>
 				<button class="modiB" style="width:20%; margin-left:10px;" onclick = "memberModify('1'); return false;">회원삭제</button>

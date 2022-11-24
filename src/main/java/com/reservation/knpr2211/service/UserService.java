@@ -89,13 +89,14 @@ public class UserService {
 	// 로그인
 	public String login(String id, String pw) {
 		String msg = "";
-		if (userRepository.findByid(id) == null) {
+		User user = userRepository.findByid(id);
+		if (user == null) {
 			
 			msg = "없는 계정입니다.";
 			
 			return msg;
 			
-		}if(userRepository.findByid(id).getDeleted() == true) {
+		}if(user.getDeleted() == true) {
 			
 			msg = "삭제된 아이디 입니다";
 			
@@ -104,26 +105,24 @@ public class UserService {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		if (encoder.matches(pw, userRepository.findByid(id ).getPw())) {
+		if (encoder.matches(pw, user.getPw())) {
 			
-			if(userRepository.findByid(id ).getMember().equals("admin")) {
+			session.setAttribute("id", user.getId());
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("mobile", user.getMobile());
+			session.setAttribute("name", user.getName());
+			session.setAttribute("member", user);
+			if(user.getMember().equals("admin")) {
 				
 				msg = "어드민 계정 로그인 성공";
 				
-			}else if(userRepository.findByid(id ).getMember().equals("normal")) {
+			}else if(user.getMember().equals("normal")) {
+			
+				msg = "회원 로그인 성공";
 				
-				msg = " 회원 로그인 성공";
 			}
-		
-			session.setAttribute("id", userRepository.findByid(id).getId());
-			session.setAttribute("email", userRepository.findByid(id).getEmail());
-			session.setAttribute("mobile", userRepository.findByid(id).getMobile());
-			session.setAttribute("name", userRepository.findByid(id).getName());
-			session.setAttribute("member", userRepository.findByid(id));
-			User a = (User)session.getAttribute("member");
-			System.out.println(a.getMember());
-	
 			return msg;
+			
 			
 		}
 
