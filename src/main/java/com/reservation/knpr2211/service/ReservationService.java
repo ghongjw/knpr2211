@@ -1,6 +1,7 @@
 
 package com.reservation.knpr2211.service;
 
+
 import java.sql.Timestamp;
 import java.sql.Date;
 import java.text.ParseException;
@@ -50,6 +51,8 @@ public class ReservationService {
 		// Entity ID로 검색해서 get()을 통해 객체 반환
 		// Place op = pr.findById(1).get();
 		// System.out.println(op.toString());
+
+		//List<Place> places = pr.findByCategory2AndCategory3(category2, category3);
 
 		for (Place place : places) {
 			PlaceDTO dto = new PlaceDTO();

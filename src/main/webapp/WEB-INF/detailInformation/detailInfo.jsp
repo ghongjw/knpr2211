@@ -124,7 +124,7 @@
 		<form action="detailInfo" id="f">
 			<div class="detailInformation">
 				<h3 class="title">${detailInfo[0].nameCategory1}이용안내</h3>
-				<div class="serchBox">
+				<div class="searchBox">
 					<select name="parkId" class="input1">
 						<c:forEach var="a" items="${category2s }" varStatus="status">
 							<option value="${a }">${nameOfCategory2s[status.index] }</option>

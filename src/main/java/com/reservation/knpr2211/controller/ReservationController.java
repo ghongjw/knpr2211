@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
-import com.reservation.knpr2211.entity.Place;
-import com.reservation.knpr2211.service.MountainCodeService;
 import com.reservation.knpr2211.service.ReservationService;
 
 @Controller
@@ -98,8 +97,9 @@ public class ReservationController {
 
 	}
 
-
-	@PostMapping(value = "/campsiteView")
+	//@PostMapping(value = "/campsiteView")
+	@ResponseBody
+	@PostMapping(value="campsiteView")
 	public Map<String, Object> campsiteView(@RequestParam Map<String, String> map) throws Exception {
 		
 		Map<String, Object> result = new HashMap<>();

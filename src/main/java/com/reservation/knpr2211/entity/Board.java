@@ -1,63 +1,61 @@
 package com.reservation.knpr2211.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.xml.stream.events.Comment;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
-@ToString
 @Getter
-@Setter
-@DynamicInsert
-@DynamicUpdate
 @Entity
-@Table(name = "board")
-public class Board {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Board extends TimeEntity{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
+	@GeneratedValue
 	@Column(nullable = false, unique = true)
-	private Integer bno;
+	private Long bno;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String category1;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String type;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String title;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, columnDefinition ="TEXT")
 	private String content;
 	
 	@Column(nullable = false, unique = true)
 	private String writer;
 	
-	@Column(nullable = false, unique = true)
-	private LocalDateTime createDate;
-	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = true)
 	private String lock_yn;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = true)
 	private String state;
-
+	
+	
+	
+	 
+	
+	
 	@Builder
-	public Board(Integer bno, String category1, String type, String title, String content, String writer,
+	public Board(Long bno, String category1, String type, String title, String content, String writer,
 			LocalDateTime createDate, String lock_yn, String state) {
 		this.bno = bno;
 		this.category1 = category1;
@@ -65,12 +63,9 @@ public class Board {
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
-		this.createDate = createDate;
 		this.lock_yn = lock_yn;
 		this.state = state;
 	}
 
-	public Board() {
-
-	}
+	
 }

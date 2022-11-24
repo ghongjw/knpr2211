@@ -4,7 +4,6 @@
     <head>
    <meta name="viewport" content="width=device-width">
 
-	<script src="assets/js/common.js?ver4"></script> <!-- 추가필요 -->
       
 
 <%--    <c:url var="root" value="/" /> --%>
@@ -48,9 +47,9 @@
                     <a href="javascript:void(0);" class="depth1">예약하기</a>
                     <ul class="depth2">
                         
-                            <li><a href="">야영장</a></li>
+                            <li><a href="campsite">야영장</a></li>
                         
-                            <li><a href="">대피소</a></li>
+                            <li><a href="shelter">대피소</a></li>
                         
                             <li><a href="ecoReservation">생태탐방원</a></li>
                         
@@ -63,11 +62,11 @@
                     <a href="javascript:void(0);" class="depth1">알림마당</a>
                     <ul class="depth2">
                         
-                            <li><a href="notice">공지사항</a></li>
+                            <li><a href="noticeProc">공지사항</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         
-                            <li><a href="board">묻고 답하기</a></li>
+                            <li><a href="list">묻고 답하기</a></li>
                         
                             <li><a href="policy">예약·환불정책</a></li>
                         
@@ -191,13 +190,13 @@
                         <a href="javascript:void(0);" class="depth1">알림마당</a>
                         <ul class="depth2">
                             
-                                <li><a href=""  >공지사항</a></li>
-                            
-                                <li><a href="">자주하는 질문</a></li>
-                            
-                                <li><a href="" >묻고 답하기</a></li>
-                            
-                                <li><a href="" >예약·환불정책</a></li>
+                            <li><a href="noticeProc">공지사항</a></li>
+                        
+                            <li><a href="faq">자주하는 질문</a></li>
+                        
+                            <li><a href="list">묻고 답하기</a></li>
+                        
+                            <li><a href="policy">예약·환불정책</a></li>
                             
                         </ul>
                     </li>
