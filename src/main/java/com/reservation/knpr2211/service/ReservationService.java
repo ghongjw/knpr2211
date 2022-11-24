@@ -1,7 +1,13 @@
 
 package com.reservation.knpr2211.service;
 
+
+import java.sql.Timestamp;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,73 +148,103 @@ public class ReservationService {
 	
 
 	// (시작)작성자: 김수정 ==============================================
-	// 제목 category1(대분류), category2(중분류) 코드 해석
-	public String[] transtitleCode(String category) {
-		String[] result = new String[2];
-		result[0] = mcs.category1(category);
-		result[1] = mcs.category2(category);
-		return result;
-	}
-
-	// 생태탐방원 객실종류 출력 (코드입력 'A08')
-	public List<PlaceDTO> selectEcoRoomType(String parkId) {
-		// (출력 : C0801, C0802, C0803)
-		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
-		System.out.println("리스트 출력: "+listDate);
-		for (PlaceDTO list : listDate) {
-			String result = mcs.category1(list.getCategory1());
-			list.setNameCategory1(result);
-			result = mcs.category3(list.getCategory3());
-			list.setNameCategory3(result);
+		// 제목 category1(대분류), category2(중분류) 코드 해석
+		public String[] transtitleCode(String category) {
+			String[] result = new String[2];
+			result[0] = mcs.category1(category);
+			result[1] = mcs.category2(category);
+			return result;
 		}
-		return listDate;
-	}
 
-	// 민박촌 객실종류 출력 (코드입력 'A08')
-	public List<PlaceDTO> selectCotRoomType(String parkId) {
-		// (출력 : C0801, C0802, C0803)
-		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
-		for (PlaceDTO list : listDate) {
-			String result = mcs.category1(list.getCategory1());
-			list.setNameCategory1(result);
-			result = mcs.category3(list.getCategory3());
-			result = transRoomType(result);
-			list.setNameCategory3(result);
+		// 생태탐방원 객실종류 출력 (코드입력 'A08')
+		public List<PlaceDTO> selectEcoRoomType(String parkId) {
+			// (출력 : C0801, C0802, C0803)
+			List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
+			System.out.println("리스트 출력: " + listDate);
+			for (PlaceDTO list : listDate) {
+				String result = mcs.category1(list.getCategory1());
+				list.setNameCategory1(result);
+				result = mcs.category3(list.getCategory3());
+				list.setNameCategory3(result);
+			}
+			return listDate;
+		}
+
+		// 민박촌 객실종류 출력 (코드입력 'A08')
+		public List<PlaceDTO> selectCotRoomType(String parkId) {
+			// (출력 : C0801, C0802, C0803)
+			List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
+			for (PlaceDTO list : listDate) {
+				String result = mcs.category1(list.getCategory1());
+				list.setNameCategory1(result);
+				result = mcs.category3(list.getCategory3());
+				result = transRoomType(result);
+				list.setNameCategory3(result);
+
+			}
+			return listDate;
+		}
+
+		// 방 찾기 (코드입력 'A0801')
+		public Place selectCategory3(String parkId) {
+			ArrayList<Place> datas = pr.findByCategory3(parkId);
+			Place data = datas.get(0);
+			return data;
+		}
+
+		// 민박촌 방종류명 변경(ex: '온돌' > '개인형 29.7㎡(9평/2명) 온돌')
+		public String transRoomType(String roomType) {
+			String category = "";
+			if (roomType == "온돌") {
+				category = "개인형 29.7㎡(9평/2명) 온돌";
+			} else if (roomType == "침대") {
+				category = "개인형 29.7㎡(9평/2명) 침대";
+			} else if (roomType == "15평") {
+				category = "가족형 49.5㎡(15평/6명) 복층";
+			} else if (roomType == "18평") {
+				category = "가족형 59.4㎡(18평/6명) 복층";
+			} else {
+				category = "단체형 105.6㎡(32평/13명) 복층";
+			}
+			return category;
+		}
+
+		// (코드입력 'D0101')
+		public void mol(String parkId, String startDate, String endDate) {
+			// 예약테이블에서 해당코드와 입실일 기준으로 당월의 -4(3박4일)와 퇴실일 사이 날짜에 해당하는 데이터만 가져오기
+
+			// 1. 현재 시간 기준으로 당월의 첫째날 -4일 구하기
+			// 1) 현재 날짜 구하기
+//			Date currentMonth = new Date();
+//			
+//			Calendar cal = Calendar.getInstance();
+//			int year = cal.get(Calendar.YEAR);
+//			int month= cal.get(Calendar.MONTH);
+//			int minDate= cal.getActualMinimum(Calendar.DAY_OF_MONTH);
+//			System.out.println(year+", "+month+", "+ minDate);
+//			
+			//Date currentMonth = DateUtil.getDate();
 			
-		}
-		return listDate;
-	}
 
-	// 방 찾기 (코드입력 'A0801')
-	public Place selectCategory3(String parkId) {
-		ArrayList<Place> datas = pr.findByCategory3(parkId);
-		Place data = datas.get(0);
-		return data;
-	}
+//			Date date = new Date(); // 현재 날짜(로컬 기준) 가져오기
+//			System.out.println(date);
+//			long utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000); // uct 표준시 도출
+//			System.out.println(utc);
+//			int kstGap = 9 * 60 * 60 * 1000; // 한국 kst 기준시간 더하기
+//			System.out.println(kstGap);
+//			Date today = new Date(utc + kstGap); // 한국 시간으로 date 객체 만들기(오늘)
+//			System.out.println(today);
 
-	// 민박촌 방종류명 변경(ex: '온돌' > '개인형 29.7㎡(9평/2명) 온돌')
-	public String transRoomType(String roomType) {
-		String category = "";
-		if (roomType == "온돌") {
-			category = "개인형 29.7㎡(9평/2명) 온돌";
-		} else if (roomType == "침대") {
-			category = "개인형 29.7㎡(9평/2명) 침대";
-		} else if (roomType == "15평") {
-			category = "가족형 49.5㎡(15평/6명) 복층";
-		} else if (roomType == "18평") {
-			category = "가족형 59.4㎡(18평/6명) 복층";
-		} else {
-			category = "단체형 105.6㎡(32평/13명) 복층";
+			// place테이블에서 해당코드로 roomMax 알아내기
+
 		}
-		return category;
-	}
-	
-	// (코드입력 'D0101')
-	public void mol(String parkId, String startDay, String endDay) {
-		//예약테이블에서 해당코드로 해당 날짜의 예약된 데이터 갯수(길이) 알아내기
-		//ArrayList<Reservation> datas = rr.findByCategory3AndStartDay(parkId, startDay);
-		//place테이블에서 해당코드로 roomMax 알아내기
 		
-	}
-	// (끝)작성자: 김수정 ==============================================
+		public void test() throws ParseException {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = (Date) format.parse("2022-02-03");
+			Timestamp timestamp = new Timestamp(date.getTime());
+			System.out.println("타임스탬프 : " + timestamp);
+			// ReservationRepository.save(input.toEntity()).getseq();
+		}
+		// (끝)작성자: 김수정 ==============================================
 }
