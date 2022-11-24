@@ -46,7 +46,7 @@ public class UserService {
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted("false").build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";

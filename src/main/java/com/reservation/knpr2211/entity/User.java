@@ -49,13 +49,13 @@ public class User {
 		//삭제여부
 		@Column(nullable = false, insertable = true, updatable = true)
 		@ColumnDefault(value = "false")
-		private String deleted;
+		private Boolean deleted;
 		
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
 		
 		@Builder
-		public User(String id, String pw, String name, String email, String mobile, String member, String deleted) {
+		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted) {
 			
 			this.id = id;
 			this.pw = pw;

@@ -37,8 +37,8 @@
 
 
  
-$.ajax({cache: false });
-$.ajax({async: false });
+//$.ajax({cache: false });
+//$.ajax({async: false });
 
 
 function clickPlace(sel1, sel2){
@@ -66,8 +66,8 @@ function sendData(sel1, sel2){
     //$(document).on("click", $('#'+id), function(){
     	
 		$.ajax({
-			url : "/campsiteView",
 			type : "post",
+			url : "campsiteView",
 			cache : false,
 			data : {
 				code : codeName
