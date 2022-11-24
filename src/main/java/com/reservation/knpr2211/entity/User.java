@@ -32,7 +32,7 @@ public class User {
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private String id;
 		//패스워드 
-		@Column(nullable = false, insertable = true, updatable = true)
+		@Column(nullable = false, insertable = true, updatable = false)
 		private String pw;
 		//이름 
 		@Column(nullable = false, insertable = true, updatable = true)
@@ -48,7 +48,7 @@ public class User {
 		private String member;
 		//삭제여부
 		@Column(nullable = false, insertable = true, updatable = true)
-		@ColumnDefault(value = "false")
+		//@ColumnDefault(value = "false")
 		private Boolean deleted;
 		
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)

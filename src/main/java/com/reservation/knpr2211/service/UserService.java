@@ -1,11 +1,14 @@
 package com.reservation.knpr2211.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.reservation.knpr2211.entity.Favorite;
 import com.reservation.knpr2211.entity.User;
 import com.reservation.knpr2211.repository.FavoriteRepository;
 import com.reservation.knpr2211.repository.UserRepository;
@@ -15,6 +18,7 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired FavoriteRepository fr;
 	@Autowired
 	HttpSession session;
 	 
@@ -84,25 +88,42 @@ public class UserService {
 	
 	// 로그인
 	public String login(String id, String pw) {
-
+		String msg = "";
 		if (userRepository.findByid(id) == null) {
-			System.out.println("찾았다?");
-			return "아이디를 입력하세요";
+			
+			msg = "없는 계정입니다.";
+			
+			return msg;
+			
+		}if(userRepository.findByid(id).getDeleted() == true) {
+			
+			msg = "삭제된 아이디 입니다";
+			
+			return msg;
 		}
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		if (encoder.matches(pw, userRepository.findByid(id ).getPw())) {
+			
 			if(userRepository.findByid(id ).getMember().equals("admin")) {
-				return "어드민 계정 로그인 성공";
+				
+				msg = "어드민 계정 로그인 성공";
+				
+			}else if(userRepository.findByid(id ).getMember().equals("normal")) {
+				
+				msg = " 회원 로그인 성공";
 			}
 		
 			session.setAttribute("id", userRepository.findByid(id).getId());
 			session.setAttribute("email", userRepository.findByid(id).getEmail());
 			session.setAttribute("mobile", userRepository.findByid(id).getMobile());
 			session.setAttribute("name", userRepository.findByid(id).getName());
-			
-			return "회원 로그인 성공";
+			session.setAttribute("member", userRepository.findByid(id));
+			User a = (User)session.getAttribute("member");
+			System.out.println(a.getMember());
+	
+			return msg;
 			
 		}
 
@@ -132,6 +153,17 @@ public class UserService {
 
 			return "비밀번호가 일치하지 않습니다.";
 		}
+
+		public String favoriteList() {
+			
+			if(session.getAttribute("id")==null) return "login";
+			User entity = userRepository.findByid((String)session.getAttribute("id"));
+			List<Favorite> list = fr.findByFavoriteAndChecked(entity,true);
+			session.setAttribute("favorites", list);
+			return "user/favorite";
+			
+		}
+		
 		
 	
 }

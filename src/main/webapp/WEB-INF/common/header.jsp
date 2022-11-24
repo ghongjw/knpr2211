@@ -81,7 +81,7 @@
                         
                             <li><a href="">알림메시지</a></li>
                         
-                            <li><a href="">즐겨찾기</a></li>
+                            <li><a href="favoriteList">즐겨찾기</a></li>
                         
                             <li><a href="">미환불금 조회</a></li>
                         

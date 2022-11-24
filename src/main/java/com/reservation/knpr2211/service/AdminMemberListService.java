@@ -69,9 +69,6 @@ public class AdminMemberListService {
 			}
 		}
 
-	
-		
-
 		// Page<User> result = ur.findByMember("normal", pageRequest);
 
 		List<User> members = result.getContent();
@@ -99,29 +96,24 @@ public class AdminMemberListService {
 	}
 
 	public String memberModify(Model model, String memberId) {
-	/////실제로 운영은 트루로 해준
-		if(isAdmin()!=true) {
+		
 			model.addAttribute("member", ur.getById(memberId));
 			return "회원 수정가능";
-		}else {
-			session.invalidate();
-			return "회원 수정 불가능한 계정입니다.";
-		}
 		
+	}
 
-	}
-	public Boolean isAdmin() {
-		if(session.getAttribute("id")==null) {
-			session.invalidate();
-			return false;
-		}
-		String isAdmin = ur.getById((String)session.getAttribute("id")).getMember();
-		if(isAdmin.equals("admin")) {
-			return true;
-		}else {
-			session.invalidate();
-			return false;
-		}
+
+	public void memberModify(Model model,String id, String name, String email, String mobile, String member,String deleted) {
+		
+		User user = User.builder().id(id).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
+		ur.save(user);
 		
 	}
+
+	public void memberDelete(Model model,String id, String name, String email, String mobile, String member,String deleted) {
+		User user = User.builder().id(id).name(name).email(email).mobile(mobile).member(member).deleted(true).build();
+		ur.save(user);
+		
+	}
+	
 }

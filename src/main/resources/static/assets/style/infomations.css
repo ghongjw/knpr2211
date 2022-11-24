@@ -236,7 +236,9 @@
 }
 
 .table td {
+	height: 100px;
 	text-align: center;
+	padding-top: 27px;
 }
 
 .accordion {
@@ -474,7 +476,6 @@
 	font-family: "Iconmoon";
 }
 
-/************* 어드민 페이지용 스타일 **********************/
 #wrap_memberList {
 	margin-top: 70px;
 }
@@ -510,7 +511,7 @@
 	flex: 1;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
+	width: 98%;
 	height: 40px;
 	margin-left: 8px;
 	border-radius: 4px;
@@ -543,26 +544,34 @@
 }
 
 #wrap_memberList .table .thead {
- display: table-header-group;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: center;
+	display: table-header-group;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	flex-direction: row;
+	align-items: center;
 }
 
 #wrap_memberList .mypage .table .tbody td {
-	
-	    display: table-cell;
+	display: table-cell;
 }
+
 #wrap_memberList .mypage .table .tbody tr {
-	    display: table-row;
+	display: table-row;
 	align-items: center;
 	text-align: center;
 }
 
-/************* 1025페이지용 스타일 **********************/
-@media all and(min-width: 1023px) {
-	.information ::after {
+#mModifyTable {
+	margin: 0 auto;
+	width: 50%;
+}
+
+#mModifyTable .input1 {
+	width: 100%
+}
+
+@media all and (min-width: 1023px) {
+	.information::after {
 		content: "";
 		display: block;
 		clear: both;
@@ -618,9 +627,6 @@
 		width: 138px;
 		height: 48px;
 		margin: 2px;
-	}
-	.input1, .input2 {
-		height: 38px;
 		border-radius: 4px;
 		font-size: 16px;
 		border: none;
@@ -842,6 +848,7 @@
 		transform: translateX(-50%);
 	}
 	/************* 어드민 페이지용 스타일 **********************/
+	
 	#wrap_memberList {
 		margin-top: 70px;
 	}
@@ -945,8 +952,6 @@
 		cursor: pointer;
 		max-width: 100px;
 	}
-
-	
 }
 
 @font-face {

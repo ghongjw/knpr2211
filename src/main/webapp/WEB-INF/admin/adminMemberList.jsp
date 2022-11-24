@@ -23,8 +23,7 @@
 
 
 let pageNum = function(num){
-	var url = "memberList?page="+num+"&size=10"; 
-
+	var url = "adminMemberList?page="+num+"&size=10"; 
 	
 	$("#memberSearch").attr("action",url).submit();
 }
@@ -98,8 +97,8 @@ let pageNum = function(num){
 									<td style="width: 10%;">${member.member }</td>
 									<td style="width: 20%;">${member.email }</td>
 									<td style="width: 10%;">${member.mobile }</td>
-									<td style="width: 5%;"><button class="modiA" onclick="location.href='memberReservationModify?memberId=${member.id }'">예약조회</button></td>
-									<td style="width: 5%;"><button class="modiB" onclick="location.href='memberModify?memberId=${member.id }'">수정</button></td>
+									<td style="width: 5%;"><button class="modiA" onclick="location.href='adminMemberReservationModify?memberId=${member.id }'">예약조회</button></td>
+									<td style="width: 5%;"><button class="modiB" onclick="location.href='adminMemberModify?memberId=${member.id }'">수정</button></td>
 						
 									</tr>
 								</c:forEach>
@@ -123,5 +122,6 @@ let pageNum = function(num){
 	</div>
 </div>
 </div>
+<%@ include file="../common/footer.jsp"%>
 </body>
 </html>

@@ -28,7 +28,7 @@
                     <a href="javascript:void(0);" class="depth1">회원관리</a>
                     <ul class="depth2">
                         
-                            <li><a href="memberList?page=0&size=10">회원조회</a></li>
+                            <li><a href="adminMemberList?page=0&size=10">회원조회</a></li>
                         
                     </ul>
                 </li>
@@ -129,7 +129,7 @@
                     <a href="javascript:void(0);" class="depth1">회원관리</a>
                     <ul class="depth2">
                         
-                            <li><a href="memberList?page=0&size=10">회원조회/수정</a></li>
+                            <li><a href="adminMemberList?page=0&size=10">회원조회/수정</a></li>
                         
                     </ul>
                 </li>
