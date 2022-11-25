@@ -1,12 +1,15 @@
 package com.reservation.knpr2211.entity;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -21,11 +24,16 @@ import lombok.Setter;
 @Setter
 @DynamicInsert
 @DynamicUpdate
+@SequenceGenerator(
+		 name = "RESERVATION_SEQ_GENERATOR",
+		 sequenceName = "RESERVATION_SEQ", //매핑할 데이터베이스 시퀀스 이름
+		 initialValue = 1, allocationSize = 1)
 @Entity
 @Table(name="reservation")
 public class Reservation {
 	
 		@Id
+		@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "RESERVATION_SEQ_GENERATOR")
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private Integer seq;
 		//예약한 계정(아이디)
@@ -41,10 +49,12 @@ public class Reservation {
 		@Column(nullable = false, insertable = true, updatable = false)
 		private String category3;
 		//소소분류 EX) A010301, A020102
-		@Column(nullable = false, insertable = true, updatable = false)
+		@Column(nullable = true, insertable = true, updatable = false)
+		@ColumnDefault(value = " ")
 		private String category4;
 		//방 타입(객실)
-		@Column(nullable = false, insertable = true, updatable = false)
+		@Column(nullable = true, insertable = true, updatable = false)
+		@ColumnDefault(value = " ")
 		private String room;
 		//예약한(요청) 날짜
 		@Column(name="order_Time", nullable = false, insertable = true, updatable = false)
@@ -66,13 +76,13 @@ public class Reservation {
 		private String price;
 		//예약확정(결재) 유무
 		@Column(nullable=false, insertable = true, updatable=true)
-		@ColumnDefault(value = "false")
+		@ColumnDefault(value = "0")
 		private Boolean checked;
 		
 		@Builder
 		public Reservation(Reservation res) throws Exception{
-			this.id = res.getId();
 			this.seq = res.getSeq();
+			this.id = res.getId();
 			this.category1 = res.getCategory1().toString();
 			this.category2 = res.getCategory2();
 			this.category3 = res.getCategory3();
@@ -86,4 +96,26 @@ public class Reservation {
 			this.price = res.getPrice();
 			this.checked = res.getChecked() != null ? res.getChecked():false;
 		}
+		
+		public Reservation() {
+			
+		}
+//		public Reservation toEntity() {
+//			Reservation rebuild = Reservation.builder()
+//					.seq(seq)
+//					.id(id)
+//					.category1(category1)
+//					.category2(category2)
+//					.category3(category3)
+//					.category4(category4)
+//					.room(room)
+//					.orderTime(orderTime)
+//					.startDay(startDay)
+//					.endDay(endDay)
+//					.people(people)
+//					.allDay(allDay)
+//					.price(price);
+//					.checked(checked);
+//			return rebuild;
+//		}
 }

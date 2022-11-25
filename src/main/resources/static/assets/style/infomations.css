@@ -570,6 +570,23 @@
 	width: 100%
 }
 
+/* ************reserve ************** */
+
+.reserveTab {
+	width: 100%;
+	position: relative;
+	display: block;
+	padding: 18px 0;
+	font-size: 18px;
+	text-align: center;
+}
+
+.reserveTab.is-active {
+	box-shadow: 10px 10px 20px 0 rgb(0 107 222/ 20%);
+	background: linear-gradient(95deg, #009f9a, #006eb8);
+	border-radius: 6px;
+	color: white;
+}
 @media all and (min-width: 1023px) {
 	.information::after {
 		content: "";

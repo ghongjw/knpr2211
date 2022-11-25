@@ -2,19 +2,25 @@
 package com.reservation.knpr2211.service;
 
 
+import java.util.Date;
 import java.sql.Timestamp;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.entity.Place;
+import com.reservation.knpr2211.entity.Reservation;
 import com.reservation.knpr2211.repository.PlaceRepository;
 import com.reservation.knpr2211.repository.ReservationRepository;
 
@@ -30,6 +36,8 @@ public class ReservationService {
 	
 	@Autowired
 	ReservationRepository rr;
+	
+	
 
 	public List<PlaceDTO> campsiteView(String code) throws Exception {
 		// A0101
@@ -247,4 +255,82 @@ public class ReservationService {
 			// ReservationRepository.save(input.toEntity()).getseq();
 		}
 		// (끝)작성자: 김수정 ==============================================
+		
+		// (시작)작성자: 공주원================================================
+		// - 나의 예약 목록 가져오기
+		
+		@Autowired HttpSession session;
+		public String reservationList(Model model, String reserve, Integer page, Integer size) {
+			
+			if(session.getAttribute("id")==null) {
+				return "redirect:login";
+			}
+			String id = (String)session.getAttribute("id");
+			
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			
+			PageRequest pageRequest = PageRequest.of(page, size);
+			Page<Reservation> result = null;
+			if(reserve.equals("future")) {
+				result = rr.findByIdAndEndDayIsAfter(id,timestamp,pageRequest);
+				System.out.println("여기오니");
+				
+			}else if(reserve.equals("past")) {
+				result = rr.findByIdAndEndDayIsBefore(id,timestamp,pageRequest);
+			}
+			
+			List<Reservation> reservations = result.getContent();
+			int totalPage = result.getTotalPages();
+			
+			model.addAttribute("reservations", reservations);
+			model.addAttribute("totalPage", totalPage);
+			
+			System.out.println(reservations);
+			
+			
+			
+			
+			return "user/reservedList";
+			
+		}
+		
+		//예약 데이터 임시로 만들기
+		    public void initializing(){
+			 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		      Date now = new Date();
+		      Timestamp orderTime = new Timestamp(now.getTime());
+		      
+		      String startDay = "2022-12-04";
+		      String endDay = "2022-12-05";
+		      Date date1 = null;
+		      Date date2 = null;
+			try {
+				date1 = (Date)sdf.parse(startDay);
+				date2 = (Date)sdf.parse(endDay);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		      Timestamp timeStampStart = new Timestamp(date1.getTime());
+		      Timestamp timeStampEnd = new Timestamp(date2.getTime());
+
+		      Reservation re = new Reservation();
+		      re.setId("user1");
+		      re.setCategory1("D");
+		      re.setCategory2("D01");
+		      re.setCategory3("D0103");
+		      re.setOrderTime(orderTime);
+		      re.setPeople(2);
+		      re.setPrice("40000");
+		      
+		      re.setAllDay("1");
+		      re.setStartDay( timeStampStart);
+		      re.setEndDay(timeStampEnd);
+		      
+		      re.setChecked(false);
+		      rr.save(re);
+			 
+		 }
+		
+		//(끝)작성자: 공주원===================================================
+		
 }

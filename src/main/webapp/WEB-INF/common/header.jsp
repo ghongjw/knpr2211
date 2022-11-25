@@ -77,7 +77,7 @@
                     <a href="javascript:void(0);" class="depth1">마이페이지</a>
                     <ul class="depth2">
                         
-                            <li><a href="">나의 예약목록</a></li>
+                            <li><a href="reservedList?reserve=future&page=0&size=10">나의 예약목록</a></li>
                         
                             <li><a href="">알림메시지</a></li>
                         
@@ -205,11 +205,11 @@
                         <a href="javascript:void(0);" class="depth1">마이페이지</a>
                         <ul class="depth2">
                             
-                                <li><a href="">나의 예약목록</a></li>
+                                <li><a href="reservedList?reserve=future&page=0&size=10">나의 예약목록</a></li>
                             
                                 <li><a href="">알림메시지</a></li>
                             
-                                <li><a href="" >즐겨찾기</a></li>
+                                <li><a href="favoriteList" >즐겨찾기</a></li>
                             
                                 <li><a href="" >미환불금 조회</a></li>
                             
