@@ -30,7 +30,7 @@
 </div>
 		<div class="notification">
 			<h3 class="title">공지사항</h3>
-			 
+			
 			<!-- 조회 -->
 			<form action="${root }noticeProc" id="searchForm" name="searchForm" method="POST">
 				 <div class="search-area">
@@ -97,11 +97,14 @@
             </button>
         		</div>
 			</form>
-			
 			<form id="f" method="get" >
 			<div class="board-area list">
-        	<div class="article-info">
-	       	</div>
+        	<div class="article-info"></div>
+        	<c:choose>
+        	<c:when test="${list.isEmpty() == true }">
+        		<h1> 등록된 데이터가 존재하지 않습니다. </h1>
+        	</c:when>
+        	<c:otherwise>
 	        <table class="table notice">
 	            <caption>공지사항 리스트</caption>
 	            <colgroup>
@@ -119,10 +122,21 @@
 	                <th scope="col">조회수</th>
 	                <th scope="col">등록일</th>
 	            </tr>
-	           
 	            </thead>
 	            <tbody class="tbody">
+	           
+	            	<c:forEach var="list1" items="${noticeList1}">
+	            	<c:set var="count" value="${count+1 }"/>
+		            	<tr> 
+		            		<td>${list1.no}</td>
+		            		<td>${list1.category1}</td>
+		            		<td><div id=${list1.no } class="title">${list1.title } </div></td>
+		            		<td>${list1.hit}</td>
+		            		<td>${list1.createDate}</td>
+						</tr>
+		            </c:forEach>
 		            <c:forEach var="list" items="${noticeList}">
+		            <c:set var="count" value="${count+1 }"/>
 		            	<tr> 
 		            		<td>${list.no}</td>
 		            		<td>${list.category1}</td>
@@ -133,6 +147,12 @@
 		            </c:forEach> 
 	            </tbody>
 	        </table>
+	        </c:otherwise>
+	        </c:choose>
+	        <br>
+	        <div class="article-info">
+            	<div class="left"><span class="total">총 <span>${count}</span>건</span></div>
+        	</div>
 	      		<div class="board-bottom">
             		<div class="right">
             			<a class="btn btn-list" href="write">글쓰기</a>

@@ -10,12 +10,22 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
+<form action="" method="post">
+						<input type="hidden" name="no" value="${notice.no }" />
+                		<input type="hidden" name="id" value="${notice.id }" />
+						<input type="hidden" name="category1" value="${notice.category1 }" />
+						<input type="hidden" name="title" value="${notice.title }"/>
+						<input type="hidden" name="content" value="${notice.content }"/>
+						<input type="hidden" name="hit" value="${notice.hit }" />
+						<input type=hidden name="proc" value="deleteProc" />
 <div id="wrap" class="sub">
+
 	<div id="container">
 <div class="page-location"><span>홈</span> <span>알림마당</span> <span>공지사항</span></div>
 		<div class="notification">
 			<h3 class="title">공지사항</h3>
 			<!-- view -->
+			
 			<div class="board-area view">
             	<div class="view-head">
                 <strong class="view-title">${notice.title}</strong>
@@ -37,6 +47,14 @@
                     	<input type=button class="btn btn-list" value='수정' onclick="location.href='${root}modifyProc'"/>
                 		<input type=button class="btn btn-list" value='목록' onclick="location.href='${root}noticeProc'"/>
 						<input type=button class="btn btn-list" value='삭제' onclick="location.href='${root}deleteProc'"/>
+                		
+                		
+                		
+                		<table><tr><td>
+                		<button formaction="${root }index?formpath=modify" style="width: 60px; ">수정</button>
+                		<button formaction="${root }index?formpath=delete" style="width: 60px; ">삭제</button>
+                		</td></tr></table>
+                		
                 	</div>
             	</div>
         	</div>
@@ -44,6 +62,7 @@
 		</div>
 	</div>
 </div>
+</form>
 <%@ include file="../common/footer.jsp" %>
 </body>
 </html>

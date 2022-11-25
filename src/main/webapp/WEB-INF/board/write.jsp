@@ -30,7 +30,7 @@
                 <tbody class="tbody">
                 <tr>
                     <th scope="row">이름</th>
-                    <td><input type="text" name="writer"></td>
+                    <td><input type="text" name="writer">${members.name }</td>
                 </tr>
                 <tr>
                     <th scope="row">연락처</th>
@@ -145,11 +145,11 @@
                     <th scope="row">공개</th>
                     <td class="form">
                         <span class="radio-1">
-                            <input type="radio" id="radio20" name="boardSecret" checked="checked" value="N">
+                            <input type="radio" id="radio20" name="boardSecret" checked="checked" value="open">
                             <label for="radio20">공개</label>
                         </span>
                         <span class="radio-1">
-                            <input type="radio" id="radio19" name="boardSecret" value="Y">
+                            <input type="radio" id="radio19" name="boardSecret" value="close">
                             <label for="radio19">비공개</label>
                         </span>
                     </td>

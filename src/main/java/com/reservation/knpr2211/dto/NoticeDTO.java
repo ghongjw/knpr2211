@@ -8,7 +8,7 @@ package com.reservation.knpr2211.dto;
 	    content       text(3000),
 	    hit           int,
 	    filename      varchar(300),
-	    notice_yn     boolean,
+	    noticeyn     boolean,
 	    createDate    varchar(15),
 	    PRIMARY KEY (`bno`)
 	) DEFAULT CHARSET=utf8;
@@ -18,8 +18,17 @@ public class NoticeDTO {
 	private int no;
 	private int hit;
 	private String fileName;
-	private boolean notice_yn;
+	
+	public String getNoti() {
+		return noti;
+	}
+	public void setNoti(String noti) {
+		this.noti = noti;
+	}
+	private String noti;
+
 	private String createDate;
+	
 	private String id;
 	private String category1;
 	private String title;
@@ -67,18 +76,13 @@ public class NoticeDTO {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	public boolean isNotice_yn() {
-		return notice_yn;
-	}
-	public void setNotice_yn(boolean notice_yn) {
-		this.notice_yn = notice_yn;
-	}
+	
 	public String getCreateDate() {
 		return createDate;
 	}
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	
+		
 	
 }

@@ -7,7 +7,7 @@
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
 			SELECT nvl(max(no), 0)+1 FROM notice
 		</selectKey>
-		INSERT INTO notice VALUES(#{no}, #{id}, #{category1}, #{title}, #{content}, #{hit}, #{fileName}, #{notice_yn}, #{createDate})
+		INSERT INTO notice VALUES(#{no}, #{id}, #{category1}, #{title}, #{content}, #{hit}, #{fileName}, #{noti}, #{createDate})
 	</insert>
 	
 	<!-- 상세보기 -->
@@ -20,15 +20,29 @@
 		UPDATE notice SET hit=hit+1 WHERE no=#{no}
 	</update>
 	
-	<!-- 검색 -->
+	<!-- 검색 + 리스트 출력 -->
 	<select id="noticeProc" resultType="NoticeDTO">
+		 <!-- SELECT B.* FROM(SELECT A.*, @ROWNUM:=@ROWNUM + 1 as rn FROM(SELECT * FROM notice
+			<choose>
+				<when test="sel == 'title'">WHERE title LIKE CONCAT('%',#{search},'%')</when>
+				<when test="sel == 'content'">WHERE content LIKE CONCAT('%',#{search},'%')</when>
+			</choose> 
+		)A WHERE (@ROWNUM:=0) = 0)B WHERE rn BETWEEN #{b} and #{e}   -->
+		
 		SELECT B.* FROM(SELECT A.*, @ROWNUM:=@ROWNUM + 1 as rn FROM(SELECT * FROM notice
-				<choose>
-					<when test="sel == 'title'">WHERE title LIKE CONCAT('%',#{search},'%')</when>
-					<when test="sel == 'content'">WHERE content LIKE CONCAT('%',#{search},'%')</when>
-				</choose>
-		)A WHERE (@ROWNUM:=0) = 0)B WHERE rn BETWEEN #{b} and #{e}
+      where noti = 'n'
+            <choose>
+               <when test="sel == 'title'">and title LIKE CONCAT('%',#{search},'%')</when>
+               <when test="sel == 'content'">and content LIKE CONCAT('%',#{search},'%')</when>
+            </choose> 
+      )A WHERE (@ROWNUM:=0) = 0)B WHERE rn BETWEEN #{b} and #{e}
+		
 	</select> 
+	
+	<!-- 공지사항 -->
+	<select id="noticeProc1" resultType="NoticeDTO">
+		select * from notice where noti = 'y' order by createDate DESC limit 5;
+	</select>  
 	
 	<select id="noticeCount" resultType="int"  parameterType="HashMap">
 		SELECT count(*) FROM notice 

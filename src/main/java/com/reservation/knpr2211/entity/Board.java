@@ -43,11 +43,11 @@ public class Board extends TimeEntity{
 	@Column(nullable = false, unique = true)
 	private String writer;
 	
-	@Column(nullable = true)
-	private String lock_yn;
+	@Column(nullable = false)
+	private boolean lock_yn;
 	
-	@Column(nullable = true)
-	private String state;
+	@Column(nullable = false)
+	private boolean state;
 	
 	
 	
@@ -56,7 +56,7 @@ public class Board extends TimeEntity{
 	
 	@Builder
 	public Board(Long bno, String category1, String type, String title, String content, String writer,
-			LocalDateTime createDate, String lock_yn, String state) {
+			LocalDateTime createDate, boolean lock_yn, boolean state) {
 		this.bno = bno;
 		this.category1 = category1;
 		this.type = type;
