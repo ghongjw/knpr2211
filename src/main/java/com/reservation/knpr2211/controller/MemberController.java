@@ -13,8 +13,9 @@ public class MemberController {
 	
 	@RequestMapping("favoriteList")
 	public String favoriteList(Model model) {
-	
-		return 	us.favoriteList();
+		
+		
+		return us.favoriteList(model);
 		
 	}
 

@@ -16,6 +16,16 @@
 <link rel="stylesheet" href="assets/style/infomations.css">
 </head>
 <body>
+<script>
+let gotoInfo = function(parkDetail){
+	
+	var parkId = parkDetail.substr(0, 3);
+			
+	var url = "detailInfo?parkId="+parkId+"&parkDetail="+parkDetail
+	location.href=url
+}
+	 
+</script>
 	<%@ include file="../common/header.jsp"%>
 	<div class="detailInfo">
 		<div class="pageLocation">
@@ -25,11 +35,41 @@
 			<div class="detailInformation">
 				<h3 class="title">즐겨찾기</h3>
 			</div>
-			<c:forEach var = "favorite" items = "${favorites }">
-		${favorite.place }
-		</c:forEach>
 		
-
+			<div class="tab-content">
+				<div class="tab-pane is-active" id="tab1">
+					<!-- list -->
+					<div class="board-area list">
+						<table class="table mem-list" style="width: 70%;">
+							<colgroup>
+								<col style="width: 30%;">
+								<col style="width: 70%; text-align:left;">
+								
+							</colgroup>
+							<thead class="thead">
+								<tr>
+									<th scope="col">구분</th>
+									<th scope="col">장소</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								
+								<c:forEach var = "favorite" items = "${favorites}" varStatus="status" >
+									<tr>
+									<td ">${types[status.index]}</td>
+									<td style="text-align:left; padding-left: 55px;">
+									<a href="#" onclick="gotoInfo('${parkDetails[status.index]}')">
+									${favorite }
+									</a>
+									</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+							
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 	<%@ include file="../common/footer.jsp"%>

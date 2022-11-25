@@ -124,8 +124,8 @@
 		<form action="detailInfo" id="f">
 			<div class="detailInformation">
 				<h3 class="title">${detailInfo[0].nameCategory1}이용안내</h3>
-				<div class="searchBox">
-					<select name="parkId" class="input1">
+				<div class="searchBox" style="margin: auto;  width: 70%;">
+					<select name="parkId" class="input1" style="width: 20%;">
 						<c:forEach var="a" items="${category2s }" varStatus="status">
 							<option value="${a }">${nameOfCategory2s[status.index] }</option>
 						</c:forEach>
@@ -134,12 +134,12 @@
 						<c:when test="${detailInfo[0].category1 eq 'C' }">
 						</c:when>
 						<c:when test="${detailInfo[0].category1 eq 'D' }">
-							<select name="parkDetail" class="input2">
+							<select name="parkDetail" class="input2" style="width: 40%;">
 								<option value="D0101">태백산 민박촌</option>
 							</select>
 						</c:when>
 						<c:when test="${detailInfo[0].category1 != 'C' }">
-							<select name="parkDetail" class="input2">
+							<select name="parkDetail" class="input2" style="width: 40%;">
 								<c:forEach var="a" items="${category3s }" varStatus="status">
 									<option value="${a }">${nameOfCategory3s[status.index] }</option>
 								</c:forEach>
@@ -147,7 +147,7 @@
 						</c:when>
 
 					</c:choose>
-					<button class="searchbtn">
+					<button class="searchbtn" style="width:10%; min-width:100px;">
 						<span class="searchB">조회</span>
 					</button>
 				</div>

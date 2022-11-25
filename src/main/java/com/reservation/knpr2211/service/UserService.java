@@ -1,5 +1,6 @@
 package com.reservation.knpr2211.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.reservation.knpr2211.entity.Favorite;
 import com.reservation.knpr2211.entity.User;
@@ -18,9 +20,12 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	@Autowired FavoriteRepository fr;
+	@Autowired 
+	FavoriteRepository fr;
 	@Autowired
 	HttpSession session;
+	@Autowired
+	MountainCodeService mcs;
 	 
 
 	// 회원가입
@@ -153,12 +158,37 @@ public class UserService {
 			return "비밀번호가 일치하지 않습니다.";
 		}
 
-		public String favoriteList() {
+	//즐겨찾기 리스트
+		public String favoriteList(Model model) {
 			
-			if(session.getAttribute("id")==null) return "login";
+			if(session.getAttribute("id")==null) return "redirect:login";
+			
 			User entity = userRepository.findByid((String)session.getAttribute("id"));
 			List<Favorite> list = fr.findByFavoriteAndChecked(entity,true);
-			session.setAttribute("favorites", list);
+			
+			
+			ArrayList<String> strTypes = new ArrayList<String>();
+			ArrayList<String> strFavorites= new ArrayList<String>();
+			ArrayList<String> parkDetails= new ArrayList<String>();
+			
+			for(Favorite f : list) {
+				String type = mcs.findCategory(f.getPlace().substring(0,1));
+				String cat2 = mcs.findCategory(f.getPlace().substring(0,3));
+				String cat3 = "";
+				String parkDetail = f.getPlace();
+				if(f.getPlace().substring(0,1).equals("C")) {
+					cat3 = cat2+"  "+type;
+				}
+				else { cat3 = "[ "+cat2+" ]  "+mcs.findCategory(f.getPlace())+type; }
+				
+				strTypes.add(type);				
+				strFavorites.add(cat3);	
+				parkDetails.add(parkDetail);	
+			}
+			
+			model.addAttribute("types",strTypes);
+			model.addAttribute("favorites",strFavorites);
+			model.addAttribute("parkDetails",parkDetails);
 			return "user/favorite";
 			
 		}
