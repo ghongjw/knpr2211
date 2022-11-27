@@ -500,7 +500,8 @@
 	width: 30px;
 	height: 30px;
 	align-items: center;
-	border: 1px solid rgba(0, 0, 0, 0.2)
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 3px;
 }
 
 .page_tr {
@@ -570,8 +571,94 @@
 	width: 100%
 }
 
-/* ************reserve ************** */
+.reservationInfo tr {
+	padding: 0 20px;
+}
 
+.reservationInfo td {
+	padding: 0 20px;
+	height: 30px;
+}
+
+.reservationInfo .modiA {
+	justify-content: center;
+	width: 80%;
+	height: 30px;
+	cursor: pointer;
+	margin-bottom: 2px;
+}
+
+.reservationInfo .modiB {
+	justify-content: center;
+	width: 80%;
+	height: 30px;
+	cursor: pointer;
+}
+
+.reservatiomDetailInfo {
+	margin-top: 70px;
+}
+
+.reservationDetailInfo h2 {
+	display: block;
+	color: black;
+	font-size: 28px;
+	font-weight: 700;
+	text-align: left;
+	margin-right: auto;
+	line-height: 28px;
+}
+
+.reservationDetailInfo .bluetd td {
+	padding: 10px;
+	font-weight: 700;
+	font-size: 18px;
+	color: #004ea2;
+	line-height: 24px;
+	height: 50px;
+	border-right: none;
+}
+
+.reservationDetailInfo td {
+	font-size: 18px;
+	height: 80px;
+	line-height: 80px;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.idIdfo {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.idInfo button {
+	border-radius: 4px;
+	background-color: #004ea2;
+	border: none;
+	vertical-align: baseline;
+	outline: none;
+	color: white;
+	cursor: pointer;
+	width: 99%;
+	height: 30px;
+}
+
+.reservationDetailInfo .modiA {
+	justify-content: center;
+	width: 30%;
+	height: 50px;
+	cursor: pointer;
+	margin-bottom: 2px;
+}
+
+.reservationDetailInfo .modiB {
+	justify-content: center;
+	width: 30%;
+	height: 50px;
+	cursor: pointer;
+}
+/* ************reserve ************** */
 .reserveTab {
 	width: 100%;
 	position: relative;
@@ -587,6 +674,12 @@
 	border-radius: 6px;
 	color: white;
 }
+
+.reservationInfo {
+	margin: 75px auto 0;
+	min-height: 600px;
+}
+
 @media all and (min-width: 1023px) {
 	.information::after {
 		content: "";
@@ -864,8 +957,12 @@
 		overflow-x: hidden;
 		transform: translateX(-50%);
 	}
+	.typeArea {
+		display: flex;
+		width: 90%;
+		margin: 0 auto 30px;
+	}
 	/************* 어드민 페이지용 스타일 **********************/
-	
 	#wrap_memberList {
 		margin-top: 70px;
 	}
@@ -879,7 +976,7 @@
 		display: flex;
 		flex-wrap: nowrap;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 		width: 100%;
 		border-radius: 8px;
 		margin-bottom: 30px;
@@ -931,7 +1028,6 @@
 		margin-bottom: 10px;
 	}
 	.modiA {
-		
 		align-items: center;
 		justify-content: center;
 		width: 100%;
@@ -949,7 +1045,6 @@
 		cursor: pointer;
 	}
 	.modiB {
-		
 		align-items: center;
 		justify-content: center;
 		width: 100%;
@@ -965,6 +1060,67 @@
 		outline: none;
 		color: white;
 		cursor: pointer;
+	}
+	.reservationInfo .modiA {
+		justify-content: center;
+		width: 99%;
+		height: 30px;
+		cursor: pointer;
+	}
+	.reservationInfo .modiB {
+		justify-content: center;
+		width: 99%;
+		height: 30px;
+		cursor: pointer;
+	}
+	.reservationInfo {
+		margin: 75px auto 0;
+	}
+	.reservationInfo td {
+		padding: auto !important;
+	}
+	.reservationDetailInfo {
+		margin-top: 70px;
+	}
+	.reservationDetailInfo h2 {
+		display: block;
+		color: black;
+		font-size: 28px;
+		font-weight: 700;
+		text-align: left;
+		margin-right: auto;
+		line-height: 28px;
+	}
+	.reservationDetailInfo .bluetd td {
+		padding: 10px;
+		font-weight: 700;
+		font-size: 18px;
+		color: #004ea2;
+		line-height: 24px;
+		height: 50px;
+		border-right: none;
+	}
+	.reservationDetailInfo td {
+		font-size: 18px;
+		height: 80px;
+		line-height: 80px;
+		padding: 10px;
+		margin-top: 5px;
+	}
+	.idIdfo {
+		width: 80%;
+		margin: 0 auto;
+	}
+	.idInfo button {
+		border-radius: 4px;
+		background-color: #004ea2;
+		border: none;
+		vertical-align: baseline;
+		outline: none;
+		color: white;
+		cursor: pointer;
+		width: 99%;
+		height: 30px;
 	}
 }
 

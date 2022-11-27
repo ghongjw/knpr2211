@@ -137,7 +137,7 @@ public class UserService {
 	// 아이디 중복체크
 	public String IdConfirm(String id) {
 
-		if (userRepository.findByid(id) == null) {
+		if (userRepository.findById(id) == null) {
 
 			return "사용가능한 아이디입니다";
 		}
@@ -157,8 +157,8 @@ public class UserService {
 
 			return "비밀번호가 일치하지 않습니다.";
 		}
-
-	//즐겨찾기 리스트
+		// (시작)작성자:공주원 ==============================================
+		//즐겨찾기 리스트
 		public String favoriteList(Model model) {
 			
 			if(session.getAttribute("id")==null) return "redirect:login";
@@ -193,6 +193,8 @@ public class UserService {
 			
 		}
 		
+		
+		// (끝)작성자:공주원 ==============================================		
 		
 	
 }

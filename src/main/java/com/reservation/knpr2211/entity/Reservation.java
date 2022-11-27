@@ -50,11 +50,9 @@ public class Reservation {
 		private String category3;
 		//소소분류 EX) A010301, A020102
 		@Column(nullable = true, insertable = true, updatable = false)
-		@ColumnDefault(value = " ")
 		private String category4;
 		//방 타입(객실)
 		@Column(nullable = true, insertable = true, updatable = false)
-		@ColumnDefault(value = " ")
 		private String room;
 		//예약한(요청) 날짜
 		@Column(name="order_Time", nullable = false, insertable = true, updatable = false)
@@ -74,6 +72,12 @@ public class Reservation {
 		//결재금액
 		@Column(nullable = false, insertable = true, updatable = false)
 		private String price;
+		//결제시 생기는 고유번호
+		@Column(nullable = true, insertable = true, updatable = true)
+		private String paidNum;
+		//결제시 생기는 주번호
+		@Column(nullable = true, insertable = true, updatable = true)
+		private String merchant_uid;
 		//예약확정(결재) 유무
 		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "0")

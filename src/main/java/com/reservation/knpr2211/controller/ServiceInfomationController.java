@@ -20,6 +20,7 @@ public class ServiceInfomationController {
 	public String test() {
 		return "test";
 	}
+	
 	//야영장
 	@RequestMapping("campsiteInfo")
 	public String campsiteInfo() {
@@ -47,6 +48,7 @@ public class ServiceInfomationController {
 			return  "login/login";
 		}
 		
+	
 	//로그인 버튼
 	@Autowired UserRepository user;	
 	@Autowired UserService userservice;

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.reservation.knpr2211.service.AdminMemberListService;
 
@@ -12,11 +11,14 @@ import com.reservation.knpr2211.service.AdminMemberListService;
 public class AdminController {
 	@Autowired AdminMemberListService amls;
 	
+	// (시작)작성자:공주원 ==============================================
+	//관리자index 
 	@RequestMapping(value = "adminIndex")
 	public String adminIndex() {
 		return "admin/adminIndex";
 	}
-
+	
+	//관리자 회원정보조회
 	@RequestMapping("adminMemberList")
     public String getAllUserWithPage(Integer page,Integer size,String member,String select, String search, Model model) {
         //System.out.println(member+select+search);
@@ -24,7 +26,7 @@ public class AdminController {
 		
         return "admin/adminMemberList";
     }
-	
+	//관리자 회원정보 수정
 	@RequestMapping("adminMemberModify")
 	public String memberModyfy(Model model,String memberId) {
 		
@@ -33,12 +35,15 @@ public class AdminController {
 		
 		return "admin/adminMemberModify";
 	}
+	
+	//관리자 회원 수정 확인
 	@RequestMapping("adminMemberModifyConfirm")
 	public String adminMemberModifyConfirm(Model model, String id, String name, String email,String mobile, String member, String deleted) {
 		amls.memberModify(model, id, name, email, mobile, member,deleted);
 
 		return "redirect:adminMemberList";
 	}
+	//관리자 회원 삭제 확인
 	@RequestMapping("adminDeleteConfirm")
 	public String adminDeleteConfirm(Model model, String id, String name, String email,String mobile, String member, String deleted) {
 		amls.memberDelete(model, id, name, email, mobile, member,deleted);
@@ -46,7 +51,7 @@ public class AdminController {
 		
 		return "redirect:adminMemberList";
 	}
-	
+	// (끝)작성자:공주원 ==============================================
 
 	
 }

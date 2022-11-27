@@ -22,6 +22,8 @@ public class DetailInfoController {
 	@Autowired UserService us;
 	@Autowired HttpSession session;
 	
+	// (시작)작성자:공주원 ==============================================
+	//이용안내
 	@GetMapping("detailInfo")
 	public String detailInfo(Model model, String parkId, String parkDetail) {
 		if(parkId==null||parkId.isEmpty()) {
@@ -30,13 +32,12 @@ public class DetailInfoController {
 		if(parkDetail==null||parkDetail.isEmpty()) {
 			parkDetail = parkId+"01";
 		}
-		model.addAttribute("detailInfo",service.selectPlace(parkId,parkDetail));
-		System.out.println(session.getAttribute("imagecount"));
-		
+		model.addAttribute("detailInfo",service.selectPlace(model,parkId,parkDetail));
 		
 		return "detailInformation/detailInfo";
 	}
 	
+	//즐겨찾기 등록여부 체크
 	@ResponseBody
 	@PostMapping(value = "checkFavorite", produces = "text/html; charset=UTF-8")
 	public String checkFavorite(@RequestBody String data) {
@@ -44,7 +45,7 @@ public class DetailInfoController {
 		String check = service.checkFavorite(data);
 		return check;
 	}
-	
+	//즐겨찾기 토글
 	@ResponseBody
 	@PostMapping(value = "bookmarkChecked", produces = "application/json; charset=UTF-8")
 	public String bookmarkChecked(@RequestBody HashMap<String, String> map) {
@@ -54,7 +55,7 @@ public class DetailInfoController {
 		return toggleCheck;
 		
 	}
-	
+	//(끝)작성자:공주원 ==============================================
 	
 
 }

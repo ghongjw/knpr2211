@@ -9,7 +9,7 @@ import com.reservation.knpr2211.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-
+	
 	User findByid(String id);
 
 	Page<User> findByDeletedAndMember(Boolean deleted,String member, PageRequest pageRequest);
@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	Page<User> findByDeletedAndMemberAndMobileContaining(Boolean deleted,String member, String mobile, PageRequest pageRequest);
 
-	User getById(String id);
+	//User getById(String id);
 
 	Page<User> findByDeleted(boolean b, PageRequest pageRequest);
 
