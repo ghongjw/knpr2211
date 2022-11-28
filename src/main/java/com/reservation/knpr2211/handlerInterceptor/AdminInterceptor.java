@@ -11,24 +11,25 @@ import com.reservation.knpr2211.entity.User;
 
 
 public class AdminInterceptor implements HandlerInterceptor {
-//	@Autowired User user;
-//	@Autowired HttpSession session;
-//	
-//	@Override
-//	public boolean preHandle(
-//			HttpServletRequest request, HttpServletResponse response,
-//			Object obj) throws Exception {
-//		session = request.getSession();
-//		
-//		user = (User)session.getAttribute("member");
-//		String isAdmin = user.getMember();
-//		if(isAdmin.equals("normal")) {
-//			  response.sendRedirect("/index");
-//			return false;
-//		}else {
-//			System.out.println(">>>>interceptor>>>>>");
-//			return true;
-//		}
-//		
-//	}
+	@Autowired User user;
+	@Autowired HttpSession session;
+	
+	@Override
+	public boolean preHandle(
+			HttpServletRequest request, HttpServletResponse response,
+			Object obj) throws Exception {
+		session = request.getSession();
+		
+		user = (User)session.getAttribute("member");
+		String isAdmin = user.getMember();
+		if(isAdmin.equals("normal")) {
+			  //response.sendRedirect("index"); 
+			  request.getRequestDispatcher("index").forward(request, response);
+			return false;
+		}else {
+			System.out.println(">>>>interceptor>>>>>");
+			return true;
+		}
+		
+	}
 }

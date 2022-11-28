@@ -11,68 +11,22 @@
 
 </head>
 <body>
-<!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
- <script>
- var IMP = window.IMP;
- IMP.init("imp03741471");//가맹점 식별코드
-
-
- function requestPay() {
-     IMP.request_pay({
-         pg : 'html5_inicis.INIpayTest',
-         pay_method : 'card',
-         merchant_uid: "${detail.seq}" + new Date().getTime(), 
-  	  	 name: "[ ${detail.getNameCategory2() } ] ${detail.getNameCategory3() } ${detail.getNameCategory4() }  ${detail.getRoom() }", // 상품명
-         amount : 100,
-  	   	buyer_email: "${user.email}",
-	   buyer_name: "${user.name}", // 구매자 이름
-	   buyer_tel: "${user.mobile}", // 구매자 연락처 
-     },function(rsp) {
-			console.log("rsp ghong: " + rsp.imp_uid);
-			// 결제검증
-			$.ajax({
-	        	type : "POST",
-	        	url : "/verifyIamport/" + rsp.imp_uid
-	        }).done(function(data) {
-	        	console.log(data);
-	        	// 위의 rsp.paid_amount 와 data.response.amount를 비교한후 로직 실행 (import 서버검증)
-	        	if(rsp.paid_amount == data.response.amount){
-		        	//alert("결제 및 결제검증완료");
-		        	$("#imp_uid").val(rsp.imp_uid);
-		        	$("#merchant_uid").val(rsp.merchant_uid);
-		        	$("#seq").val("${detail.seq}");
-		        	$("#f").attr("action","successPayment").submit();
-	        	} else {
-	        		alert("결제 실패");
-	        	}
-	        });
-		});
-	}
-
+<script>
  function cancle(){
 	 	var msg = confirm("삭제 하시겠습니까?");
 	 	
 	 	if (msg == true){
 		$("#seq").val("${detail.seq}");
-		$("#f").attr("action","cancleReserveData").submit();
+		$("#f").attr("action","adminCancleReserveData").submit();
 		$("#f").submit();
 	 	}
  }
- function send(){
-	
- 	$("#imp_uid").val("qwer");
-	$("#merchant_uid").val("qwer");
-	$("#seq").val("${detail.seq}");
-	$("#f").attr("action","successPayment").submit();
-}
+
  </script>
 <form id="f" method ="post">
-<input type="hidden" id="imp_uid" name ="imp_uid">
-<input type="hidden" id = "merchant_uid" name ="merchant_uid">
 <input type="hidden" id= "seq"name ="seq">
 </form>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/headerAdmin.jsp" %>
 <div class = "reservationDetailInfo">
 	
 	<div class="reservation">
@@ -82,7 +36,6 @@
 		<tr >
 		<td colspan=3 style="border-bottom:1px solid black">
 		<h2 style ="float:left;">예약자 정보</h2>
-		<button style ="float:right;" onclick = "location.href='UserModify'">회원정보수정</button>
 		</td>
 		</tr>
 		<tr class = "bluetd">
@@ -157,12 +110,11 @@
 
 		<tr >
 		<td colspan=2 style="padding: 0; text-align:right">
-		<c:if test="${detail.checked=='미결제' }">
-		<button class = "modiA" onclick="requestPay()">결제</button>
+		<c:if test="${detail.checked=='결제완료' }">
+				<button class = "modiA" onclick="location.href='adminReservationModify?memberId=${user.id }&reserve=future&page=0&size=10'; return false;">리스트로가기</button>
+		
 		</c:if>
-		<c:if test="${detail.checked=='결제완료' }"></c:if>
 		<button class = "modiB" onclick="cancle()">취소</button>
-		<button class = "modiA" onclick="location.href='reservedList?reserve=future&page=0&size=10'">리스트로가기</button>
 		</td>
 		</tr>
 		</c:if>	
@@ -174,7 +126,6 @@
 		</tr>
 		</c:if>	
 	</table>
-<button onclick="send()">ddddddd</button>
 </div>
 	
 <%@ include file="../common/footer.jsp" %>

@@ -282,11 +282,11 @@ public class ReservationService {
 			PageRequest pageRequest = PageRequest.of(page, size);
 			Page<Reservation> result = null;
 			if(reserve.equals("future")) {
-				result = rr.findByIdAndEndDayIsAfter(id,timestamp,pageRequest);
+				result = rr.findByStatusAndFuture(id,"reserve","pay", timestamp, pageRequest);
 				
 				
 			}else if(reserve.equals("past")) {
-				result = rr.findByIdAndEndDayIsBefore(id,timestamp,pageRequest);
+				result = rr.findByStatusAndPast(id,"reserve","pay", timestamp, pageRequest);
 			}
 			
 			List<Reservation> reservations = result.getContent();
@@ -296,7 +296,6 @@ public class ReservationService {
 			}
 			ArrayList<ReservationDTO> rds = new ArrayList<ReservationDTO>(); 
 	
-			
 			for(Reservation r : reservations) {
 				ReservationDTO rd = reserve(r);
 				rds.add(rd);
@@ -369,7 +368,6 @@ public class ReservationService {
 			if(r.getStartDay().after(now)) {
 				rd.setIsDone(false);
 			}else rd.setIsDone(true);
-			
 			return rd;
 		}
 		//결제 성공시 데이터베이스 입력
@@ -384,6 +382,7 @@ public class ReservationService {
 			re.setPaidNum(imp_uid);
 			re.setMerchant_uid(merchant_uid);
 			re.setChecked(true);
+			re.setStatus("pay");
 			rr.save(re);
 			
 			String id = (String)session.getAttribute("id");
@@ -393,21 +392,25 @@ public class ReservationService {
 			model.addAttribute("user", user);
 			
 			return "user/reservationDetail";
-			
 		}
 		//예약취소
 		public String cancleReserveData(Model model, String seq, RedirectAttributes ra) {
 		
 			Integer i = Integer.parseInt(seq);
-			rr.deleteBySeq(i);
+			Reservation reservation = rr.findBySeq(i);
+			if(reservation.getStatus().equals("reserve")) {
+				System.out.println("여기옴?");
+				reservation.setStatus("cancle");
+				rr.save(reservation);
+			}else if(reservation.getStatus().equals("pay")) {
+				reservation.setStatus("refund");
+				rr.save(reservation);
+			}
 			ra.addFlashAttribute("msg","삭제되었습니다.");
 		
 			return "redirect:reservedList?reserve=future&page=0&size=10";
 			
 		}
-		
-		
-		
 		
 		//예약 데이터 임시로 만들기
 		//@PostConstruct
@@ -433,7 +436,7 @@ public class ReservationService {
 		      re.setId("user");
 		      re.setCategory1("A");
 		      re.setCategory2("A01");
-		      re.setCategory3("A0103");
+		      re.setCategory3("A0103"); 
 		      re.setCategory4("A010301");
 		      re.setRoom("A01030101");
 		      re.setOrderTime(orderTime);

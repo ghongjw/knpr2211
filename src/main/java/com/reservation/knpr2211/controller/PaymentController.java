@@ -56,6 +56,8 @@ public class PaymentController {
 			
 			return 	rs.cancleReserveData(model,seq,ra);
 		}
+		
+		
 	
 	}
 	

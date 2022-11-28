@@ -37,4 +37,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	Page<User> findByMemberAndDeleted(String member, boolean b, PageRequest pageRequest);
 
+	User getByid(String memberId);
+
 }

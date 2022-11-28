@@ -1122,6 +1122,7 @@
 		width: 99%;
 		height: 30px;
 	}
+	
 }
 
 @font-face {
@@ -1189,4 +1190,11 @@
 	{
 	display: inline-block !important;
 	margin: 6px 2px !important;
+}
+.admin_container{
+	display:block;
+	background-image: url("cntnts/IMG_5643.jpg");
+	background-size:20%;
+	height:100em;
+
 }

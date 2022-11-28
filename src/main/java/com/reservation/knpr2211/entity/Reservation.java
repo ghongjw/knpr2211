@@ -82,6 +82,10 @@ public class Reservation {
 		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "0")
 		private Boolean checked;
+		//환불유뮤
+		@Column(nullable=false, insertable = true, updatable=true)
+		
+		private String status = "reserve";
 		
 		@Builder
 		public Reservation(Reservation res) throws Exception{

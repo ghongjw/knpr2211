@@ -1,11 +1,13 @@
 package com.reservation.knpr2211.repository;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,4 +28,20 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	Reservation findBySeqAndId(Integer seq, String id);
 	@Transactional
 	void deleteBySeq(Integer i);
+	
+	@Query(nativeQuery=true, value = "select * from reservation where id = ?1 and (status = ?2 or status = ?3) and start_day > ?4")
+	Page<Reservation> findByStatusAndFuture(String id,String status1, String status2, Timestamp timestamp,  PageRequest pageRequest);
+	
+	@Query(nativeQuery=true, value = "select * from reservation where id = ?1 and (status = ?2 or status = ?3) and start_day <= ?4")
+	Page<Reservation> findByStatusAndPast(String id,String status1, String status2, Timestamp timestamp,  PageRequest pageRequest);
+
+	Page<Reservation> findByid(String id, PageRequest pageRequest);
+	
+	
+	
+	
+	
+	
+	
+	
 }

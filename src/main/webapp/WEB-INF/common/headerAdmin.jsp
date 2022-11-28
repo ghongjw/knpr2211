@@ -23,6 +23,12 @@
     </h1>
     <nav>
         <ul class="gnb">
+         <li>
+                    <a href="adminIndex" class="depth1">관리자 홈</a>
+                    <ul class="depth2">
+   
+                    </ul>
+                </li>
             
                 <li>
                     <a href="javascript:void(0);" class="depth1">회원관리</a>
