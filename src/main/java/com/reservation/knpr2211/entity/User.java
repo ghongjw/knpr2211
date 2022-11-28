@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.PageRequest;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -54,6 +53,9 @@ public class User {
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
 		
+		@OneToMany(mappedBy = "user")
+		private List<Reply> replyList;
+	
 		@Builder
 		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted) {
 			
@@ -73,6 +75,9 @@ public class User {
 		
 	}
 
+
+
+	
 
 
 }

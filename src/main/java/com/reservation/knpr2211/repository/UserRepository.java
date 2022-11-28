@@ -11,6 +11,8 @@ import com.reservation.knpr2211.entity.User;
 public interface UserRepository extends JpaRepository<User, String> {
 
 	User findByid(String id);
+	
+	
 
 	Page<User> findByDeletedAndMember(Boolean deleted,String member, PageRequest pageRequest);
 	// Page<User> findAll(PageRequest pageRequest);
@@ -37,4 +39,8 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	Page<User> findByMemberAndDeleted(String member, boolean b, PageRequest pageRequest);
 
+
+
+
+	
 }

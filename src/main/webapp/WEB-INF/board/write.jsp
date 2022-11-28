@@ -8,7 +8,7 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<div id="wrap" class="sub">
+<d  iv id="wrap" class="sub">
 		<div id="container">
 <div class="page-location">
     <span>홈</span>
@@ -21,6 +21,8 @@
     <form action="/post" method="post">
         <input type="hidden" name="seq" id="seq" value="" title="게시글번호">
         <div class="board-area write">
+        
+       
             <table class="table">
                 <caption>묻고답하기 글 등록폼</caption>
                 <colgroup>
