@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>writeForm</title>
+
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -128,11 +129,11 @@
                     <th scope="row">공지글여부</th>
                     <td class="form">
                         <span class="radio-1">
-                            <input type="radio" id="radio20" name="boardSecret" checked="checked" value="N">
+                            <input type="radio" name="noti" value="y"/>
                             <label for="radio20">중요 공지사항</label>
                         </span>
                         <span class="radio-1">
-                            <input type="radio" id="radio19" name="boardSecret" value="Y">
+                            <input type="radio" name="noti" checked="checked" value="n"/>
                             <label for="radio19">일반 공지사항</label>
                         </span>
                     </td>

@@ -10,6 +10,7 @@ Optional<Board> op = (Optional<Board>) request.getAttribute("boardList");
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -34,18 +35,26 @@ Optional<Board> op = (Optional<Board>) request.getAttribute("boardList");
 					
 					<!-- 답변 -->
 					
-					<dl class="answer">
-                    <dt>${boardDto.title}</dt>
-                    <dd>
-                        <p>댓글 내용</p>
-                    </dd>
-                    <dd>
-                        <span>category1</span><span>답변시간</span>
-                    </dd>
-                	</dl>
+               		 <div class="answer">
+               		 <dl>
+               		 	<dt>${boardDto.title}</dt>
+               		 	<dd>${boardDto.content}</dd>
+						<dd>${boardDto.createDate}</dd> 
+               		 </dl>	 
+					 <form id="reply" action="/reply_write" method="post">
+						<input type="hidden" id="id" name="id" value="${sessionScope.id}">
+		               	<input type="text" id="content" name="content" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요." aria-describedby="basic-addon2">
+		               	<input type="hidden" id="bno" name="bno" value="${boardDto.bno}">
+		                   <button type="submit">등록</button>
+		           	 </form>
+		           	 </div>
+		            	
+		            	
+		            	 
+		            	 
+		            	
+           
                		<!-- 답변 -->
-               		</div>
-               	
                	
 					<div class="board-bottom">
 						<div class="center">
@@ -65,6 +74,7 @@ Optional<Board> op = (Optional<Board>) request.getAttribute("boardList");
 			</div>
 		</div>
 	</div>
+</div>
 <%@ include file="../common/footer.jsp" %>
  
 </body>

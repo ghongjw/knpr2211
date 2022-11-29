@@ -23,8 +23,8 @@ public class BoardDto {
 	private String title;
 	private String content;
 	private String writer;
-	private String lock_yn;
-	private String state;
+	private boolean lock_yn;
+	private boolean state;
 	private LocalDateTime createDate;
 	private LocalDateTime modifiedDate;
 	
@@ -44,7 +44,7 @@ public class BoardDto {
 	
 	@Builder
 	public BoardDto(Long bno, String category1, String type, String title, String content, String writer,
-			LocalDateTime createDate, LocalDateTime modifiedDate, String lock_yn, String state) {
+			LocalDateTime createDate, LocalDateTime modifiedDate, boolean lock_yn, boolean state) {
 		this.bno = bno;
 		this.category1 = category1;
 		this.type = type;

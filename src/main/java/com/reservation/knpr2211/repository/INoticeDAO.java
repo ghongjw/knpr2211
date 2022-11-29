@@ -16,6 +16,8 @@ public interface INoticeDAO {
 
 	public NoticeDTO viewProc(int no);
 	
+	void insertMember(NoticeDTO notice);
+	
 	public void upHit(int no);
 
 	public int noticeCount(HashMap<String, Object> map);
@@ -25,4 +27,6 @@ public interface INoticeDAO {
 	public int deleteProc(int no);
 
 	public String getFileName(int no);
+
+	public ArrayList<NoticeDTO> noticeProc1();
 }
