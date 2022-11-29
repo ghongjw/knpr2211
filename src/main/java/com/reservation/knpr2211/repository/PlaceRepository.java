@@ -38,6 +38,8 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	@Query(nativeQuery=true, value = "select * from place where category2 like CONCAT('%',:category2,'%')")
 	ArrayList<Place> find(@Param("category2") String category2);
 	
+	//작성자: 김수정
 	List<PlaceDTO> findAllByCategory2(String category2);
+	
 	
 }

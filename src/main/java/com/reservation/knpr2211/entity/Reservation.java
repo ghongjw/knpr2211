@@ -1,12 +1,11 @@
 package com.reservation.knpr2211.entity;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -26,6 +25,7 @@ import lombok.Setter;
 public class Reservation {
 	
 		@Id
+		@GeneratedValue
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private Integer seq;
 		//예약한 계정(아이디)
@@ -41,10 +41,10 @@ public class Reservation {
 		@Column(nullable = false, insertable = true, updatable = false)
 		private String category3;
 		//소소분류 EX) A010301, A020102
-		@Column(nullable = false, insertable = true, updatable = false)
+		@Column(nullable = true, insertable = true, updatable = false)
 		private String category4;
 		//방 타입(객실)
-		@Column(nullable = false, insertable = true, updatable = false)
+		@Column(nullable = true, insertable = true, updatable = false)
 		private String room;
 		//예약한(요청) 날짜
 		@Column(name="order_Time", nullable = false, insertable = true, updatable = false)
@@ -65,9 +65,13 @@ public class Reservation {
 		@Column(nullable = false, insertable = true, updatable = false)
 		private String price;
 		//예약확정(결재) 유무
-		@Column(nullable=false, insertable = true, updatable=true)
+		@Column( insertable = true, updatable=true)
 		@ColumnDefault(value = "false")
 		private Boolean checked;
+		
+		public Reservation() {
+			
+		}
 		
 		@Builder
 		public Reservation(Reservation res) throws Exception{
@@ -76,14 +80,14 @@ public class Reservation {
 			this.category1 = res.getCategory1().toString();
 			this.category2 = res.getCategory2();
 			this.category3 = res.getCategory3();
-			this.category4 = res.getCategory4() != null ? res.getCategory4():"";
-			this.room = res.getRoom();
+			this.category4 = res.getCategory4() != null ? res.getCategory4():" ";
+			this.room = res.getRoom() != null ? res.getRoom():" ";
 			this.orderTime = res.getOrderTime();
 			this.startDay = res.getStartDay();
 			this.endDay = res.getEndDay();
 			this.people = res.getPeople();
 			this.allDay = res.getAllDay();
 			this.price = res.getPrice();
-			this.checked = res.getChecked() != null ? res.getChecked():false;
+			this.checked = res.getChecked() == null ? false:true;
 		}
 }
