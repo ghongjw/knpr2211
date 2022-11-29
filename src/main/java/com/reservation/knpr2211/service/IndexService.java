@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.entity.Place;
@@ -124,6 +125,13 @@ public class IndexService implements IPlaceService {
 		for (i = 0; i < files.length; i++) {
 		   System.out.println("file: " + files[i]);
 		}		return i;
+	}
+
+
+	@Override
+	public ArrayList<PlaceDTO> selectPlace(Model model, String parkId, String parkDetail) {
+	
+		return null;
 	}
 	
 

@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.entity.Favorite;
@@ -28,11 +29,11 @@ public class PlaceService implements IPlaceService {
 	@Autowired FavoriteRepository fr;
 	@Autowired HttpSession session;
 
-
+	// (시작)작성자:공주원 ==============================================
 	@Transactional
-	public ArrayList<PlaceDTO> selectPlace(String parkId,String parkDetail){
+	public ArrayList<PlaceDTO> selectPlace(Model model,String parkId,String parkDetail){
 		System.out.println("parkId : "+parkId);
-		if(parkDetail==null && parkDetail.isEmpty() && parkId == null && parkId.isEmpty()) {
+		if(parkDetail==null && parkId == null) {
 			
 			parkId="A01";
 			parkDetail = "A0101";
@@ -67,11 +68,11 @@ public class PlaceService implements IPlaceService {
 			//System.out.println("a"+a);
 		}
 		
-		session.setAttribute("category2s", category2s);
-		session.setAttribute("category3s", category3s);
-		session.setAttribute("nameOfCategory2s", nameOfCategory2s);
-		session.setAttribute("nameOfCategory3s", nameOfCategory3s);
-		session.setAttribute("selectedParkDetail", parkDetail);
+		model.addAttribute("category2s", category2s);
+		model.addAttribute("category3s", category3s);
+		model.addAttribute("nameOfCategory2s", nameOfCategory2s);
+		model.addAttribute("nameOfCategory3s", nameOfCategory3s);
+		model.addAttribute("selectedParkDetail", parkDetail);
 		
 		
 		ArrayList<Place>  places;
@@ -120,7 +121,7 @@ public class PlaceService implements IPlaceService {
 		
 		
 		int imagecount = imageFile(parkDetail);
-		session.setAttribute("imagecount", imagecount);
+		model.addAttribute("imagecount", imagecount);
 		System.out.println(imagecount);
 	 return placeDtos;
 	 
@@ -145,7 +146,7 @@ public class PlaceService implements IPlaceService {
 	}
 	
 	@Transactional
-	public ArrayList<PlaceDTO> selectMountain(String mountain){
+	public ArrayList<PlaceDTO> selectMountain(Model model,String mountain){
 		
 		
 		String category1 = mountain.substring(0,1);
@@ -165,10 +166,10 @@ public class PlaceService implements IPlaceService {
 			a = mcs.findCategory(a); 
 			nameOfCategory3s.add(a);
 		}
-		session.setAttribute("category2s", category2s);
-		session.setAttribute("category3s", category3s);
-		session.setAttribute("nameOfCategory2s", nameOfCategory2s);
-		session.setAttribute("nameOfCategory3s", nameOfCategory3s);
+		model.addAttribute("category2s", category2s);
+		model.addAttribute("category3s", category3s);
+		model.addAttribute("nameOfCategory2s", nameOfCategory2s);
+		model.addAttribute("nameOfCategory3s", nameOfCategory3s);
 		
 		
 		ArrayList<Place>  places= pr.findByCategory3(mountain);
@@ -269,5 +270,6 @@ public class PlaceService implements IPlaceService {
 		fr.save(f);
 		return "y";
 	}
+	// (끝)작성자:공주원 ==============================================
 	
 }

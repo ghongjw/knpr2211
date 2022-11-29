@@ -19,11 +19,18 @@ public class AdminInterceptor implements HandlerInterceptor {
 			HttpServletRequest request, HttpServletResponse response,
 			Object obj) throws Exception {
 		session = request.getSession();
-		
+
 		user = (User)session.getAttribute("member");
+		if(user == null) {
+			System.out.println("여기는 오니???1");	
+			response.sendRedirect("index");
+			return false;
+		}
 		String isAdmin = user.getMember();
-		if(isAdmin.equals("normal")) {
-			  response.sendRedirect("/index");
+		if("normal".equals(isAdmin)) {
+			System.out.println("여기는 오니???2");
+			response.sendRedirect("index");
+
 			return false;
 		}else {
 			System.out.println(">>>>interceptor>>>>>");
@@ -31,4 +38,6 @@ public class AdminInterceptor implements HandlerInterceptor {
 		}
 		
 	}
+
 }
+

@@ -108,48 +108,12 @@
 <!-- 슬라이더 jsp -->
 <div class="swiper">
     <div class="swiper-wrapper">
-        
-            
-                
+    
                 <div class="swiper-slide slide0">
                     <a href="#" >
                     <img src="bbs/popup/banner20220731.png" alt="국립공원 예약시스템은 크롬과 엣지에 최적화되어 있습니다." >
                     </a>
                 </div>
-                
-                <div class="swiper-slide slide1">
-                    <a href="contents/rsvtRefundPolicy.html" >
-                    <img src="bbs/popup/220725_popup.jpg" alt="예약대기 변경 안내 - 앞 예약자 결제 시 대기예약이 자동 취소됨을 안내드립니다." >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide2">
-                    <a href="#" >
-                    <img src="bbs/popup/notice3.png" alt="2022년 예약 시작일 안내" >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide3">
-                    <a href="https://www.knps.or.kr/front/portal/open/pnewsDtl.do?menuNo=8000517&amp;pnewsId=PNEWSM022141&amp;searchParkId=120400&amp;pnewsGrpCd=PNE01" target="_blank">
-                    <img src="bbs/popup/trailBannerPop.png" alt="설악산 흘림골탐방로 탐방로 예약제 운영 안내" >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide4">
-                    <a href="#" >
-                    <img src="bbs/popup/naturehouseBanner.png" alt="자연의집 신규 운영안내" >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide5">
-                    <a href="#" >
-                    <img src="bbs/popup/blanket.png" alt="모포대여중단" >
-                    </a>
-                </div>
-                
-            
-            
-        
     </div>
 </div>
 
@@ -178,11 +142,6 @@
                     
                         <div class="tab-pane is-active" id="tab1">
                             <!-- 야영장 -->
-                             
-
-
-
-
 
 <script src="assets/js/lib/handlebars.min.js"></script>
 <script src="assets/js/lib/netfunnel.js"></script>
@@ -218,9 +177,6 @@
 			return a;
 		}
 	};
-	
-	
-		
 		var selectedPrd = {};
 		
 		var $campTab = $('#tab1');
@@ -237,7 +193,6 @@
 			}
 		};
 		// 상품명 데이터 불러옴 
-		
 		var refreshDate = function(){
 			
 			var $info = $campTab.find('[data-area-name="camp-reservation-info"]');
@@ -260,41 +215,6 @@
 		
 	
 		window.automaticCharacterCamp = function(){
-			
-			//drawOptions
-			var optParam = {};
-			optParam.prdId = selectedPrd.prdId;
-			optParam.useBgnDtm = selectedPrd.useBgnDtm.replace(/\-/g,'');
-			optParam.period = selectedPrd.period;
-			
-			commn.callAjax({
-				url: '/reservation/campsite/selectOptionList.do',
-				data: optParam,
-				dataType: 'json'
-			})
-			.done(function(res){
-				
-				if(!res.optionList || $.isEmptyObject(res.optionList)){
-					
-					$('#application-reservation-camp-option [data-popup-btn="confirm"]').trigger('click')
-				}else{
-					
-					var $options = $campTab.find('[data-template-id="camp-options-template"]');
-					var optionsTemplate = Handlebars.compile($('#' + $options.data('template-id')).html()); 
-					
-					var optTemplateParam = {};
-					optTemplateParam.options = res.optionList;
-					optTemplateParam.period = selectedPrd.period;
-					$options.html(optionsTemplate(optTemplateParam));
-					
-					$campTab.find('[data-popup="application-reservation-camp-option"]').trigger('click');
-				}
-			})
-			.fail(function(e){
-				//$("#loadingImage").hide();
-				toastrMsg("일시적으로 장애가 발생하였습니다. 잠시 후 다시 시도하여 주시기 바랍니다.","메세지"); //<br />원활한 서비스를 위해 최선을 다하겠습니다.
-			});
-		};
 	
 </script>
 
@@ -508,7 +428,6 @@
         <h3 class="title">위치</h3>
         
         <ul class="check-area">
-            
 
             <li>
                 <label for="shelterMountainRadio1" class="radio-check">
@@ -541,18 +460,6 @@
     </div>
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
-
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
@@ -566,7 +473,6 @@
 
 
             </div>
-                        
                         <!--  생태 탐방원  -->
                         <div class="tab-pane" id="tab3">
                            
@@ -625,49 +531,6 @@
                                 <input type="radio" id="deptId0" name="deptId" value="B971002"><span>북한산</span>
                             </label>
                         </li>
-                    
-                        <li>
-                            <label for="deptId1" class="radio-check">
-                                <input type="radio" id="deptId1" name="deptId" value="B014003"><span>지리산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId2" class="radio-check">
-                                <input type="radio" id="deptId2" name="deptId" value="B123002"><span>소백산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId3" class="radio-check">
-                                <input type="radio" id="deptId3" name="deptId" value="B301002"><span>설악산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId4" class="radio-check">
-                                <input type="radio" id="deptId4" name="deptId" value="B024002"><span>한려해상</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId5" class="radio-check">
-                                <input type="radio" id="deptId5" name="deptId" value="B231002"><span>무등산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId6" class="radio-check">
-                                <input type="radio" id="deptId6" name="deptId" value="B133002"><span>가야산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId7" class="radio-check">
-                                <input type="radio" id="deptId7" name="deptId" value="B331001"><span>내장산</span>
-                            </label>
-                        </li>
-                    
                 </ul>
         <ul class="radio-area row" data-template-id="shelter-shelters-template">
         </ul>
@@ -699,10 +562,6 @@
 
 
             </div>  
-                           
-                           
-                           
-                       
                         
                         
                         <!-- 민박촌  -->
@@ -770,17 +629,6 @@
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
 
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
@@ -792,232 +640,7 @@
     </div>
 </div>
   
-
-                    </div>
-           </div>
-       </section> 
-        <section>
-        	<h3 class="hidden-text">빠른 메뉴 이동</h3>
             
- 
-<div class="quick-menu">
-    <a href="https://www.knps.or.kr/portal/angelroad/course/course10.do" class="btn" target="_blank"><span>탐방 안내도</span></a>
-    <a href="https://www.knps.or.kr/portal/main/contents.do?menuNo=8000198" class="btn" target="_blank"><span>입산시간 지정제</span></a>
-    <a href="https://www.knps.or.kr/front/portal/safe/acsCtrList.do?menuNo=8000340" class="btn" target="_blank"><span>탐방통제 정보</span></a>
-    <a href="https://www.knps.or.kr/portal/main/contents.do?menuNo=7020071&amp;tabNm=2" class="btn" target="_blank"><span>국립공원 날씨</span></a>
-</div>
-        </section>
-        <section>
-            <div class="slide-notice">
-                <h3 class="title">공지사항</h3>
-                
-
-
-<script>
-    $(function(){
-        // 공지사항 slide
-        let swiper2 = new Swiper(".slide-notice .swiper", {
-            loop: 'true',
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            direction: "vertical",
-            navigation: {
-                nextEl: "#noticeBtnNext",
-                prevEl: "#noticeBtnPrev",
-            },
-        });
-    })
-</script>
-<div class="swiper">
-    <div class="swiper-wrapper">
-        
-            <div class="swiper-slide slide0">
-                <a href="community/board/notice/boardDetail4f70.html?seq=27890">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            변산반도
-                                        
-                                    
-                                    [변산반도] 12월 야영장 정비의 날 운영 안내
-                                </span>
-                    <span class="date">2022-11-10</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide1">
-                <a href="community/board/notice/boardDetaild6a8.html?seq=27889">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            태안해안
-                                        
-                                    
-                                    [태안해안] 학암포자동차야영장 체류형카라반 설치공사 관련 재공지
-                                </span>
-                    <span class="date">2022-11-03</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide2">
-                <a href="community/board/notice/boardDetail3c55.html?seq=27888">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            본부
-                                        
-                                    
-                                    국립공원예약시스템 성능테스트 안내
-                                </span>
-                    <span class="date">2022-11-02</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide3">
-                <a href="community/board/notice/boardDetailcb27.html?seq=27887">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            태안해안
-                                        
-                                    
-                                    [태안해안] 학암포자동차야영장 수도배관 누수에 따른 H,I 사이트 이용 제한 알림
-                                </span>
-                    <span class="date">2022-11-02</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide4">
-                <a href="community/board/notice/boardDetail43e4.html?seq=27886">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            치악산
-                                        
-                                    
-                                    [치악산] 야영장 정비의 날(11.9. 수) 운영 및 이용 제한 알림
-                                </span>
-                    <span class="date">2022-11-01</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide5">
-                <a href="community/board/notice/boardDetail4ea7.html?seq=27885">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            무등산동부
-                                        
-                                    
-                                    도원야영장, 11월 정비의 날 운영 알림(일자: 11.9, 이용불가)
-                                </span>
-                    <span class="date">2022-11-01</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide6">
-                <a href="community/board/notice/boardDetail2e73.html?seq=27884">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            한려해상동부
-                                        
-                                    
-                                    [한려해상동부] 학동자동차야영장 체류형카라반 신규설치공사(A6~A10)에 따른 이용제한기간 연장 안내
-                                </span>
-                    <span class="date">2022-10-31</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide7">
-                <a href="community/board/notice/boardDetailca7f.html?seq=27883">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            설악산
-                                        
-                                    
-                                    흘림골 탐방로 예약제 구간 동절기 운영시간 변경 안내
-                                </span>
-                    <span class="date">2022-10-30</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide8">
-                <a href="community/board/notice/boardDetail284a.html?seq=27882">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            설악산
-                                        
-                                    
-                                    설악산 대피소 이용 주요 안내(주의사항, 희운각&amp;소청대피소 내부 정비)
-                                </span>
-                    <span class="date">2022-10-30</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide9">
-                <a href="community/board/notice/boardDetail7e74.html?seq=27881">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            본부
-                                        
-                                    
-                                    겨울철 국립공원 야영장 운영 현황 안내
-                                </span>
-                    <span class="date">2022-10-28</span>
-                </div>
-                </a>
-            </div>
-        
-    </div>
-</div>
-<div class="swiper-btn">
-    <div class="swiper-button-prev" id="noticeBtnPrev">
-        <i class="icon-chevron-up"></i>
-    </div>
-    <div class="swiper-button-next" id="noticeBtnNext">
-        <i class="icon-chevron-down"></i>
-    </div>
-</div>
-            </div>
-        </section>
-    </main>
-</div>
-
 
 <div class="modal-popup small" id="captchaPop">
     <div class="popup-wrap">

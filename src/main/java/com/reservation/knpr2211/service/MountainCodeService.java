@@ -151,13 +151,13 @@ public class MountainCodeService {
 			break;
 
 		//대피소
-		case "B01": list.add("삿갓재대피소");
+		case "B01": list.add("삿갓재");
 			break;	
 		
-		case "B02": list.add("수렴동대피소");  list.add("중청대피소"); list.add("양폭대피소");  list.add("소청대피소");  list.add("희운각대피소"); 
+		case "B02": list.add("수렴동");  list.add("중청"); list.add("양폭");  list.add("소청");  list.add("희운각"); 
 			break;
 		
-		case "B03": list.add("제2연화봉대피소");
+		case "B03": list.add("제2연화봉"); 
 			break;
 		
 		case "B04": list.add("벽소령"); list.add("세석"); list.add("장터목"); 

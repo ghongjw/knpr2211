@@ -23,7 +23,7 @@
 	<script src="assets/js/lib/toastr.min.js"></script>
 	<script src="assets/js/scripts.js"></script>
 	<script src="assets/js/common9b00.js?ver4"></script>
-
+	
 
 <body>
 	<div id="wrap" class="sub">
@@ -159,6 +159,11 @@
 	</div>
 	<img id="loadingImage" src="../../assets/img/preloader.gif" alt="로딩이미지" style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
 <script>
+	$("document").ready(function(){
+		if(${msg != null}){
+			toastrMsg("${msg}","메세지");
+		}
+	})
 	$(function(){
 		let responseMessage = "";
 		if(responseMessage != ""){

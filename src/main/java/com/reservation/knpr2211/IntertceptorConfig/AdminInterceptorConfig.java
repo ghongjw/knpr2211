@@ -10,10 +10,11 @@ import com.reservation.knpr2211.handlerInterceptor.AdminInterceptor;
 public class AdminInterceptorConfig implements WebMvcConfigurer {
 	
 
-	@Override
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AdminInterceptor())
-                .addPathPatterns("/admin*")
-        		.excludePathPatterns("/adminIndex");
+//        registry.addInterceptor(new AdminInterceptor())
+//                .addPathPatterns("/admin*")
+//        		.excludePathPatterns("/adminIndex");
     }
 }
+
