@@ -19,7 +19,9 @@
 			<div class="notification">
     <h3 class="title">묻고답하기</h3>
     <!-- update -->
-    <form action="/post/edit/${boardDto.bno}" method="GET">
+    <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data">
+    	<input type="hidden" name="_method" value="put"/>
+        <input type="hidden" name="bno" value="${boardDto.bno}"/>
         <div class="board-area write">
             <table class="table">
                 <colgroup>
@@ -29,7 +31,7 @@
                 <tbody class="tbody">
                 <tr>
                     <th scope="row">이름</th>
-                    <td>정호성</td>
+                    <td><input type="text" name="writer" value="${boardDto.writer}"></td>
                 </tr>
                 <tr>
                     <th scope="row">연락처</th>
@@ -42,7 +44,7 @@
                 <tr>
                     <th scope="row">제목 <span class="essential">필수입력</span></th>
                     <td class="form">
-                        <input type="text" class="input-text" placeholder="제목을 입력해주세요." title="제목" id="sj" name="title" value="">
+                        <input type="text" class="input-text" placeholder="제목을 입력해주세요." title="제목" id="sj" name="title" value="${boardDto.title}">
                     </td>
                 </tr>
                 <tr>
@@ -171,7 +173,7 @@
                 <tr>
                     <th scope="row">내용 <span class="essential">필수입력</span></th>
                     <td class="form">
-                      <textarea name="content" id="cn" cols="30" rows="10" class="textarea" title="내용 입력" placeholder="내용 입력"></textarea>
+                      <textarea name="content" id="cn" cols="30" rows="10" class="textarea" title="내용 입력" placeholder="내용 입력">${boardDto.content}</textarea>
                     </td>
                 </tr>
                 </tbody>

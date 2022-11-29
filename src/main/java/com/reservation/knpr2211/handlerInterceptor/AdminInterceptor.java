@@ -19,6 +19,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 			HttpServletRequest request, HttpServletResponse response,
 			Object obj) throws Exception {
 		session = request.getSession();
+
 		user = (User)session.getAttribute("member");
 		if(user == null) {
 			System.out.println("여기는 오니???1");	
@@ -37,4 +38,6 @@ public class AdminInterceptor implements HandlerInterceptor {
 		}
 		
 	}
+
 }
+

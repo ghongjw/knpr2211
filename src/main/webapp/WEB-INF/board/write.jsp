@@ -8,7 +8,7 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<div id="wrap" class="sub">
+<d  iv id="wrap" class="sub">
 		<div id="container">
 <div class="page-location">
     <span>홈</span>
@@ -21,6 +21,8 @@
     <form action="/post" method="post">
         <input type="hidden" name="seq" id="seq" value="" title="게시글번호">
         <div class="board-area write">
+        
+       
             <table class="table">
                 <caption>묻고답하기 글 등록폼</caption>
                 <colgroup>
@@ -30,7 +32,7 @@
                 <tbody class="tbody">
                 <tr>
                     <th scope="row">이름</th>
-                    <td><input type="text" name="writer"></td>
+                    <td><input type="text" name="writer">${members.name }</td>
                 </tr>
                 <tr>
                     <th scope="row">연락처</th>
@@ -145,11 +147,11 @@
                     <th scope="row">공개</th>
                     <td class="form">
                         <span class="radio-1">
-                            <input type="radio" id="radio20" name="boardSecret" checked="checked" value="N">
+                            <input type="radio" id="radio20" name="boardSecret" checked="checked" value="open">
                             <label for="radio20">공개</label>
                         </span>
                         <span class="radio-1">
-                            <input type="radio" id="radio19" name="boardSecret" value="Y">
+                            <input type="radio" id="radio19" name="boardSecret" value="close">
                             <label for="radio19">비공개</label>
                         </span>
                     </td>

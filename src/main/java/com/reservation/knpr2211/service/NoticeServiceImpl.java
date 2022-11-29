@@ -25,7 +25,7 @@ import com.reservation.knpr2211.repository.INoticeDAO;
 
 @Service
 public class NoticeServiceImpl implements INoticeService{
-	
+	@Autowired private INoticeDAO noticeDao;
 	@Autowired INoticeDAO mapper;
 	
 	//공지사항 등록
@@ -35,12 +35,17 @@ public class NoticeServiceImpl implements INoticeService{
 		String title = req.getParameter("title");
 		String content= req.getParameter("content");
 		String category1= req.getParameter("category1");
-		
 		NoticeDTO notice = new NoticeDTO();
+		if ("y".equals(notice.getNoti()) || "n".equals(notice.getNoti()))
+			noticeDao.insertMember(notice);
+		String noti = req.getParameter("noti");
+		
+		
 		notice.setId(id);		
 		notice.setTitle(title); 
 		notice.setCategory1(category1);
-		notice.setContent(content);		
+		notice.setContent(content);	
+		notice.setNoti(noti);		
 		notice.setHit(0);
 		
 		Date date = new Date();
@@ -62,6 +67,9 @@ public class NoticeServiceImpl implements INoticeService{
 		}else {
 			notice.setFileName("파일 없음");
 		}
+		
+		
+		
 		mapper.writeProc(notice);
 	}
 	//공지사항리스트
@@ -72,13 +80,14 @@ public class NoticeServiceImpl implements INoticeService{
 		map.put("select", select);
 		
 		int totalCount = mapper.noticeCount(map);
-		int pageBlock = 3;
+		int pageBlock = 10;
 		int end = currentPage * pageBlock;
 		int begin = end+1 - pageBlock;
 
 		ArrayList<NoticeDTO> noticeList = mapper.noticeProc(begin, end, select, search);
-		model.addAttribute("noticeList", noticeList);
-		
+		ArrayList<NoticeDTO> noticeList1 = mapper.noticeProc1();
+		model.addAttribute("noticeList", noticeList); 
+		model.addAttribute("noticeList1", noticeList1);
 		//페이징 전환은 이것으로 사용(멤버 서비스 보다는)
 		String url = req.getContextPath() + "/noticeProc?";
 		if(select != null) {

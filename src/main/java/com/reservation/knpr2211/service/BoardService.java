@@ -42,6 +42,7 @@ public class BoardService {
 	 		return boardDtoList;
 		}
 		
+		
 		private BoardDto convertEntityToDto(Board board) {
 			return BoardDto.builder()
 					.bno(board.getBno())
@@ -51,8 +52,8 @@ public class BoardService {
 					.content(board.getContent())
 					.writer(board.getWriter())
 					.createDate(board.getCreateDate())
-					.lock_yn(board.getLock_yn())
-					.state(board.getState())
+					.lock_yn(board.isLock_yn())
+					.state(board.isState())
 					.build();
 		}
 		

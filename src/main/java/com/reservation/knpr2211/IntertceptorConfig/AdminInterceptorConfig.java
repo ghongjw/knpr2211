@@ -9,6 +9,7 @@ import com.reservation.knpr2211.handlerInterceptor.AdminInterceptor;
 @Configuration
 public class AdminInterceptorConfig implements WebMvcConfigurer {
 	
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new AdminInterceptor())
@@ -16,3 +17,4 @@ public class AdminInterceptorConfig implements WebMvcConfigurer {
 //        		.excludePathPatterns("/adminIndex");
     }
 }
+

@@ -36,7 +36,7 @@ public class NoticeController {
 	public String noticeProc(Model model, 
 			@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
 			String search, String select, HttpServletRequest req ) {
-		System.out.println("asdsad");
+		System.out.println("무엇일까??");
 		service.noticeProc(model, currentPage, search, select, req);
 		/* return "forward:noticeForm?formpath=notice"; */
 		return "notice/noticeForm";

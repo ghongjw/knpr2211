@@ -27,7 +27,7 @@
             <input type="hidden" name="pageNo" id="pageNo" value="1">
             <input type="hidden" name="seq" id="seq" value="">
             <span class="select">
-                <select id="national-park1" name="deptId">
+                <select id="national-park1" name="category1">
                     <option value="">국립공원 전체</option>
                     <option value="B000">본부</option>
                     <option value="B011">지리산경남</option>
@@ -74,10 +74,10 @@
                 </select>
             </span>
             <span class="select">
-                <select id="national-park2" name="searchCondition">
+                <select id="national-park2" name="select">
                     <option value="all">전체</option>
-                    <option value="sj">제목</option>
-                    <option value="cn">내용</option>
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
                 </select>
             </span>
             <input type="text" class="input-text" name="keyword" title="검색값을 입력해주세요." value="">
@@ -134,17 +134,17 @@
         		</div>
         		<!-- 페이징 -->
             		<div class="paginator">
-            			<button type="button" class="paginator-first" title="맨 처음"> <i class="icon-chevrons-left"></i> </button>
-            			<button type="button" class="paginator-prev" title="이전"><i class="icon-chevron-left"></i></button>
+            			<!-- <button type="button" class="paginator-first" title="맨 처음"> <i class="icon-chevrons-left"></i> </button>
+            			<button type="button" class="paginator-prev" title="이전"><i class="icon-chevron-left"></i></button> -->
             			
             			<span class="paginator-pages">
    						<c:forEach var="pageNum" items="${pageList}">
-   							<a href="/?page= + ${pageNum}"><button type="button" class="paginator-page">${pageNum}</button></a>
+   							<a href="/list?page= + ${pageNum}"><button type="button" class="paginator-page">${pageNum}</button></a>
    						</c:forEach>
    						</span>
    						
-   						<button type="button" class="paginator-next" title="다음"><i class="icon-chevron-right"></i></button>
-   						<button type="button" class="paginator-last" title="맨 마지막"><i class="icon-chevrons-right"></i></button>
+   						<!-- <button type="button" class="paginator-next" title="다음"><i class="icon-chevron-right"></i></button>
+   						<button type="button" class="paginator-last" title="맨 마지막"><i class="icon-chevrons-right"></i></button> -->
    					</div>
 			</div>
 		</div>
