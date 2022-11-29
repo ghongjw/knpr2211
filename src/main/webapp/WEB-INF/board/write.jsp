@@ -19,7 +19,8 @@
     <h3 class="title">묻고답하기</h3>
     <!-- write -->
     <form action="/post" method="post">
-        <input type="hidden" name="seq" id="seq" value="" title="게시글번호">
+<!--         <input type="hidden" name="seq" id="seq" value="" title="게시글번호"> -->
+        <input type="hidden" name="writer" id="id" value="${member.id }">
         <div class="board-area write">
         
        
@@ -32,15 +33,15 @@
                 <tbody class="tbody">
                 <tr>
                     <th scope="row">이름</th>
-                    <td><input type="text" name="writer">${members.name }</td>
+                    <td><input type="text" value = "${member.name }" readonly></td>
                 </tr>
                 <tr>
                     <th scope="row">연락처</th>
-                    <td>01025771579</td>
+                    <td>${member.mobile }</td>
                 </tr>
                 <tr>
                     <th scope="row">이메일</th>
-                    <td>asian0121@naver.com</td>
+                    <td>${member.email }</td>
                 </tr>
                 <tr>
                     <th scope="row">제목 <span class="essential">필수입력</span></th>

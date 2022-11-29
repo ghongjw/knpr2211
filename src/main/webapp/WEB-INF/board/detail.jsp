@@ -9,7 +9,6 @@ Optional<Board> op = (Optional<Board>) request.getAttribute("boardList");
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 
 </head>
 <body>
