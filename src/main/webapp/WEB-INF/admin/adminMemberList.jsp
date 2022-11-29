@@ -8,12 +8,22 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="assets/style/infomations.css">
 <script src="../../assets/js/lib/jquery-1.12.4.min.js"></script>
-
+	<script src="assets/js/lib/toastr.min.js"></script>
 <script>
 	$('document').ready(function(){
+		if(${msg != null}){
+			toastrMsg("${msg}","메세지");
+		}
+		
 		$(".input1").val("${member}")
 		$(".input2").val("${select}")
 		$(".input3").val("${search}")
+		
+		
+		const urlParams = new URL(location.href).searchParams;
+		const page = urlParams.get('page');
+		console.log(page);
+		
 	})
 </script>
 </head>
@@ -23,8 +33,7 @@
 
 
 let pageNum = function(num){
-	var url = "memberList?page="+num+"&size=10"; 
-
+	var url = "adminMemberList?page="+num+"&size=10"; 
 	
 	$("#memberSearch").attr("action",url).submit();
 }
@@ -98,8 +107,8 @@ let pageNum = function(num){
 									<td style="width: 10%;">${member.member }</td>
 									<td style="width: 20%;">${member.email }</td>
 									<td style="width: 10%;">${member.mobile }</td>
-									<td style="width: 5%;"><button class="modiA" onclick="location.href='memberReservationModify?memberId=${member.id }'">예약조회</button></td>
-									<td style="width: 5%;"><button class="modiB" onclick="location.href='memberModify?memberId=${member.id }'">수정</button></td>
+									<td style="width: 5%;"><button class="modiA" onclick="location.href='adminReservationModify?memberId=${member.id }&reserve=future&page=0&size=10'; return false;" style="margin-right:5px; width:98%;">예약조회</button></td>
+									<td style="width: 5%;"><button class="modiB" onclick="location.href='adminMemberModify?memberId=${member.id }'; return false;">수정</button></td>
 						
 									</tr>
 								</c:forEach>
@@ -109,10 +118,18 @@ let pageNum = function(num){
 								<td colspan = "6" class = "page_td">
 							
 									<c:forEach var = "i" begin="0" end = "${totalPage -1}">
-									
+										<c:choose>
+										<c:when test="${i == param.page }">
+										<button class = "index_paging" style = "background:#004ea2; color:white;" id = "pageNum" onclick = "pageNum('${i}')">
+									${i + 1}
+									</button>
+										</c:when>
+										<c:otherwise>
 									<button class = "index_paging" id = "pageNum" onclick = "pageNum('${i}')">
 									${i + 1}
 									</button>
+									</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</td>
 						</tr>
@@ -123,5 +140,6 @@ let pageNum = function(num){
 	</div>
 </div>
 </div>
+<%@ include file="../common/footer.jsp"%>
 </body>
 </html>

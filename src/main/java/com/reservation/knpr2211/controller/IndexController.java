@@ -23,7 +23,7 @@ public class IndexController {
 	public String MountainSelect(String mountain, Model model) {
 		
 		System.out.println("선택된 산 : "+mountain);
-		model.addAttribute(mountain, service.selectMountain(mountain));	
+		model.addAttribute(mountain, service.selectMountain(model, mountain));	
 		
 		return "redirect:index1";
 	}
