@@ -47,7 +47,7 @@
                     $('[data-reservation-area="stepText"]').html('STEP.1');
                     $('#tab1').find('[data-reservation-step="2"]').hide();
                     $('#tab1').find('[data-reservation-step="1"]').css('display', '');
-                    $('#tab1').find('[data-template-id="camp-btn-area"]').css('display', 'none');
+                    $('#tab1').find('[data-template-id="camp-btn-area"]').css('display', '');
                 }else if(tabId == 'tab2'){
                     $('[data-reservation-area="step"]').removeClass('step2').addClass('step1');
                     $('[data-reservation-area="stepText"]').html('STEP.1');
@@ -490,7 +490,7 @@
 				
 				if(!$campTab.find('[name="rsvtDvcdDs"]:checked').val()){
 					
-					toastrMsg("자격구분을 선택해주세요.","메세지","e");
+					toastrMsg("자격구분을 선택해주세요.","메세=지","e");
 					$campTab.find('[name="rsvtDvcdDs"]').eq(0).focus();
 					return;
 				}
@@ -1088,7 +1088,6 @@ $('document').ready(function(){
     </c:forEach>
 </ul>
 </form>
-        <ul class="check-area" data-template-id="camp-dept-template">
 	<li style="display:none;">
         <span class="radio-1">
             <input type="radio" id="camp-location1-0" name="camp-location" data-dept-dept-id="B131001" data-dept-park-id="B13" data-dept-dept-nm="삼정" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">

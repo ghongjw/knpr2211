@@ -46,14 +46,24 @@
                  */
                 if(tabId == 'tab1'){
                     
-                  
+        
+                	
+           
+
+               
            
                 }else if(tabId == 'tab2'){
+            
+                	
                     
                 }else if(tabId == 'tab3'){
-                   
+                	
+                	
+            		
 
                 }else  if(tabId == 'tab4'){
+                	
+            		
                     
                 }
                 //한번 클릭했으면 값 Y로 변경 ( 다음 클릭 시 조회 하지 않기 위해 )
@@ -74,7 +84,7 @@
 
 
 
-<script>
+ <script>
     $(function(){
         let swiper1 = new Swiper('.slide-popup .swiper', {
             loop: 'true',
@@ -167,12 +177,22 @@
                     <span class="text" data-reservation-area="stepText">STEP.1</span>
                 </div>
                 <div class="content">
+                
+               
                     <ul class="nav-tabs">
-                        <li class="is-active" data-tabid="tab1"><a href="#tab1">야영장</a></li>
-                        <li data-tabid="tab2"><a href="#tab2">대피소</a></li>
-                        <li data-tabid="tab3"><a href="#tab3">생태탐방원</a></li>
-                        <li data-tabid="tab4"><a href="#tab4">민박촌</a></li>
+                        <li  class="is-active" data-tabid="tab1" data-type="tab1"><a href="#tab1">야영장</a></li>
+                        <li  data-tabid="tab2"data-type="tab2" ><a href="#tab2">대피소</a></li>
+                        <li  data-tabid="tab3" data-type="tab3"><a href="#tab3">생태탐방원</a></li>
+                        <li  data-tabid="tab4" data-type="tab4"><a href="#tab4">민박촌</a></li>
                     </ul>
+
+                 <script type="text/javascript">
+                 
+                 
+                 
+                 
+                 
+                 </script>
                     <div class="tab-content">
                     
                     
@@ -185,7 +205,7 @@
 
 
 <script src="assets/js/lib/handlebars.min.js"></script>
-<script src="assets/js/lib/netfunnel.js"></script>
+<script src="assets/js/lib/netfunnel.js"		></script>
 
 <script>
 //<![CDATA[
@@ -303,7 +323,11 @@
 $('document').ready(function(){
 	
 	$("#tab1").change(function(){
-		$("#m1").submit()
+		 event.preventDefault();
+		$("#m1").submit();
+
+        
+        
 	})
 	
 	});
@@ -315,112 +339,113 @@ $('document').ready(function(){
     <div class="grid-cell">
         <h3 class="title">위치</h3>
         <form action="MountainSelect"  method="post" id="m1">
+        <input type="hidden"id="tap" name="type" value="tab1">
         <ul class="check-area" id="tab1" data-template-id="camp-group-template">
 	<li>
         <label for="camp-radio1-0" class="radio-check">
-            <input type="radio" id="camp-radio1-0" name="mountain" value="A01">
+            <input type="radio" id="camp-radio1-0" name="mountain1" value="A01">
             <span>가야산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-1" class="radio-check">
-            <input type="radio" id="camp-radio1-1" name="mountain" value="A02">
+            <input type="radio" id="camp-radio1-1" name="mountain1" value="A02">
             <span>계룡산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-2" class="radio-check">
-            <input type="radio" id="camp-radio1-2" name="mountain" value="A03">
+            <input type="radio" id="camp-radio1-2" name="mountain1" value="A03">
             <span>내장산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-3" class="radio-check">
-            <input type="radio" id="camp-radio1-3" name="mountain" value="A04">
+            <input type="radio" id="camp-radio1-3" name="mountain1" value="A04">
             <span>다도해해상</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-4" class="radio-check">
-            <input type="radio" id="camp-radio1-4" name="mountain" value="A05">
+            <input type="radio" id="camp-radio1-4" name="mountain1" value="A05">
             <span>덕유산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-5" class="radio-check">
-            <input type="radio" id="camp-radio1-5" name="mountain" value="A06">
+            <input type="radio" id="camp-radio1-5" name="mountain1" value="A06">
             <span>무등산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-6" class="radio-check">
-            <input type="radio" id="camp-radio1-6" name="mountain" value="A07">
+            <input type="radio" id="camp-radio1-6" name="mountain1" value="A07">
             <span>변산반도</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-7" class="radio-check">
-            <input type="radio" id="camp-radio1-7" name="mountain" value="A08">
+            <input type="radio" id="camp-radio1-7" name="mountain1" value="A08">
             <span>설악산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-8" class="radio-check">
-            <input type="radio" id="camp-radio1-8" name="mountain" value="A09">
+            <input type="radio" id="camp-radio1-8" name="mountain1" value="A09">
             <span>소백산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-9" class="radio-check">
-            <input type="radio" id="camp-radio1-9" name="mountain" value="A10">
+            <input type="radio" id="camp-radio1-9" name="mountain1" value="A10">
             <span>오대산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-10" class="radio-check">
-            <input type="radio" id="camp-radio1-10" name="mountain" value="A11">
+            <input type="radio" id="camp-radio1-10" name="mountain1" value="A11">
             <span>월악산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-11" class="radio-check">
-            <input type="radio" id="camp-radio1-11" name="mountain" value="A12">
+            <input type="radio" id="camp-radio1-11" name="mountain1" value="A12">
             <span>월출산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-12" class="radio-check">
-            <input type="radio" id="camp-radio1-12" name="mountain" value="A13">
+            <input type="radio" id="camp-radio1-12" name="mountain1" value="A13">
             <span>주왕산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-13" class="radio-check">
-            <input type="radio" id="camp-radio1-13" name="mountain" value="A14">
+            <input type="radio" id="camp-radio1-13" name="mountain1" value="A14">
             <span>지리산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-14" class="radio-check">
-            <input type="radio" id="camp-radio1-14" name="mountain" value="A15">
+            <input type="radio" id="camp-radio1-14" name="mountain1" value="A15">
             <span>치악산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-15" class="radio-check">
-            <input type="radio" id="camp-radio1-15" name="mountain" value="A16">
+            <input type="radio" id="camp-radio1-15" name="mountain1" value="A16">
             <span>태백산</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-16" class="radio-check">
-            <input type="radio" id="camp-radio1-16" name="mountain" value="A17">
+            <input type="radio" id="camp-radio1-16" name="mountain1" value="A17">
             <span>태안해안</span>
         </label>
     </li>
 	<li>
         <label for="camp-radio1-17" class="radio-check">
-            <input type="radio" id="camp-radio1-17" name="mountain" value="A18">
+            <input type="radio" id="camp-radio1-17" name="mountain1" value="A18">
             <span>한려해상</span>
         </label>
     </li>
@@ -432,7 +457,8 @@ $('document').ready(function(){
 $('document').ready(function(){
 	
 	$("#location1").change(function(){
-		$("#l").submit()
+		event.preventDefault();
+		$("#l").submit();
 	})
 	
 	});
@@ -441,20 +467,20 @@ $('document').ready(function(){
 </script>
 
 
-
+<form action="LocationSelect" method="post" id="l">
     <ul class="check-area" id="location1" data-template-id="camp-dept-template">
-    
-    <c:forEach var="a" items="${Locations }" varStatus="status" >
+        
+    <c:forEach var="a" items="${Location1 }" varStatus="status" >
 	<li>
 	
         <span class="radio-1">
-            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfLocations[status.index]}" >
-            <label for="camp-location1-0">${nameOfLocations[status.index] }</label>
+            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfLocation1[status.index]}" >
+            <label for="camp-location1-0">${nameOfLocation1[status.index] }</label>
         </span>
     </li>
 	</c:forEach>
 	</ul>   
-
+</form>
     </div>
     <div class="grid-cell" data-template-id="camp-calendar-template">
         <h3 class="title">날짜</h3>
@@ -474,33 +500,24 @@ $('document').ready(function(){
         </div>
     </div>
     <div class="grid-cell">
-        <h3 class="title">유형121</h3>
+        <h3 class="title">유형</h3>
 
         <div class="btn-area">
             <button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
             <button class="btn btn-enquiry" data-button-name="goStep2">다음단계</button>
         </div>
     </div>
+ </div>
 </div>
-
-
-                        </div>
                         
                         
-           <div class="tab-pane" id="tab2">
+     <div class="tab-pane" id="tab2">
                     
-                            <!-- 대피소 -->
+     <!-- 대피소 -->
                             
-
-
-
-
-
 <script src="assets/js/lib/handlebars.min.js"></script>
 
-<script>
-  
-
+	<script>
 
         var $shelterTab = $('#tab1');
 
@@ -547,68 +564,70 @@ $('document').ready(function(){
 $('document').ready(function(){
 	
 	$("#tab2").change(function(){
-		$("#m2").submit()
+		event.preventDefault();
+		$("#m2").submit();
+	
 	})
 	
 	});
 
 
 </script>
-
+<!--tab2 대피소 -->
 <div class="grid-row" data-reservation-step="1">
     <div class="grid-cell">
-        <h3 class="title">위치</h3>
-        <form action="MountainSelect" method="post" id="m2">
-        
+        <h3 class="title">위치 ${type }</h3>
+        <form action="MountainSelect2" method="post" id="m2" >
+           <input type="hidden"id="tap" name="type" value="tab2">
         <ul class="check-area" id="tab2">
-            
-
             <li>
                 <label for="shelterMountainRadio1" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio1" name="mountain" value="B04">
+                    <input type="radio" id="shelterMountainRadio1" name="mountain2" value="B04">
                     <span>지리산</span>
                 </label>
             </li>
+            
             <li>
                 <label for="shelterMountainRadio2" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio2" name="mountain" value="B02">
+                    <input type="radio" id="shelterMountainRadio2" name="mountain2" value="B02">
                     <span>설악산</span>
                 </label>
             </li>
+            
             <li>
                 <label for="shelterMountainRadio3" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio3" name="mountain" value="B01">
+                    <input type="radio" id="shelterMountainRadio3" name="mountain2" value="B01">
                     <span>덕유산</span>
                 </label>
             </li>
             <li>
                 <label for="shelterMountainRadio4" class="radio-check">
-                    <input type="radio" id="shelterMountainRadio4" name="mountain" value="B03">
+                    <input type="radio" id="shelterMountainRadio4" name="mountain2" value="B03">
                     <span>소백산</span>
                 </label>
             </li>
         </ul>
       </form>
       
-        <ul class="radio-area row" data-template-id="shelter-shelters-template">
+     
         
-        
-        </ul>
+         <ul class="check-area" id="location1" data-template-id="camp-dept-template">
+    
+    <c:forEach var="a" items="${Location2 }" varStatus="status" >
+	<li>
+	
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfLocation2[status.index]}" >
+            <label for="camp-location1-0">${nameOfLocation2[status.index] }</label>
+        </span>
+    </li>
+	</c:forEach>
+	</ul>   
+    
     </div>
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
 
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
@@ -624,11 +643,11 @@ $('document').ready(function(){
             </div>
                         
                         <!--  생태 탐방원  -->
-                        <div class="tab-pane" id="tab3">
+	<div class="tab-pane" id="tab3">
                            
-                         <script src="assets/js/lib/handlebars.min.js"></script>
+	<script src="assets/js/lib/handlebars.min.js"></script>
 
-<script>
+	<script>
   
 
 
@@ -676,65 +695,67 @@ $('document').ready(function(){
 $('document').ready(function(){
 	
 	$("#tab3").change(function(){
-		$("#m3").submit()			
+		$("#m3").submit()	
+		event.preventDefault();
 	})
 	
 	});
 
 
 </script>
-
+<!--tab3 생태탐방원  -->
 <div class="grid-row" data-reservation-step="1">
     <div class="grid-cell">
         <h3 class="title">위치</h3>
-        <form action="MountainSelect" method="post" id="m3">
-        <ul class="check-area" id="tab3">
+        <form action="MountainSelect3" method="post" id="m3">
+         <input type="hidden" id="tap" name="type" value="tab3">
+        <ul class="check-area" id="tab3" >
                     
                         <li>
                             <label for="deptId0" class="radio-check">
-                                <input type="radio" id="deptId0" name="mountain" value="C08"><span>북한산</span>
+                                <input type="radio" id="deptId0" name="mountain3" value="C08"><span>북한산</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId1" class="radio-check">
-                                <input type="radio" id="deptId1" name="mountain" value="C06"><span>지리산</span>
+                                <input type="radio" id="deptId1" name="mountain3" value="C06"><span>지리산</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId2" class="radio-check">
-                                <input type="radio" id="deptId2" name="mountain" value="C05"><span>소백산</span>
+                                <input type="radio" id="deptId2" name="mountain3" value="C05"><span>소백산</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId3" class="radio-check">
-                                <input type="radio" id="deptId3" name="mountain" value="C04"><span>설악산</span>
+                                <input type="radio" id="deptId3" name="mountain3" value="C04"><span>설악산</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId4" class="radio-check">
-                                <input type="radio" id="deptId4" name="mountain" value="C07"><span>한려해상</span>
+                                <input type="radio" id="deptId4" name="mountain3" value="C07"><span>한려해상</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId5" class="radio-check">
-                                <input type="radio" id="deptId5" name="mountain" value="C03"><span>무등산</span>
+                                <input type="radio" id="deptId5" name="mountain3" value="C03"><span>무등산</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId6" class="radio-check">
-                                <input type="radio" id="deptId6" name="mountain" value="C01"><span>가야산</span>
+                                <input type="radio" id="deptId6" name="mountain3" value="C01"><span>가야산</span>
                             </label>
                         </li>
                     
                         <li>
                             <label for="deptId7" class="radio-check">
-                                <input type="radio" id="deptId7" name="mountain" value="C02"><span>내장산</span>
+                                <input type="radio" id="deptId7" name="mountain3" value="C02"><span>내장산</span>
                             </label>
                         </li>
                     
@@ -742,25 +763,28 @@ $('document').ready(function(){
                 
               </form>
               
-              
-        <ul class="radio-area row" data-template-id="shelter-shelters-template">
+         
+          
+     	<ul class="radio-area row" data-template-id="shelter-shelters-template">
+    <c:forEach var="a" items="${Location3 }" varStatus="status" >
+    
+	<li>
+	
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfLocation3[status.index]}" >
+            <label for="camp-location1-0">${nameOfLocation3[status.index] }</label>
+        </span>
+    </li>
+	</c:forEach>
+	   
         </ul>
+
     </div>
+    
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
-
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
+    
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
       
@@ -773,20 +797,13 @@ $('document').ready(function(){
 
 
             </div>  
-                           
-                           
-                           
-                       
-                        
-                        
+
                         <!-- 민박촌  -->
                         <div class="tab-pane" id="tab4">
   
                          <script src="assets/js/lib/handlebars.min.js"></script>
 
-<script>
-  
-
+	<script>
 
         var $shelterTab = $('#tab1');
 
@@ -834,6 +851,7 @@ $('document').ready(function(){
 	
 	$("#tab4").change(function(){
 		$("#m4").submit()
+		event.preventDefault();
 		
 	})
 	
@@ -841,17 +859,17 @@ $('document').ready(function(){
 
 
 </script>
-
+<!--tab4 민박촌  -->
 
 <div class="grid-row" data-reservation-step="1">
     <div class="grid-cell">
         <h3 class="title">위치</h3>
         
-       <form action="MointainSelect" method="post" id="m4"> 
+       <form action="MointainSelect4" method="post" id="m4"> 
        <ul class="check-area" id="tab4">
             <li>
                 <label for="rsdnMountainRdio" class="radio-check">
-                    <input type="radio" id="rsdnMountainRdio" name="rsdnMountain1" value="">
+                    <input type="radio" id="rsdnMountainRdio" name="mountain4" value="D01">
                     <span>태백산</span>
                 </label>
             </li>
@@ -861,20 +879,22 @@ $('document').ready(function(){
         <ul class="radio-area row" data-template-id="shelter-shelters-template">
         </ul>
     </div>
+          <ul class="check-area" id="location1" data-template-id="camp-dept-template">
+    
+    <c:forEach var="a" items="${Location4 }" varStatus="status" >
+	<li>
+	
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-${a }" name="Location"value="${nameOfLocation4[status.index]}" >
+            <label for="camp-location1-0">${nameOfLocation4[status.index] }</label>
+        </span>
+    </li>
+	</c:forEach>
+	</ul>   
+    
+    
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
-
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
@@ -887,7 +907,9 @@ $('document').ready(function(){
 </div>
   
 
-                    </div>
+            </div>
+           </div>
+           </div>
            </div>
        </section> 
         <section>

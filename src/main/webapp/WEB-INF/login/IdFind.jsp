@@ -1,30 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-
-<c:if test="${not empty sessionScope.id }">
-	<script>
-		location.href = 'index';
-			
-	</script>
-</c:if>
 <html>
 
 	<meta name="viewport" content="width=device-width">
 	
+<script type="text/javascript">
+var req;
 
-	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
+function IdMailSend(){
+	
+	req = new XMLHttpRequest();
+	req.onreadystatechange = printMsg;
+	req.open('post', 'IdMailSend');
+	req.send(document.getElementById('email').value);
+	
+}
+function IdCheckAuth(){
+	req = new XMLHttpRequest();
+	req.onreadystatechange = printMsg;
+	req.open('post', 'IdcheckAuth');
+	req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+	var number = document.getElementById('authNumber').value;
+	var data = {authNumber:number};
+	data = JSON.stringify(data);
+	req.send(data);
+}
 
-	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="assets/js/lib/swiper.js"></script>
-	<script src="assets/js/lib/datepicker.min.js"></script>
-	<script src="assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="assets/js/lib/toastr.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/common9b00.js?ver4"></script>
+function printMsg(){
+	var msg = document.getElementById('msg');
+	msg.innerHTML = req.responseText;
+}
 
+</script>
 
 <body>
 	<div id="wrap" class="sub">
@@ -34,53 +43,29 @@
 				
 
 <div class="page-location">
-    <span>홈</span><span>로그인</span>
+    <span>홈</span><span>아이디 찾기</span>
 </div>
 <div class="login">
-    <h3 class="title">로그인</h3>
-
-    <form action="loginproc" method="post">
-        <input type="hidden" name="loginType" value="Member"/>
+    <h3 class="title">아이디 찾기</h3>
+   
+<h3>
+	<font color="red" id="msg">${msg } </font>
+</h3><br>
+    <form method="post" action="IdFindProc">
+       
+        <div class="ipin-form">
+            <label class="hidden-text">이메일 주소</label>
+            <input type="text" class="input-text" placeholder="이메일을 입력해 주세요" title="이메일 주소" id="email" name="email">
+              <button type="button" class="btn btn-ipin" onclick="IdMailSend()">이메일인증</button>
+             <input type="text" class="input-text" placeholder="인증번호 입력" id="authNumber" name="mailnumber">
+             <button type="button" class="btn btn-ipin" onclick="IdCheckAuth()">인증번호 확인</button><br><br>
+            
+          
+        </div>
+        
         <div class="login-form">
-            <label for="id" class="hidden-text">아이디</label>
-            <input type="text" class="input-text" placeholder="아이디 입력" title="아이디" name="id" >
-            <label for="passWd" class="hidden-text">비밀번호</label>
-            <input type="password" class="input-text" placeholder="비밀번호 대,소문자 구분 9~15자로 입력" title="비밀번호"name="pw" >
-            <input type="submit" class="btn btn-login" value="로그인">
-              
-          	<a href="https://kauth.kakao.com/oauth/authorize?client_id=e5fa46a8c18f4ae8b3ac752e87f63927&redirect_uri=http://localhost/KakaoLogin&response_type=code" class="btn-kakao"><img  src="assets/img/kakao icon.png" width="420px"></a>
-        </div>
-        <br>
-        <br>
-            <ul class="login-util">
-            <li><a href="IdFind" >아이디 찾기</a></li>
-            <li><a href="PwFind" >비밀번호 찾기</a></li>
-        </ul>
-    </form>
-
-    <form id="nonLoginForm" name="nonLoginForm" method="post" action="" autocomplete="off">
-        <input type="hidden" name="loginType" id="nonLoginType" value=""/>
-        <input type="hidden" name="name" id="name" value=""/>
-        <input type="hidden" name="di" id="di" value=""/>
-        <input type="hidden" name="ci" id="ci" value=""/>
-        <input type="hidden" name="birthday" id="birthday" value=""/>
-        <input type="hidden" name="gender" id="gender" value=""/>
-        <input type="hidden" name="mobileNo" id="mobileNo" value=""/>
-        <div class="login-simle-wrap">
-           
-           
-        </div>
-        <div class="ipin-form" style="display: none;">
-            <label for="txtMail" class="hidden-text">이메일 주소</label>
-            <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="txtMail" name="txtMail">
-            <label for="txtMobile" class="hidden-text">휴대폰 번호</label>
-            <input type="text" class="input-text" placeholder="&#34;-&#34; 없이 휴대전화 번호 입력" title="휴대폰 번호" id="txtMobile" name="txtMobile">
-            <button type="button" class="btn btn-ipin" onclick="funcArray.nonLogin();">실명인증</button>
-        </div>
-        <div class="board-bottom">
-            <div class="center">
-                <a href="register" class="btn btn-join">회원가입</a>
-            </div>
+            <button type="submit" class="btn btn-login" >아이디 찾기</button>
+            <button type="button" class="btn btn-login" onclick="location.href='index'" > 취소</button>
         </div>
     </form>
 </div>

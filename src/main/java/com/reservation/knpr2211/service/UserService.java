@@ -50,6 +50,37 @@ public class UserService {
 
 		return "회원가입 성공";
 	}
+	
+	// 회원가입
+	public String kakaoRegister(String id, String pw, String name, String email, String mobile,
+			String member) {
+		if (id == null || id.isEmpty())
+			return "아이디를 입력하세요.";
+
+		if (pw == null || pw.isEmpty())
+			return "비밀번호를 입력하세요.";
+		
+	
+		if (name == null || name.isEmpty())
+			return "이름을 입력하세요.";
+
+		if (email == null || email.isEmpty())
+			return "이메일을 입력하세요.";
+		
+		if (mobile == null || mobile.isEmpty())
+			return "연락처를 입력하세요.";
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		String securePw = encoder.encode(pw);
+		
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
+		userRepository.save(entity);
+
+		return "회원가입 성공";
+	}
+	
+	
 
 	// 회원정보 수정 
 		public String UserModify(String id, String pw, String pwcon, String name, String email, String mobile,
@@ -116,5 +147,24 @@ public class UserService {
 		
 
 	}
+	
+	public String FindById(String email) {
+		
+	String id = userRepository.findByEmail(email).getId();
+		
+		return id;
+	}
+	
+	public String FindByEmail(String id) {
+	
+		String Email = userRepository.findByid(id).getEmail();
+		session.setAttribute("FindName", userRepository.findByid(id).getName());
+		session.setAttribute("FindId", userRepository.findByid(id).getId());
+		session.setAttribute("FindEmail", userRepository.findByid(id).getEmail());
+		session.setAttribute("FindMobile", userRepository.findByid(id).getMobile());
+		return Email;
+	}
+	
+	
 	
 }

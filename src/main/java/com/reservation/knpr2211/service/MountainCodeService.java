@@ -84,6 +84,7 @@ public class MountainCodeService {
 	public String category3(String parkId) {
 		if(parkId.length()==3) {
 			parkId = parkId+"01";
+		System.out.println(parkId);
 		}
 		String category = parkId.substring(0,1);
 		String category1 = parkId.substring(1,3);
