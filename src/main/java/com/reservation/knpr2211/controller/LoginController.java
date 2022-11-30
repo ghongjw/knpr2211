@@ -63,8 +63,10 @@ public class LoginController {
 		System.out.println("회원가입 성공");
 		return "redirect:login";
 		}
+		
 		System.out.println("회원가입 실패");
-		return "redirect:register";
+		session.setAttribute("msg", msg);
+		return "login/register";
 	}
 	//회원가입 버튼 
 		@RequestMapping ("UserModifyProc")
@@ -223,6 +225,14 @@ public class LoginController {
 		
 		session.setAttribute("FindPwId", id);
 		
+		String msg = userservice.IdFind(id);
+		
+		if(msg=="등록되지 않은 사용자입니다." ||msg=="아이디를 입력해주세요.") {
+		session.setAttribute("msg", msg);
+		return"redirect:PwFind";
+		}
+		
+		session.setAttribute("msg", "");
 		return "redirect:PwFind2";
 		
 		
@@ -231,7 +241,7 @@ public class LoginController {
 	public String PwChange() {
 		
 	
-			
+	
 	return  "login/PwChange";
 	}
 	
@@ -257,6 +267,7 @@ public class LoginController {
 	}
 		
 	else
+		session.setAttribute("msg", "");
 		return "redirect:PwChange";
 	}
 	
@@ -284,7 +295,7 @@ public class LoginController {
 		
 		userservice.UserModify(id, pw ,PwCon, name, email, mobile, member);
 		
-		
+		session.setAttribute("msg", "");
 		return "redirect:login";
 	}
 }

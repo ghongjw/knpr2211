@@ -54,7 +54,7 @@ function printMsg(){
     <form method="post" action="IdFindProc">
        
         <div class="ipin-form">
-            <label class="hidden-text">이메일 주소</label>
+            <label >가입 시 입력한 이메일을 입력해 주세요.</label><br><br>
             <input type="text" class="input-text" placeholder="이메일을 입력해 주세요" title="이메일 주소" id="email" name="email">
               <button type="button" class="btn btn-ipin" onclick="IdMailSend()">이메일인증</button>
              <input type="text" class="input-text" placeholder="인증번호 입력" id="authNumber" name="mailnumber">

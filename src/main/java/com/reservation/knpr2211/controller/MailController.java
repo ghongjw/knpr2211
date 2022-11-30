@@ -23,20 +23,27 @@ public class MailController {
 	@Autowired private HttpSession session;
 	@Autowired private MailService MailService;
 	
+	
 	@ResponseBody
 	@PostMapping(value = "MailSend", produces = "application/json; charset=UTF-8")
 	public String MailSend(@RequestBody(required = false) String email) {
-		if(email != null) {
-			Random random = new Random();
+		
+		if(email == null) {
+			
+			return "이메일을 입력해주세요.";
+		}
+		else if(userService.Emailcheck(email)=="중복된 이메일 입니다.") {
+			
+			return "중복된 이메일 입니다.";
+		}
+		
+		else {Random random = new Random();
 			String number = String.format("%06d", random.nextInt(1000000));
 			System.out.println("인증번호 : " +number);
 			MailService.MailSend(email, "[인증번호를 발송했습니다.]","인증번호 :" + number + "를 입력해 주세요.");
 			session.setAttribute("authNumber", number);
-			return "인증번호 전송";
-		}
 		
-		
-		return "이메일을 입력하세요.";
+		return "인증번호 전송";}
 	}
 	
 	@ResponseBody
@@ -54,9 +61,9 @@ public class MailController {
 			return "인증 번호를 입력하세요.";
 		}
 		
-		session.setAttribute("authStatus", false);
+		session.setAttribute("REauthStatus", false);
 		if(sessionAuthNumber.equals(clientAuthNumber)) {
-			session.setAttribute("authStatus", true);
+			session.setAttribute("REauthStatus", true);
 			return "인증 성공";
 		}
 		
@@ -104,7 +111,7 @@ public class MailController {
 		
 		return "인증 실패";
 	}
-	@Autowired UserService userService;
+	@Autowired private UserService userService;
 	@ResponseBody
 	@PostMapping(value = "PwFindMailSend", produces = "application/json; charset=UTF-8")
 	public String PwFindMailSend(@RequestBody(required = false) String email) {
