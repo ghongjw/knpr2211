@@ -1,0 +1,26 @@
+@charset "EUC-KR";
+
+/* section calendar */
+.operationCalendar {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.calendarTitle{
+	font-size: 20px; font-weight: bold;
+}
+.operationCalendar td{
+	color: #fff;
+	padding: 10px 5px;
+}
+.calendar-day{
+	color: #fff;
+} 
+.today{
+	color: #000;
+	background-color: #8BBDFF;
+	border-radius: 5px;
+}
+.not-active{
+	color: #747474;
+}

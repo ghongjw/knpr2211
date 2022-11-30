@@ -6,12 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.mail.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,15 +145,53 @@ public class ReservationService {
 		result[1] = mcs.category2(category);
 		return result;
 	}
+	
+	// 야영장 객실종류 출력 (코드입력 'A01')
+	public List<PlaceDTO> selectCamRoomType(String parkId) {
+		// (출력 : A0101, A0102, A0102)
+		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
+		// System.out.println("리스트 출력: " + listDate);
+		for (PlaceDTO list : listDate) {
+			String result = mcs.category1(list.getCategory1());
+			list.setNameCategory1(result);
+			result = mcs.category2(list.getCategory2());
+			list.setNameCategory2(result);
+			result = mcs.category3(list.getCategory3());
+			list.setNameCategory3(result);
+			result = mcs.category4(list.getCategory4());
+			list.setCategory4(result);
+		}
+		return listDate;
+	}
+
+	// 대피소 객실종류 출력 (코드입력 'B01')
+	public List<PlaceDTO> selectSherRoomType(String parkId) {
+		// (출력 : B0101, B0102, B0103)
+		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
+		// System.out.println("리스트 출력: " + listDate);
+		for (PlaceDTO list : listDate) {
+			String result = mcs.category1(list.getCategory1());
+			list.setNameCategory1(result);
+			result = mcs.category2(list.getCategory2());
+			list.setNameCategory2(result);
+			result = mcs.category3(list.getCategory3());
+			list.setNameCategory3(result);
+			result = mcs.category4(list.getCategory4());
+			list.setCategory4(result);
+		}
+		return listDate;
+	}
 
 	// 생태탐방원 객실종류 출력 (코드입력 'A08')
 	public List<PlaceDTO> selectEcoRoomType(String parkId) {
 		// (출력 : C0801, C0802, C0803)
 		List<PlaceDTO> listDate = pr.findAllByCategory2(parkId);
-		//System.out.println("리스트 출력: " + listDate);
+		// System.out.println("리스트 출력: " + listDate);
 		for (PlaceDTO list : listDate) {
 			String result = mcs.category1(list.getCategory1());
 			list.setNameCategory1(result);
+			result = mcs.category2(list.getCategory2());
+			list.setNameCategory2(result);
 			result = mcs.category3(list.getCategory3());
 			list.setNameCategory3(result);
 		}
@@ -170,6 +205,8 @@ public class ReservationService {
 		for (PlaceDTO list : listDate) {
 			String result = mcs.category1(list.getCategory1());
 			list.setNameCategory1(result);
+			result = mcs.category2(list.getCategory2());
+			list.setNameCategory2(result);
 			result = mcs.category3(list.getCategory3());
 			result = transRoomType(result);
 			list.setNameCategory3(result);
@@ -216,7 +253,7 @@ public class ReservationService {
 		String startDate = keyData.get("startDate");
 		String endDate = keyData.get("endDate");
 		Integer diff = Integer.valueOf(keyData.get("diff"));
-		//System.out.println("선택 코드: "+parkId);
+		// System.out.println("선택 코드: "+parkId);
 
 		// 예약테이블에서 동일한 날짜와 동일한 방에 예약된 갯수알아내기
 		// 1.입실일 기준으로 -2일 구하기(입실일 포함 예약된 날짜를 구하기 위함), 퇴실일 전날 날짜 구하기
@@ -238,11 +275,12 @@ public class ReservationService {
 		// System.out.println(BetweenStart);
 
 		List<Reservation> SelectDatas = rr.findAllByStartDayBetween(betweenStart, betweenEnd);
-		//System.out.println("선택한 날짜 출력 =====");
+		// System.out.println("선택한 날짜 출력 =====");
 		// 2.동일한 장소 코드 예약데이터 찾기
 		List<Reservation> datas = new ArrayList<>();
 		for (Reservation data : SelectDatas) {
-			//System.out.println("코드: "+data.getCategory3()+", 관리번호: "+data.getSeq()+", 시작일: "+data.getStartDay());
+			// System.out.println("코드: "+data.getCategory3()+", 관리번호: "+data.getSeq()+",
+			// 시작일: "+data.getStartDay());
 			if (data.getCategory3().equals(parkId)) {
 				datas.add(data);
 			}
@@ -256,31 +294,32 @@ public class ReservationService {
 		// 3. place테이블에서 해당코드로 roomMax 알아내기
 		ArrayList<Place> list = pr.findByCategory3(parkId);
 		Integer roomMax = list.get(0).getRoomMax(); // 해당 코드 방의 갯수
-		System.out.println("장소 찾아내기>> 코드: "+list.get(0).getCategory3()+", 룸 예약 가능 수: "+roomMax);
-		
+		System.out.println("장소 찾아내기>> 코드: " + list.get(0).getCategory3() + ", 룸 예약 가능 수: " + roomMax);
+
 		ArrayList<Integer> arrList = new ArrayList<Integer>();
-		//System.out.println("룸 비교 리스트(비어있는 상태) : "+arrList);
+		// System.out.println("룸 비교 리스트(비어있는 상태) : "+arrList);
 		for (int i = 0; i < diff; i++) {
 			// 입실일 timeStamp형식 변환
 			Timestamp timeStampStart = new Timestamp(date1.getTime());
 			cal.setTime(timeStampStart);
 			cal.add(Calendar.DATE, i);
 			timeStampStart.setTime(cal.getTime().getTime());
-			System.out.println("(선택한 사이날짜)실험군 날짜들 >> "+timeStampStart);
-			
+			System.out.println("(선택한 사이날짜)실험군 날짜들 >> " + timeStampStart);
+
 			for (Reservation data : datas) {
 				// 예약된 데이터 한개씩 동일한 날짜 예약이 있는지 확인
 				Integer count = roomMax;
 				int num = Integer.valueOf(data.getAllDay());
-				System.out.println("대조근 관리번호 : "+data.getSeq()+", 박일수 : "+num+", 시작-끝: "+data.getStartDay()+", "+data.getEndDay());
+				System.out.println("대조근 관리번호 : " + data.getSeq() + ", 박일수 : " + num + ", 시작-끝: " + data.getStartDay()
+						+ ", " + data.getEndDay());
 				for (int j = 0; j < num; j++) {
 					Timestamp timeStampCompare = data.getStartDay();
 					Calendar calCompare = Calendar.getInstance();
 					calCompare.setTime(timeStampCompare);
 					calCompare.add(Calendar.DATE, j);
 					timeStampCompare.setTime(calCompare.getTime().getTime());
-					System.out.println("대조군 날짜들 >> "+timeStampCompare);
-					
+					System.out.println("대조군 날짜들 >> " + timeStampCompare);
+
 					if (timeStampStart.equals(timeStampCompare)) {
 						System.out.println("동일");
 						count--;
@@ -291,48 +330,48 @@ public class ReservationService {
 		}
 		System.out.println(arrList);
 		int min = arrList.get(0);
-		for(int i = 0; i<arrList.size(); i++) {
+		for (int i = 0; i < arrList.size(); i++) {
 			int num = arrList.get(i);
-			if(min > num)
+			if (min > num)
 				min = num;
 		}
-		//System.out.println("룸 비교 리스트 : "+arrList+", 최솟값: "+min);
+		// System.out.println("룸 비교 리스트 : "+arrList+", 최솟값: "+min);
 		return min;
 	}
-	
+
 	// 예약하기
 	public void reservation(ReservationDTO resDto, String startDt, String endDt) throws Exception {
 		Reservation re = new Reservation();
-		
-		//관리코드
+
+		// 관리코드
 		PlaceDTO place = selectCategory3(resDto.getCategory3());
 		re.setCategory1(place.getCategory1());
 		re.setCategory2(place.getCategory2());
 		re.setCategory3(place.getCategory3());
-		
-		//이용시간
+
+		// 이용시간
 		String betweenDt = resDto.getAllDay();
-		if(betweenDt.equals("1박 2일")){
+		if (betweenDt.equals("1박 2일")) {
 			betweenDt = "1";
-		}else if(betweenDt.equals("2박 3일")){
+		} else if (betweenDt.equals("2박 3일")) {
 			betweenDt = "2";
-		}else if(betweenDt.equals("3박 4일")){
+		} else if (betweenDt.equals("3박 4일")) {
 			betweenDt = "3";
 		}
-		
-		//주문시간, 입실일, 퇴시일 자료형변환
+
+		// 주문시간, 입실일, 퇴시일 자료형변환
 		Date now = new Date();
 		Timestamp orderTime = new Timestamp(now.getTime());
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = (Date) sdf.parse(startDt);
 		Date date2 = (Date) sdf.parse(endDt);
 		Timestamp timeStampStart = new Timestamp(date1.getTime());
 		Timestamp timeStampEnd = new Timestamp(date2.getTime());
-		
+
 		re.setOrderTime(orderTime);
 		re.setStartDay(timeStampStart);
-		re.setEndDay(timeStampEnd);	
+		re.setEndDay(timeStampEnd);
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
 		re.setPrice(resDto.getPrice());

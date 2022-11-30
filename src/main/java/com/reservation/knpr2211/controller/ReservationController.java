@@ -31,7 +31,7 @@ public class ReservationController {
 	public String reservation() {
 		return "reservation/campsite";
 	}
-
+	// (시작)작성자: 김수정 =======================================================
 	// 생태탐방원 예약
 	@GetMapping(value = "ecoReservation")
 	public String GetEcoReservation(String category, Model model) {
@@ -116,7 +116,7 @@ public class ReservationController {
 		rs.reservation(resDto, startDt, endDt);
 		return "redirect:/cottageReservation";
 	}
-	
+	// (끝)작성자: 김수정 =======================================================
 
 	// 야영장 예약페이지 열림
 	@RequestMapping("campsite")

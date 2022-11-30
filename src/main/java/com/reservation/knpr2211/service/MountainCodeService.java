@@ -157,7 +157,7 @@ public class MountainCodeService {
 		case "B02": list.add("수렴동대피소");  list.add("중청대피소"); list.add("양폭대피소");  list.add("소청대피소");  list.add("희운각대피소"); 
 			break;
 		
-		case "B03": list.add("제2연화봉대피소");
+		case "B03": list.add("제2연화봉대피소"); list.add("제2연화봉대피소");
 			break;
 		
 		case "B04": list.add("벽소령"); list.add("세석"); list.add("장터목"); 
@@ -349,5 +349,24 @@ public class MountainCodeService {
 		else if(category.equals("B0407")) {
 			list.add(" ");}
 		return list.get(intcat);
+	}
+	
+	public ArrayList<String> category2List(String parkId){
+		ArrayList<String> park = new ArrayList<String>();
+		
+		if(parkId.equals("A")) {
+		park.add("가야산"); park.add("계룡산"); park.add("내장산"); park.add("다도해해상"); park.add("덕유산"); 
+		park.add("무등산"); park.add("변산반도"); park.add("설악산"); park.add("소백산"); park.add("오대산"); 
+		park.add("월악산"); park.add("월출산"); park.add("주왕산"); park.add("지리산"); park.add("치악산");	 
+		park.add("태백산"); park.add("태안해안"); park.add("한려해상");
+		}else if(parkId.equals("B")) {
+			park.add("덕유산"); park.add("설악산"); park.add("소백산"); park.add("지리산");
+		}else if(parkId.equals("C")) {
+			park.add("가야산"); park.add("내장산"); park.add("무등산"); park.add("설악산"); park.add("소백산"); park.add("지리산");
+			park.add("한려해상"); park.add("북한산");
+		}else if(parkId.equals("D")) {
+			park.add("태백산");
+		}
+		return park;
 	}
 }
