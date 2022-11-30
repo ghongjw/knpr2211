@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.repository.PlaceRepository;
@@ -163,6 +164,13 @@ public class IndexService implements IIndexService {
 	
 	 return placeDtos;
 	 
+	}
+
+
+	@Override
+	public ArrayList<PlaceDTO> selectPlace(Model model, String parkId, String parkDetail) {
+	
+		return null;
 	}
 	
 }

@@ -22,6 +22,7 @@ public class IndexController {
 	@RequestMapping("MountainSelect")
 	public String MountainSelect(String mountain1,String type, Model model) {
 		
+
 		System.out.println("선택된 산 : "+mountain1);
 		System.out.println("탭번호 : " + type);
 		model.addAttribute(mountain1, Iservice.selectMountain1(mountain1));	
@@ -47,7 +48,7 @@ public class IndexController {
 		System.out.println("탭번호 : " + type);
 		model.addAttribute("type", type);
 		model.addAttribute(mountain3, Iservice.selectMountain3(mountain3));	
-		
+
 		return "redirect:index1";
 	}
 	

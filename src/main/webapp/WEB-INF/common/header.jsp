@@ -3,17 +3,22 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <head>
    <meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="assets/style/commonb07b.css?ver1">
-	<link rel="stylesheet" href="assets/style/commonb07b.css">
-	<script src="assets/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="assets/js/lib/swiper.js"></script>
-	<script src="assets/js/lib/datepicker.min.js"></script>
-	<script src="assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="assets/js/lib/toastr.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/common9b00.js?ver4"></script>
+
+      
+
+<%--    <c:url var="root" value="/" /> --%>
+	<link rel="stylesheet" href="${root }/assets/style/commonb07b.css?ver1">
+	<link rel="stylesheet" href="${root }/assets/style/commonb07b.css">
+	<script src="${root }/assets/js/lib/jquery-1.12.4.min.js"></script>
+	<script src="${root }/assets/js/lib/swiper.js"></script>
+	<script src="${root }/assets/js/lib/datepicker.min.js"></script>
+	<script src="${root }/assets/js/lib/jquery.fs.zoomer.min.js"></script>
+	<script src="${root }/assets/js/lib/jquery.rwdImageMaps.min.js"></script>
+	<script src="${root }/assets/js/lib/toastr.min.js"></script>
+	<script src="${root }/assets/js/scripts.js"></script>
+	<script src="${root }/assets/js/common9b00.js?ver4"></script>
     
+
     <title>knpr2211</title>
     </head>
 <header id="header">
@@ -42,13 +47,13 @@
                     <a href="javascript:void(0);" class="depth1">예약하기</a>
                     <ul class="depth2">
                         
-                            <li><a href="">야영장</a></li>
+                            <li><a href="campsite">야영장</a></li>
                         
-                            <li><a href="">대피소</a></li>
+                            <li><a href="shelter">대피소</a></li>
                         
-                            <li><a href="">생태탐방원</a></li>
+                            <li><a href="ecoReservation">생태탐방원</a></li>
                         
-                            <li><a href="">민박촌</a></li>
+                            <li><a href="cottageReservation">민박촌</a></li>
                         
                     </ul>
                 </li>
@@ -57,11 +62,11 @@
                     <a href="javascript:void(0);" class="depth1">알림마당</a>
                     <ul class="depth2">
                         
-                            <li><a href="notice">공지사항</a></li>
+                            <li><a href="noticeProc">공지사항</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         
-                            <li><a href="board">묻고 답하기</a></li>
+                            <li><a href="list">묻고 답하기</a></li>
                         
                             <li><a href="policy">예약·환불정책</a></li>
                         
@@ -72,11 +77,11 @@
                     <a href="javascript:void(0);" class="depth1">마이페이지</a>
                     <ul class="depth2">
                         
-                            <li><a href="">나의 예약목록</a></li>
+                            <li><a href="reservedList?reserve=future&page=0&size=10">나의 예약목록</a></li>
                         
                             <li><a href="">알림메시지</a></li>
                         
-                            <li><a href="">즐겨찾기</a></li>
+                            <li><a href="favoriteList">즐겨찾기</a></li>
                         
                             <li><a href="">미환불금 조회</a></li>
                         
@@ -174,10 +179,10 @@
                             
                                 <li><a href="">대피소</a></li>
                             
-                                <li><a href="" >생태탐방원</a></li>
-                            
-                                <li><a href="">민박촌</a></li>
-                            
+                                <li><a href="ecoReservation">생태탐방원</a></li>
+                        
+                           		<li><a href="cottageReservation">민박촌</a></li>
+                         	   
                         </ul>
                     </li>
                 
@@ -185,13 +190,13 @@
                         <a href="javascript:void(0);" class="depth1">알림마당</a>
                         <ul class="depth2">
                             
-                                <li><a href=""  >공지사항</a></li>
-                            
-                                <li><a href="">자주하는 질문</a></li>
-                            
-                                <li><a href="" >묻고 답하기</a></li>
-                            
-                                <li><a href="" >예약·환불정책</a></li>
+                            <li><a href="noticeProc">공지사항</a></li>
+                        
+                            <li><a href="faq">자주하는 질문</a></li>
+                        
+                            <li><a href="list">묻고 답하기</a></li>
+                        
+                            <li><a href="policy">예약·환불정책</a></li>
                             
                         </ul>
                     </li>
@@ -200,11 +205,11 @@
                         <a href="javascript:void(0);" class="depth1">마이페이지</a>
                         <ul class="depth2">
                             
-                                <li><a href="">나의 예약목록</a></li>
+                                <li><a href="reservedList?reserve=future&page=0&size=10">나의 예약목록</a></li>
                             
                                 <li><a href="">알림메시지</a></li>
                             
-                                <li><a href="" >즐겨찾기</a></li>
+                                <li><a href="favoriteList" >즐겨찾기</a></li>
                             
                                 <li><a href="" >미환불금 조회</a></li>
                             

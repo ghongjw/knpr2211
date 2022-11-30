@@ -1,14 +1,27 @@
 package com.reservation.knpr2211.service;
 
 
+
+import javax.servlet.http.HttpSession;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+
+
+import com.reservation.knpr2211.entity.Favorite;
 
 import com.reservation.knpr2211.entity.User;
+import com.reservation.knpr2211.repository.FavoriteRepository;
 import com.reservation.knpr2211.repository.UserRepository;
 
 
@@ -17,12 +30,18 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired 
+	FavoriteRepository fr;
 	@Autowired
 	HttpSession session;
-	
+	@Autowired
+	MountainCodeService mcs;
+	 
+
 	// 회원가입
 	public String register(String id, String pw, String pwcon, String name, String email, String mobile,
 			String member) {
+
 	
 
 		boolean resultPw = pw.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
@@ -52,10 +71,10 @@ public class UserService {
 			return"휴대폰 형식에 맞춰주시기 바랍니다.";
 		}
 		
-		if (id == null || id.isEmpty()) {
-			
-			
-			
+
+		
+		if (id == null || id.isEmpty())
+
 			return "아이디를 입력하세요.";
 		}
 			
@@ -115,7 +134,7 @@ public class UserService {
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";
@@ -185,22 +204,42 @@ public class UserService {
 	
 	// 로그인
 	public String login(String id, String pw) {
-
-		if (userRepository.findByid(id) == null) {
-			System.out.println("찾았다?");
-			return "아이디를 입력하세요";
+		String msg = "";
+		User user = userRepository.findByid(id);
+		if (user == null) {
+			
+			msg = "없는 계정입니다.";
+			
+			return msg;
+			
+		}if(user.getDeleted() == true) {
+			
+			msg = "삭제된 아이디 입니다";
+			
+			return msg;
 		}
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		if (encoder.matches(pw, userRepository.findByid(id ).getPw())) {
+		if (encoder.matches(pw, user.getPw())) {
 			
-			session.setAttribute("name", userRepository.findByid(id).getName());
-			session.setAttribute("id", userRepository.findByid(id).getId());
-			session.setAttribute("email", userRepository.findByid(id).getEmail());
-			session.setAttribute("mobile", userRepository.findByid(id).getMobile());
+			session.setAttribute("id", user.getId());
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("mobile", user.getMobile());
+			session.setAttribute("name", user.getName());
+			session.setAttribute("member", user);
+			if(user.getMember().equals("admin")) {
+				
+				msg = "어드민 계정 로그인 성공";
+				
+			}else if(user.getMember().equals("normal")) {
 			
-			return "로그인 성공";
+				msg = "회원 로그인 성공";
+				
+			}
+			return msg;
+			
+			
 		}
 
 		return "아이디 또는 비밀번호를 확인하세요.";
@@ -209,6 +248,7 @@ public class UserService {
 	// 아이디 중복체크
 	public String IdConfirm(String id) {
 
+
 		boolean result = id.matches("[a-z]{1}[a-z0-9_-]{5,16}");
 		
 		if(result==false) {
@@ -216,7 +256,8 @@ public class UserService {
 			return"아이디는 5~20자의 소문자,숫자,특수기호(_),(-)만 사용 가능합니다.";
 		}
 		
-		if (userRepository.findByid(id) == null) {
+
+		if (userRepository.findById(id) == null) {
 
 			return "사용가능한 아이디입니다";
 		}
@@ -225,6 +266,7 @@ public class UserService {
 		
 
 	}
+
 	//이메일 체크
 	public String Emailcheck(String email) {
 	
@@ -274,5 +316,56 @@ public class UserService {
 	}
 	
 	
+	// 아이디 중복체크
+		public String PwConfirm(String pw , String pwcon) {
+			System.out.println(pw);
+			System.out.println(pwcon);
+			if (pw.equals(pwcon))
+				return "비밀번호가 일치합니다.";
+
+			
+
+			return "비밀번호가 일치하지 않습니다.";
+		}
+		// (시작)작성자:공주원 ==============================================
+		//즐겨찾기 리스트
+		public String favoriteList(Model model) {
+			
+			if(session.getAttribute("id")==null) return "redirect:login";
+			
+			User entity = userRepository.findByid((String)session.getAttribute("id"));
+			List<Favorite> list = fr.findByFavoriteAndChecked(entity,true);
+			
+			
+			ArrayList<String> strTypes = new ArrayList<String>();
+			ArrayList<String> strFavorites= new ArrayList<String>();
+			ArrayList<String> parkDetails= new ArrayList<String>();
+			
+			for(Favorite f : list) {
+				String type = mcs.findCategory(f.getPlace().substring(0,1));
+				String cat2 = mcs.findCategory(f.getPlace().substring(0,3));
+				String cat3 = "";
+				String parkDetail = f.getPlace();
+				if(f.getPlace().substring(0,1).equals("C")) {
+					cat3 = cat2+"  "+type;
+				}
+				else { cat3 = "[ "+cat2+" ]  "+mcs.findCategory(f.getPlace())+type; }
+				
+				strTypes.add(type);				
+				strFavorites.add(cat3);	
+				parkDetails.add(parkDetail);	
+			}
+			
+			model.addAttribute("types",strTypes);
+			model.addAttribute("favorites",strFavorites);
+			model.addAttribute("parkDetails",parkDetails);
+			return "user/favorite";
+			
+		}
+		
+		
+		// (끝)작성자:공주원 ==============================================		
+		
+
 	
 }

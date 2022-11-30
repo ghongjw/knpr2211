@@ -1,12 +1,15 @@
 package com.reservation.knpr2211.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -28,7 +31,7 @@ public class User {
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private String id;
 		//패스워드 
-		@Column(nullable = false, insertable = true, updatable = true)
+		@Column(nullable = false, insertable = true, updatable = false)
 		private String pw;
 		//이름 
 		@Column(nullable = false, insertable = true, updatable = true)
@@ -42,12 +45,19 @@ public class User {
 		//관리자,회원
 		@Column(nullable = false, insertable = true, updatable = true)
 		private String member;
+		//삭제여부
+		@Column(nullable = false, insertable = true, updatable = true)
+		//@ColumnDefault(value = "false")
+		private Boolean deleted;
 		
+		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
+		private List<Favorite> favorite = new ArrayList<Favorite>(); 
+		
+		@OneToMany(mappedBy = "user")
+		private List<Reply> replyList;
 	
-		
-		
 		@Builder
-		public User(String id, String pw, String name, String email, String mobile, String member) {
+		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted) {
 			
 			this.id = id;
 			this.pw = pw;
@@ -55,9 +65,7 @@ public class User {
 			this.email = email;
 			this.mobile = mobile;
 			this.member = member;
-			
-			
-			
+			this.deleted = deleted;
 			
 		}
 
@@ -66,4 +74,10 @@ public class User {
 	public User() {
 		
 	}
+
+
+
+	
+
+
 }

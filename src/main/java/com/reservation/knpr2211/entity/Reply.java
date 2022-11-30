@@ -1,35 +1,39 @@
 package com.reservation.knpr2211.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.CreationTimestamp;
+import javax.persistence.Id;	
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@DynamicInsert
-@DynamicUpdate
-@Entity
-@Table(name="reply")
+@Data
+@Entity(name = "reply")
 public class Reply {
-	
-	@Id
-	private int rno;
-	
-	private int bno;
-	
-	private String content;
-	
-	private Date createDate;
-	
-	public Reply() {
-		
-	}
-}
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int replyId;
+
+    @Column(nullable = false, length = 120)
+    String content;
+
+    @ManyToOne
+    @JoinColumn(name="bno")
+    private Board board;
+
+    @ManyToOne
+    @JoinColumn(name="id")
+    private User user;
+
+    @CreationTimestamp
+    private Timestamp createDate;
+
+};
