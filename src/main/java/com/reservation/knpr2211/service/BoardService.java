@@ -193,6 +193,7 @@ public class BoardService {
 					
 				
 					model.addAttribute("boardDto", boardDto);
+					
 					//수정을 위해 찍어봄
 					System.out.println(boardDto.getBno());
 					return "board/detail";

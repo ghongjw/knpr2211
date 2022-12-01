@@ -84,8 +84,8 @@ public class BoardController {
 	//수정
 	@GetMapping(value="/post/edit/{no}")
 	public String edit(@PathVariable("no") Long bno, Model model) {
-//		BoardDto boardDto = boardService.getPost(bno,model);
-//		model.addAttribute("boardDto", boardDto);
+		String board = boardService.getPost(bno,model);
+		
 		return "board/update";
 	}
 	@PutMapping("/post/edit/{no}")
