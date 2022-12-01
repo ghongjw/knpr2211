@@ -1,5 +1,8 @@
 package com.reservation.knpr2211.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +51,8 @@ public class BoardController {
 		return boardService.getMember(model);
 	}
 	@PostMapping("post")
-	public String write(String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state) {
-		return boardService.savePosts(writer, category1, type, title, content, lock_yn,state);
+	public String write(String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state, HttpServletResponse response) throws IOException {
+		return boardService.savePosts(writer, category1, type, title, content, lock_yn,state, response);
 	}
 	//상세페이지
 	@GetMapping("boardDetail")

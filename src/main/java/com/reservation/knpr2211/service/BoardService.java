@@ -1,8 +1,11 @@
 package com.reservation.knpr2211.service;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +70,7 @@ public class BoardService {
 	
 	
 	public String savePosts(String writer, String category1, String type, String title, String content, boolean lock_yn,
-			boolean state) {
+			boolean state, HttpServletResponse response) throws IOException {
 		
 //		String sessionBno = (String)session.getAttribute("bno");
 //		if (sessionBno == null) {
@@ -78,6 +81,20 @@ public class BoardService {
 //		
 //		model.addAttribute("board", board);
 //		System.out.println(board);
+		if(title==null || title.isEmpty()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('제목은 필수사항입 니다');</script>");
+			out.flush();
+			return "board/write";
+		}
+		if(content==null || content.isEmpty()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('내용은 필수사항입 니다');</script>");
+			out.flush();
+			return "board/write";
+		}
 		Board board1 = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
 		boardRepository.save(board1);
 		
