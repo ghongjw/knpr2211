@@ -10,7 +10,7 @@ import com.reservation.knpr2211.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
 	//검색
-	List<Board> findByTitleLike(String keyword);
+	List<Board> findByTitleContaining(String keyword);
 
 	List<Board> findByCategory1(String category1);
 

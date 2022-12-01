@@ -46,10 +46,11 @@ public class BoardService {
 		public String searchPosts(Model model, String category1, String select, String keyword, RedirectAttributes ra) {
 			
 			List<Board> boards = new ArrayList<Board>(); 
-			
-			if(keyword==null) {
+			System.out.println("category1 : "+category1+" select : "+select+" keyword : "+keyword);
+			if(keyword==null||keyword.isEmpty()) {
 				if(!category1.equals("all")) {
 					boards = boardRepository.findByCategory1(category1);
+					System.out.println(">>>>>>>select해봅시다>>>>>>>>");
 				}else {
 					boards = boardRepository.findAll();
 				}
@@ -67,7 +68,7 @@ public class BoardService {
 					}
 				}else {
 					if(select.equals("title")) {
-						boards = boardRepository.findByTitleLike(keyword);
+						boards = boardRepository.findByTitleContaining(keyword);
 						}else if(select.equals("content")) {
 						boards = boardRepository.findByContentContaining(keyword);
 
@@ -77,11 +78,10 @@ public class BoardService {
 						}
 				}
 			}
+			System.out.println("%%%%"+boards);
+			model.addAttribute("boardList", boards);
 			
-			
-			ra.addAttribute("boardList", boards);
-			
-	 		return "redirect:list";
+	 		return "redirect:/list";
 		}
 		
 		

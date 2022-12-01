@@ -35,9 +35,17 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	@Query(nativeQuery=true, value = "select distinct category3 from place where category2 = ?1")
 	ArrayList<String> findDistintCategory3(String category2);
 
+	@Query(nativeQuery=true, value = "select distinct category4 from place where category3 = ?1")
+	ArrayList<String> findDistintCategory4(String category3);
+	
 	@Query(nativeQuery=true, value = "select * from place where category2 like CONCAT('%',:category2,'%')")
 	ArrayList<Place> find(@Param("category2") String category2);
 	
 	List<PlaceDTO> findAllByCategory2(String category2);
+
+	@Query(nativeQuery=true, value = "select distinct room from place where category4 = ?1")
+	ArrayList<String> findDistintRoom(String category4);
+
+
 	
 }

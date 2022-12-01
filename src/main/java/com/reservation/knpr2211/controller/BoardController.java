@@ -90,7 +90,7 @@ public class BoardController {
 		return "redirect:/list";
 	}
 	//검색(구분은 아직 못함)
-	@PostMapping("boardSearch")
+	@PostMapping("list")
 	public String search(String category1, String select, String keyword, Model model,RedirectAttributes ra) {
 		
 		

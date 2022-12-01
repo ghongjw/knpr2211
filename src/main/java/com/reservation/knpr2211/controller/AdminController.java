@@ -81,15 +81,29 @@ public class AdminController {
 	//관리자 예약정보(회원예약 막기 처음페이지)
 	@RequestMapping("adminOperation")
 	public String adminOreration(Model model) {
+		
 		return "admin/adminOperation";
 	}
-	
+	//예약설정 카테고리2
 	@ResponseBody
 	@RequestMapping(value = "findCategory2", produces ="text/html; charset=UTF-8;")
 	public String findCategory2(@RequestBody String category1) {
-		aos.findCategory2(category1);
-		return "";
+		
+		return aos.findCategory2(category1);
 	}
+	@ResponseBody
+	@RequestMapping(value = "findCategory3", produces ="text/html; charset=UTF-8;")
+	public String findCategory3(@RequestBody String category2) {
+		
+		return aos.findCategory3(category2);
+	}
+	@ResponseBody
+	@RequestMapping(value = "findCategory4", produces ="text/html; charset=UTF-8;")
+	public String findCategory4(@RequestBody String category3) {
+		
+		return aos.findCategory4(category3);
+	}
+	
 	
 	// (끝)작성자:공주원 ==============================================
 
