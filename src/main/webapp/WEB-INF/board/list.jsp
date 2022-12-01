@@ -54,7 +54,8 @@ let pageNum = function(num){
 			<!-- 조회 -->
 			<form id="boardSearch" method="POST">
 				 <div class="search-area">
-            <input type="hidden" name="pageNo" id="pageNo" value="1">
+            <input type="hidden" name="writer" id="id" value="${member.id }">
+            <input type="hidden" name="writer" id="bno" value="${boardDto.bno }">
             <span class="select">
                 <select id="national-park1" name="category1">
                     <option value="all">국립공원 전체</option>
@@ -192,9 +193,29 @@ let pageNum = function(num){
 	            			<td>${board.category1}</td>
 	            			<td>${board.type}</td>
 	            			<td><i class="icon-lock"></i><a href="/boardDetail?bno=${board.bno}">${board.title}</a></td> 
+	            			
+	            			<c:choose>
+	            			<c:when test="${member.id == board.writer || member.member == 'admin'}"> 
 	            			<td>${board.writer}</td>
+	            			</c:when>
+	            			<c:otherwise>
+	            			<td>비밀입니다</td>
+	            			</c:otherwise>
+	            			</c:choose>
+	            			<%-- <td>${board.writer}</td> --%>
+	            			
 	            			<td>${board.createDate}</td>
-	            			<td>${board.state}</td>
+	            			<td>
+	            			<c:choose>
+	            				<c:when test="${board.state == '0' }">
+	            					<div style="color: red">접수</div>
+	            				</c:when>
+	            				<c:otherwise>
+	            					<div style="color: green">처리완료</div>
+	            				</c:otherwise>
+	            			</c:choose>
+	            			</td>
+	            			<%-- <td>${board.state}</td> --%>
 						</tr>
 	            	</c:forEach>  
 	            </tbody>

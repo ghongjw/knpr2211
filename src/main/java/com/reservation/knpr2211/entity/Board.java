@@ -3,21 +3,16 @@ package com.reservation.knpr2211.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -41,7 +36,7 @@ public class Board extends TimeEntity{
 	@Id
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "POST_SEQ_GENERATOR")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	private Long bno;
 	
 	@Column(nullable = false)
@@ -67,6 +62,8 @@ public class Board extends TimeEntity{
 	
 	@OneToMany(mappedBy = "board")
 	private List<Reply> reply;
+
+	
 	
 //	@OrderBy("id desc")
 //	@JsonIgnoreProperties({"board"})
@@ -85,5 +82,7 @@ public class Board extends TimeEntity{
 		this.lock_yn = lock_yn;
 		this.state = state;
 	}
+
+
 	
 }

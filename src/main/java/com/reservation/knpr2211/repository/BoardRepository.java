@@ -3,7 +3,6 @@ package com.reservation.knpr2211.repository;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,9 +27,19 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 
 	@Query(nativeQuery=true, value = "select * from board where title like CONCAT('%',:title,'%') or content like CONCAT('%',:content,'%')")
 	Page<Board> findBykey(@Param("title")String title, @Param("content")String content, PageRequest pageRequest);
-
-//	Board findAll(Sort by, PageRequest pageRequest);
+	//페이징
+	//	Board findAll(Sort by, PageRequest pageRequest);
+	//List<Board> findAllByOrderByCreatedAtDesc();
 
 	
 
+	
+
+	
+
+	
+
+	
+
+	
 }

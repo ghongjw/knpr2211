@@ -19,10 +19,12 @@
 			<div class="notification">
     <h3 class="title">묻고답하기</h3>
     <!-- update -->
+    <%--  <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data"> --%>
     <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="_method" value="put"/>
-        <input type="hidden" name="bno" value="${boardDto.bno}"/>
-        <input type="hidden" name="writer" id="id" value="${member.id }">
+        <input type="hidden" name="bno" id="bno" value="${boardDto.bno}">
+        <div>제발 : ${boards.bno} ${board.bno} ${boardList.bno} ${boardDtos.bno}</div>
+        <input type="text" name="writer" id="id" value="${member.id }">
         <div class="board-area write">
             <table class="table">
                 <colgroup>

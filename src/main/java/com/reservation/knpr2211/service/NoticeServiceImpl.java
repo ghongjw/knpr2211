@@ -116,6 +116,8 @@ public class NoticeServiceImpl implements INoticeService{
 			return false;
 		return true;
 	}
+	
+	
 
 	@Autowired
 	HttpSession session;

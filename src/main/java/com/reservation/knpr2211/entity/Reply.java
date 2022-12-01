@@ -19,7 +19,7 @@ import lombok.Data;
 public class Reply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long rno;
 
    

@@ -84,13 +84,13 @@ public class BoardController {
 	//수정
 	@GetMapping(value="/post/edit/{no}")
 	public String edit(@PathVariable("no") Long bno, Model model) {
-		//BoardDto boardDto = boardService.getPost(bno,model);
-		//model.addAttribute("boardDto", boardDto);
+//		BoardDto boardDto = boardService.getPost(bno,model);
+//		model.addAttribute("boardDto", boardDto);
 		return "board/update";
 	}
 	@PutMapping("/post/edit/{no}")
-	public String update(BoardDto boardDto) {
-		boardService.savePost(boardDto);
+	public String update(Model model,BoardDto boardDto) {
+		boardService.savePost(model, boardDto);
 		return "redirect:/list";
 	}
 	

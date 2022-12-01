@@ -33,10 +33,12 @@ public class ReplyService {
 
         User findUser = userRepository.findByid(user.getId());
         Optional<Board> findBoard = boardRepository.findById(bno);
-
+        
         reply.setBoard(findBoard.get());
         reply.setUser(findUser);
+        findBoard.get().setState(true);
         replyRepository.save(reply);
+        
         model.addAttribute("reply", reply);
       
         return "redirect:list";

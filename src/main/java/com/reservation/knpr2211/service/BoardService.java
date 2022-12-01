@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,12 +17,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.reservation.knpr2211.dto.BoardDto;
 import com.reservation.knpr2211.entity.Board;
+import com.reservation.knpr2211.entity.Reply;
 import com.reservation.knpr2211.entity.User;
 import com.reservation.knpr2211.repository.BoardRepository;
+import com.reservation.knpr2211.repository.ReplyRepository;
 import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
 public class BoardService {
+	
+	
+	@Autowired 
+	private ReplyRepository replyRepository;
+	
 	@Autowired
 	private BoardRepository boardRepository;
 	
@@ -50,16 +59,30 @@ public class BoardService {
 		
 	//묻고답하기 등록 
 	@Transactional
-	public void savePost(BoardDto boardDto) {
+	public void savePost(Model model, BoardDto boardDto) {
 		boardRepository.save(boardDto.toEntity()).getBno();
+	
+		
 	}
+	
+	
 	public String savePosts(String writer, String category1, String type, String title, String content, boolean lock_yn,
 			boolean state) {
 		
+//		String sessionBno = (String)session.getAttribute("bno");
+//		if (sessionBno == null) {
+//			return "login/login";
+//		}
+//		
+//		Board board = boardRepository.findById(sessionBno);
+//		
+//		model.addAttribute("board", board);
+//		System.out.println(board);
 		Board board1 = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
 		boardRepository.save(board1);
 		
-		return "redirect:/list";
+		
+		return "redirect:list";
 	}
 	 
 	//리스트              
@@ -77,10 +100,9 @@ public class BoardService {
 		if(category1 == null || category1.isEmpty()) {
 			category1 = "all";
 		}
-		PageRequest pageRequest = PageRequest.of(page, size);
-		//bno로 내림차순 정렬
-		 //Board results = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "bno"), pageRequest);
-		Page<Board> result = boardRepository.findAll(pageRequest);
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Direction.DESC,"bno"));
+		
+		Page<Board> result = boardRepository.findAll(pageRequest); 
 	
 		if(keyword==null) {
 			if(!category1.equals("all")) {
@@ -130,11 +152,12 @@ public class BoardService {
 		model.addAttribute("select", select);
 		
 		ra.addAttribute("boardList", boards);
+		
 		return "redirect:list";
 	}
 	
 	//상세페이지
-	@Transactional
+	
 	public String getPost(Long bno, Model model) {
 		String sessionId = (String)session.getAttribute("id");
 		if (bno == null || sessionId == null||sessionId.isEmpty()) {
@@ -146,6 +169,17 @@ public class BoardService {
 		
 		Optional<Board> boardWrapper = boardRepository.findById(bno);
 		
+		List<Reply> list = replyRepository.findByBoard(boardWrapper.get());
+		
+		for(Reply reply : list) {
+			
+			reply.getContent();
+			
+		}
+		//답글 찍어봄
+		model.addAttribute("list", list);
+		System.out.println(list);
+		
 		Board board = boardWrapper.get();
 		if(member.equals("admin")||sessionId.equals(board.getWriter())) {
 			BoardDto boardDto =  BoardDto.builder()
@@ -154,33 +188,20 @@ public class BoardService {
 					.content(board.getContent())
 					.writer(board.getWriter())
 					.createDate(board.getCreateDate())
+					.list(list)
 					.build();
-
+					
+				
 					model.addAttribute("boardDto", boardDto);
-
+					//수정을 위해 찍어봄
+					System.out.println(boardDto.getBno());
 					return "board/detail";
 		}
 		
 		else return "redirect:list";
 		
 	}
-	//묻고답하기 수정
-//	public String boardModify(Model model, Long bno) {
-//		model.addAttribute("member", boardRepository.findById(bno));
-//		return "묻고 답하기 수정가능";
-//	}
-	//묻고답하기 수정 확인
-//	public void boardModify(Model model, String writer, String category1, String type, String title, String content,
-//			boolean lock_yn, boolean state) {
-//		Board board = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
-//		boardRepository.save(board);
-//	}
-	//묻고답하기 삭제
-//	public void boardDelete(Model model, String writer, String category1, String type, String title, String content,
-//			boolean lock_yn, boolean state) {
-//		Board board = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
-//		boardRepository.save(board);
-//	}
+
 	//삭제
 	@Transactional
 	public void deletePost(Long bno) {
