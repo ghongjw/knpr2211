@@ -145,7 +145,7 @@ public class ReservationService {
 		result[1] = mcs.category2(category);
 		return result;
 	}
-	
+
 	// 야영장 객실종류 출력 (코드입력 'A01')
 	public List<PlaceDTO> selectCamRoomType(String parkId) {
 		// (출력 : A0101, A0102, A0102)
@@ -217,6 +217,8 @@ public class ReservationService {
 
 	// 방 찾기 (코드입력 'A0801')
 	public PlaceDTO selectCategory3(String parkId) throws Exception {
+		String cat1 = parkId.substring(0,1);
+		
 		ArrayList<Place> datas = pr.findByCategory3(parkId);
 		Place data = datas.get(0);
 		PlaceDTO result = new PlaceDTO(data);
@@ -225,8 +227,29 @@ public class ReservationService {
 		in = mcs.category2(data.getCategory2());
 		result.setNameCategory2(in);
 		in = mcs.category3(data.getCategory3());
-		in = transRoomType(in);
+		if(cat1=="D")
+			in = transRoomType(in);
 		result.setNameCategory3(in);
+		return result;
+	}
+
+	// 방 찾기 (코드입력 'A0801')
+	public PlaceDTO selectCategory4(String parkId) throws Exception {
+		String cat1 = parkId.substring(0,1);
+		
+		ArrayList<Place> datas = pr.findByCategory4(parkId);
+		Place data = datas.get(0);
+		PlaceDTO result = new PlaceDTO(data);
+		String in = mcs.category1(data.getCategory1());
+		result.setNameCategory1(in);
+		in = mcs.category2(data.getCategory2());
+		result.setNameCategory2(in);
+		in = mcs.category3(data.getCategory3());
+		if(cat1=="D")
+			in = transRoomType(in);
+		result.setNameCategory3(in);
+		in = mcs.category4(data.getCategory4());
+		result.setNameCategory4(in);
 		return result;
 	}
 

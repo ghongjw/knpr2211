@@ -417,26 +417,113 @@
 														</p>
 														<dl>
 															<dt>입실날짜</dt>
-															<dd id="startDt_cam">
-																<!-- 2022-02-23 [수] -->
-																-
-															</dd>
+															<dd id="startDt_cam">-</dd>
 														</dl>
 														<dl>
 															<dt>퇴실날짜</dt>
-															<dd id="endDt_cam">
-																<!-- 2022-02-25 [금] -->
-																-
-															</dd>
+															<dd id="endDt_cam">-</dd>
 														</dl>
 													</div>
 												</div>
 												<div class="grid-cell">
 													<h3 class="title">예약정보</h3>
+													<ul class="check-area cam_view cell3_view" id="caminfo"></ul>
+													<hr class="cell3_view cam_view cell3_view"
+														style="border-color: #333; display: none;">
+													<h3 class="title cell3_view cam_view"
+														style="display: none;">인원</h3>
+													<div class="camSelectPeople cell3_view cam_view"
+														style="display: none;">
+														<span class="quantity-input">
+															<button type="button"
+																class="btn minus livingRoom-prsn-minus">
+																<i class="icon-minus"></i>
+															</button> <label for="livingPrsnCnt" class="hidden-text">총참여인원</label>
+															<input type="number" value="1" readonly=""
+															title="총 참여 인원" name="livingPrsnCnt" id="camPeopleCnt">
+															<button type="button"
+																class="btn plus livingRoom-prsn-plus">
+																<i class="icon-plus"></i>
+															</button>
+														</span>
+													</div>
+													<hr class="cam_view cell3_view"
+														style="border-color: #333; display: none;">
+													<div class="camTotal cell3_view cam_view"
+														style="display: none;">
+														<h3 class="cam_Total camSelectPlace">
+															선택: <span>-</span>
+														</h3>
 
+														<h3 class="cam_Total camPrice">
+															결제금액: <span>0</span>원
+														</h3>
+													</div>
+													<script>
+													<!-- 객실 선택시 인원선택 -->
+														// 객실별 최대 수용 인원 선택x
+														$(
+																'.camSelectPeople .btn.plus')
+																.on(
+																		"click",
+																		function(
+																				e) {
+																			if ($(
+																					"input:radio[name='uhang']")
+																					.is(
+																							':checked') == false) {
+																				toastrMsg("민박촌 객실유형을 선택해주세요.")
+																			}
+																			var max = Number($(
+																					"#minbakMax")
+																					.html());
+																			var selectNum = Number($(
+																					"#camPeopleCnt")
+																					.val());
+																			if (selectNum == max) {
+																				toastrMsg("선택한 객실의 사용인원은 기본 "
+																						+ max
+																						+ "명입니다.");
+																			} else if (selectNum < max) {
+																				selectNum++;
+																				$(
+																						"#camPeopleCnt")
+																						.attr(
+																								"value",
+																								selectNum);
+																			}
+																		})
+														$(
+																'.camSelectPeople .btn.minus')
+																.on(
+																		"click",
+																		function(
+																				e) {
+																			if ($(
+																					"input:radio[name='uhang']")
+																					.is(
+																							':checked') == false) {
+																				toastrMsg("민박촌 객실유형을 선택해주세요.")
+																			}
+																			var selectNum = Number($(
+																					"#camPeopleCnt")
+																					.val());
+																			if (selectNum > 1) {
+																				selectNum--;
+																				$(
+																						"#camPeopleCnt")
+																						.attr(
+																								"value",
+																								selectNum);
+																			}
+																		})
+													</script>
+													<hr class="cell3_view cam_view"
+														style="border-color: #333; display: none;">
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
-														<button class="btn btn-enquiry" data-button-name="goStep2">다음단계</button>
+														<button class="btn btn-enquiry" data-button-name="goStep2"
+															onclick="Res_openPopup('A', 'ResPopup')">다음단계</button>
 													</div>
 												</div>
 											</div>
@@ -573,13 +660,28 @@
 														</dl>
 														<dl>
 															<dt>선택날짜</dt>
-															<dd id="startDt_shel">-<!-- 2022-12-06 [화] --></dd>
+															<dd id="startDt_shel">
+																-
+															</dd>
 														</dl>
-														<button class="btn btn-add" data-button-name="addItem">추가</button>
 													</div>
 												</div>
 												<div class="grid-cell">
 													<h3 class="title">예약정보</h3>
+
+													<div class="reservation-check scroll-y cell3_view shel_view" style="display: none;">
+														<div class="item  cell3_view shel_view" id="shelSelect">
+															<strong class="title" data-selected-item="before">선택시설</strong>
+															<dl data-added-item="wrap">
+																<dt>
+																	<em></em><span></span>
+																</dt>
+															</dl>
+														</div>
+														<div class="item">
+															<strong class="title">인원</strong>
+														</div>
+													</div>
 
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
@@ -1088,7 +1190,86 @@
 
 				<!-- layer popup content -->
 
-
+				<div class="modal-popup small" id="ResPopup" style="display: none;">
+					<div class="popup-wrap" style="top: 65px; bottom: 150px;">
+						<div class="popup-head">
+							<strong class="popup-title">예약가능</strong>
+							<button type="button" class="btn-close"
+								onclick="Res_closePopup('ResPopup')" title="닫기">
+								<i class="icon-close"></i>
+							</button>
+						</div>
+						<div class="popup-container">
+							<form action="mainResProc_cam" method="post">
+								<table class="table">
+									<caption>자동방지 입력문자</caption>
+									<colgroup>
+										<col style="width: 140px;">
+										<col>
+									</colgroup>
+									<tbody class="tbody">
+										<tr style="display: none;">
+											<th scope="row">예약코드</th>
+											<td><input type="text" id="txtRoomCode" name="category3"
+												value="D0101" readonly="readonly" style="border: none;"></td>
+										</tr>
+										<tr>
+											<th scope="row">예약상품</th>
+											<td><input type="text" id="txtRoom" name="nameCategory3"
+												value="개인형 29.7㎡(9평/2명) 침대" readonly="readonly"
+												style="border: none;"></td>
+										</tr>
+										<tr>
+											<th scope="row">사용기간</th>
+											<td><input type="text" id="txtDiff" name="allDay"
+												value="3박 4일" readonly="readonly" style="border: none;"></td>
+										</tr>
+										<tr>
+											<th scope="row">입실날짜</th>
+											<td><input type="text" id="txtUseBgnDate" name="startDt"
+												value="2022-12-13 [화]" readonly="readonly"
+												style="border: none;"></td>
+										</tr>
+										<tr>
+											<th scope="row">퇴실날짜</th>
+											<td><input type="text" id="txtUseEndDate" name="endDt"
+												value="2022-12-16 [금]" readonly="readonly"
+												style="border: none;"></td>
+										</tr>
+										<tr>
+											<th scope="row">총 인원</th>
+											<td><input type="text" id="txtInwon" name="people"
+												value="2명" readonly="readonly" style="border: none;"></td>
+										</tr>
+										<tr>
+											<th scope="row">결제(예정)금액</th>
+											<td><input type="text" id="selPrice" name="price"
+												value="120,000원 (부가세 포함)" readonly="readonly"
+												style="border: none;"></td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="captcha-area">
+									<span class="label">자동예약 방지문자</span> <span class="captcha"
+										id="pnlRsrImg"><img alt="자동예약 방지문자"
+										src="/reserCaptcha.do?dummy=1669370017036"></span> <label
+										for="captInput" class="hidden-text">자동예약 방지문자</label><input
+										type="text" class="input-text txt-captcha" id="captInput"
+										title="자동예약 방지문자" maxlength="4" placeholder="위 문자를 입력해주세요."
+										name="captcha">
+								</div>
+								<p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인
+									후 결제 가능합니다.</p>
+								<div class="btn-area">
+									<button class="btn" id="btnClose"
+										onclick="close_Popup('ResPopup');">취소</button>
+									<input type="submit" class="btn" id="btnSubmit" value="확인"
+										style="background: #fff">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 
 
 
@@ -1109,7 +1290,7 @@
 				<div class="popup-head">
 					<strong class="popup-title" id="confirmTitle"></strong>
 					<button type="button" class="btn-close" title="닫기"
-						onclick="closePopup('confirmPop');">
+						onclick="closePopup('ResPopup');">
 						<i class="icon-close"></i>
 					</button>
 				</div>

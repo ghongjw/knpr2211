@@ -24,3 +24,12 @@
 .not-active{
 	color: #747474;
 }
+
+/* cell3 */
+.cam_Total, .camTotal span{
+    padding: 10px 0 !important;
+    color: #fff  !important; 
+    font-family: Gyeonggi Cheonnyeon, Robot !important;
+    font-size: 18px !important;
+    font-weight: 600  !important;
+}

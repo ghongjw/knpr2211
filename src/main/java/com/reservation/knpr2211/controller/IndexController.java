@@ -1,7 +1,10 @@
 package com.reservation.knpr2211.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
+import com.reservation.knpr2211.dto.ReservationDTO;
 import com.reservation.knpr2211.service.IndexService;
 import com.reservation.knpr2211.service.MountainCodeService;
 import com.reservation.knpr2211.service.PlaceService;
@@ -38,29 +42,48 @@ public class IndexController {
 	public String index1(Model model) {
 		return "index/index1";
 	}
-	@ResponseBody //mountain : A01
+	@ResponseBody //parkId : A01
 	@PostMapping(value="mountainSelect", produces = "application/json; charset=UTF-8") 
-	public String MountainSelect(@RequestBody(required = false) String category2) {
-		String result = is.mountainSelect(category2);
+	public String MountainSelect(@RequestBody(required = false) String parkId) {
+		String result = is.mountainSelect(parkId);
+		System.out.println(result);
+		return result;
+	}
+	@ResponseBody //parkId : A0101
+	@PostMapping(value="campCategory4", produces = "application/json; charset=UTF-8") 
+	public String campCategory4(@RequestBody(required = false) String parkId) {
+		System.out.println("컨트롤 : "+parkId);
+		String result = is.selectCategory4(parkId);
 		System.out.println(result);
 		return result;
 	}
 	
-//	@RequestMapping("MountainSelect")
-//	public String MountainSelect(String mountain, Model model) {
-//		
-//		System.out.println("선택된 산 : "+mountain);
-//		model.addAttribute(mountain, ps.selectMountain(mountain));	
-//		
-//		return "redirect:index1";
-//	}
-//	
-//	@RequestMapping("LocationSelect")
-//	public String LocationSelect(String Location) {
-//		
-//		System.out.println("선택된 위치  : " + Location);
-//		
-//		return "redirect:index1";
-//	}
+	@ResponseBody //parkId : A010101
+	@PostMapping(value="campPrice", produces = "application/json; charset=UTF-8") 
+	public HashMap<String,String> campPrice(@RequestBody(required = false) HashMap<String, String> keyData) {
+		String parkId = keyData.get("parkId");
+		String price = is.campPrice(parkId);
+		
+		keyData.put("price", price);
+		keyData.put("minback", keyData.get("minback"));
+		keyData.put("cat3", keyData.get("cat3"));
+		keyData.put("cat4", keyData.get("cat4"));
+		return keyData;
+	}
 	
+	// 최종 결제
+	@RequestMapping(value = "mainResProc_cam")
+	public String mainResProCam(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
+		System.out.println("최종결제가즈아// 민박넘어온값: "+resDto.getAllDay());
+		//if(sessionId == null || sessionId.equals(modifyId) == false)
+//		int num = 0; // 방 가능 갯수
+//		if(resDto.getCategory4() == null) {
+//			num = is.roomRest_Category3(resDto, startDt, endDt);
+//		}else if(resDto.getCategory4() != null) {
+//			num = is.roomRest_Category4(resDto, startDt, endDt);
+//		}
+//		System.out.println("(컨트롤)방 가능 갯수: "+ num);
+		is.reservation(resDto, startDt, endDt);
+		return "redirect:/index1";
+	}
 }

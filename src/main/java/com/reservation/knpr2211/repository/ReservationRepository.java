@@ -10,5 +10,5 @@ import com.reservation.knpr2211.entity.Reservation;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 	//작성자: 김수정
-	List<Reservation> findAllByStartDayBetween(Timestamp startDt, Timestamp endDt );
+	List<Reservation> findAllByStartDayBetweenAndCategory4(Timestamp startDt, Timestamp endDt, String category4 );
 }
