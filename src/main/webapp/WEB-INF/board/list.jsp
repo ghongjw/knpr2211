@@ -7,9 +7,39 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="assets/style/infomations.css">
 <title>Insert title here</title>
+<script src="../../assets/js/lib/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/lib/toastr.min.js"></script>
+<script>
+	$('document').ready(function(){
+		if(${msg != null}){
+			toastrMsg("${msg}","메세지");
+		}
+		
+		$(".input1").val("${board}")
+		$(".input2").val("${select}")
+		$(".input3").val("${keyword}")
+		
+		
+		const urlParams = new URL(location.href).searchParams;
+		const page = urlParams.get('page');
+		console.log(page);
+		
+	})
+</script>
 </head>
 <body>
+<script type="text/javascript">
+
+
+let pageNum = function(num){
+	var url = "list?page="+num+"&size=10"; 
+	
+	$("#boardSearch").attr("action",url).submit();
+}
+	 	
+	 	</script>
 <%@ include file="../common/header.jsp" %>
 <div id="wrap" class="sub">
 	<div id="container">
@@ -22,10 +52,9 @@
 		<div class="notification">
 			<h3 class="title">묻고답하기</h3>
 			<!-- 조회 -->
-			<form action="boardSearch" id="searchForm" name="searchForm" method="POST">
+			<form id="boardSearch" method="POST">
 				 <div class="search-area">
             <input type="hidden" name="pageNo" id="pageNo" value="1">
-            <input type="hidden" name="seq" id="seq" value="">
             <span class="select">
                 <select id="national-park1" name="category1">
                     <option value="all">국립공원 전체</option>
@@ -122,13 +151,15 @@
                 </select>
             </span>
             <input type="text" class="input-text" name="keyword" title="검색값을 입력해주세요." value="">
-            <button class="btn">
+            <button class="btn" onclick="pageNum('0')">
                 <i class="icon-search"></i>
                 <span>조회</span>
             </button>
         		</div>
 			</form>
-			
+			 <div class="article-info">
+            <div class="left"><span class="total">총 <span>${totalElement }</span>건</span></div>
+        </div>
 			<!-- list -->
 			<div class="board-area list">
 			<table class="table">
@@ -155,12 +186,12 @@
             </thead>
             	<!-- 내용들어가는 곳 -->
             	<tbody class="tbody">
-	             <c:forEach var="board" items="${boardList}">
+	             <c:forEach var="board" items="${boards}">
 	            		<tr>
 	            			<td>${board.bno}</td>
 	            			<td>${board.category1}</td>
 	            			<td>${board.type}</td>
-	            			<td><a href="/boardDetail?bno=${board.bno}">${board.title}</a></td> 
+	            			<td><i class="icon-lock"></i><a href="/boardDetail?bno=${board.bno}">${board.title}</a></td> 
 	            			<td>${board.writer}</td>
 	            			<td>${board.createDate}</td>
 	            			<td>${board.state}</td>
@@ -174,19 +205,27 @@
             		</div>
         		</div>
         		<!-- 페이징 -->
-            		<div class="paginator">
-            			<!-- <button type="button" class="paginator-first" title="맨 처음"> <i class="icon-chevrons-left"></i> </button>
-            			<button type="button" class="paginator-prev" title="이전"><i class="icon-chevron-left"></i></button> -->
-            			
-            			<span class="paginator-pages">
-   						<c:forEach var="pageNum" items="${pageList}">
-   							<a href="/list?page= + ${pageNum}"><button type="button" class="paginator-page">${pageNum}</button></a>
-   						</c:forEach>
-   						</span>
-   						
-   						<!-- <button type="button" class="paginator-next" title="다음"><i class="icon-chevron-right"></i></button>
-   						<button type="button" class="paginator-last" title="맨 마지막"><i class="icon-chevrons-right"></i></button> -->
-   					</div>
+   					<table>
+   					<tr class = "page_tr">
+								<td colspan = "6" class = "page_td">
+							
+									<c:forEach var = "i" begin="0" end = "${totalPage -1}">
+										<c:choose>
+										<c:when test="${i == param.page }">
+										<button class = "index_paging" style = "background:#004ea2; color:white;" id = "pageNum" onclick = "pageNum('${i}')">
+									${i + 1}
+									</button>
+										</c:when>
+										<c:otherwise>
+									<button class = "index_paging" id = "pageNum" onclick = "pageNum('${i}')">
+									${i + 1}
+									</button>
+									</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</td>
+						</tr>
+						</table>
 			</div>
 		</div>
 		

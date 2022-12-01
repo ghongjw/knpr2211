@@ -122,8 +122,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-		<!-- intorceptor-->
-		<!-- https://mvnrepository.com/artifact/org.springframework/org.springframework.web.servlet -->
+		<dependency>
+    <groupId>javax.json</groupId>
+    <artifactId>javax.json-api</artifactId>
+</dependency>
+		
 
 	</dependencies>
 

@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
-import javax.persistence.Id;	
+import javax.persistence.Id;
 
 import lombok.Data;
 
@@ -20,8 +20,9 @@ public class Reply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int replyId;
+    private Long rno;
 
+   
     @Column(nullable = false, length = 120)
     String content;
 
@@ -35,5 +36,6 @@ public class Reply {
 
     @CreationTimestamp
     private Timestamp createDate;
-
 };
+
+

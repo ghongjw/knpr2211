@@ -25,7 +25,7 @@ public class AdminController {
 	
 	//관리자 회원정보조회
 	@RequestMapping("adminMemberList")
-    public String getAllUserWithPage(Integer page,Integer size,String member,String select, String search, Model model) {
+    public String getAllUserWithPage(Integer page, Integer size,String member,String select, String search, Model model) {
         //System.out.println(member+select+search);
 		amls.paging(model, page, size, member, select, search );
 		
