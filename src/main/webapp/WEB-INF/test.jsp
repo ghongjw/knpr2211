@@ -3,19 +3,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-</head>
-<body>
+ <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html";charset="utf-8"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
 
+ </head>
+ <body>
 
-<form action="MountainSelect" method="get">
+  <input class="btn" type="button" value="버튼1"/>
+  <input class="btn" type="button" value="버튼2"/>
+  <input class="btn" type="button" value="버튼3"/>  
 
+  <script>
 
-<input type="radio" name="m" id="mountain" value="가야신">가야산<br> 
-<input type="radio" name="m" id="mountain" value="지리산" >지리산<br>
-<input type="radio" name="m" id="mountain" value="태백산">태백산<br>
-
-<input type="submit" value="전송">
-</form>
-
+  var button = $(".btn");
+	button.click(function(){
+		$(this).val("눌렀어~");
+	});
+  
+  </script>
 </body>
 </html>
