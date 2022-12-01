@@ -71,6 +71,21 @@ public class IndexController {
 		return keyData;
 	}
 	
+	@ResponseBody //parkId : A0101
+	@PostMapping(value="shelPrint", produces = "application/json; charset=UTF-8") 
+	public HashMap<String,String> shelPrint(@RequestBody(required = false) HashMap<String, String> keyData) throws Exception {
+		String parkId = keyData.get("parkId");
+		PlaceDTO data = rs.selectCategory3(parkId);
+		
+		keyData.put("price", data.getPriceDay());
+		keyData.put("peopleMax", String.valueOf(data.getPeopleMax()));
+		keyData.put("selectDt", keyData.get("selectDt"));
+		keyData.put("nameCategory3", keyData.get("nameCategory3"));
+		// 가격, 선택한 날짜, 선택한 상품 , 최대인원수
+		return keyData;
+	}
+	
+	
 	// 최종 결제
 	@RequestMapping(value = "mainResProc_cam")
 	public String mainResProCam(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {

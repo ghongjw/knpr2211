@@ -37,6 +37,11 @@ function locationPrint() {
 			$("#locationCam").html(req.responseText);
 			tab = "A";
 		} else if (tab == "tab2") {
+			$("#location_shel").html("-")
+			$("#startDt_shel").html("-")
+			$("#shelSelect").find("em:eq(0)").html("-")
+			$("#shelSelect").find("span:eq(0)").html("-")
+			
 			$("#locationShel").html(req.responseText);
 			tab = "B";
 		} else if (tab == "tab3") {
@@ -61,16 +66,8 @@ function locationClick(parkId, nameCategory3) { //코드 : D0101
 		req.open('post', "campCategory4")
 		req.send(parkId)
 	} else if (parkId.includes("B") == true) {
-		$("#location_shel").html(nameCategory3);
-		$(".shel_view").css("display", "block");
-	}
-}
-function cotCat4Print() {
-	if (req.readyState == 4 && req.status == 200) {
-		console.log(req.responseText)
-		$("#caminfo").html(req.responseText);
-		$("#camPeopleCnt").attr("value", 1)
-		$(".cam_view").css("display", "block");
+		$("#location_shel").html(nameCat3);
+		$(".shel_view").css("display", "none");
 	}
 }
 
@@ -98,6 +95,7 @@ function camCot4Select(parkId, peopleMax) {
 	}
 
 }
+
 // 야영장 상품&가격 출력
 function cotPricePrint() {
 	if (req.readyState == 4 && req.status == 200) {
@@ -110,6 +108,27 @@ function cotPricePrint() {
 		var text = resData.cat3 + " " + resData.cat4
 		$(".camTotal").find('span:eq(0)').html(text)
 		$(".camTotal").find('span:eq(1)').html(String(price))
+	}
+}
+
+// 대피소 상품&가격&날짜 출력
+function shelPrint(){
+	if (req.readyState == 4 && req.status == 200) {
+		resData = JSON.parse(req.responseText)
+		
+		$("#shelSelect").find("em:eq(0)").html(resData.nameCategory3)
+		$("#shelSelect").find("span:eq(0)").html(resData.selectDt)
+		$("#minbakMax").html(resData.peopleMax)
+		$("#shelPrice").find("span:eq(0)").html(resData.price)
+	}
+}
+
+function cotCat4Print() {
+	if (req.readyState == 4 && req.status == 200) {
+		console.log(req.responseText)
+		$("#caminfo").html(req.responseText);
+		$("#camPeopleCnt").attr("value", 1)
+		$(".cam_view").css("display", "block");
 	}
 }
 // (캘린더) 날짜 선택
@@ -152,9 +171,17 @@ function calendarClick(cat1, year, month, day) { // cat1 : 대분류(cat2)
 					selectStartDay = year + "-" + month + "-" + day;
 					$("#" + inStartId).html(selectStartDay);
 					minback = 0;
-					//console.log("박일수: " + minback)
-					$("#shelSelect").find("em:eq(0)").html(nameCat3)
-					$("#shelSelect").find("span:eq(0)").html(selectStartDay)
+					
+					$(".shel_view").css("display","block")
+					
+					var category3 = $("input[name='location']:checked").attr("id");
+					var reqData = { 'parkId': category3, 'nameCategory3': nameCat3, 'selectDt': selectStartDay }
+					req = new XMLHttpRequest()
+					req.onreadystatechange = shelPrint
+					req.open('post', "shelPrint")
+					reqData = JSON.stringify(reqData)
+					req.setRequestHeader('Content-Type', "application/json; charset=UTF-8")
+					req.send(reqData)
 				}
 
 
@@ -224,6 +251,7 @@ function calendarClick(cat1, year, month, day) { // cat1 : 대분류(cat2)
 		}
 	}
 }
+
 
 // 결제 팝업
 function Res_openPopup(cat1, id) {

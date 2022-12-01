@@ -462,61 +462,31 @@
 													<script>
 													<!-- 객실 선택시 인원선택 -->
 														// 객실별 최대 수용 인원 선택x
-														$(
-																'.camSelectPeople .btn.plus')
-																.on(
-																		"click",
-																		function(
-																				e) {
-																			if ($(
-																					"input:radio[name='uhang']")
-																					.is(
-																							':checked') == false) {
-																				toastrMsg("민박촌 객실유형을 선택해주세요.")
-																			}
-																			var max = Number($(
-																					"#minbakMax")
-																					.html());
-																			var selectNum = Number($(
-																					"#camPeopleCnt")
-																					.val());
-																			if (selectNum == max) {
-																				toastrMsg("선택한 객실의 사용인원은 기본 "
-																						+ max
-																						+ "명입니다.");
-																			} else if (selectNum < max) {
-																				selectNum++;
-																				$(
-																						"#camPeopleCnt")
-																						.attr(
-																								"value",
-																								selectNum);
-																			}
-																		})
-														$(
-																'.camSelectPeople .btn.minus')
-																.on(
-																		"click",
-																		function(
-																				e) {
-																			if ($(
-																					"input:radio[name='uhang']")
-																					.is(
-																							':checked') == false) {
-																				toastrMsg("민박촌 객실유형을 선택해주세요.")
-																			}
-																			var selectNum = Number($(
-																					"#camPeopleCnt")
-																					.val());
-																			if (selectNum > 1) {
-																				selectNum--;
-																				$(
-																						"#camPeopleCnt")
-																						.attr(
-																								"value",
-																								selectNum);
-																			}
-																		})
+														$('.camSelectPeople .btn.plus').on("click",function(e) {
+																if ($("input:radio[name='uhang']").is(':checked') == false) {
+																	toastrMsg("민박촌 객실유형을 선택해주세요.")
+																	}else{
+																	var max = Number($("#minbakMax").html());
+																	var selectNum = Number($("#camPeopleCnt").val());
+																	if (selectNum == max) {
+																		toastrMsg("선택한 객실의 사용인원은 기본 "+ max+ "명입니다.");
+																	} else if (selectNum < max) {
+																		selectNum++;
+																		$("#camPeopleCnt").attr("value",selectNum);
+																}
+															}
+														})
+														$('.camSelectPeople .btn.minus').on("click",function(e) {
+																if ($("input:radio[name='uhang']").is(':checked') == false) {
+																	toastrMsg("민박촌 객실유형을 선택해주세요.")
+																}else{
+																	var selectNum = Number($("#camPeopleCnt").val());
+																	if (selectNum > 1) {
+																		selectNum--;
+																		$("#camPeopleCnt").attr("value",selectNum);
+																	}
+																}
+														})
 													</script>
 													<hr class="cell3_view cam_view"
 														style="border-color: #333; display: none;">
@@ -660,17 +630,16 @@
 														</dl>
 														<dl>
 															<dt>선택날짜</dt>
-															<dd id="startDt_shel">
-																-
-															</dd>
+															<dd id="startDt_shel">-</dd>
 														</dl>
 													</div>
 												</div>
 												<div class="grid-cell">
 													<h3 class="title">예약정보</h3>
-
-													<div class="reservation-check scroll-y cell3_view shel_view" style="display: none;">
-														<div class="item  cell3_view shel_view" id="shelSelect">
+													<div
+														class="reservation-check scroll-y cell3_view shel_view"
+														style="display: none;">
+														<div class="item" id="shelSelect">
 															<strong class="title" data-selected-item="before">선택시설</strong>
 															<dl data-added-item="wrap">
 																<dt>
@@ -680,13 +649,70 @@
 														</div>
 														<div class="item">
 															<strong class="title">인원</strong>
+															<div class="shelSelectPeople">
+																<span class="quantity-input">
+																	<button type="button"
+																		class="btn minus livingRoom-prsn-minus">
+																		<i class="icon-minus"></i>
+																	</button> <label for="livingPrsnCnt" class="hidden-text">총참여인원</label>
+																	<input type="number" value="1" readonly=""
+																	title="총 참여 인원" name="livingPrsnCnt" id="shelPeopleCnt">
+																	<button type="button"
+																		class="btn plus livingRoom-prsn-plus">
+																		<i class="icon-plus"></i>
+																	</button>
+																</span>
+															</div>
 														</div>
+													</div>
+
+													<script>
+													<!-- 객실 선택시 인원선택 -->
+														// 객실별 최대 수용 인원 선택x
+														$('.shelSelectPeople .btn.plus').on("click",function(e) {
+																if ($("#shelSelect").find("em:eq(0)").html()=="-") {
+																		toastrMsg("위치를 선택해주세요.")
+																	}else if($("#shelSelect").find("span:eq(0)").html()=="-"){
+																		toastrMsg("날짜를 선택해주세요.")
+																	}else{
+																	var max = Number($("#minbakMax").html());
+																	var selectNum = Number($("#shelPeopleCnt").val());
+																	if (selectNum == max) {
+																		toastrMsg("선택한 객실의 사용인원은 기본 "+ max+ "명입니다.");
+																	} else if (selectNum < max) {
+																		selectNum++;
+																		$("#shelPeopleCnt").attr("value",selectNum);
+																}
+															}
+														})
+														$('.shelSelectPeople .btn.minus').on("click",function(e) {
+															if ($("#shelSelect").find("em:eq(0)").html()=="-") {
+																toastrMsg("위치를 선택해주세요.")
+															}else if($("#shelSelect").find("span:eq(0)").html()=="-"){
+																toastrMsg("날짜를 선택해주세요.")
+															}else{
+																	var selectNum = Number($("#shelPeopleCnt").val());
+																	if (selectNum > 1) {
+																		selectNum--;
+																		$("#shelPeopleCnt").attr("value",selectNum);
+																	}
+																}
+														})
+													</script>
+													<hr class="shel_view cell3_view"
+														style="border-color: #333; display: none;">
+													<div class="shelTotal cell3_view shel_view"
+														style="display: none;">
+														<h3 class="shel_Total shelPrice">
+															결제금액: <span>0</span>원
+														</h3>
 													</div>
 
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2">다음단계</button>
 													</div>
+
 												</div>
 											</div>
 
@@ -1379,3 +1405,4 @@
 	</script>
 </body>
 </html>
+
