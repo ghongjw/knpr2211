@@ -1,7 +1,11 @@
 package com.reservation.knpr2211.controller;
 
-import java.util.List;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,22 +13,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.reservation.knpr2211.dto.BoardDto;
 import com.reservation.knpr2211.service.BoardService;
 
 @Controller
 public class BoardController {
-	
+	@Autowired HttpSession session;
 	private BoardService boardService;
 	
 	public BoardController(BoardService boardService) {
 		this.boardService = boardService;
 	}
+	
 	//예약 환불정책
 	@RequestMapping("policy")
 	public String policy() {
@@ -36,46 +39,61 @@ public class BoardController {
 	public String faq() {
 		return  "board/faq";
 	}
-	
-	//리스트
-	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-		List<BoardDto> boardDtoList = boardService.getBoardlist(pageNum);
-		Integer[] pageList = boardService.getPageList(pageNum);
-		
-		model.addAttribute("boardList", boardDtoList);
-		model.addAttribute("pageList", pageList);
-		return "board/list";
+	//묻고답하기 조회
+	@RequestMapping("list")
+    public String getAllBoardWithPage(Model model, Integer page, Integer size, String board, String select, String category1,String keyword, RedirectAttributes ra) {
+		boardService.paging(model, page, size, board, select, category1, keyword, ra);
+        return "board/list";
+    }
+	//묻고 답하기 등록
+	@GetMapping("post")
+	public String write(Model model) {
+		return boardService.getMember(model);
 	}
-	
-	//묻고 답하기 
-	@GetMapping("/post")
-	public String write() {
-		return "board/write";
+	@PostMapping("post")
+	public String write(String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state, HttpServletResponse response) throws IOException {
+		return boardService.savePosts(writer, category1, type, title, content, lock_yn,state, response);
 	}
-	@PostMapping("/post")
-	public String write(BoardDto boardDto) {
-		boardService.savePost(boardDto);
-		return "redirect:/list";
-	}
-	
 	//상세페이지
-	@GetMapping("/post/{no}")
-	public String detail(@PathVariable("no") Long bno, Model model) {
-		BoardDto boardDto = boardService.getPost(bno);
-		model.addAttribute("boardDto", boardDto);
-		return "board/detail";
+	@GetMapping("boardDetail")
+	public String detail(Long bno, Model model) {
+		return boardService.getPost(bno, model);
 	}
+	
+	//묻고답하기 수정
+//	@RequestMapping("update")
+//	public String boardModyfy(Model model, Long bno) {
+//		String msg = boardService.boardModify(model, bno);
+//		model.addAttribute("msg",msg);
+//		return "board/updtae";
+//	}
+		
+	//묻고답하기 수정 확인
+//	@RequestMapping("boardModifyConfirm")
+//	public String boardModifyConfirm(Model model, String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state) {
+//		boardService.boardModify(model, writer, category1, type, title, content, lock_yn,state);
+//
+//		return "redirect:list";
+//	}
+	//묻고답하기 삭제 확인
+//	@RequestMapping("adminDeleteConfirm")
+//	public String adminDeleteConfirm(Model model, String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state) {
+//		boardService.boardDelete(model, writer, category1, type, title, content, lock_yn,state);
+//		model.addAttribute("msg","삭제되었습니다");
+//			
+//		return "redirect:list";
+//	}
+	
 	//수정
 	@GetMapping(value="/post/edit/{no}")
 	public String edit(@PathVariable("no") Long bno, Model model) {
-		BoardDto boardDto = boardService.getPost(bno);
-		model.addAttribute("boardDto", boardDto);
+		String board = boardService.getPost(bno,model);
+		
 		return "board/update";
 	}
 	@PutMapping("/post/edit/{no}")
-	public String update(BoardDto boardDto) {
-		boardService.savePost(boardDto);
+	public String update(Model model,BoardDto boardDto) {
+		boardService.savePost(model, boardDto);
 		return "redirect:/list";
 	}
 	
@@ -85,13 +103,7 @@ public class BoardController {
 		boardService.deletePost(bno);
 		return "redirect:/list";
 	}
-	//검색(구분은 아직 못함)
-	@GetMapping("/board/search")
-	public String search(@RequestParam(value="keyword") String keyword, Model model) {
-		List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
-		model.addAttribute("boardList", boardDtoList);
-		return "board/list";
-	}
+	
 	
 	
 }

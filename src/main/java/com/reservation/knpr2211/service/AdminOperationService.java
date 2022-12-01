@@ -26,7 +26,7 @@ public class AdminOperationService {
 		String select2 = "";
 		
 		for(int i = 0; i<category2.size(); i++) {
-			select2="<option value = \""+category2.get(i)+"\">
+			//select2="<option value = \""+category2.get(i)+"\">
 		}
 		
 	}

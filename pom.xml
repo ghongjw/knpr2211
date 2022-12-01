@@ -128,6 +128,13 @@
 		</dependency>
 
 		<dependency>
+    <groupId>javax.json</groupId>
+    <artifactId>javax.json-api</artifactId>
+</dependency>
+		
+
+
+		<dependency>
 			<groupId>pl.allegro.tech.boot</groupId>
 			<artifactId>handlebars-spring-boot-starter</artifactId>
 			<version>0.3.4</version>
@@ -135,6 +142,7 @@
 
 		<!-- intorceptor-->
 		<!-- https://mvnrepository.com/artifact/org.springframework/org.springframework.web.servlet -->
+
 
 	</dependencies>
 

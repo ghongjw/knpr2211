@@ -44,11 +44,11 @@
             	</div>
             	<div class="board-bottom">
                 	<div class="center">
-                    	<input type=button class="btn btn-list" value='수정' onclick="location.href='${root}modifyProc'"/>
+                    	<input type=button class="btn btn-list" value='수정' onclick="location.href='modifyForm?';"/>
                 		<input type=button class="btn btn-list" value='목록' onclick="location.href='${root}noticeProc'"/>
 						<input type=button class="btn btn-list" value='삭제' onclick="location.href='${root}deleteProc'"/>
                 		<table><tr><td>
-                		<button formaction="${root }index?formpath=modify" style="width: 60px; ">수정</button>
+                		<button formaction="modifyProc?formpath=modify" style="width: 60px; ">수정</button>
                 		<button formaction="${root }index?formpath=delete" style="width: 60px; ">삭제</button>
                 		</td></tr></table>
                 		
