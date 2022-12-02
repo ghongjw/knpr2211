@@ -1,8 +1,11 @@
 package com.reservation.knpr2211.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,42 +77,35 @@ public class ReservationController {
 		return "reservation/cottageReservation";
 	}
 
+	
+	
+	
+	// (시작)작성자: 최현하 ==============================================
 
 	// 야영장 예약페이지 열림
 	@RequestMapping("campsite")
 	public String campsite() {
-		System.out.println("확인1");
 		return "reservation/campsite";
 	}
 
 	// 대피소 예약페이지 열림
 	@RequestMapping("shelter")
 	public String shelter() {
-		System.out.println("확인2");
 		return "reservation/shelter";
 	}
 
+	
+	//야영장 산이름-지역명 클릭하면 테이블뷰 출력
 	@ResponseBody
-	@PostMapping(value = "selectInfo", produces = "text/html; charset=UTF-8")
-	public String selectInfo(@RequestBody(required = false) String reqData) {
-		String code = reqData;
-
-		return "forward:campsite";
-
-	}
-
-
-	@PostMapping(value = "/campsiteView")
+	@PostMapping(value = "campsiteView")
 	public Map<String, Object> campsiteView(@RequestParam Map<String, String> map) throws Exception {
 		
 		Map<String, Object> result = new HashMap<>();
 		String code = map.get("code");
-		//System.out.println(code);
 		
 		List<PlaceDTO> list = rs.campsiteView(code);
 		List<String> checkList = rs.checkBoxList(code);
 		//System.out.println(list.toString());
-
 
 		result.put("list", list);
 		result.put("checkList", checkList);
@@ -117,12 +113,12 @@ public class ReservationController {
 	}
 	
 	
+	//야영장 산이름-지역명-야영장명으로 클릭하면 방 출력
 	@ResponseBody
-	@PostMapping(value = "/roomView")
+	@PostMapping(value = "roomView")
 	public Map<String, Object> roomView(@RequestParam Map<String, String> map) throws Exception {
 		
 		String code = map.get("code");
-		//System.out.println(code);
 	
 		List<PlaceDTO> rooms = rs.roomView(code);
 		
@@ -131,5 +127,83 @@ public class ReservationController {
 		
 		return result;
 	}
+	
+	
+	//야영장 산이름-지역명-야영장명-방번호 배열로 현재 예약 현황 조회
+	@ResponseBody
+	@PostMapping(value = "reservationState")    
+    public Map<String, Object> reservationState(@RequestParam String[] rooms) {
+		Map<String, Object> map = rs.reservationState(rooms);
 		
+		@SuppressWarnings("unchecked")
+		List<String> reservations = (List<String>) map.get("reservations");
+		@SuppressWarnings("unchecked")
+		List<String> roomList =  (List<String>) map.get("roomList");
+		@SuppressWarnings("unchecked")
+		List<String> dateList = (List<String>) map.get("dateList");
+		//데이터 전송, 응답에 문제없음을 확인
+		
+		//List<String> reservations = rs.reservationState(rooms);
+		String roomMax = rs.campsiteCount(rooms[0]);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("reservations", reservations);
+		result.put("roomList", roomList);
+		result.put("dateList", dateList);
+		result.put("roomMax", roomMax);
+		
+        
+        return result;
+    }
+	
+	
+	//야영장 1박2일 가능한지 조회
+	@ResponseBody
+	@PostMapping(value = "oneNightCheck" )	
+	public Map<String, Object> oneNightCheck(@RequestParam Map<String, Object> map) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		String room = (String)map.get("room"); 
+	    String date = (String)map.get("date");
+ 
+	    Map<String, String>dateList = rs.oneNightCheck(room, date);
+	        
+		result.put("dateList", dateList);
+		return result;
+	}
+	
+	
+	//야영장 선택시, 예약이 가능할 경우, 선택한 장소 정보 출력
+	@ResponseBody
+	@PostMapping(value = "inputSelectInfo" )	
+	public Map<String, Object> inputSelectInfo(@RequestParam String room) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Map<String, String> infoMap = rs.inputSelectInfo(room);
+		
+		result.put("infoMap", infoMap);
+		return result;
+		
+	}
+	
+	
+	//사용자 입력받은 예약 일정 service로 전달
+	@ResponseBody
+	@PostMapping(value = "reservationSave" )	
+	public String reservationSave(@RequestParam Map<String, Object> map) {
+ 
+	    String result = rs.reservationSave(map);
+	        
+		return result;
+	}
+	
+
+
+	
+	
+	// (끝)작성자: 최현하 ==============================================
+	
+	
 }

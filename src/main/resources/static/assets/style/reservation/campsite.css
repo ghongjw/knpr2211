@@ -19,7 +19,9 @@
   padding: 0;
   /* Fix of Webkit flickering */
   z-index: 1;
+ 
 }
+
 
 .swiper-vertical > .swiper-wrapper {
   flex-direction: column;
@@ -2929,7 +2931,6 @@ main .reservation-area .nav-tabs li > a {
 main .reservation-area .tab-content {
   width: calc(100% - 160px);
   height: 100%;
-
 }
 main .reservation-area .tab-content .tab-pane {
   height: 100%;
@@ -13314,28 +13315,17 @@ b {
   clip-path: polygon(0 0, 0 0, 0 0);
 }
 
-
-.dropdown-content{
-	display: none;
-
+/*토일에 대한 스타일 id로 찾아서 추가*/
+td#sat{
+    background-color: #f5f8fb;
+    font-weight: 700;
+    color: #006bde;
 }
 
-
-.show {
-	display:block;
-	text-align: center;
-
+td#sun{
+    background-color: #f5f8fb;
+    font-weight: 700;
+    color: #ff2929;
 }
-
-.nav-tabs tab-menu{
-  text-align: center;
-  width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-
-
-
 
 /*# sourceMappingURL=common.css.map */

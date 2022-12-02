@@ -4,7 +4,7 @@
     <head>
    <meta name="viewport" content="width=device-width">
 
-	<script src="assets/js/common.js?ver4"></script> <!-- 추가필요 -->
+	
       
 
 <%--    <c:url var="root" value="/" /> --%>

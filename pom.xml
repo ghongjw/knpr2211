@@ -100,6 +100,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		
+		<!-- JsonAPI추가 -->
+		<dependency>
+    	<groupId>javax.json</groupId>
+    	<artifactId>javax.json-api</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

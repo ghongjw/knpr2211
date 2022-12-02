@@ -1,6 +1,6 @@
 package com.reservation.knpr2211.dto;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import javax.persistence.Id;
 
