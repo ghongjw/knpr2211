@@ -4,11 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Write</title>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+function checkBot() {
+	if (grecaptcha.getResponse().length == 0) {
+		alert('AI인지 확인해 주세요.');
+		return false;
+	}
+	return true;
+}
+</script>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<d  iv id="wrap" class="sub">
+<div id="wrap" class="sub">
 		<div id="container">
 <div class="page-location">
     <span>홈</span>
@@ -18,12 +28,9 @@
 			<div class="notification">
     <h3 class="title">묻고답하기</h3>
     <!-- write -->
-    <form action="/post" method="post">
-<!--         <input type="hidden" name="seq" id="seq" value="" title="게시글번호"> -->
+    <form action="/post" method="post" onsubmit="return checkBot()">
         <input type="hidden" name="writer" id="id" value="${member.id }">
         <div class="board-area write">
-        
-       
             <table class="table">
                 <caption>묻고답하기 글 등록폼</caption>
                 <colgroup>
@@ -33,7 +40,7 @@
                 <tbody class="tbody">
                 <tr>
                     <th scope="row">이름</th>
-                    <td><input type="text" value = "${member.name }" readonly></td>
+                    <td>${member.name }</td>
                 </tr>
                 <tr>
                     <th scope="row">연락처</th>
@@ -188,13 +195,13 @@
                       <textarea name="content" id="cn" cols="30" rows="10" class="textarea" title="내용 입력" placeholder="내용 입력"></textarea>
                     </td>
                 </tr>
-                
                 </tbody>
             </table>
+            <div align="right" class="g-recaptcha" data-sitekey="6Lckc0QjAAAAAM99CWG4ZaUjZSotZ9CtddBM38x4"></div>
             <div class="board-bottom">
                 <div class="center">
-                    <a href="board" class="btn btn-cancel">취소</a>
-                    <input type=submit class="btn btn-register is-active" value="등록">
+                    <a href="list" class="btn btn-cancel">취소</a>
+                    <input type=submit class="btn btn-register is-active"  value="등록">
                 </div>
             </div>
         </div>

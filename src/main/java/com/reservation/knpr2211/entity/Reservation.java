@@ -37,7 +37,7 @@ public class Reservation {
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private Integer seq;
 		//예약한 계정(아이디)
-		@Column(nullable=false, insertable = true, updatable = true)
+		@Column(nullable=false, insertable = true, updatable = false)
 		private String id;
 		//대분류 EX) A,B,C,D
 		@Column(nullable = false, insertable = true, updatable = false)
@@ -87,6 +87,10 @@ public class Reservation {
 		
 		private String status = "reserve";
 		
+    public Reservation() {
+			
+		}
+    
 		@Builder
 		public Reservation(Reservation res) throws Exception{
 			this.seq = res.getSeq();
@@ -104,10 +108,24 @@ public class Reservation {
 			this.price = res.getPrice();
 			this.checked = res.getChecked() != null ? res.getChecked():false;
 		}
-		
-		public Reservation() {
-			
-		}
+//	@Builder
+//	public Reservation(Reservation res) throws Exception{
+//	this.id = res.getId();
+//	this.seq = res.getSeq();
+//	this.category1 = res.getCategory1().toString();
+//	this.category2 = res.getCategory2();
+//	this.category3 = res.getCategory3();
+//	this.category4 = res.getCategory4() != null ? res.getCategory4():" ";
+//	this.room = res.getRoom() != null ? res.getRoom():" ";
+//	this.orderTime = res.getOrderTime();
+//	this.startDay = res.getStartDay();
+//	this.endDay = res.getEndDay();
+//	this.people = res.getPeople();
+//	this.allDay = res.getAllDay();
+//	this.price = res.getPrice();
+//	this.checked = res.getChecked() == null ? false:true;
+//  }
+	
 //		public Reservation toEntity() {
 //			Reservation rebuild = Reservation.builder()
 //					.seq(seq)

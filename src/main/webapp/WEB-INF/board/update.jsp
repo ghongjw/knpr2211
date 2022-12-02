@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<script src="../../assets/js/lib/jquery-1.12.4.min.js"></script>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -19,9 +19,12 @@
 			<div class="notification">
     <h3 class="title">묻고답하기</h3>
     <!-- update -->
+    <%--  <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data"> --%>
     <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="_method" value="put"/>
-        <input type="hidden" name="bno" value="${boardDto.bno}"/>
+        <input type="hidden" name="bno" id="bno" value="${boardDto.bno}">
+        <div>제발 : ${boards.bno} ${board.bno} ${boardList.bno} ${boardDtos.bno}</div>
+        <input type="text" name="writer" id="id" value="${member.id }">
         <div class="board-area write">
             <table class="table">
                 <colgroup>
@@ -31,15 +34,15 @@
                 <tbody class="tbody">
                 <tr>
                     <th scope="row">이름</th>
-                    <td><input type="text" name="writer" value="${boardDto.writer}"></td>
+                    <td>${member.name }</td>
                 </tr>
                 <tr>
                     <th scope="row">연락처</th>
-                    <td>01025771579</td>
+                    <td>${member.mobile }</td>
                 </tr>
                 <tr>
                     <th scope="row">이메일</th>
-                    <td>asian0121@naver.com</td>
+                    <td>${member.email }</td>
                 </tr>
                 <tr>
                     <th scope="row">제목 <span class="essential">필수입력</span></th>

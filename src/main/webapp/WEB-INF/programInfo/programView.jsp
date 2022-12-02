@@ -255,7 +255,6 @@
 				</div>
 				<div class="gongbeck"></div>
 			</div>
-          
             </div>
             <div class="btn-area">
                 <button type="button" class="confirmButton" onclick="closePop(popup)">확인</button>

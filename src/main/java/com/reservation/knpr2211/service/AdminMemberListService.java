@@ -106,6 +106,7 @@ public class AdminMemberListService {
 
 	}
 
+	
 	public String memberModify(Model model, String memberId) {
 		
 			model.addAttribute("member", ur.getByid(memberId));

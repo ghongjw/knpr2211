@@ -1,15 +1,18 @@
 package com.reservation.knpr2211.service;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,12 +20,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.reservation.knpr2211.dto.BoardDto;
 import com.reservation.knpr2211.entity.Board;
+import com.reservation.knpr2211.entity.Reply;
 import com.reservation.knpr2211.entity.User;
 import com.reservation.knpr2211.repository.BoardRepository;
+import com.reservation.knpr2211.repository.ReplyRepository;
 import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
 public class BoardService {
+	
+	
+	@Autowired 
+	private ReplyRepository replyRepository;
+	
 	@Autowired
 	private BoardRepository boardRepository;
 	
@@ -30,17 +40,13 @@ public class BoardService {
 	private UserRepository ur;
 	
 	@Autowired
-	private HttpSession session;
-	
-	//페이징
-	private static final int BLOCK_PAGE_NUM_COUNT = 10; //블럭에 존재하는 페이지 수
-	private static final int PAGE_POST_COUNT = 10; // 한 페이지에 존재하는 게시글 수
+	private HttpSession session; 
 	
 	
 	public BoardService(BoardRepository boardRepository) {
 		this.boardRepository = boardRepository;
 	}
-	
+
 	//검색(구분은 못함 아직)
 		@Transactional
 		public String searchPosts(Model model, String category1, String select, String keyword, RedirectAttributes ra) {
@@ -86,6 +92,7 @@ public class BoardService {
 		
 		
 		private BoardDto convertEntityToDto(Board board) {
+
 			return BoardDto.builder()
 					.bno(board.getBno())
 					.category1(board.getCategory1())
@@ -99,66 +106,121 @@ public class BoardService {
 					.build();
 		}
 		
-	//묻고답하기 등록 및 수정
+	//묻고답하기 등록 
 	@Transactional
-	public void savePost(BoardDto boardDto) {
-		
+	public void savePost(Model model, BoardDto boardDto) {
 		boardRepository.save(boardDto.toEntity()).getBno();
+	
+		
 	}
 	
 	
-	//리스트
-	@Transactional
-	public List<BoardDto> getBoardlist(Integer pageNum) {
-	
-		Page<Board> page = boardRepository
-				.findAll(PageRequest
-						.of(pageNum-1, PAGE_POST_COUNT, Sort.by(Sort.Direction.ASC,"createDate")));
+	public String savePosts(String writer, String category1, String type, String title, String content, boolean lock_yn,
+			boolean state, HttpServletResponse response) throws IOException {
 		
-		/* List<Board> boards = boardRepository.findAll(); */
-		List<Board> boards = page.getContent();
-		List<BoardDto> boardDtoList = new ArrayList<>();
-		
-		for(Board board : boards) {
-			boardDtoList.add(this.convertEntityToDto(board));
+//		String sessionBno = (String)session.getAttribute("bno");
+//		if (sessionBno == null) {
+//			return "login/login";
+//		}
+//		
+//		Board board = boardRepository.findById(sessionBno);
+//		
+//		model.addAttribute("board", board);
+//		System.out.println(board);
+		if(title==null || title.isEmpty()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('제목은 필수사항입 니다');</script>");
+			out.flush();
+			return "board/write";
 		}
-		return boardDtoList;
-	}
-	
-	
-	//페이징
-	public Integer[] getPageList(Integer curPageNum) {
-		Integer[] pageList = new Integer[BLOCK_PAGE_NUM_COUNT];
-		
-		//총 게시글 수
-		Double postsTotalCount = Double.valueOf(this.getBoardCount());
-		
-		//총 게시글 수를 기준으로 계산한 마지막 페이지 번호 계산
-		Integer totalLastPageNum = (int)(Math.ceil((postsTotalCount/PAGE_POST_COUNT)));
-		
-		//현재 페이지를 기준으로 블럭의 마지막 펭지 번호 계산
-		Integer blockLastPageNum = (totalLastPageNum > curPageNum + BLOCK_PAGE_NUM_COUNT)
-				? curPageNum + BLOCK_PAGE_NUM_COUNT
-				: totalLastPageNum;
-		
-		//페이지 시작 번호 조정
-		curPageNum = (curPageNum<=3) ? 1 : curPageNum-2; 
-		
-		//페이지 번호 할당
-		for(int val=curPageNum, i=0;val<=blockLastPageNum;val++, i++) {
-			pageList[i] = val;
+		if(content==null || content.isEmpty()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('내용은 필수사항입 니다');</script>");
+			out.flush();
+			return "board/write";
 		}
-		return pageList;
+		Board board1 = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
+		boardRepository.save(board1);
+		
+		
+		return "redirect:list";
 	}
+	 
+	//리스트              
+	public String paging(Model model, Integer page, Integer size, String board, String select, String category1,String keyword,  RedirectAttributes ra) {
+		if(page == null || size == null) {
+			page = 0;
+			size = 10;
+		}
+		if (board == null || board.isEmpty()) {
+			board = "all";
+		}
+		if (select == null || select.isEmpty()) {
+			select = "id";
+		}
+		if(category1 == null || category1.isEmpty()) {
+			category1 = "all";
+		}
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Direction.DESC,"bno"));
+		
+		Page<Board> result = boardRepository.findAll(pageRequest); 
 	
-	@Transactional
-	private Long getBoardCount() {
-		return boardRepository.count();
-	}
+		if(keyword==null) {
+			if(!category1.equals("all")) {
+				result = boardRepository.findByCategory1(category1, pageRequest);
+			}else {
+				result = boardRepository.findAll(pageRequest);
+			}
+		}
+		else {
+			if(!category1.equals("all")) {
+				if(select.equals("title")) {
+					result = boardRepository.findByCategory1AndTitleContaining(category1,keyword, pageRequest);
+				}else if(select.equals("content")) {
+					result = boardRepository.findByCategory1AndContentContaining(category1,keyword, pageRequest);
 
+				}else {
+					result = boardRepository.findBykeyword(category1,keyword,keyword, pageRequest);
+
+				}
+			}else {
+				if(select.equals("title")) {
+					result = boardRepository.findByTitleContaining(keyword, pageRequest);
+					}else if(select.equals("content")) {
+						result = boardRepository.findByContentContaining(keyword, pageRequest);
+
+					}else {
+						result = boardRepository.findBykey(keyword,keyword, pageRequest);
+
+					}
+			}
+		}
+		
+		List<Board> boards = result.getContent();
+		
+		int totalPage = result.getTotalPages();
+		if (totalPage == 0) {
+			totalPage = 1;
+		}
+		long totalElement = result.getTotalElements();
+		
+		model.addAttribute("boards", boards);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("totalElement", totalElement);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("category1", category1);
+		model.addAttribute("board", board);
+		model.addAttribute("select", select);
+		
+		ra.addAttribute("boardList", boards);
+		
+		return "redirect:list";
+	}
 	
 	//상세페이지
-	@Transactional
+	
 	public String getPost(Long bno, Model model) {
 		String sessionId = (String)session.getAttribute("id");
 		if (bno == null || sessionId == null||sessionId.isEmpty()) {
@@ -170,6 +232,17 @@ public class BoardService {
 		
 		Optional<Board> boardWrapper = boardRepository.findById(bno);
 		
+		List<Reply> list = replyRepository.findByBoard(boardWrapper.get());
+		
+		for(Reply reply : list) {
+			
+			reply.getContent();
+			
+		}
+		//답글 찍어봄
+		model.addAttribute("list", list);
+		System.out.println(list);
+		
 		Board board = boardWrapper.get();
 		if(member.equals("admin")||sessionId.equals(board.getWriter())) {
 			BoardDto boardDto =  BoardDto.builder()
@@ -178,16 +251,21 @@ public class BoardService {
 					.content(board.getContent())
 					.writer(board.getWriter())
 					.createDate(board.getCreateDate())
+					.list(list)
 					.build();
-
+					
+				
 					model.addAttribute("boardDto", boardDto);
-
+					
+					//수정을 위해 찍어봄
+					System.out.println(boardDto.getBno());
 					return "board/detail";
 		}
 		
 		else return "redirect:list";
 		
 	}
+
 	//삭제
 	@Transactional
 	public void deletePost(Long bno) {
@@ -206,15 +284,11 @@ public class BoardService {
 		return "board/write";
 		
 	}
+	
 
-	public String savePosts(String writer, String category1, String type, String title, String content, boolean lock_yn,
-			boolean state) {
-		
-		Board board = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
-		boardRepository.save(board);
-		
-		return "redirect:/list";
-	}
+	
+
+	
 	
 	
 	

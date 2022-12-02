@@ -1,8 +1,11 @@
 package com.reservation.knpr2211.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.reservation.knpr2211.entity.Board;
+import com.reservation.knpr2211.entity.Reply;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +30,7 @@ public class BoardDto {
 	private boolean state;
 	private LocalDateTime createDate;
 	private LocalDateTime modifiedDate;
+	private List<Reply> replyList = new ArrayList<>();
 	
 	public Board toEntity() {
 		Board build = Board.builder()
@@ -44,7 +48,7 @@ public class BoardDto {
 	
 	@Builder
 	public BoardDto(Long bno, String category1, String type, String title, String content, String writer,
-			LocalDateTime createDate, LocalDateTime modifiedDate, boolean lock_yn, boolean state) {
+			LocalDateTime createDate, LocalDateTime modifiedDate, boolean lock_yn, boolean state, List<Reply> list) {
 		this.bno = bno;
 		this.category1 = category1;
 		this.type = type;
@@ -55,5 +59,6 @@ public class BoardDto {
 		this.modifiedDate = modifiedDate;
 		this.lock_yn = lock_yn;
 		this.state = state;
+		this.replyList = list;
 	}
 }
