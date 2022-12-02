@@ -103,7 +103,16 @@ public class BoardController {
 		boardService.deletePost(bno);
 		return "redirect:/list";
 	}
-	
-	
+
+	//검색(구분은 아직 못함)
+	@PostMapping("list")
+	public String search(String category1, String select, String keyword, Model model,RedirectAttributes ra) {
+		
+		
+		
+		return boardService.searchPosts(model, category1, select, keyword, ra);
+		
+	}
+
 	
 }

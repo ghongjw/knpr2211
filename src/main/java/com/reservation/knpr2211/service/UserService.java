@@ -249,6 +249,7 @@ public class UserService {
 	public String IdConfirm(String id) {
 
 
+
 		boolean result = id.matches("[a-z]{1}[a-z0-9_-]{5,16}");
 		
 		if(result==false) {
@@ -258,6 +259,7 @@ public class UserService {
 		
 
 		if (userRepository.findById(id) == null) {
+
 
 			return "사용가능한 아이디입니다";
 		}

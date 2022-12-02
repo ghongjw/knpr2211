@@ -62,7 +62,7 @@
                     <a href="javascript:void(0);" class="depth1">알림마당</a>
                     <ul class="depth2">
                         
-                            <li><a href="noticeProc">공지사항</a></li>
+                            <li><a href="attentionList?page=0&size=10">공지사항</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         
@@ -190,7 +190,7 @@
                         <a href="javascript:void(0);" class="depth1">알림마당</a>
                         <ul class="depth2">
                             
-                            <li><a href="noticeProc">공지사항</a></li>
+                            <li><a href="adminAttentionList?page=0&size=10">공지사항</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         

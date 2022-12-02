@@ -30,6 +30,7 @@ public class PlaceService implements IPlaceService {
 	@Autowired HttpSession session;
 
 	// (시작)작성자:공주원 ==============================================
+	@SuppressWarnings("null")
 	@Transactional
 	public ArrayList<PlaceDTO> selectPlace(Model model,String parkId,String parkDetail){
 		System.out.println("parkId : "+parkId);
@@ -49,11 +50,14 @@ public class PlaceService implements IPlaceService {
 		
 		String category1 = parkDetail.substring(0,1);
 		String category2 = parkDetail.substring(0,3);
+		String category3 = parkDetail;
 		
 		//카테고리별 중복제거 값 불러오기
 		ArrayList<String> category2s = pr.findDistintCategory2(category1);
 		ArrayList<String> category3s = pr.findDistintCategory3(category2);
+		ArrayList<String> category4s = pr.findDistintCategory4(category3);
 		
+	
 		//카테고리별 값 한국어로 바꾸기
 		ArrayList<String> nameOfCategory2s = new ArrayList<>();
 		
@@ -67,6 +71,7 @@ public class PlaceService implements IPlaceService {
 			nameOfCategory3s.add(a);
 			//System.out.println("a"+a);
 		}
+		System.out.println(category4s);
 		
 		model.addAttribute("category2s", category2s);
 		model.addAttribute("category3s", category3s);
@@ -74,12 +79,21 @@ public class PlaceService implements IPlaceService {
 		model.addAttribute("nameOfCategory3s", nameOfCategory3s);
 		model.addAttribute("selectedParkDetail", parkDetail);
 		
+		ArrayList<Place> places = null;
 		
-		ArrayList<Place>  places;
 		if(category1.equals("C")||category1.equals("D")) {
 			places= pr.find(parkId);
-		}else
-		places= pr.findByCategory3(parkDetail);
+		}else if(category1.equals("A")) {
+			places = new ArrayList<Place>();
+			for(String cat4: category4s) {
+				Place tmp = pr.findFirstByCategory4(cat4);
+				places.add(tmp);
+				System.out.println("스ㅔ : "+tmp);
+			}
+		}else {
+			places= pr.findByCategory3(parkDetail);
+		
+		}
 		
 		System.out.println("places"+places);
 		ArrayList<PlaceDTO> placeDtos = new ArrayList<>();
@@ -120,7 +134,8 @@ public class PlaceService implements IPlaceService {
 		} 
 		
 		
-		int imagecount = imageFile(parkDetail);
+		int imagecount = 4;
+				//imageFile(parkDetail);
 		model.addAttribute("imagecount", imagecount);
 		System.out.println(imagecount);
 	 return placeDtos;
@@ -137,7 +152,6 @@ public class PlaceService implements IPlaceService {
 		        return name.startsWith(parkDetail);
 		    }
 		};
-		
 		File files[] = dir.listFiles(filter);
 		int i = 0;
 		for (i = 0; i < files.length; i++) {
@@ -152,9 +166,11 @@ public class PlaceService implements IPlaceService {
 		
 		String category1 = mountain.substring(0,1);
 		String category2 = mountain.substring(0,3);
+		String category3 = mountain;
 		//카테고리별 중복제거 값 불러오기
 		ArrayList<String> category2s = pr.findDistintCategory2(category1);
 		ArrayList<String> category3s = pr.findDistintCategory3(category2);
+		ArrayList<String> category4s = pr.findDistintCategory4(category3);
 		//카테고리별 값 한국어로 바꾸기
 		ArrayList<String> nameOfCategory2s = new ArrayList<>();
 		
@@ -167,13 +183,26 @@ public class PlaceService implements IPlaceService {
 			a = mcs.findCategory(a); 
 			nameOfCategory3s.add(a);
 		}
+		ArrayList<String> nameOfCategory4s = new ArrayList<>();
+		for(String a : category4s) {
+			a = mcs.findCategory(a); 
+			nameOfCategory4s.add(a);
+		}
 		model.addAttribute("category2s", category2s);
 		model.addAttribute("category3s", category3s);
 		model.addAttribute("nameOfCategory2s", nameOfCategory2s);
 		model.addAttribute("nameOfCategory3s", nameOfCategory3s);
 		
 		
-		ArrayList<Place>  places= pr.findByCategory3(mountain);
+		
+		ArrayList<Place>  places= new ArrayList<>();
+		
+		for(String cat4: category4s) {
+			places.add(pr.findFirstByCategory4(cat4));
+		}
+		
+		
+		
 		System.out.println("places"+places);
 		ArrayList<PlaceDTO> placeDtos = new ArrayList<>();
 		

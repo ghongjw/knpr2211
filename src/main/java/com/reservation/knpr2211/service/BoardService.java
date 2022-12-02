@@ -46,7 +46,53 @@ public class BoardService {
 	public BoardService(BoardRepository boardRepository) {
 		this.boardRepository = boardRepository;
 	}
-	private BoardDto convertEntityToDto(Board board) {
+
+	//검색(구분은 못함 아직)
+		@Transactional
+		public String searchPosts(Model model, String category1, String select, String keyword, RedirectAttributes ra) {
+			
+			List<Board> boards = new ArrayList<Board>(); 
+			System.out.println("category1 : "+category1+" select : "+select+" keyword : "+keyword);
+			if(keyword==null||keyword.isEmpty()) {
+				if(!category1.equals("all")) {
+					boards = boardRepository.findByCategory1(category1);
+					System.out.println(">>>>>>>select해봅시다>>>>>>>>");
+				}else {
+					boards = boardRepository.findAll();
+				}
+			}
+			else {
+				if(!category1.equals("all")) {
+					if(select.equals("title")) {
+					boards = boardRepository.findByCategory1AndTitleContaining(category1,keyword);
+					}else if(select.equals("content")) {
+					boards = boardRepository.findByCategory1AndContentContaining(category1,keyword);
+
+					}else {
+						boards = boardRepository.findBykeyword(category1,keyword,keyword);
+
+					}
+				}else {
+					if(select.equals("title")) {
+						boards = boardRepository.findByTitleContaining(keyword);
+						}else if(select.equals("content")) {
+						boards = boardRepository.findByContentContaining(keyword);
+
+						}else {
+							boards = boardRepository.findBykey(keyword,keyword);
+
+						}
+				}
+			}
+			System.out.println("%%%%"+boards);
+			model.addAttribute("boardList", boards);
+			
+	 		return "redirect:/list";
+		}
+		
+		
+		private BoardDto convertEntityToDto(Board board) {
+
 			return BoardDto.builder()
 					.bno(board.getBno())
 					.category1(board.getCategory1())
