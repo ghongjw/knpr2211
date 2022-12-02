@@ -1,5 +1,6 @@
 package com.reservation.knpr2211.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ public class TimeEntity {
 
 	@CreatedDate
 	@Column(updatable = false)
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	
 	@LastModifiedDate
 	private LocalDateTime modifiedDate;

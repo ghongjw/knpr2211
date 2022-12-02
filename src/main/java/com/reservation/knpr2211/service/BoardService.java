@@ -55,7 +55,7 @@ public class BoardService {
 					.content(board.getContent())
 					.writer(board.getWriter())
 					.createDate(board.getCreateDate())
-					.lock_yn(board.isLock_yn())
+					.lock_yn(board.getLock_yn())
 					.state(board.isState())
 					.build();
 		}
@@ -65,22 +65,11 @@ public class BoardService {
 	public void savePost(Model model, BoardDto boardDto) {
 		boardRepository.save(boardDto.toEntity()).getBno();
 	
-		
 	}
 	
-	
-	public String savePosts(String writer, String category1, String type, String title, String content, boolean lock_yn,
-			boolean state, HttpServletResponse response) throws IOException {
+	public String savePosts(String writer, String category1, String type, String title, String content, String lock_yn,
+			boolean state, HttpServletResponse response, Long bno) throws IOException {
 		
-//		String sessionBno = (String)session.getAttribute("bno");
-//		if (sessionBno == null) {
-//			return "login/login";
-//		}
-//		
-//		Board board = boardRepository.findById(sessionBno);
-//		
-//		model.addAttribute("board", board);
-//		System.out.println(board);
 		if(title==null || title.isEmpty()) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -95,6 +84,8 @@ public class BoardService {
 			out.flush();
 			return "board/write";
 		}
+		
+		
 		Board board1 = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
 		boardRepository.save(board1);
 		
@@ -174,11 +165,10 @@ public class BoardService {
 	}
 	
 	//상세페이지
-	
 	public String getPost(Long bno, Model model) {
 		String sessionId = (String)session.getAttribute("id");
-		if (bno == null || sessionId == null||sessionId.isEmpty()) {
-			model.addAttribute("msg","잘못된 접근입니다.");
+		if (bno == null || sessionId == null || sessionId.isEmpty()) {
+			model.addAttribute("msg","잘못된 접근입니다. 로그인 후 이용해주세요.");
 			return "login/login";
 		}
 		User user = ur.findByid(sessionId);
@@ -198,21 +188,20 @@ public class BoardService {
 		System.out.println(list);
 		
 		Board board = boardWrapper.get();
-		if(member.equals("admin")||sessionId.equals(board.getWriter())) {
+
+		if(member.equals("admin") || sessionId.equals(board.getWriter())) {
 			BoardDto boardDto =  BoardDto.builder()
 					.bno(board.getBno())
 					.title(board.getTitle())
+					.category1(board.getCategory1())
 					.content(board.getContent())
 					.writer(board.getWriter())
 					.createDate(board.getCreateDate())
 					.list(list)
 					.build();
 					
-				
 					model.addAttribute("boardDto", boardDto);
-					
-					//수정을 위해 찍어봄
-					System.out.println(boardDto.getBno());
+
 					return "board/detail";
 		}
 		

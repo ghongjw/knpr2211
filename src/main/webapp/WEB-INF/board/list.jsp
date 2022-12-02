@@ -21,25 +21,25 @@
 		$(".input2").val("${select}")
 		$(".input3").val("${keyword}")
 		
-		
 		const urlParams = new URL(location.href).searchParams;
 		const page = urlParams.get('page');
 		console.log(page);
-		
 	})
+	
+	
+function secret() {
+  alert("잠금처리된 게시글 입니다.");
+}
 </script>
 </head>
 <body>
 <script type="text/javascript">
-
-
 let pageNum = function(num){
 	var url = "list?page="+num+"&size=10"; 
 	
 	$("#boardSearch").attr("action",url).submit();
 }
-	 	
-	 	</script>
+</script>
 <%@ include file="../common/header.jsp" %>
 <div id="wrap" class="sub">
 	<div id="container">
@@ -192,18 +192,24 @@ let pageNum = function(num){
 	            			<td>${board.bno}</td>
 	            			<td>${board.category1}</td>
 	            			<td>${board.type}</td>
-	            			<td><i class="icon-lock"></i><a href="/boardDetail?bno=${board.bno}">${board.title}</a></td> 
 	            			
 	            			<c:choose>
-	            			<c:when test="${member.id == board.writer || member.member == 'admin'}"> 
-	            			<td>${board.writer}</td>
-	            			</c:when>
-	            			<c:otherwise>
-	            			<td>비밀입니다</td>
-	            			</c:otherwise>
+	            				<c:when test="${member.id == board.writer || member.member == 'admin' || board.lock_yn == true}">
+	            					<td><i class="icon-unlock"></i><a href="/boardDetail?bno=${board.bno}">${board.title}</a></td> 
+	            				</c:when>
+	            				<c:otherwise>
+	            					<td><i class="icon-lock"></i><a href="/boardDetail?bno=${board.bno}" onclick="secret()">${board.title}</a></td> 
+	            				</c:otherwise>
 	            			</c:choose>
-	            			<%-- <td>${board.writer}</td> --%>
 	            			
+	            			<c:choose>
+	            				<c:when test="${member.id == board.writer || member.member == 'admin'}"> 
+	            					<td>${board.writer}</td>
+	            				</c:when>
+	            				<c:otherwise>
+	            					<td>비밀입니다</td>
+	            				</c:otherwise>
+	            			</c:choose>
 	            			<td>${board.createDate}</td>
 	            			<td>
 	            			<c:choose>

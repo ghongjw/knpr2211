@@ -31,6 +31,12 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 	//	Board findAll(Sort by, PageRequest pageRequest);
 	//List<Board> findAllByOrderByCreatedAtDesc();
 
+
+
+	
+
+	
+
 	
 
 	

@@ -23,8 +23,7 @@
     <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="_method" value="put"/>
         <input type="hidden" name="bno" id="bno" value="${boardDto.bno}">
-        <div>제발 : ${boards.bno} ${board.bno} ${boardList.bno} ${boardDtos.bno}</div>
-        <input type="text" name="writer" id="id" value="${member.id }">
+        <input type="hidden" name="writer" id="id" value="${member.id }">
         <div class="board-area write">
             <table class="table">
                 <colgroup>
@@ -148,11 +147,11 @@
                     <th scope="row">공개</th>
                     <td class="form">
                         <span class="radio-1">
-                            <input type="radio" id="radio20" name="boardSecret" checked="checked" value="N">
+                            <input type="radio" id="radio20" name="lock_yn" value="open">
                             <label for="radio20">공개</label>
                         </span>
                         <span class="radio-1">
-                            <input type="radio" id="radio19" name="boardSecret" value="Y">
+                            <input type="radio" id="radio19" name="lock_yn" checked="checked" value="close">
                             <label for="radio19">비공개</label>
                         </span>
                     </td>

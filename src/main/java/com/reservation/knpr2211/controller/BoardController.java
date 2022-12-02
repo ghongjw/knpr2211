@@ -51,8 +51,8 @@ public class BoardController {
 		return boardService.getMember(model);
 	}
 	@PostMapping("post")
-	public String write(String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state, HttpServletResponse response) throws IOException {
-		return boardService.savePosts(writer, category1, type, title, content, lock_yn,state, response);
+	public String write(String writer, String category1,String type,String title,String content, String lock_yn, boolean state, HttpServletResponse response, Long bno) throws IOException {
+		return boardService.savePosts(writer, category1, type, title, content, lock_yn, state, response, bno);
 	}
 	//상세페이지
 	@GetMapping("boardDetail")
