@@ -47,11 +47,11 @@
     <div class="imageMap">
 	<img src="../../assets/img/sub/img-map4.png" usemap="#image-map1" class="map" alt="야영장 지도">
 		<map name = "image-map1">
-			<area shape="rect" alt="태백산" title="태백산" coords="622,278,730,332" href="#D16" class="link"/>
+			<area shape="rect" alt="태백산" title="태백산" coords="622,278,730,332" href="#D01" class="link"/>
 		</map>
 		</div>
 		<div class = "imageMapList">
-			<a href = "javascript:void(0);" class = "btn" id= "D16" onclick = "gotoInfo('D16')">태백산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "D01" onclick = "gotoInfo('D01')">태백산</a>
 		</div>
 		<form action = "detailInfo" method="get" id="contentsForm">
 			<input type="hidden" id="parkId" name="parkId" value="">

@@ -1,10 +1,12 @@
 package com.reservation.knpr2211.service;
 
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,15 +20,19 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
+
 import com.reservation.knpr2211.dto.ReservationDTO;
 import com.reservation.knpr2211.entity.Place;
 import com.reservation.knpr2211.entity.Reservation;
+
 import com.reservation.knpr2211.repository.PlaceRepository;
 import com.reservation.knpr2211.repository.ReservationRepository;
 
 @Service
+
 public class IndexService implements IPlaceService {
 	@Autowired
 	MountainCodeService mcs;
@@ -40,8 +46,9 @@ public class IndexService implements IPlaceService {
 	HttpSession session;
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	@Transactional
+
 	public ArrayList<PlaceDTO> selectPlace(String parkId, String parkDetail) {
 
 		if (parkDetail == null || parkDetail.isEmpty()) {
@@ -54,6 +61,7 @@ public class IndexService implements IPlaceService {
 		String category1 = parkDetail.substring(0, 1);
 		String category2 = parkDetail.substring(0, 3);
 		// 카테고리별 중복제거 값 불러오기
+
 		ArrayList<String> category2s = pr.findDistintCategory2(category1);
 		ArrayList<String> category3s = pr.findDistintCategory3(category2);
 		// 카테고리별 값 한국어로 바꾸기
@@ -68,6 +76,7 @@ public class IndexService implements IPlaceService {
 			a = mcs.findCategory(a);
 			nameOfCategory3s.add(a);
 		}
+
 		session.setAttribute("category2s", category2s);
 		session.setAttribute("category3s", category3s);
 		session.setAttribute("nameOfCategory2s", nameOfCategory2s);
@@ -425,5 +434,5 @@ public class IndexService implements IPlaceService {
 		}
 		return num;
 	}
-
+	
 }

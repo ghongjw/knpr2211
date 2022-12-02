@@ -69,8 +69,9 @@ function printMsg(){
 <h3>
 	<font color="red" id="msg">${msg } </font>
 </h3><br>
-    <form method="post" action="RegisterProc">
+    <form method="post" action="RegisterProc"> 
         <input type="text"class="input-text" name="id" id="id" placeholder="아이디"/> 
+       
         <input type="button" class="input-text" value="아이디중복확인" onclick="IdConfirm()"><br><br>
         <input type="password" class="input-text"name="pw" id="pw"placeholder="비밀번호" /><br><br>
         <input type="password" class="input-text"name="PwCon" id="PwCon"placeholder="비밀번호확인" onkeyup="PwConfirm()"/><br><br>

@@ -16,7 +16,9 @@ public class ReservationDTO {
 
 	@Id
 	private Integer seq;
-
+	
+	private String id;
+	
 	private String category1;
 	private String nameCategory1;
 	
@@ -49,9 +51,12 @@ public class ReservationDTO {
 	
 	private Boolean isDone;
 	
+	private String status;
 	public ReservationDTO() {
 		
 	}
+
+
 	
 
 }

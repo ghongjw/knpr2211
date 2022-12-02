@@ -1,16 +1,20 @@
-package com.reservation.knpr2211.controller;
+ package com.reservation.knpr2211.controller;
+
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.reservation.knpr2211.repository.UserRepository;
+import com.reservation.knpr2211.service.KakaoService;
 import com.reservation.knpr2211.service.UserService;
 
 @Controller
@@ -20,6 +24,7 @@ public class ServiceInfomationController {
 	public String test() {
 		return "test";
 	}
+	
 	//야영장
 	@RequestMapping("campsiteInfo")
 	public String campsiteInfo() {
@@ -40,6 +45,7 @@ public class ServiceInfomationController {
 	public String cottageInfo() {
 		return  "serviceGuide/cottageInfo";
 	}
+
 	//로그인
 		
 	@RequestMapping("login")
@@ -47,27 +53,31 @@ public class ServiceInfomationController {
 			return  "login/login";
 		}
 		
+	
 	//로그인 버튼
 	@Autowired UserRepository user;	
 	@Autowired UserService userservice;
 	@Autowired private HttpSession session;
 	@PostMapping(value =  "loginproc")
-	public String loginproc(String id, String pw) {
+	public String loginproc(Model model,String id, String pw) {
 	userservice.login(id, pw);	
 	System.out.println(userservice.login(id, pw));
 	String msg= userservice.login(id, pw);
 	
-	if(msg.equals("로그인 성공")) {
-		
-	return "login/login";
+	if(msg.equals("회원 로그인 성공")) {
+		System.out.println("회원 로그인");
+		model.addAttribute("msg",msg);
+	return "redirect:index";
 	}
 	if(msg.equals("어드민 계정 로그인 성공")) {
-		System.out.println("로그인");
+		System.out.println("관리자 로그인");
+		model.addAttribute("msg",msg);
 	return "redirect:adminIndex";
 	}
-	
-	else return "redirect:index";
-	
+	else {
+	model.addAttribute("msg",msg);
+	return "login/login";
+		}
 	}
 	
 		

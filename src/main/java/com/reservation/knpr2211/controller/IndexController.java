@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.dto.ReservationDTO;
 import com.reservation.knpr2211.service.IndexService;
 import com.reservation.knpr2211.service.MountainCodeService;
 import com.reservation.knpr2211.service.PlaceService;
 import com.reservation.knpr2211.service.ReservationService;
+
 
 @Controller
 public class IndexController {
@@ -59,6 +61,7 @@ public class IndexController {
 		return result;
 	}
 	
+
 	@ResponseBody //parkId : A010101
 	@PostMapping(value="campPrice", produces = "application/json; charset=UTF-8") 
 	public HashMap<String,String> campPrice(@RequestBody(required = false) HashMap<String, String> keyData) {
@@ -95,6 +98,7 @@ public class IndexController {
 		keyData.put("peopleMax", String.valueOf(data.getPeopleMax()));
 		keyData.put("selectPlace", data.getNameCategory2()+" "+keyData.get("nameCategory3"));
 		return keyData;
+
 	}
 	
 	// 최종 결제

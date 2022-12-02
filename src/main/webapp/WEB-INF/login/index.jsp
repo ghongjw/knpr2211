@@ -45,9 +45,16 @@
                  * 나머지 간편예약은 각 include 된 페이지에서 조회
                  */
                 if(tabId == 'tab1'){
+
+                    $('[data-reservation-area="step"]').removeClass('step2').addClass('step1');
+                    $('[data-reservation-area="stepText"]').html('STEP.1');
+                    $('#tab1').find('[data-reservation-step="2"]').hide();
+                    $('#tab1').find('[data-reservation-step="1"]').css('display', '');
+                    $('#tab1').find('[data-template-id="camp-btn-area"]').css('display', '');
+
                     
                   
-           
+    
                 }else if(tabId == 'tab2'){
                     
                 }else if(tabId == 'tab3'){
@@ -108,48 +115,12 @@
 <!-- 슬라이더 jsp -->
 <div class="swiper">
     <div class="swiper-wrapper">
-        
-            
-                
+    
                 <div class="swiper-slide slide0">
                     <a href="#" >
                     <img src="bbs/popup/banner20220731.png" alt="국립공원 예약시스템은 크롬과 엣지에 최적화되어 있습니다." >
                     </a>
                 </div>
-                
-                <div class="swiper-slide slide1">
-                    <a href="contents/rsvtRefundPolicy.html" >
-                    <img src="bbs/popup/220725_popup.jpg" alt="예약대기 변경 안내 - 앞 예약자 결제 시 대기예약이 자동 취소됨을 안내드립니다." >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide2">
-                    <a href="#" >
-                    <img src="bbs/popup/notice3.png" alt="2022년 예약 시작일 안내" >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide3">
-                    <a href="https://www.knps.or.kr/front/portal/open/pnewsDtl.do?menuNo=8000517&amp;pnewsId=PNEWSM022141&amp;searchParkId=120400&amp;pnewsGrpCd=PNE01" target="_blank">
-                    <img src="bbs/popup/trailBannerPop.png" alt="설악산 흘림골탐방로 탐방로 예약제 운영 안내" >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide4">
-                    <a href="#" >
-                    <img src="bbs/popup/naturehouseBanner.png" alt="자연의집 신규 운영안내" >
-                    </a>
-                </div>
-                
-                <div class="swiper-slide slide5">
-                    <a href="#" >
-                    <img src="bbs/popup/blanket.png" alt="모포대여중단" >
-                    </a>
-                </div>
-                
-            
-            
-        
     </div>
 </div>
 
@@ -178,11 +149,6 @@
                     
                         <div class="tab-pane is-active" id="tab1">
                             <!-- 야영장 -->
-                             
-
-
-
-
 
 <script src="assets/js/lib/handlebars.min.js"></script>
 <script src="assets/js/lib/netfunnel.js"></script>
@@ -218,9 +184,6 @@
 			return a;
 		}
 	};
-	
-	
-		
 		var selectedPrd = {};
 		
 		var $campTab = $('#tab1');
@@ -237,7 +200,6 @@
 			}
 		};
 		// 상품명 데이터 불러옴 
-		
 		var refreshDate = function(){
 			
 			var $info = $campTab.find('[data-area-name="camp-reservation-info"]');
@@ -258,43 +220,228 @@
 			$campTab.find('[data-calendar-cell-yyyy-mm-dd]').removeClass('start end selected');
 		};
 		
-	
-		window.automaticCharacterCamp = function(){
+
+		//예약하기
+		function reservation(){
 			
-			//drawOptions
-			var optParam = {};
-			optParam.prdId = selectedPrd.prdId;
-			optParam.useBgnDtm = selectedPrd.useBgnDtm.replace(/\-/g,'');
-			optParam.period = selectedPrd.period;
+			if(selectedPrd.brfeTerYn == 'Y'){
+				
+				if(!$campTab.find('[name="rsvtDvcdDs"]:checked').val()){
+					
+					toastrMsg("자격구분을 선택해주세요.","메세=지","e");
+					$campTab.find('[name="rsvtDvcdDs"]').eq(0).focus();
+					return;
+				}
+				if(!$.trim($campTab.find('[name="dstpRegNo"]').val())){
+					
+					toastrMsg("장애인등록번호(뒤 3자리)를 입력해주세요.","메세지","e");
+					$campTab.find('[name="dstpRegNo"]').focus();
+					return;
+				}
+			}
+			
+			if($campTab.find("input[name=captcha]").val() == null || $campTab.find("input[name=captcha]").val().trim() == "") {
+				toastrMsg("자동예약방지글을 입력해주세요.","메세지","e");
+				$campTab.find("input[name=captcha]").focus();
+				return;
+			}
+			
 			
 			commn.callAjax({
-				url: '/reservation/campsite/selectOptionList.do',
-				data: optParam,
+				url: '/reservation/registerCampReservation.do',
+				data: {
+					"prdId" : selectedPrd.prdId
+					, "deptId" : selectedPrd.deptId
+					, "useBgnDtm" : selectedPrd.useBgnDtm.replace(/\-/g,'')
+					, "useEndDtm" : selectedPrd.useEndDtm.replace(/\-/g,'')
+					, "reserTp" : selectedPrd.reserTp
+					, "checkPerVal" : selectedPrd.period
+					/* , "price" : price
+					, "nextPrice" : next_price */
+					, "captcha" : $campTab.find("input[name='captcha']").val()
+					/* , "optAmtTotal" : optAmtTotal */
+					, "selectedOptions" : selectedPrd.selectedOptions
+					, 'rsvtDvcd' : selectedPrd.brfeTerYn == 'Y' ? $campTab.find('[name="rsvtDvcdDs"]:checked').val() : ''
+					, 'dstpRegNo' : selectedPrd.brfeTerYn == 'Y' ? $campTab.find('[name="dstpRegNo"]').val() : ''
+				},
 				dataType: 'json'
 			})
-			.done(function(res){
+			.done(function(result){
 				
-				if(!res.optionList || $.isEmptyObject(res.optionList)){
-					
-					$('#application-reservation-camp-option [data-popup-btn="confirm"]').trigger('click')
-				}else{
-					
-					var $options = $campTab.find('[data-template-id="camp-options-template"]');
-					var optionsTemplate = Handlebars.compile($('#' + $options.data('template-id')).html()); 
-					
-					var optTemplateParam = {};
-					optTemplateParam.options = res.optionList;
-					optTemplateParam.period = selectedPrd.period;
-					$options.html(optionsTemplate(optTemplateParam));
-					
-					$campTab.find('[data-popup="application-reservation-camp-option"]').trigger('click');
-				}
+				//정상 요청, 응답 시 처리 작업
+			    if(result.resultCd == "S"){
+			    	$(".btn-close:eq(1)").trigger("click");
+			    	
+			    	var ymdhm = function(value){
+			    		
+			    		if(value){
+			    			var year = value.substring(0, 4);
+			    			var month = value.substring(4, 6);
+			    			var day = value.substring(6, 8);
+			    			var hour = value.substring(8, 10);
+			    			var minute = value.substring(10, 12);
+			    			//var second = value.substring(12, 14);
+			    			return year + '년 ' + month + '월 ' + day + '일 ' + hour + ':' + minute;
+			    		}
+			    		return '';
+			    	};
+			    	
+			    	if(selectedPrd.reserTp == 'W'){
+			    		
+			    		$campTab.find('[data-area-name="reservation-popup-container-w"]').css('display', '').siblings('[data-area-name="reservation-popup-container"]').hide();
+			    	}else{
+			    		
+			    		$campTab.find('[data-area-name="reservation-popup-container"]').css('display', '').siblings('[data-area-name="reservation-popup-container-w"]').hide();
+				    	$campTab.find('[data-popup-information-camp="sttlmMtDtm"]').html(ymdhm(commn.nvl(result.dataMap).sttlmMtDtm2));//결제만기일시
+			    	}
+			    	
+			    	// 예약안내 레이어팝업
+			    	$campTab.find('[data-popup="reservation-information1-camp"]').trigger('click');
+			    }else{
+			    	toastrMsg(result.resultMsg,"메세지","e");
+                    closePopup('automatic-character-camp');
+			    }
 			})
 			.fail(function(e){
 				//$("#loadingImage").hide();
 				toastrMsg("일시적으로 장애가 발생하였습니다. 잠시 후 다시 시도하여 주시기 바랍니다.","메세지"); //<br />원활한 서비스를 위해 최선을 다하겠습니다.
 			});
+		}
+		//step 1,2 넘어가는 function 
+		var updateStep = function(step){
+			
+			switch(step) {
+
+			  	case '1':
+
+			  		$('[data-reservation-area="step"]').removeClass('step2').addClass('step1');
+					$('[data-reservation-area="stepText"]').html('STEP.1');
+					$campTab.find('[data-reservation-step="2"]').hide();
+                    $campTab.find('[data-reservation-step="1"]').css('display', '');
+                    $campTab.find('[data-template-id="camp-btn-area"]').css('display', 'none');
+			    	break;
+
+			  	case '2':
+			  		$('[data-reservation-area="step"]').removeClass('step1').addClass('step2');
+					$('[data-reservation-area="stepText"]').html('STEP.2');
+					$campTab.find('[data-reservation-step="1"]').hide();
+					$campTab.find('[data-reservation-step="2"]').css('display', '');
+                    $campTab.find('[data-template-id="camp-btn-area"]').css('display', '');
+			    	break;
+			}
 		};
+		//산 클릭 (가야산, 지리산 등등 )
+		
+		var campListBindEvents = function(){
+			
+				
+			$campTab.find('[name="camp-mountain"]').on('click', function(){
+				
+				$campTab.find('input[type="checkbox"][data-gubun-dept-id]').prop('checked', false).closest('li').siblings().hide();//유형 hide
+				$campTab.find('[data-dept-dept-parent-nm]').prop('checked', false).closest('li').hide();
+				$campTab.find('[data-dept-dept-parent-nm="' + $(this).val() + '"]').closest('li').css('display', '');
+				
+				refreshDate();
+			});
+			
+				
+			$campTab.find('input[type="radio"][data-dept-dept-id]').on('click', function(){
+				
+				$campTab.find('input[type="checkbox"][data-gubun-dept-id]').prop('checked', false).closest('li').siblings().hide();
+				$campTab.find('input[type="checkbox"][data-gubun-dept-id="' + $(this).data('dept-dept-id') + '"]').closest('li').css('display', '');
+				
+				if(!$campTab.find('input[type="checkbox"][data-gubun-dept-id="' + $(this).data('dept-dept-id') + '"]').length){
+					
+					toastrMsg("현재 조성중인 시설입니다.","메세지");
+					$campTab.find('[data-area-name="empty-gubun-text"]').css('display', '');
+				}
+				refreshDate();
+			});
+			
+			/* 달력 click */
+			$campTab.find('[data-calendar-cell-yyyy-mm-dd]').on('click', function(){
+				
+				if(!$campTab.find('input[type="radio"][data-dept-dept-id]:checked').length){
+					
+					toastrMsg("위치를 선택해주세요.","메세지");
+					return false;
+				}
+				var $this = $(this);
+				var $start = $campTab.find('[data-calendar-cell-yyyy-mm-dd].start.selected'); //입실날짜
+				var $end = $campTab.find('[data-calendar-cell-yyyy-mm-dd].end.selected'); //퇴실날짜
+				
+				if($start.length && $end.length){
+					
+					$campTab.find('[data-calendar-cell-yyyy-mm-dd]').removeClass('start selected end');
+					$start = $campTab.find('[data-calendar-cell-yyyy-mm-dd].start.selected'); //입실날짜
+				}
+				
+				if($this.data('calendar-cell-is-end-dt') == 'Y' && !$start.length){
+					
+					toastrMsg("해당 날짜는 퇴실일로만 선택 가능합니다.","메세지");
+					return false;
+				}
+				
+				if(!$start.length){
+					//입실선택전클릭
+					$this.addClass('start selected');
+					toastrMsg("이용 기간은 2박 3일 이내로 선택해 주세요.","메세지");
+				}else{
+					//입실선택후클릭
+					var startDate = $start.data('calendar-cell-yyyy-mm-dd');
+					var endDate = $this.data('calendar-cell-yyyy-mm-dd');
+					
+					if(startDate.replace(/\-/g,'') >= endDate.replace(/\-/g,'')){
+						//start보다 작거나 같으면 	
+						$campTab.find('[data-calendar-cell-yyyy-mm-dd]').removeClass('start selected end');
+						toastrMsg("입실일 이후로 선택해 주세요.","메세지");
+						return false;
+					}
+					
+					var sdt = new Date(startDate);
+					var edt = new Date(endDate);
+					var dateDiff = Math.ceil((edt.getTime()-sdt.getTime())/(1000*3600*24));
+
+					
+					if(dateDiff > 2){
+						//최대 2박3일
+						$campTab.find('[data-calendar-cell-yyyy-mm-dd]').removeClass('start selected end');
+						toastrMsg("최대 2박 3일까지 예약 가능합니다.","메세지");
+						return false;
+					}
+					
+					for(var i = 1; i <= dateDiff; i++){
+						//입실일과 퇴실일 사이 class add
+						$campTab.find('[data-calendar-cell-yyyy-mm-dd="' + commn.date_add(startDate, i) + '"]').addClass('selected');
+					}
+					
+					//퇴실일  class add
+					$this.addClass('end selected');
+					
+					var $info = $campTab.find('[data-area-name="camp-reservation-info"]');
+					var periodText = dateDiff == 1 ? '1박 2일' : '2박 3일';
+					var startDateText = startDate + ' [' + commn.getDayWeekNm($start.data('calendar-cell-day-week')) + ']';
+					var endDateText = endDate + ' [' + commn.getDayWeekNm($this.data('calendar-cell-day-week')) + ']';
+					$info
+					.data('info-period-text', periodText)
+					.data('info-period', dateDiff)
+					.data('info-start-date-text', startDateText)
+					.data('info-end-date-text', endDateText)
+					.data('info-use-bgn-dtm', startDate)
+					.data('info-use-end-dtm', endDate);
+					
+					//$info.css('display', '');
+					$campTab.find('[data-area-name="camp-period-default"]').hide().siblings('[data-area-name="camp-period-selected"]').css('display', '');
+					$info.find('[data-area-name="camp-period"]').html(periodText);
+					$info.find('[data-area-name="camp-bgn-dt"]').html(startDateText);
+					$info.find('[data-area-name="camp-end-dt"]').html(endDateText);
+				}
+			});
+		};
+		
+
+	
+		window.automaticCharacterCamp = function(){
 	
 </script>
 
@@ -311,11 +458,160 @@
             <span>가야산</span>
         </label>
     </li>
+
+    </c:forEach>
+</ul>
+</form>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-0" name="camp-location" data-dept-dept-id="B131001" data-dept-park-id="B13" data-dept-dept-nm="삼정" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">
+            <label for="camp-location1-0">삼정</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-1" name="camp-location" data-dept-dept-id="B131003" data-dept-park-id="B13" data-dept-dept-nm="치인" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">
+            <label for="camp-location1-1">치인</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-2" name="camp-location" data-dept-dept-id="B131002" data-dept-park-id="B13" data-dept-dept-nm="백운동" data-dept-dept-parent-nm="가야산" data-dept-dept-parent-id="B131">
+            <label for="camp-location1-2">백운동</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-3" name="camp-location" data-dept-dept-id="B161001" data-dept-park-id="B16" data-dept-dept-nm="동학사" data-dept-dept-parent-nm="계룡산" data-dept-dept-parent-id="B161">
+            <label for="camp-location1-3">동학사</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-4" name="camp-location" data-dept-dept-id="B041001" data-dept-park-id="B04" data-dept-dept-nm="가인" data-dept-dept-parent-nm="내장산" data-dept-dept-parent-id="B041">
+            <label for="camp-location1-4">가인</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-5" name="camp-location" data-dept-dept-id="B042001" data-dept-park-id="B04" data-dept-dept-nm="내장" data-dept-dept-parent-nm="내장산" data-dept-dept-parent-id="B042">
+            <label for="camp-location1-5">내장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-6" name="camp-location" data-dept-dept-id="B091001" data-dept-park-id="B09" data-dept-dept-nm="팔영산" data-dept-dept-parent-nm="다도해해상" data-dept-dept-parent-id="B091">
+            <label for="camp-location1-6">팔영산</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-7" name="camp-location" data-dept-dept-id="B091003" data-dept-park-id="B09" data-dept-dept-nm="염포" data-dept-dept-parent-nm="다도해해상" data-dept-dept-parent-id="B091">
+            <label for="camp-location1-7">염포</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-8" name="camp-location" data-dept-dept-id="B091004" data-dept-park-id="B09" data-dept-dept-nm="구계등" data-dept-dept-parent-nm="다도해해상" data-dept-dept-parent-id="B091">
+            <label for="camp-location1-8">구계등</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-9" name="camp-location" data-dept-dept-id="B051006" data-dept-park-id="B05" data-dept-dept-nm="덕유대 체류형 숙박시설" data-dept-dept-parent-nm="덕유산" data-dept-dept-parent-id="B051">
+            <label for="camp-location1-9">덕유대 체류형 숙박시설</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-10" name="camp-location" data-dept-dept-id="B051002" data-dept-park-id="B05" data-dept-dept-nm="덕유대 야영장" data-dept-dept-parent-nm="덕유산" data-dept-dept-parent-id="B051">
+            <label for="camp-location1-10">덕유대 야영장</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-11" name="camp-location" data-dept-dept-id="B172002" data-dept-park-id="B17" data-dept-dept-nm="도원" data-dept-dept-parent-nm="무등산" data-dept-dept-parent-id="B172">
+            <label for="camp-location1-11">도원</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-12" name="camp-location" data-dept-dept-id="B181002" data-dept-park-id="B18" data-dept-dept-nm="고사포" data-dept-dept-parent-nm="변산반도" data-dept-dept-parent-id="B181">
+            <label for="camp-location1-12">고사포</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-13" name="camp-location" data-dept-dept-id="B031005" data-dept-park-id="B03" data-dept-dept-nm="설악" data-dept-dept-parent-nm="설악산" data-dept-dept-parent-id="B031">
+            <label for="camp-location1-13">설악</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-14" name="camp-location" data-dept-dept-id="B121001" data-dept-park-id="B12" data-dept-dept-nm="삼가" data-dept-dept-parent-nm="소백산" data-dept-dept-parent-id="B121">
+            <label for="camp-location1-14">삼가</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-15" name="camp-location" data-dept-dept-id="B122001" data-dept-park-id="B12" data-dept-dept-nm="남천" data-dept-dept-parent-nm="소백산" data-dept-dept-parent-id="B122">
+            <label for="camp-location1-15">남천</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-16" name="camp-location" data-dept-dept-id="B061001" data-dept-park-id="B06" data-dept-dept-nm="소금강" data-dept-dept-parent-nm="오대산" data-dept-dept-parent-id="B061">
+            <label for="camp-location1-16">소금강</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-17" name="camp-location" data-dept-dept-id="B111001" data-dept-park-id="B11" data-dept-dept-nm="닷돈재풀옵션" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-17">닷돈재풀옵션</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-18" name="camp-location" data-dept-dept-id="B111003" data-dept-park-id="B11" data-dept-dept-nm="닷돈재자동차" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-18">닷돈재자동차</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-19" name="camp-location" data-dept-dept-id="B111007" data-dept-park-id="B11" data-dept-dept-nm="덕주" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-19">덕주</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-20" name="camp-location" data-dept-dept-id="B111002" data-dept-park-id="B11" data-dept-dept-nm="송계" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-20">송계</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-21" name="camp-location" data-dept-dept-id="B111004" data-dept-park-id="B11" data-dept-dept-nm="용하" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-21">용하</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-22" name="camp-location" data-dept-dept-id="B111008" data-dept-park-id="B11" data-dept-dept-nm="하선암" data-dept-dept-parent-nm="월악산" data-dept-dept-parent-id="B111">
+            <label for="camp-location1-22">하선암</label>
+        </span>
+    </li>
+	<li style="display:none;">
+        <span class="radio-1">
+            <input type="radio" id="camp-location1-23" name="camp-location" data-dept-dept-id="B201001" data-dept-park-id="B20" data-dept-dept-nm="천황" data-dept-dept-parent-nm="월출산" data-dept-dept-parent-id="B201">
+            <label for="camp-location1-23">천황</label>
+        </span>
+
 	<li>
         <label for="camp-radio1-1" class="radio-check">
             <input type="radio" id="camp-radio1-1" name="camp-mountain" value="계룡산">
             <span>계룡산</span>
         </label>
+
     </li>
 	<li>
         <label for="camp-radio1-2" class="radio-check">
@@ -508,7 +804,6 @@
         <h3 class="title">위치</h3>
         
         <ul class="check-area">
-            
 
             <li>
                 <label for="shelterMountainRadio1" class="radio-check">
@@ -541,18 +836,6 @@
     </div>
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
-
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
@@ -566,7 +849,6 @@
 
 
             </div>
-                        
                         <!--  생태 탐방원  -->
                         <div class="tab-pane" id="tab3">
                            
@@ -625,49 +907,6 @@
                                 <input type="radio" id="deptId0" name="deptId" value="B971002"><span>북한산</span>
                             </label>
                         </li>
-                    
-                        <li>
-                            <label for="deptId1" class="radio-check">
-                                <input type="radio" id="deptId1" name="deptId" value="B014003"><span>지리산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId2" class="radio-check">
-                                <input type="radio" id="deptId2" name="deptId" value="B123002"><span>소백산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId3" class="radio-check">
-                                <input type="radio" id="deptId3" name="deptId" value="B301002"><span>설악산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId4" class="radio-check">
-                                <input type="radio" id="deptId4" name="deptId" value="B024002"><span>한려해상</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId5" class="radio-check">
-                                <input type="radio" id="deptId5" name="deptId" value="B231002"><span>무등산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId6" class="radio-check">
-                                <input type="radio" id="deptId6" name="deptId" value="B133002"><span>가야산</span>
-                            </label>
-                        </li>
-                    
-                        <li>
-                            <label for="deptId7" class="radio-check">
-                                <input type="radio" id="deptId7" name="deptId" value="B331001"><span>내장산</span>
-                            </label>
-                        </li>
-                    
                 </ul>
         <ul class="radio-area row" data-template-id="shelter-shelters-template">
         </ul>
@@ -699,10 +938,6 @@
 
 
             </div>  
-                           
-                           
-                           
-                       
                         
                         
                         <!-- 민박촌  -->
@@ -770,17 +1005,6 @@
     <div class="grid-cell" data-template-id="shelter-calendar-template">
         <h3 class="title">날짜</h3>
 
-        <!-- <div class="reservation-info">
-            <dl>
-                <dt>선택위치</dt>
-                <dd>백령소대피소</dd>
-            </dl>
-            <dl>
-                <dt>선택날짜</dt>
-                <dd>2022-02-23 [수]</dd>
-            </dl>
-            <button class="btn btn-add">추가</button>
-        </div> -->
     </div>
     <div class="grid-cell">
         <h3 class="title">예약정보</h3>
@@ -792,232 +1016,7 @@
     </div>
 </div>
   
-
-                    </div>
-           </div>
-       </section> 
-        <section>
-        	<h3 class="hidden-text">빠른 메뉴 이동</h3>
             
- 
-<div class="quick-menu">
-    <a href="https://www.knps.or.kr/portal/angelroad/course/course10.do" class="btn" target="_blank"><span>탐방 안내도</span></a>
-    <a href="https://www.knps.or.kr/portal/main/contents.do?menuNo=8000198" class="btn" target="_blank"><span>입산시간 지정제</span></a>
-    <a href="https://www.knps.or.kr/front/portal/safe/acsCtrList.do?menuNo=8000340" class="btn" target="_blank"><span>탐방통제 정보</span></a>
-    <a href="https://www.knps.or.kr/portal/main/contents.do?menuNo=7020071&amp;tabNm=2" class="btn" target="_blank"><span>국립공원 날씨</span></a>
-</div>
-        </section>
-        <section>
-            <div class="slide-notice">
-                <h3 class="title">공지사항</h3>
-                
-
-
-<script>
-    $(function(){
-        // 공지사항 slide
-        let swiper2 = new Swiper(".slide-notice .swiper", {
-            loop: 'true',
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            direction: "vertical",
-            navigation: {
-                nextEl: "#noticeBtnNext",
-                prevEl: "#noticeBtnPrev",
-            },
-        });
-    })
-</script>
-<div class="swiper">
-    <div class="swiper-wrapper">
-        
-            <div class="swiper-slide slide0">
-                <a href="community/board/notice/boardDetail4f70.html?seq=27890">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            변산반도
-                                        
-                                    
-                                    [변산반도] 12월 야영장 정비의 날 운영 안내
-                                </span>
-                    <span class="date">2022-11-10</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide1">
-                <a href="community/board/notice/boardDetaild6a8.html?seq=27889">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            태안해안
-                                        
-                                    
-                                    [태안해안] 학암포자동차야영장 체류형카라반 설치공사 관련 재공지
-                                </span>
-                    <span class="date">2022-11-03</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide2">
-                <a href="community/board/notice/boardDetail3c55.html?seq=27888">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            본부
-                                        
-                                    
-                                    국립공원예약시스템 성능테스트 안내
-                                </span>
-                    <span class="date">2022-11-02</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide3">
-                <a href="community/board/notice/boardDetailcb27.html?seq=27887">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            태안해안
-                                        
-                                    
-                                    [태안해안] 학암포자동차야영장 수도배관 누수에 따른 H,I 사이트 이용 제한 알림
-                                </span>
-                    <span class="date">2022-11-02</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide4">
-                <a href="community/board/notice/boardDetail43e4.html?seq=27886">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            치악산
-                                        
-                                    
-                                    [치악산] 야영장 정비의 날(11.9. 수) 운영 및 이용 제한 알림
-                                </span>
-                    <span class="date">2022-11-01</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide5">
-                <a href="community/board/notice/boardDetail4ea7.html?seq=27885">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            무등산동부
-                                        
-                                    
-                                    도원야영장, 11월 정비의 날 운영 알림(일자: 11.9, 이용불가)
-                                </span>
-                    <span class="date">2022-11-01</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide6">
-                <a href="community/board/notice/boardDetail2e73.html?seq=27884">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            한려해상동부
-                                        
-                                    
-                                    [한려해상동부] 학동자동차야영장 체류형카라반 신규설치공사(A6~A10)에 따른 이용제한기간 연장 안내
-                                </span>
-                    <span class="date">2022-10-31</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide7">
-                <a href="community/board/notice/boardDetailca7f.html?seq=27883">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            설악산
-                                        
-                                    
-                                    흘림골 탐방로 예약제 구간 동절기 운영시간 변경 안내
-                                </span>
-                    <span class="date">2022-10-30</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide8">
-                <a href="community/board/notice/boardDetail284a.html?seq=27882">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            설악산
-                                        
-                                    
-                                    설악산 대피소 이용 주요 안내(주의사항, 희운각&amp;소청대피소 내부 정비)
-                                </span>
-                    <span class="date">2022-10-30</span>
-                </div>
-                </a>
-            </div>
-        
-            <div class="swiper-slide slide9">
-                <a href="community/board/notice/boardDetail7e74.html?seq=27881">
-                <div class="content">
-                                <span class="title">
-                                    
-                                        
-                                        
-                                            본부
-                                        
-                                    
-                                    겨울철 국립공원 야영장 운영 현황 안내
-                                </span>
-                    <span class="date">2022-10-28</span>
-                </div>
-                </a>
-            </div>
-        
-    </div>
-</div>
-<div class="swiper-btn">
-    <div class="swiper-button-prev" id="noticeBtnPrev">
-        <i class="icon-chevron-up"></i>
-    </div>
-    <div class="swiper-button-next" id="noticeBtnNext">
-        <i class="icon-chevron-down"></i>
-    </div>
-</div>
-            </div>
-        </section>
-    </main>
-</div>
-
 
 <div class="modal-popup small" id="captchaPop">
     <div class="popup-wrap">

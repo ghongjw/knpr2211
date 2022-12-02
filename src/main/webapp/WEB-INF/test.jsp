@@ -3,22 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-</head>
-<body>
+ <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html";charset="utf-8"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
 
-
-<form method="post">
-	<table>
-		<tr>
-			<td><input type="text" name="f1" value="뭐"></td>
-			<td><input type="submit"></td>
-		</tr>
-	</table>
-</form>
-<%
-	String data = request.getParameter("f1");
-%>
-<h1>출력: <%= data %></h1>
-
+ </head>
+ <body>
 </body>
 </html>

@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.PageRequest;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +31,7 @@ public class User {
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private String id;
 		//패스워드 
-		@Column(nullable = false, insertable = true, updatable = true)
+		@Column(nullable = false, insertable = true, updatable = false)
 		private String pw;
 		//이름 
 		@Column(nullable = false, insertable = true, updatable = true)
@@ -48,14 +47,17 @@ public class User {
 		private String member;
 		//삭제여부
 		@Column(nullable = false, insertable = true, updatable = true)
-		@ColumnDefault(value = "false")
-		private String deleted;
+		//@ColumnDefault(value = "false")
+		private Boolean deleted;
 		
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
 		
+		@OneToMany(mappedBy = "user")
+		private List<Reply> replyList;
+	
 		@Builder
-		public User(String id, String pw, String name, String email, String mobile, String member, String deleted) {
+		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted) {
 			
 			this.id = id;
 			this.pw = pw;
@@ -73,6 +75,13 @@ public class User {
 		
 	}
 
+
+
+	
+
+
+
+	
 
 
 }

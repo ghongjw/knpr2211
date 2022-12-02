@@ -6,6 +6,7 @@
 <c:if test="${not empty sessionScope.id }">
 	<script>
 		location.href = 'index';
+			
 	</script>
 </c:if>
 <html>
@@ -23,7 +24,7 @@
 	<script src="assets/js/lib/toastr.min.js"></script>
 	<script src="assets/js/scripts.js"></script>
 	<script src="assets/js/common9b00.js?ver4"></script>
-
+	
 
 <body>
 	<div id="wrap" class="sub">
@@ -46,10 +47,14 @@
             <label for="passWd" class="hidden-text">비밀번호</label>
             <input type="password" class="input-text" placeholder="비밀번호 대,소문자 구분 9~15자로 입력" title="비밀번호"name="pw" >
             <input type="submit" class="btn btn-login" value="로그인">
+              
+          	<a href="https://kauth.kakao.com/oauth/authorize?client_id=e5fa46a8c18f4ae8b3ac752e87f63927&redirect_uri=http://localhost/KakaoLogin&response_type=code" class="btn-kakao"><img  src="assets/img/kakao icon.png" width="420px"></a>
         </div>
-        <ul class="login-util">
-            <li><a href="" target="_blank">아이디 찾기</a></li>
-            <li><a href="" target="_blank">비밀번호 찾기</a></li>
+        <br>
+        <br>
+            <ul class="login-util">
+            <li><a href="IdFind" >아이디 찾기</a></li>
+            <li><a href="PwFind" >비밀번호 찾기</a></li>
         </ul>
     </form>
 
@@ -159,6 +164,11 @@
 	</div>
 	<img id="loadingImage" src="../../assets/img/preloader.gif" alt="로딩이미지" style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
 <script>
+	$("document").ready(function(){
+		if(${msg != null}){
+			toastrMsg("${msg}","메세지");
+		}
+	})
 	$(function(){
 		let responseMessage = "";
 		if(responseMessage != ""){

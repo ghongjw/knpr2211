@@ -49,24 +49,24 @@
 	<img src="../../assets/img/sub/img-map3.png" usemap="#image-map1" class="map" alt="야영장 지도">
 		<map name = "image-map1">
 		<area shape="rect" alt="가야산" title="가야산" coords="385,572,494,628" href="#C01" class="link" />
-			<area shape="rect" alt="내장산" title="내장산" coords="147,635,255,696" href="#C03" class="link" />
-			<area shape="rect" alt="무등산" title="무등산" coords="155,717,264,774" href="#C06" class="link"/>
-			<area shape="rect" alt="설악산" title="설악산" coords="443,37,551,91" href="#C08" class="link"/>
-			<area shape="rect" alt="소백산" title="소백산" coords="464,289,572,343" href="#C09" class="link"/>
-			<area shape="rect" alt="지리산" title="지리산" coords="270,682,382,738" href="#C14" class="link"/>			
-			<area shape="rect" alt="한려해상" title="한려해상" coords="405,766,545,823" href="#C18" class="link"/>
-			<area shape="rect" alt="북한산" title="북한산" coords="131,163,245,217" href="#C19" class="link"/>	
+			<area shape="rect" alt="내장산" title="내장산" coords="147,635,255,696" href="#C02" class="link" />
+			<area shape="rect" alt="무등산" title="무등산" coords="155,717,264,774" href="#C03" class="link"/>
+			<area shape="rect" alt="설악산" title="설악산" coords="443,37,551,91" href="#C04" class="link"/>
+			<area shape="rect" alt="소백산" title="소백산" coords="464,289,572,343" href="#C05" class="link"/>
+			<area shape="rect" alt="지리산" title="지리산" coords="270,682,382,738" href="#C06" class="link"/>			
+			<area shape="rect" alt="한려해상" title="한려해상" coords="405,766,545,823" href="#C07" class="link"/>
+			<area shape="rect" alt="북한산" title="북한산" coords="131,163,245,217" href="#C08" class="link"/>	
 		</map>
 		</div>
 		<div class = "imageMapList">
 			<a href = "javascript:void(0);" class = "btn" id= "C01" onclick = "gotoInfo('C01')">가야산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C03" onclick = "gotoInfo('C03')">내장산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C06" onclick = "gotoInfo('C06')">무등산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C08" onclick = "gotoInfo('C08')">설악산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C09" onclick = "gotoInfo('C09')">소백산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C14" onclick = "gotoInfo('C14')">지리산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C18" onclick = "gotoInfo('C18')">한려해상</a>
-			<a href = "javascript:void(0);" class = "btn" id= "C19" onclick = "gotoInfo('C19')">북한산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C02" onclick = "gotoInfo('C02')">내장산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C03" onclick = "gotoInfo('C03')">무등산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C04" onclick = "gotoInfo('C04')">설악산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C05" onclick = "gotoInfo('C05')">소백산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C06" onclick = "gotoInfo('C06')">지리산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C07" onclick = "gotoInfo('C07')">한려해상</a>
+			<a href = "javascript:void(0);" class = "btn" id= "C08" onclick = "gotoInfo('C08')">북한산</a>
 		
 		
 		</div>

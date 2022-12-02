@@ -17,15 +17,11 @@ public class ProgramService implements IProgramService{
 	@Autowired ProgramRepository pr;
 	@Autowired HttpSession session;
 	@Autowired MountainCodeService mcs;
-	
+	// (시작)작성자:공주원 ==============================================
 	public String setProgram(String parkId, String type) {
 		
 		List<Program> programs = pr.findByPlace(parkId);
-		session.removeAttribute("programs");
 		session.setAttribute("programs", programs);
-		System.out.println("여기오나요??");
-		System.out.println("programs : " + programs);
-		System.out.println("session : " + session.getAttribute("programs"));
 		
 		for(Program p : programs) {
 			System.out.println(p.getTitle());
@@ -52,5 +48,5 @@ public class ProgramService implements IProgramService{
 		}String str = Integer.toString(i);
 		return str;
 	}
-
+	// (끝)작성자:공주원 ==============================================
 }
