@@ -16,6 +16,13 @@
 		<div id="wrap" class="sub">
 			<%@ include file="../common/header.jsp"%>
 			<%
+			String msg = request.getParameter("msg");
+			if(msg != null && msg != ""){
+				out.println("<script>");
+			    out.println("toastrMsg('"+msg+"')");
+			    out.println("</script>");
+			}
+			
 			//지금 날짜 구하기
 			Calendar now = Calendar.getInstance();
 
@@ -524,7 +531,7 @@
 													<hr class="cell3_view cam_view"
 														style="border-color: #333; display: none;">
 													<div class="btn-area">
-														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
+														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
 															onclick="Res_openPopup('A', 'ResPopup')">다음단계</button>
 													</div>
@@ -784,7 +791,7 @@
 													</div>
 
 													<div class="btn-area">
-														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
+														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
 															onclick="Res_openPopup('B', 'ResPopup')">다음단계</button>
 													</div>
@@ -848,8 +855,7 @@
 
 													</form>
 													<hr style="border-color: #fff">
-													<ul class="radio-area row" id="locationEco">
-													</ul>
+													<ul class="radio-area row" id="locationEco"></ul>
 												</div>
 												<div class="grid-cell"
 													data-template-id="shelter-calendar-template">
@@ -964,7 +970,7 @@
 													<h3 class="title">예약정보</h3>
 													<h3 class="title cell3_view eco_view"
 														style="display: none;">인원</h3>
-													<div class="camSelectPeople cell3_view eco_view"
+													<div class="ecoSelectPeople cell3_view eco_view"
 														style="display: none;">
 														<span class="quantity-input">
 															<button type="button"
@@ -992,7 +998,7 @@
 														</h3>
 													</div>
 													<script>
-													<!-- 여기야 객실 선택시 인원선택 -->
+													<!-- 객실 선택시 인원선택 -->
 														// 객실별 최대 수용 인원 선택x
 														$('.ecoSelectPeople .btn.plus').on("click",function(e) {
 															if ($("input:radio[name='location']").is(':checked') == false) {
@@ -1023,7 +1029,7 @@
 													<hr class="cell3_view eco_view"
 														style="border-color: #333; display: none;">
 													<div class="btn-area">
-														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
+														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
 															onclick="Res_openPopup('C', 'ResPopup')">다음단계</button>
 													</div>
@@ -1050,8 +1056,7 @@
 
 													</form>
 													<hr style="border-color: #fff">
-													<ul class="radio-area row" id="locationCot">
-													</ul>
+													<ul class="radio-area row" id="locationCot"></ul>
 												</div>
 												<div class="grid-cell"
 													data-template-id="shelter-calendar-template">
@@ -1164,10 +1169,70 @@
 												</div>
 												<div class="grid-cell">
 													<h3 class="title">예약정보</h3>
+													<h3 class="title cell3_view cot_view"
+														style="display: none;">인원</h3>
+													<div class="cotSelectPeople cell3_view cot_view"
+														style="display: none;">
+														<span class="quantity-input">
+															<button type="button"
+																class="btn minus livingRoom-prsn-minus">
+																<i class="icon-minus"></i>
+															</button> <label for="livingPrsnCnt" class="hidden-text">총참여인원</label>
+															<input type="number" value="1" readonly=""
+															title="총 참여 인원" name="livingPrsnCnt" id="cotPeopleCnt">
+															<button type="button"
+																class="btn plus livingRoom-prsn-plus">
+																<i class="icon-plus"></i>
+															</button>
+														</span>
+													</div>
+													<hr class="cot_view cell3_view"
+														style="border-color: #333; display: none;">
+													<div class="cotTotal cell3_view cot_view"
+														style="display: none;">
+														<h3 class="cot_Total cotSelectPlace">
+															선택: <span>-</span>
+														</h3>
 
+														<h3 class="cot_Total cotPrice">
+															결제금액: <span>0</span>원
+														</h3>
+													</div>
+													<script>
+													<!-- 객실 선택시 인원선택 -->
+														// 객실별 최대 수용 인원 선택x
+														$('.cotSelectPeople .btn.plus').on("click",function(e) {
+															if ($("input:radio[name='location']").is(':checked') == false) {
+																toastrMsg("위치를 선택해주세요.")
+																} else {
+																	var max = Number($("#minbakMax").html());
+																	var selectNum = Number($("#cotPeopleCnt").val());
+																	if (selectNum == max) {
+																		toastrMsg("선택한 객실의 사용인원은 기본 "+ max+ "명입니다.");
+																		} else if (selectNum < max) {
+																			selectNum++;
+																			$("#cotPeopleCnt").attr("value",selectNum);
+																				}
+																			}
+																		})
+														$('.cotSelectPeople .btn.minus').on("click",function(e) {
+															if ($("input:radio[name='location']").is(':checked') == false) {
+																toastrMsg("위치를 선택해주세요.")
+																} else {
+																	var selectNum = Number($("#cotPeopleCnt").val());
+																	if (selectNum > 1) {
+																		selectNum--;
+																		$("#cotPeopleCnt").attr("value",selectNum);
+																				}
+																			}
+																		})
+													</script>
+													<hr class="cell3_view cot_view"
+														style="border-color: #333; display: none;">
 													<div class="btn-area">
-														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
-														<button class="btn btn-enquiry" data-button-name="goStep2">다음단계</button>
+														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
+														<button class="btn btn-enquiry" data-button-name="goStep2"
+															onclick="Res_openPopup('D', 'ResPopup')">다음단계</button>
 													</div>
 												</div>
 											</div>
@@ -1442,7 +1507,7 @@
 
 		<%@ include file="../common/footer.jsp"%>
 		<script type="text/javascript">
-			$('input:radio[name="mountain"]').on("change", function() {
+			$('input:radio[name="mountain"]').on("click", function() {
 				mountain_ajax();
 			});
 		</script>
@@ -1541,4 +1606,3 @@
 	</script>
 </body>
 </html>
-

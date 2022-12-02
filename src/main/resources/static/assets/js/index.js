@@ -17,7 +17,18 @@ function mountain_ajax() {
 	$(".cell3_view").css("display", "none");
 	var category2 = $("input[name='mountain']:checked").val()
 	$("#minback_cam").html("");
-	//console.log(category2)
+	
+	if(category2.includes("A") == true){
+		tab = "A";
+	}else if(category2.includes("B") == true){
+		tab = "B";
+	}else if(category2.includes("C") == true){
+		tab = "C";
+	}else if(category2.includes("D") == true){
+		tab = "D";
+	}
+	
+	console.log("위치 선택: "+tab+", "+category2)
 	req = new XMLHttpRequest()
 	req.onreadystatechange = locationPrint
 	req.open('post', "mountainSelect")
@@ -26,32 +37,29 @@ function mountain_ajax() {
 
 function locationPrint() {
 	if (req.readyState == 4 && req.status == 200) {
-		tab = $(".is-active").attr("data-tabid")
-		//console.log(req.responseText)
-		//console.log(tab)
+		console.log(req.responseText)
 		$("#locationCam").html("")
 		$("#locationShel").html("")
 		$("#locationEco").html("")
 		$("#locationCot").html("")
 
-		if (tab == "tab1") {
+		if (tab == "A") {
+			$("cam_view").css("display", "none");
 			$("#locationCam").html(req.responseText);
-			tab = "A";
-		} else if (tab == "tab2") {
+		} else if (tab == "B") {
+			$("shel_view").css("display", "none");
 			$("#location_shel").html("-")
 			$("#startDt_shel").html("-")
 			$("#shelSelect").find("em:eq(0)").html("-")
 			$("#shelSelect").find("span:eq(0)").html("-")
-			
+
 			$("#locationShel").html(req.responseText);
-			tab = "B";
-		} else if (tab == "tab3") {
-			$("eco_view").css("display","none");
+		} else if (tab == "C") {
+			$("eco_view").css("display", "none");
 			$("#locationEco").html(req.responseText);
-			tab = "C";
-		} else if (tab == "tab4") {
+		} else if (tab == "D") {
+			$("cot_view").css("display", "none");
 			$("#locationCot").html(req.responseText);
-			tab = "D";
 		}
 	}
 }
@@ -63,6 +71,10 @@ function locationClick(parkId, nameCategory3) { //코드 : D0101
 	nameCat3 = nameCategory3;
 
 	if (parkId.includes("A") == true) {
+		$("#startDt_cam").html("-")
+		$("#endDt_cam").html("-")
+		$("#minback_cam").html("날짜를 선택해주세요.")
+		
 		req = new XMLHttpRequest()
 		req.onreadystatechange = cotCat4Print
 		req.open('post', "campCategory4")
@@ -74,8 +86,15 @@ function locationClick(parkId, nameCategory3) { //코드 : D0101
 		$(".shel_view").css("display", "none");
 		$("#shelSelect").find("em:eq(0)").html("-")
 		$("#shelSelect").find("span:eq(0)").html("-")
-	} else if(parkId.includes("C") == true ){
-		$("eco_view").css("display","none");
+	} else if (parkId.includes("C") == true) {
+		$("#startDt_eco").html("-")
+		$("#endDt_eco").html("-")
+		$("#minback_eco").html("날짜를 선택해주세요.")
+		$("eco_view").css("display", "none");
+	}else if(parkId.includes("D") == true){
+		$("#ENDDt_cot").html("-")
+		$("#endDt_cot").html("-")
+		$("#minback_cot").html("날짜를 선택해주세요.")
 	}
 }
 
@@ -169,16 +188,14 @@ function calendarClick(cat1, year, month, day) { // cat1 : 대분류(cat2)
 					$("#" + inStartId).html(selectStartDay);
 					$("#shelPeopleCnt").attr("value", 1)
 					minback = 0;
-					
-					$(".shel_view").css("display","block")
-					
+
+					$(".shel_view").css("display", "block")
+
 					var category3 = $("input[name='location']:checked").attr("id");
-					var nameCat2 = $("input[name='mountain']:checked").html()
-					console.log("출력해줘: "+nameCat2+","+nameCat3)
-					var reqData = { 'parkId': category3,'nameCategory2': nameCat2 , 'nameCategory3': nameCat3, 'selectDt': selectStartDay }
-					
+					var reqData = { 'parkId': category3, 'nameCategory3': nameCat3, 'selectDt': selectStartDay }
+
 					req = new XMLHttpRequest()
-					req.onreadystatechange = shelcellPrint
+					req.onreadystatechange = shelCellPrint
 					req.open('post', "shelPrint")
 					reqData = JSON.stringify(reqData)
 					req.setRequestHeader('Content-Type', "application/json; charset=UTF-8")
@@ -248,28 +265,78 @@ function calendarClick(cat1, year, month, day) { // cat1 : 대분류(cat2)
 					$(".camTotal").find('span:eq(0)').html("-")
 					$(".camTotal").find('span:eq(1)').html("-")
 				}
-				
-				//여기야
-				if(cat1.includes("C")==true && minback > 0){
-					$(".eco_view").css("display","block");
+
+				if (cat1.includes("C") == true && minback > 0) {
+					$(".eco_view").css("display", "block");
+
+					var category2 = $("input[name='mountain']:checked").attr("id");
+					var nameCat2 = $("#" + category2).find("span:eq(0)").html();
+					var category3 = $("input[name='location']:checked").attr("id");
+					var reqData = { 'parkId': category3, 'nameCategory2': nameCat2, 'nameCategory3': nameCat3 }
+
+					req = new XMLHttpRequest()
+					req.onreadystatechange = ecoCellPrint
+					req.open('post', "ecoPrint")
+					reqData = JSON.stringify(reqData)
+					req.setRequestHeader('Content-Type', "application/json; charset=UTF-8")
+					req.send(reqData)
+				}else if(cat2.includes("D") == true && minback > 0){
+					$(".cot_view").css("display", "block");
 					
+					var category2 = $("input[name='mountain']:checked").attr("id");
+					var nameCat2 = $("#" + category2).find("span:eq(0)").html();
+					var category3 = $("input[name='location']:checked").attr("id");
+					var reqData = { 'parkId': category3, 'nameCategory2': nameCat2, 'nameCategory3': nameCat3 }
+
+					req = new XMLHttpRequest()
+					req.onreadystatechange = cotCellPrint
+					req.open('post', "ecoPrint")
+					reqData = JSON.stringify(reqData)
+					req.setRequestHeader('Content-Type', "application/json; charset=UTF-8")
+					req.send(reqData)
 				}
-				
+
 			}
 		}
 	}
 }
 
 // 대피소 상품&가격&날짜 출력
-function shelcellPrint(){
+function shelCellPrint() {
 	if (req.readyState == 4 && req.status == 200) {
 		resData = JSON.parse(req.responseText)
-		
+
 		$("#shelSelect").find("em:eq(0)").html(resData.selectPlace)
 		$("#shelSelect").find("span:eq(0)").html(resData.selectDt)
 		$(".shelTotal").find("span:eq(0)").html(resData.price)
 		$("#minbakMax").html(resData.peopleMax)
 	}
+}
+
+// 생태탐방 상품&가격 출력
+function ecoCellPrint() {
+	if (req.readyState == 4 && req.status == 200) {
+		resData = JSON.parse(req.responseText)
+		var price = Number(resData.price)
+		var total = price * Number(minback)
+
+		$(".ecoTotal").find("span:eq(0)").html(resData.selectPlace)
+		$(".ecoTotal").find("span:eq(1)").html(total)
+		$("#minbakMax").html(resData.peopleMax)
+	}
+}
+
+// 민속촌 상품&가격 출력
+function cotCellPrint(){
+	if (req.readyState == 4 && req.status == 200) {
+		resData = JSON.parse(req.responseText)
+		var price = Number(resData.price)
+		var total = price * Number(minback)
+
+		$(".cotTotal").find("span:eq(0)").html(resData.selectPlace)
+		$(".cotTotal").find("span:eq(1)").html(total)
+		$("#minbakMax").html(resData.peopleMax)
+		}
 }
 
 // 결제 팝업
@@ -307,22 +374,22 @@ function Res_openPopup(cat1, id) {
 		}
 
 	} else if (cat1 == "B") {
-		var check1 =  $("input:radio[name='location']").is(':checked'); // 예약코드
-		var check2 =  $("input:radio[name='location']").is(':checked'); // 예약상품
+		var check1 = $("input:radio[name='location']").is(':checked'); // 예약코드
+		var check2 = $("input:radio[name='location']").is(':checked'); // 예약상품
 		var check3 = "당일" // 사용기간
 		var check4 = $("#startDt_shel").html(); // 입실날짜
 		var arr = check4.split("-");
-		arr[2] = Number(arr[2])+1
+		arr[2] = Number(arr[2]) + 1
 		var check5 = arr[0] + "-" + arr[1] + "-" + arr[2]; // 퇴실날짜
 		var check6 = $("#shelPeopleCnt").val(); // 총인원
 		var check7 = $(".shelTotal").find("span:eq(0)").html(); // 결제금액
-		
-		if( check1 == false || check2 == false || check4 == "-" || check5 == "-" || check7 == "-"){
+
+		if (check1 == false || check2 == false || check4 == "-" || check5 == "-" || check7 == "-") {
 			toastrMsg("먼저 위치/날짜를 먼저 선택해주세요.");
-		}else{
+		} else {
 			check1 = $("input[name='location']:checked").attr("id")
 			check2 = $("input[name='location']:checked").val()
-			
+
 			$("#txtRoomCode").attr("name", "category3")
 			$("#txtRoomCode").attr("value", check1) //예약상품 코드
 			$("#txtRoom").attr("value", check2) //예약상품
@@ -335,8 +402,69 @@ function Res_openPopup(cat1, id) {
 		}
 
 	} else if (cat1 == "C") {
+		var check1 = $("input:radio[name='location']").is(':checked'); // 예약코드
+		var check2 = $("input:radio[name='location']").is(':checked');; // 예약상품
+		var check3 = $("#minback_eco").html(); // 사용기간
+		var check4 = $("#startDt_eco").html(); // 입실날짜
+		var check5 = $("#endDt_eco").html(); // 퇴실날짜
+		var check6 = $("#ecoPeopleCnt").val(); // 총인원
+		var check7 = $(".ecoTotal").find("span:eq(1)").html();// 결제금액
 
+		if (check1 == false || check2 == false || check4 == "-" ||  check5 == "-" ||check6 == "-" || check7 == "-") {
+			toastrMsg("먼저 위치/날짜를 먼저 선택해주세요.");
+		} else {
+			check1 = $("input[name='location']:checked").attr("id")
+			check2 = $(".ecoTotal").find("span:eq(0)").html();
+			if (check3== "1박 2일을 선택하셨습니다.") {
+				check3 = "1박 2일";
+			} else if (check3 == "2박 3일을 선택하셨습니다.") {
+				check3 = "2박 3일";
+			} else if (check3 == "3박 4일을 선택하셨습니다.") {
+				check3 = "3박 4일";
+			}
+			
+			$("#txtRoomCode").attr("name","category3")
+			$("#txtRoomCode").attr("value",check1) //예약상품 코드
+			$("#txtRoom").attr("value",check2) //예약상품
+			$("#txtDiff").attr("value",check3) // 사용기간
+			$("#txtUseBgnDate").attr("value",check4) // 입실날짜
+			$("#txtUseEndDate").attr("value",check5) // 퇴실날짜
+			$("#txtInwon").attr("value",check6) // 객실인원
+			$("#selPrice").attr("value", + check7 +"원 (부가세 포함)")
+			$("#" + id).css("display", "block");
+		}
 	} else if (cat1 == "D") {
+		var check1 = $("input:radio[name='location']").is(':checked'); // 예약코드
+		var check2 = $("input:radio[name='location']").is(':checked');; // 예약상품
+		var check3 = $("#minback_cot").html(); // 사용기간
+		var check4 = $("#startDt_cot").html(); // 입실날짜
+		var check5 = $("#endDt_cot").html(); // 퇴실날짜
+		var check6 = $("#cotPeopleCnt").val(); // 총인원
+		var check7 = $(".cotTotal").find("span:eq(1)").html();// 결제금액
+
+		if (check1 == false || check2 == false || check4 == "-" ||  check5 == "-" ||check6 == "-" || check7 == "-") {
+			toastrMsg("먼저 위치/날짜를 먼저 선택해주세요.");
+		} else {
+			check1 = $("input[name='location']:checked").attr("id")
+			check2 = $(".cotTotal").find("span:eq(0)").html();
+			if (check3== "1박 2일을 선택하셨습니다.") {
+				check3 = "1박 2일";
+			} else if (check3 == "2박 3일을 선택하셨습니다.") {
+				check3 = "2박 3일";
+			} else if (check3 == "3박 4일을 선택하셨습니다.") {
+				check3 = "3박 4일";
+			}
+			
+			$("#txtRoomCode").attr("name","category3")
+			$("#txtRoomCode").attr("value",check1) //예약상품 코드
+			$("#txtRoom").attr("value",check2) //예약상품
+			$("#txtDiff").attr("value",check3) // 사용기간
+			$("#txtUseBgnDate").attr("value",check4) // 입실날짜
+			$("#txtUseEndDate").attr("value",check5) // 퇴실날짜
+			$("#txtInwon").attr("value",check6) // 객실인원
+			$("#selPrice").attr("value", + check7 +"원 (부가세 포함)")
+			$("#" + id).css("display", "block");
+		}
 
 	}
 }

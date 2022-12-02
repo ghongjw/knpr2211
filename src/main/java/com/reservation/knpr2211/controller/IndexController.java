@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.dto.ReservationDTO;
@@ -76,30 +77,46 @@ public class IndexController {
 	public HashMap<String,String> shelPrint(@RequestBody(required = false) HashMap<String, String> keyData) throws Exception {
 		String parkId = keyData.get("parkId");
 		PlaceDTO data = rs.selectCategory3(parkId);
-		System.out.println("출력해줘: "+keyData.get("nameCategory2")+", "+keyData.get("nameCategory3"));
 		// 가격, 선택한 날짜, 선택한 상품 , 최대인원수
 		keyData.put("price", data.getPriceDay());
 		keyData.put("peopleMax", String.valueOf(data.getPeopleMax()));
 		keyData.put("selectDt", keyData.get("selectDt"));
-		keyData.put("selectPlace", keyData.get("nameCategory2") +" "+ keyData.get("nameCategory3"));
-		System.out.println("컨트롤에 해쉬값들 : "+keyData);
+		keyData.put("selectPlace", data.getNameCategory2()+" "+keyData.get("nameCategory3"));
 		return keyData;
 	}
 	
+	@ResponseBody //parkId : A0101
+	@PostMapping(value="ecoPrint", produces = "application/json; charset=UTF-8") 
+	public HashMap<String,String> ecoPrint(@RequestBody(required = false) HashMap<String, String> keyData) throws Exception {
+		String parkId = keyData.get("parkId");
+		PlaceDTO data = rs.selectCategory3(parkId);
+		// 가격, 선택한 날짜, 선택한 상품 , 최대인원수
+		keyData.put("price", data.getPriceDay());
+		keyData.put("peopleMax", String.valueOf(data.getPeopleMax()));
+		keyData.put("selectPlace", data.getNameCategory2()+" "+keyData.get("nameCategory3"));
+		return keyData;
+	}
 	
 	// 최종 결제
 	@RequestMapping(value = "mainResProc_cam")
-	public String mainResProCam(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
+	public String mainResProCam(HttpSession session, ReservationDTO resDto, String startDt, String endDt,RedirectAttributes ar) throws Exception {
 		System.out.println("최종결제가즈아// 민박넘어온값: "+resDto.getAllDay());
 		//if(sessionId == null || sessionId.equals(modifyId) == false)
 		int num = 0; // 방 가능 갯수
-		if(resDto.getCategory4() == null) {
+		if(resDto.getCategory4() == null || resDto.getCategory4().equals("")) {
+			System.out.println("cat3검증 / cat4상태: "+resDto.getCategory4());
 			num = is.roomRest_Category3(resDto, startDt, endDt);
 		}else if(resDto.getCategory4() != null) {
+			System.out.println("cat4검증 / cat4상태: "+resDto.getCategory4());
 			num = is.roomRest_Category4(resDto, startDt, endDt);
 		}
-		System.out.println("(컨트롤)방 가능 갯수: "+ num);
-		//is.reservation(resDto, startDt, endDt);
-		return "redirect:/index1";
+		if(num == 0) {
+			ar.addAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
+			return "redirect:/index1";
+		}else {
+			is.reservation(resDto, startDt, endDt);
+			return "redirect:/index1";
+		}
+		
 	}
 }
