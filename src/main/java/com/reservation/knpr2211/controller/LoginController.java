@@ -32,17 +32,25 @@ public class LoginController {
 	@Autowired UserService userservice;
 	@Autowired private HttpSession session;
 	@PostMapping(value =  "loginproc")
-	public String loginproc(String id, String pw) {
+	public String loginproc(Model model,String id, String pw) {
 	userservice.login(id, pw);	
 	System.out.println(userservice.login(id, pw));
 	String msg= userservice.login(id, pw);
 	
-	if(msg.equals("로그인 성공")) {
-		
-	return "login/index";}
-	
-	
+	if(msg.equals("회원 로그인 성공")) {
+		System.out.println("회원 로그인");
+		model.addAttribute("msg",msg);
+	return "redirect:index";
+	}
+	if(msg.equals("어드민 계정 로그인 성공")) {
+		System.out.println("관리자 로그인");
+		model.addAttribute("msg",msg);
+	return "redirect:adminIndex";
+	}
+	else {
+	model.addAttribute("msg",msg);
 	return "login/login";
+		}
 	}
 		
 	//회원가입

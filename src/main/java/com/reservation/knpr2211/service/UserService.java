@@ -73,10 +73,11 @@ public class UserService {
 		
 
 		
-		if (id == null || id.isEmpty())
+		if (id == null || id.isEmpty()) {
 
 			return "아이디를 입력하세요.";
 		}
+
 			
 
 		if (pw == null || pw.isEmpty())

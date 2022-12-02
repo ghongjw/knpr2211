@@ -1,5 +1,7 @@
 package com.reservation.knpr2211.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

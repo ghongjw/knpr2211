@@ -22,7 +22,7 @@ import com.reservation.knpr2211.repository.PlaceRepository;
 import com.reservation.knpr2211.repository.UserRepository;
 
 @Service
-public class PlaceService implements IPlaceService {
+public class PlaceService {
 	@Autowired MountainCodeService mcs;
 	@Autowired PlaceRepository pr;
 	@Autowired UserRepository ur;
@@ -141,24 +141,24 @@ public class PlaceService implements IPlaceService {
 	 return placeDtos;
 	 
 	}
-
-	
-	@Override
-	public int imageFile(String parkDetail) {
-		
-		File dir = new File(FILE_LOCATION);
-		FilenameFilter filter = new FilenameFilter() {
-		    public boolean accept(File f, String name) {
-		        return name.startsWith(parkDetail);
-		    }
-		};
-		File files[] = dir.listFiles(filter);
-		int i = 0;
-		for (i = 0; i < files.length; i++) {
-		   System.out.println("file: " + files[i]);
-		}		return i;
-	}
-	
+//
+//	
+//	@Override
+//	public int imageFile(String parkDetail) {
+//		
+//		File dir = new File(FILE_LOCATION);
+//		FilenameFilter filter = new FilenameFilter() {
+//		    public boolean accept(File f, String name) {
+//		        return name.startsWith(parkDetail);
+//		    }
+//		};
+//		File files[] = dir.listFiles(filter);
+//		int i = 0;
+//		for (i = 0; i < files.length; i++) {
+//		   System.out.println("file: " + files[i]);
+//		}		return i;
+//	}
+//	
 
 	@Transactional
 	public ArrayList<PlaceDTO> selectMountain(Model model,String mountain){
