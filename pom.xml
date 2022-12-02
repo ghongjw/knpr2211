@@ -71,6 +71,7 @@
          <artifactId>jstl</artifactId>
       </dependency>
       
+
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
@@ -122,6 +123,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		<dependency>
+  <groupId>com.querydsl</groupId>
+  <artifactId>querydsl-apt</artifactId>
+  <scope>provided</scope>
+</dependency>
+
+<dependency>
+  <groupId>com.querydsl</groupId>
+  <artifactId>querydsl-jpa</artifactId>
+</dependency>
 		<!-- intorceptor-->
 		<!-- https://mvnrepository.com/artifact/org.springframework/org.springframework.web.servlet -->
 
@@ -173,8 +184,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-
 			<plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
@@ -185,5 +194,4 @@
 
 		</plugins>
 	</build>
-
 </project>

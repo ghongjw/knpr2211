@@ -55,7 +55,7 @@
 		    </ul>        
       </div>
       <div class="box2" style="background:rgba(0,0,0,0.2)">
-		  <ul class="type1">
+		  <ul class="type1" onclick = "location.href='adminAttentionList?page=0&size=10'">
 		      <li>공지사항
 		        <span></span>
 		        <span></span>

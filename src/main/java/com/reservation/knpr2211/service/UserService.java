@@ -137,7 +137,7 @@ public class UserService {
 	// 아이디 중복체크
 	public String IdConfirm(String id) {
 
-		if (userRepository.findById(id) == null) {
+		if (userRepository.findByid(id) == null) {
 
 			return "사용가능한 아이디입니다";
 		}

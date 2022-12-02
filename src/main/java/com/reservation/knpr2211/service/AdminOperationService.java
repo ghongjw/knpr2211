@@ -79,19 +79,19 @@ public class AdminOperationService {
 			code = mcs.findCategory(code);
 			nameCategory4.add(code);
 		}
-		for(int i=0; i < nameCategory4.size(); i++) {
-			for(int j=0; j<room.size(); j++) {
-				String tmp = nameCategory4.get(i)+" - "+j;
+		
+			for(int i = 1; i<=room.size(); i++) {
+				String tmp = nameCategory4.get(0) + " - " + i;
 				nameRoom.add(tmp);
 			}
-		}
+		
 		
 		String select2 = "";
 		
-		for(int i = 0; i<nameRoom.size(); i++) {
-		select2 = select2+"<input class='OpeRadio' type='radio' name='room' value ='"+nameRoom+"'>"+nameRoom;
+		for(int i = 0; i <nameRoom.size(); i++) {
+		select2 = select2+"<input class='opeRadio' style = 'display:none;' type='radio' id='opeRadio"+i+"' name='room' value ='"
+							+nameRoom.get(i)+"'><label for='opeRadio"+i+"'>"+nameRoom.get(i)+"</label>";
 		}
-		
 		return select2;
 	}
 

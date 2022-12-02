@@ -49,8 +49,9 @@ let pageNum = function(num){
 					<div class="board-area list">
 						<div class="article-info">
 							<div class="left">
-								<span class="total"> 총 <span>${totalElement }</span>건
+								<span class="total"> 총 <span>${totalElements }</span>건
 								</span>
+								
 							</div>
 						</div>
 						

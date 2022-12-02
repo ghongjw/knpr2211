@@ -679,20 +679,22 @@
 	margin: 75px auto 0;
 	min-height: 600px;
 }
-.adimin_selectBox{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    background: #e6f8ff;
-    height: 150px;
-    align-items: center;
+
+.adimin_selectBox {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	background: #e6f8ff;
+	height: 150px;
+	align-items: center;
 }
-.adminOperation{
-	margin:100px 70px 0;
-	
+
+.adminOperation {
+	margin: 100px 70px 0;
 }
+
 .adminOperation select {
 	width: 138px;
 	height: 48px;
@@ -709,7 +711,8 @@
 	height: 48px;
 	margin: 2px;
 }
-.adminOperation .searchbtn{
+
+.adminOperation .searchbtn {
 	width: 138px;
 	height: 48px;
 	margin: 2px;
@@ -724,27 +727,80 @@
 	padding: 0;
 	outline: none;
 	background-color: #004ea2;
-	
 }
-.operationCalendar{
-    width: 30%;
-    height: 311px;
-    text-align: center;
-    border-radius: 12px;
-    box-shadow: 0 0 0 1px #000;
-    line-height: 2;
-    margin: 10px;
+
+.operationCalendar {
+	width: 30%;
+	height: 311px;
+	text-align: center;
+	border-radius: 12px;
+	box-shadow: 0 0 0 1px #000;
+	line-height: 2;
+	margin: 10px;
 }
-.operationCalendar .calendar-day.today{
-	background:rgba(0,0,0,0.3)
+
+.operationCalendar .calendar-day.today {
+	background: rgba(0, 0, 0, 0.3);
+	width: 100%;
+	height: 100%;
+	border-radius: 3px;
 }
-.calendarBox{
+
+.calendarBox {
 	display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
 }
+
+.radioBox {
+	display: flex;
+	align-content: flex-end;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	margin: 5px;
+}
+
+.radioBox .opeRadio:checked+label {
+	border-radius: 25px;
+	padding: 10px;
+	color: white;
+	background: #004ea2;
+}
+
+.radioBox radio {
+	display: none;
+}
+
+.radioBox label {
+	border: 1px solid #004ea2;
+	border-radius: 25px;
+	padding: 10px;
+	color: #004ea2;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.calendar-day {
+	width: 38px;
+	border-radius: 8px;
+	padding: 10px;
+}
+
+.calendar-day.is-active {
+	width: 38px;
+	border-radius: 8px;
+	padding: 10px;
+	color: white;
+	background: #004ea2;
+}
+
+.attentionTable {
+	display: flex;
+}
+
 @media all and (min-width: 1023px) {
 	.information::after {
 		content: "";
@@ -1187,7 +1243,67 @@
 		width: 99%;
 		height: 30px;
 	}
+	.attentionArea {
+	display: flex !important;
+    justify-content: center;
+    height: 500px;
+	}
+	.attentionTitle {
+		width: 70%;
+		height: 38px;
+		border-radius: 4px;
+		font-size: 16px;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		padding: 0 20px 0 16px;
+		letter-spacing: 0;
+		color: #999;
+		cursor: pointer;
+	}
 	
+	.attentionArea textarea{
+	padding:10px;
+	border-color: #999;
+	font-size:16px;
+	
+	}
+	.attentionTable{
+	width:80%;
+     height: 419px;
+	}
+	.attentionTable tr{
+    align-items: center;
+    margin-top: 20px;
+    padding-bottom:10px;
+    height: 70px;
+	}
+	input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+	}
+	.filebox label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+}
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 70%;
+    color: #999999;
+}
+
 }
 
 @font-face {
@@ -1256,10 +1372,10 @@
 	display: inline-block !important;
 	margin: 6px 2px !important;
 }
-.admin_container{
-	display:block;
-	background-image: url("cntnts/IMG_5643.jpg");
-	background-size:20%;
-	height:100em;
 
+.admin_container {
+	display: block;
+	background-image: url("cntnts/IMG_5643.jpg");
+	background-size: 20%;
+	height: 100em;
 }

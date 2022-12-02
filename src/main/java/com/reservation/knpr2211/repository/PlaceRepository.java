@@ -38,6 +38,8 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	@Query(nativeQuery=true, value = "select distinct category4 from place where category3 = ?1")
 	ArrayList<String> findDistintCategory4(String category3);
 	
+	
+	
 	@Query(nativeQuery=true, value = "select * from place where category2 like CONCAT('%',:category2,'%')")
 	ArrayList<Place> find(@Param("category2") String category2);
 	
@@ -45,6 +47,13 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 
 	@Query(nativeQuery=true, value = "select distinct room from place where category4 = ?1")
 	ArrayList<String> findDistintRoom(String category4);
+
+
+	Place findFirstByCategory4(String cat4);
+
+	//attention리스트 셀렉트용//
+	@Query(nativeQuery=true, value = "select distinct category2 from place")
+	ArrayList<String> findDistinctCategory2();
 
 
 	
