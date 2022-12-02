@@ -225,7 +225,8 @@
 								<div class="progressbar">
 									<span class="progressbar-fill step1"
 										data-reservation-area="step"></span> <span class="text"
-										data-reservation-area="stepText">STEP.1</span>
+										data-reservation-area="stepText">STEP.1</span> <span
+										style="display: none" id="minbakMax"></span>
 								</div>
 								<div class="content">
 									<ul class="nav-tabs">
@@ -462,31 +463,63 @@
 													<script>
 													<!-- 객실 선택시 인원선택 -->
 														// 객실별 최대 수용 인원 선택x
-														$('.camSelectPeople .btn.plus').on("click",function(e) {
-																if ($("input:radio[name='uhang']").is(':checked') == false) {
-																	toastrMsg("민박촌 객실유형을 선택해주세요.")
-																	}else{
-																	var max = Number($("#minbakMax").html());
-																	var selectNum = Number($("#camPeopleCnt").val());
-																	if (selectNum == max) {
-																		toastrMsg("선택한 객실의 사용인원은 기본 "+ max+ "명입니다.");
-																	} else if (selectNum < max) {
-																		selectNum++;
-																		$("#camPeopleCnt").attr("value",selectNum);
-																}
-															}
-														})
-														$('.camSelectPeople .btn.minus').on("click",function(e) {
-																if ($("input:radio[name='uhang']").is(':checked') == false) {
-																	toastrMsg("민박촌 객실유형을 선택해주세요.")
-																}else{
-																	var selectNum = Number($("#camPeopleCnt").val());
-																	if (selectNum > 1) {
-																		selectNum--;
-																		$("#camPeopleCnt").attr("value",selectNum);
-																	}
-																}
-														})
+														$(
+																'.camSelectPeople .btn.plus')
+																.on(
+																		"click",
+																		function(
+																				e) {
+																			if ($(
+																					"input:radio[name='uhang']")
+																					.is(
+																							':checked') == false) {
+																				toastrMsg("민박촌 객실유형을 선택해주세요.")
+																			} else {
+																				var max = Number($(
+																						"#minbakMax")
+																						.html());
+																				var selectNum = Number($(
+																						"#camPeopleCnt")
+																						.val());
+																				if (selectNum == max) {
+																					toastrMsg("선택한 객실의 사용인원은 기본 "
+																							+ max
+																							+ "명입니다.");
+																				} else if (selectNum < max) {
+																					selectNum++;
+																					$(
+																							"#camPeopleCnt")
+																							.attr(
+																									"value",
+																									selectNum);
+																				}
+																			}
+																		})
+														$(
+																'.camSelectPeople .btn.minus')
+																.on(
+																		"click",
+																		function(
+																				e) {
+																			if ($(
+																					"input:radio[name='uhang']")
+																					.is(
+																							':checked') == false) {
+																				toastrMsg("민박촌 객실유형을 선택해주세요.")
+																			} else {
+																				var selectNum = Number($(
+																						"#camPeopleCnt")
+																						.val());
+																				if (selectNum > 1) {
+																					selectNum--;
+																					$(
+																							"#camPeopleCnt")
+																							.attr(
+																									"value",
+																									selectNum);
+																				}
+																			}
+																		})
 													</script>
 													<hr class="cell3_view cam_view"
 														style="border-color: #333; display: none;">
@@ -669,35 +702,77 @@
 													<script>
 													<!-- 객실 선택시 인원선택 -->
 														// 객실별 최대 수용 인원 선택x
-														$('.shelSelectPeople .btn.plus').on("click",function(e) {
-																if ($("#shelSelect").find("em:eq(0)").html()=="-") {
-																		toastrMsg("위치를 선택해주세요.")
-																	}else if($("#shelSelect").find("span:eq(0)").html()=="-"){
-																		toastrMsg("날짜를 선택해주세요.")
-																	}else{
-																	var max = Number($("#minbakMax").html());
-																	var selectNum = Number($("#shelPeopleCnt").val());
-																	if (selectNum == max) {
-																		toastrMsg("선택한 객실의 사용인원은 기본 "+ max+ "명입니다.");
-																	} else if (selectNum < max) {
-																		selectNum++;
-																		$("#shelPeopleCnt").attr("value",selectNum);
-																}
-															}
-														})
-														$('.shelSelectPeople .btn.minus').on("click",function(e) {
-															if ($("#shelSelect").find("em:eq(0)").html()=="-") {
-																toastrMsg("위치를 선택해주세요.")
-															}else if($("#shelSelect").find("span:eq(0)").html()=="-"){
-																toastrMsg("날짜를 선택해주세요.")
-															}else{
-																	var selectNum = Number($("#shelPeopleCnt").val());
-																	if (selectNum > 1) {
-																		selectNum--;
-																		$("#shelPeopleCnt").attr("value",selectNum);
-																	}
-																}
-														})
+														$(
+																'.shelSelectPeople .btn.plus')
+																.on(
+																		"click",
+																		function(
+																				e) {
+																			if ($(
+																					"#shelSelect")
+																					.find(
+																							"em:eq(0)")
+																					.html() == "-") {
+																				toastrMsg("위치를 선택해주세요.")
+																			} else if ($(
+																					"#shelSelect")
+																					.find(
+																							"span:eq(0)")
+																					.html() == "-") {
+																				toastrMsg("날짜를 선택해주세요.")
+																			} else {
+																				var max = Number($(
+																						"#minbakMax")
+																						.html());
+																				var selectNum = Number($(
+																						"#shelPeopleCnt")
+																						.val());
+																				if (selectNum == max) {
+																					toastrMsg("선택한 객실의 사용인원은 기본 "
+																							+ max
+																							+ "명입니다.");
+																				} else if (selectNum < max) {
+																					selectNum++;
+																					$(
+																							"#shelPeopleCnt")
+																							.attr(
+																									"value",
+																									selectNum);
+																				}
+																			}
+																		})
+														$(
+																'.shelSelectPeople .btn.minus')
+																.on(
+																		"click",
+																		function(
+																				e) {
+																			if ($(
+																					"#shelSelect")
+																					.find(
+																							"em:eq(0)")
+																					.html() == "-") {
+																				toastrMsg("위치를 선택해주세요.")
+																			} else if ($(
+																					"#shelSelect")
+																					.find(
+																							"span:eq(0)")
+																					.html() == "-") {
+																				toastrMsg("날짜를 선택해주세요.")
+																			} else {
+																				var selectNum = Number($(
+																						"#shelPeopleCnt")
+																						.val());
+																				if (selectNum > 1) {
+																					selectNum--;
+																					$(
+																							"#shelPeopleCnt")
+																							.attr(
+																									"value",
+																									selectNum);
+																				}
+																			}
+																		})
 													</script>
 													<hr class="shel_view cell3_view"
 														style="border-color: #333; display: none;">
@@ -710,7 +785,8 @@
 
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
-														<button class="btn btn-enquiry" data-button-name="goStep2">다음단계</button>
+														<button class="btn btn-enquiry" data-button-name="goStep2"
+															onclick="Res_openPopup('B', 'ResPopup')">다음단계</button>
 													</div>
 
 												</div>
@@ -886,10 +962,70 @@
 												</div>
 												<div class="grid-cell">
 													<h3 class="title">예약정보</h3>
+													<h3 class="title cell3_view eco_view"
+														style="display: none;">인원</h3>
+													<div class="camSelectPeople cell3_view eco_view"
+														style="display: none;">
+														<span class="quantity-input">
+															<button type="button"
+																class="btn minus livingRoom-prsn-minus">
+																<i class="icon-minus"></i>
+															</button> <label for="livingPrsnCnt" class="hidden-text">총참여인원</label>
+															<input type="number" value="1" readonly=""
+															title="총 참여 인원" name="livingPrsnCnt" id="ecoPeopleCnt">
+															<button type="button"
+																class="btn plus livingRoom-prsn-plus">
+																<i class="icon-plus"></i>
+															</button>
+														</span>
+													</div>
+													<hr class="eco_view cell3_view"
+														style="border-color: #333; display: none;">
+													<div class="ecoTotal cell3_view eco_view"
+														style="display: none;">
+														<h3 class="eco_Total ecoSelectPlace">
+															선택: <span>-</span>
+														</h3>
 
+														<h3 class="eco_Total ecoPrice">
+															결제금액: <span>0</span>원
+														</h3>
+													</div>
+													<script>
+													<!-- 여기야 객실 선택시 인원선택 -->
+														// 객실별 최대 수용 인원 선택x
+														$('.ecoSelectPeople .btn.plus').on("click",function(e) {
+															if ($("input:radio[name='location']").is(':checked') == false) {
+																toastrMsg("위치를 선택해주세요.")
+																} else {
+																	var max = Number($("#minbakMax").html());
+																	var selectNum = Number($("#ecoPeopleCnt").val());
+																	if (selectNum == max) {
+																		toastrMsg("선택한 객실의 사용인원은 기본 "+ max+ "명입니다.");
+																		} else if (selectNum < max) {
+																			selectNum++;
+																			$("#ecoPeopleCnt").attr("value",selectNum);
+																				}
+																			}
+																		})
+														$('.ecoSelectPeople .btn.minus').on("click",function(e) {
+															if ($("input:radio[name='location']").is(':checked') == false) {
+																toastrMsg("위치를 선택해주세요.")
+																} else {
+																	var selectNum = Number($("#ecoPeopleCnt").val());
+																	if (selectNum > 1) {
+																		selectNum--;
+																		$("#ecoPeopleCnt").attr("value",selectNum);
+																				}
+																			}
+																		})
+													</script>
+													<hr class="cell3_view eco_view"
+														style="border-color: #333; display: none;">
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh">새로고침</button>
-														<button class="btn btn-enquiry" data-button-name="goStep2">다음단계</button>
+														<button class="btn btn-enquiry" data-button-name="goStep2"
+															onclick="Res_openPopup('C', 'ResPopup')">다음단계</button>
 													</div>
 												</div>
 											</div>

@@ -46,7 +46,7 @@ public class IndexController {
 	@PostMapping(value="mountainSelect", produces = "application/json; charset=UTF-8") 
 	public String MountainSelect(@RequestBody(required = false) String parkId) {
 		String result = is.mountainSelect(parkId);
-		System.out.println(result);
+		//System.out.println(result);
 		return result;
 	}
 	@ResponseBody //parkId : A0101
@@ -76,12 +76,13 @@ public class IndexController {
 	public HashMap<String,String> shelPrint(@RequestBody(required = false) HashMap<String, String> keyData) throws Exception {
 		String parkId = keyData.get("parkId");
 		PlaceDTO data = rs.selectCategory3(parkId);
-		
+		System.out.println("출력해줘: "+keyData.get("nameCategory2")+", "+keyData.get("nameCategory3"));
+		// 가격, 선택한 날짜, 선택한 상품 , 최대인원수
 		keyData.put("price", data.getPriceDay());
 		keyData.put("peopleMax", String.valueOf(data.getPeopleMax()));
 		keyData.put("selectDt", keyData.get("selectDt"));
-		keyData.put("nameCategory3", keyData.get("nameCategory3"));
-		// 가격, 선택한 날짜, 선택한 상품 , 최대인원수
+		keyData.put("selectPlace", keyData.get("nameCategory2") +" "+ keyData.get("nameCategory3"));
+		System.out.println("컨트롤에 해쉬값들 : "+keyData);
 		return keyData;
 	}
 	
@@ -91,14 +92,14 @@ public class IndexController {
 	public String mainResProCam(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
 		System.out.println("최종결제가즈아// 민박넘어온값: "+resDto.getAllDay());
 		//if(sessionId == null || sessionId.equals(modifyId) == false)
-//		int num = 0; // 방 가능 갯수
-//		if(resDto.getCategory4() == null) {
-//			num = is.roomRest_Category3(resDto, startDt, endDt);
-//		}else if(resDto.getCategory4() != null) {
-//			num = is.roomRest_Category4(resDto, startDt, endDt);
-//		}
-//		System.out.println("(컨트롤)방 가능 갯수: "+ num);
-		is.reservation(resDto, startDt, endDt);
+		int num = 0; // 방 가능 갯수
+		if(resDto.getCategory4() == null) {
+			num = is.roomRest_Category3(resDto, startDt, endDt);
+		}else if(resDto.getCategory4() != null) {
+			num = is.roomRest_Category4(resDto, startDt, endDt);
+		}
+		System.out.println("(컨트롤)방 가능 갯수: "+ num);
+		//is.reservation(resDto, startDt, endDt);
 		return "redirect:/index1";
 	}
 }

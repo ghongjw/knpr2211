@@ -244,7 +244,7 @@ public class IndexService implements IPlaceService {
 
 	// 남은 방 검증(코드입력 'A010101', 입실일, 퇴실일)
 	public int roomRest_Category4(ReservationDTO resDto, String startDate, String endDate) throws ParseException {
-
+		System.out.println("서비스 카테고리4 ");
 		String parkId = resDto.getCategory4();
 		Integer minback = transMinback(resDto.getAllDay());
 		System.out.println("민박 넘어온 값 : "+resDto.getAllDay());
@@ -274,6 +274,9 @@ public class IndexService implements IPlaceService {
 
 		// 3.동일한 장소 코드와 날짜 사이에 해당하는 예약데이터 찾기
 		List<Reservation> SelectDatas = rr.findAllByStartDayBetweenAndCategory4(betweenStart, betweenEnd, parkId);
+		if(SelectDatas == null) {
+			return roomMax;
+		}
 		System.out.println("DB가져온 값 =========================================================================");
 		for (Reservation data : SelectDatas) {
 			System.out.println("코드: " + data.getCategory4() + ", 관리번호: " + data.getSeq() + ", 입실일: "
