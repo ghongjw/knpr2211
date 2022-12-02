@@ -10,18 +10,5 @@
 
  </head>
  <body>
-
-  <input class="btn" type="button" value="버튼1"/>
-  <input class="btn" type="button" value="버튼2"/>
-  <input class="btn" type="button" value="버튼3"/>  
-
-  <script>
-
-  var button = $(".btn");
-	button.click(function(){
-		$(this).val("눌렀어~");
-	});
-  
-  </script>
 </body>
 </html>
