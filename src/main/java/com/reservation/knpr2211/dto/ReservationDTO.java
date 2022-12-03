@@ -16,20 +16,30 @@ public class ReservationDTO {
 
 	@Id
 	private Integer seq;
-
+	
+	private String id;
+	
 	private String category1;
-
+	private String nameCategory1;
+	
 	private String category2;
-
+	private String nameCategory2;
+	
 	private String category3;
+	private String nameCategory3;
 
 	private String category4;
+	private String nameCategory4;
 
 	private String room;
-
+	
+	private String orderTime;
+	
 	private Timestamp startDay;
 
 	private Timestamp endDay;
+	
+	private String period; //사용기간
 
 	private Integer people; // 예약정원
 
@@ -37,25 +47,16 @@ public class ReservationDTO {
 
 	private String price;
 
-	private Boolean checked;
+	private String checked;
 	
+	private Boolean isDone;
+	
+	private String status;
 	public ReservationDTO() {
 		
 	}
+
+
 	
-	@Builder
-	public ReservationDTO(Reservation res) throws Exception{
-		this.seq = res.getSeq();
-		this.category1 = res.getCategory1().toString();
-		this.category2 = res.getCategory2();
-		this.category3 = res.getCategory3();
-		this.category4 = res.getCategory4() != null ? res.getCategory4():"";
-		this.room = res.getRoom();
-		this.startDay = res.getStartDay();
-		this.endDay = res.getEndDay();
-		this.people = res.getPeople();
-		this.allDay = res.getAllDay();
-		this.price = res.getPrice();
-		this.checked = res.getChecked();
-	}
+
 }

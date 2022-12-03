@@ -140,25 +140,28 @@
 										<dl>
 											<dt>객실 구분</dt>
 											<dd class="form">
+												<!-- 
 												<button type="button" class="btn btn-view"
 													onclick="funcArray.drawImage('06001');">객실 보기</button>
 												&nbsp;&nbsp;&nbsp;
 												<button type="button" class="btn btn-charge"
 													onclick="openPopup('livingAmtPop');">요금표</button>
+													 -->
 												<!-- 객식 구분 체크박스 넣기 -->
-												<span class="check-area"> <c:forEach var="list"
+												<span class="check-area"> 
+												<c:forEach var="list"
 														items="${roomTypeList}">
 														<span class="radio-1"> <input type="radio"
 															id="${list.category3}" name="txblPblc"
-															value="${list.peopleMax}" onclick="sendEco()"> <label
-															for="txblPblcN">${list.nameCategory3}</label>
+															value="${list.nameCategory3}" onClick="selectRoom(${list.peopleMax});">${list.nameCategory3}
+															<span style="display: none" id="minbakMax"></span>
 														</span>
 													</c:forEach>
 												</span>
 											</dd>
 										</dl>
 									</div>
-									<div class="border-box" style="display: none">
+									<div class="border-box sendview" style="display: none">
 										<dl>
 											<dt>사용인원 설정</dt>
 											<dd class="form">
@@ -177,10 +180,10 @@
 										</dl>
 									</div>
 									<!-- 총 선택 이용금액 -->
-									<div class="title-area">
+									<div class="title-area sendview" style="display: none">
 										<h4 class="title">총 결제 예정 금액</h4>
 									</div>
-									<div class="payment">
+									<div class="payment  sendview" style="display: none">
 										<dl>
 											<dt>
 												<em>생태여행</em>
@@ -208,11 +211,13 @@
 											</dd>
 										</dl>
 									</div>
-									<div class="board-bottom">
-										<div class="center">
-											<a href="javascript:void(0);"
-												class="btn btn-register is-active"
-												onclick="reservationClick()">예약하기</a>
+									<div class="board-bottom sendview" style="display: none;">
+										<div class="board-bottom">
+											<div class="center reserv">
+												<a href="javascript:void(0);"
+													onclick="open_Popup_eco('automatic-character')"
+													class="btn btn-register is-active">예약하기</a>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -238,46 +243,88 @@
 				</div>
 			</div>
 
-
-			<div class="modal-popup large" id="livingAmtPop">
-				<div class="popup-wrap">
+			<div class="modal-popup small" id="automatic-character"
+				style="display: none;">
+				<div class="popup-wrap" style="top: 65px; bottom: 150px;">
 					<div class="popup-head">
-						<strong class="popup-title">생활관 요금표 보기</strong>
-						<button type="button" class="btn-close" title="닫기"
-							onclick="closePopup('livingAmtPop');">
+						<strong class="popup-title">예약가능</strong>
+						<button type="button" class="btn-close"
+							onclick="close_Popup('automatic-character')" title="닫기">
 							<i class="icon-close"></i>
 						</button>
 					</div>
 					<div class="popup-container">
-						<table class="table">
-							<caption>생활관 요금표 보기</caption>
-							<colgroup>
-								<col style="width: 33%">
-								<col>
-							</colgroup>
-							<thead class="thead">
-								<tr>
-									<th scope="col">생활관</th>
-									<th scope="col">이용료<br />(1박기준 / 부가가치세 별도)
-									</th>
-								</tr>
-							</thead>
-							<tbody class="tbody">
-								<c:forEach var="list" items="${roomTypeList}">
-									<tr>
-										<th class="ta-c" scope="row">${list.nameCategory3}</th>
-										<td class="ta-c">${list.priceDay}원</td>
+						<form action="ecoProc" method="post">
+							<table class="table">
+								<caption>자동방지 입력문자</caption>
+								<colgroup>
+									<col style="width: 140px;">
+									<col>
+								</colgroup>
+								<tbody class="tbody">
+									<tr style="display: none;">
+										<th scope="row">예약코드</th>
+										<td><input type="text" id="txtEcoCode" name="category3"
+											value="D0101" readonly="readonly" style="border: none;"></td>
 									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-						<div class="btn-area">
-							<button type="button" class="btn btn-confirm is-active"
-								onclick="closePopup('livingAmtPop');">확인</button>
-						</div>
+									<tr>
+										<th scope="row">예약상품</th>
+										<td><input type="text" id="txtEcoNm" name="nameCategory3"
+											value="개인형 29.7㎡(9평/2명) 침대" readonly="readonly"
+											style="border: none;"></td>
+									</tr>
+									<tr>
+										<th scope="row">사용기간</th>
+										<td><input type="text" id="selRsrvtQntt" name="allDay"
+											value="3박 4일" readonly="readonly" style="border: none;"></td>
+									</tr>
+									<tr>
+										<th scope="row">입실날짜</th>
+										<td><input type="text" id="txtUseBgnDate" name="startDt"
+											value="2022-12-13 [화]" readonly="readonly"
+											style="border: none;"></td>
+									</tr>
+									<tr>
+										<th scope="row">퇴실날짜</th>
+										<td><input type="text" id="txtUseEndDate" name="endDt"
+											value="2022-12-16 [금]" readonly="readonly"
+											style="border: none;"></td>
+									</tr>
+									<tr>
+										<th scope="row">총 인원</th>
+										<td><input type="text" id="Inwon" name="people"
+											value="2명" readonly="readonly" style="border: none;"></td>
+									</tr>
+									<tr>
+										<th scope="row">결제(예정)금액</th>
+										<td><input type="text" id="selPrice" name="price"
+											value="120,000원 (부가세 포함)" readonly="readonly"
+											style="border: none;"></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="captcha-area">
+								<span class="label">자동예약 방지문자</span> <span class="captcha"
+									id="pnlRsrImg"><img alt="자동예약 방지문자"
+									src="/reserCaptcha.do?dummy=1669370017036"></span> <label
+									for="captInput" class="hidden-text">자동예약 방지문자</label><input
+									type="text" class="input-text txt-captcha" id="captInput"
+									title="자동예약 방지문자" maxlength="4" placeholder="위 문자를 입력해주세요."
+									name="captcha">
+							</div>
+							<p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인 후
+								결제 가능합니다.</p>
+							<div class="btn-area">
+								<button class="btn" id="btnClose"
+									onclick="close_Popup('automatic-character');">취소</button>
+								<input type="submit" class="btn" id="btnSubmit" value="확인"
+									style="background: #fff">
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
+
 		</div>
 		<%@ include file="../common/footer.jsp"%>
 	</div>
@@ -362,7 +409,7 @@
 				<!-- 객실 선택시 인원선택 -->
 				// 객실별 최대 수용 인원 선택x
 				$('.btn.plus').on("click",function(e){
-					var max = Number($("input[name='txblPblc']:checked").val());
+					var max = Number($("#minbakMax").html());
 					var selectNum = Number($("#livingPrsnCnt").val());
 					if(selectNum<max){
 						selectNum ++;
@@ -371,7 +418,7 @@
 					})
 					$('.btn.minus').on("click",function(e){
 						var selectNum = Number($("#livingPrsnCnt").val());
-					if(selectNum!=1 && selectNum>0){
+					if(selectNum>0){
 						selectNum --;
 						$("#livingPrsnCnt").attr("value",selectNum);
 					}

@@ -1,11 +1,19 @@
 package com.reservation.knpr2211.controller;
 
+
 import java.util.ArrayList;
+
+import java.text.ParseException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,25 +22,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
-import com.reservation.knpr2211.entity.Place;
-import com.reservation.knpr2211.service.MountainCodeService;
+import com.reservation.knpr2211.dto.ReservationDTO;
 import com.reservation.knpr2211.service.ReservationService;
 
 @Controller
 public class ReservationController {
 	@Autowired
 	ReservationService rs;
-	
+
 	// 예약(예외처리)
-	@RequestMapping( value = "reservation")
+	@RequestMapping(value = "reservation")
 	public String reservation() {
 		return "reservation/campsite";
 	}
-
+	// (시작)작성자: 김수정 =======================================================
 	// 생태탐방원 예약
 	@GetMapping(value = "ecoReservation")
 	public String GetEcoReservation(String category, Model model) {
@@ -40,7 +48,7 @@ public class ReservationController {
 			category = "C08";
 		}
 		// 제목 category1(대분류), category2(중분류) 코드 해석
-		String[] result = rs.transtitleCode(category); 
+		String[] result = rs.transtitleCode(category);
 		model.addAttribute("category1", result[0]);
 		model.addAttribute("category2", result[1]);
 		// 룸타입 가져오기
@@ -49,21 +57,29 @@ public class ReservationController {
 		return "reservation/ecoReservation";
 	}
 	@ResponseBody
-	@PostMapping(value="ecoReservation", produces="application/json; charset=UTF-8")
-	public String PostEcoReservation(@RequestBody(required = false) String code){
+	@PostMapping(value = "ecoReservation", produces = "application/json; charset=UTF-8")
+	public String PostEcoReservation(@RequestBody(required = false) String code) throws Exception {
 		String result = rs.selectCategory3(code).getPriceDay();
 		return result;
 	}
-	
+	@RequestMapping(value = "ecoProc")
+	public String ecoProc(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
+		
+		//if(sessionId == null || sessionId.equals(modifyId) == false)
+		rs.reservation(resDto, startDt, endDt);
+		return "redirect:/ecoReservation";
+	}
+
 	// 민박촌 예약
 	@GetMapping(value = "cottageReservation")
-	public String getCottageReservation(String category, Model model) {
-		System.out.println(category);
+	public String getCottageReservation(String category, Model model) throws ParseException {
+		// rs.test();
 		if (category == null) {
 			category = "D01";
 		}
+		System.out.println(category);
 		// category2(중분류) 코드해석
-		String[] result = rs.transtitleCode(category); 
+		String[] result = rs.transtitleCode(category);
 		model.addAttribute("category1", result[0]);
 		model.addAttribute("category2", result[1]);
 		// 룸타입 가져오기
@@ -71,16 +87,49 @@ public class ReservationController {
 		model.addAttribute("roomTypeList", roomTypeList);
 		return "reservation/cottageReservation";
 	}
-	@PostMapping(value = "cottageReservation", produces = "text/html; charset=UTF-8")
-	public String postCottageReservation(@RequestBody(required = false) HashMap<String, String> keyData) {
-		rs.mol(keyData.get("category3"), keyData.get("startDay"), keyData.get("endDay"));
-		return "reservation/cottageReservation";
+	@ResponseBody
+	@PostMapping(value = "cottageReservation", produces = "application/json; charset=UTF-8")
+	public HashMap<String, String> postCottageReservation(@RequestBody(required = false) HashMap<String, String> keyData)
+			throws Exception {
+		rs.roomNumCategory3(keyData);
+		int minInt = rs.roomNumCategory3(keyData);
+		String minStr = Integer.toString(minInt);
+		
+		String code = keyData.get("category3");
+		PlaceDTO result = rs.selectCategory3(code);
+		
+		keyData.put("allowRoomCount", minStr);
+		keyData.put("category3", result.getCategory3());
+		keyData.put("nameCategory3", result.getNameCategory3());
+		keyData.put("price", result.getPriceDay());
+		System.out.println(keyData);
+		return keyData;
 	}
-
-	
-	
 	
 	// (시작)작성자: 최현하 (A-야영장)==============================================
+
+	@ResponseBody
+	@PostMapping(value = "cottageReservation2", produces = "application/json; charset=UTF-8")
+	public HashMap<String, String> postCottageReservation2(@RequestBody(required = false) HashMap<String, String> keyData) throws Exception {
+		String code = keyData.get("category3");
+		String result = rs.selectCategory3(code).getPriceDay();
+		//System.out.println(keyData.get("nameCategory3"));
+		
+		keyData.put("nameCategory3", keyData.get("nameCategory3"));
+		keyData.put("addPeople", keyData.get("addPeople"));
+		keyData.put("diff", keyData.get("diff"));
+		keyData.put("price", result);
+		return keyData;
+	}
+	@RequestMapping(value = "cottageProc")
+	public String cottageProc(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
+		
+		//if(sessionId == null || sessionId.equals(modifyId) == false)
+		rs.reservation(resDto, startDt, endDt);
+		return "redirect:/cottageReservation";
+	}
+	// (끝)작성자: 김수정 =======================================================
+
 
 	// 야영장 예약페이지 열림
 	@RequestMapping("campsite")
@@ -90,36 +139,41 @@ public class ReservationController {
 
 
 	//야영장 산이름-지역명 클릭하면 테이블뷰 출력
+
 	@ResponseBody
-	@PostMapping(value = "campsiteView")
+	@PostMapping(value="campsiteView")
 	public Map<String, Object> campsiteView(@RequestParam Map<String, String> map) throws Exception {
-		
+
 		Map<String, Object> result = new HashMap<>();
 		String code = map.get("code");
+
 		
 		List<PlaceDTO> list = rs.campsiteView(code);
 		List<String> checkList = rs.checkBoxList(code);
+
+
 
 		result.put("list", list);
 		result.put("checkList", checkList);
 		return result;
 	}
-	
-	
+
 	//야영장 산이름-지역명-야영장명으로 클릭하면 방 출력
+
 	@ResponseBody
 	@PostMapping(value = "roomView")
 	public Map<String, Object> roomView(@RequestParam Map<String, String> map) throws Exception {
-		
+
 		String code = map.get("code");
-	
+
 		List<PlaceDTO> rooms = rs.roomView(code);
-		
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("rooms", rooms);
-		
+
 		return result;
 	}
+
 	
 	
 	//야영장 산이름-지역명-야영장명-방번호 배열로 현재 예약 현황 조회
@@ -324,4 +378,5 @@ public class ReservationController {
 	// (끝)작성자: 최현하 (A-대피소)==============================================
 	
 	
+
 }

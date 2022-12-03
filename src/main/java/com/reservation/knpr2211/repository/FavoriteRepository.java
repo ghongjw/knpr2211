@@ -14,6 +14,7 @@ import com.reservation.knpr2211.entity.User;
 public interface FavoriteRepository extends JpaRepository<Favorite, Long>{
 
 	List<Favorite> findByFavorite(User entity);
-		
+
 	
+	List<Favorite> findByFavoriteAndChecked(User entity, boolean b);
 }

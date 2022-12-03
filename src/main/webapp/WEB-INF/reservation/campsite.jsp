@@ -19,8 +19,8 @@
 <script>
 
  
-$.ajax({cache: false });
-$.ajax({async: false });
+//$.ajax({cache: false });
+//$.ajax({async: false });
 
 
 //1. 메뉴 클릭하면 테이블 화면 출력 
@@ -63,8 +63,8 @@ function sendData(sel1, sel2){
     
 		//A0101 (야영장-가야산-삼정)
 		$.ajax({
-			url : "campsiteView",
 			type : "post",
+			url : "campsiteView",
 			cache : false,
 			data : {
 				code : codeName

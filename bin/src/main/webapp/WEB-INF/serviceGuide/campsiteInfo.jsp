@@ -66,6 +66,7 @@
 <!-- 			<area shape="rect" alt="속리산" title="속리산" coords="369,407,480,464" href="#A20" class="link"/> -->
 		</map>
 		</div>
+		
 		<div class = "imageMapList">
 			<a href = "javascript:void(0);" class = "btn" id= "A01" onclick = "gotoInfo('A01')">가야산</a>
 			<a href = "javascript:void(0);" class = "btn" id= "A02" onclick = "gotoInfo('A02')">계룡산</a>

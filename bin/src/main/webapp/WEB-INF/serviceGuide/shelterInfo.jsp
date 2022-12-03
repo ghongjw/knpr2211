@@ -45,17 +45,17 @@
     <div class="imageMap">
 	<img src="../../assets/img/sub/img-map2.png" usemap="#image-map1" class="map" alt="야영장 지도">
 		<map name = "image-map1">
-			<area shape="rect" alt="덕유산" title="덕유산" coords="356,525,468,571" href="#B5" class="link"/>
-			<area shape="rect" alt="설악산" title="설악산" coords="493,37,601,91" href="#B8" class="link"/>
-			<area shape="rect" alt="소백산" title="소백산" coords="514,289,622,343" href="#B9" class="link"/>
-			<area shape="rect" alt="지리산" title="지리산" coords="320,682,432,738" href="#B14" class="link"/>			
+			<area shape="rect" alt="덕유산" title="덕유산" coords="356,525,468,571" href="#B01" class="link"/>
+			<area shape="rect" alt="설악산" title="설악산" coords="493,37,601,91" href="#B02" class="link"/>
+			<area shape="rect" alt="소백산" title="소백산" coords="514,289,622,343" href="#B03" class="link"/>
+			<area shape="rect" alt="지리산" title="지리산" coords="320,682,432,738" href="#B04" class="link"/>			
 		</map>
 		</div>
 		<div class = "imageMapList">
-			<a href = "javascript:void(0);" class = "btn" id= "B5" onclick = "gotoInfo('B5')">덕유산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "B8" onclick = "gotoInfo('B8')">설악산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "B9" onclick = "gotoInfo('B9')">소백산</a>
-			<a href = "javascript:void(0);" class = "btn" id= "B14" onclick = "gotoInfo('B14')">지리산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "B01" onclick = "gotoInfo('B01')">덕유산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "B02" onclick = "gotoInfo('B02')">설악산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "B03" onclick = "gotoInfo('B03')">소백산</a>
+			<a href = "javascript:void(0);" class = "btn" id= "B04" onclick = "gotoInfo('B04')">지리산</a>
 		</div>
 		<form action = "detailInfo" method="get" id="contentsForm">
 			<input type="hidden" id="parkId" name="parkId" value="">

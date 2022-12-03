@@ -1,0 +1,35 @@
+@charset "EUC-KR";
+
+/* section calendar */
+.operationCalendar {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.calendarTitle{
+	font-size: 20px; font-weight: bold;
+}
+.operationCalendar td{
+	color: #fff;
+	padding: 10px 5px;
+}
+.calendar-day{
+	color: #fff;
+} 
+.today{
+	color: #000;
+	background-color: #8BBDFF;
+	border-radius: 5px;
+}
+.not-active{
+	color: #747474;
+}
+
+/* cell3 */
+.cam_Total, .camTotal span, .shel_Total, .shelTotal span, .eco_Total, .ecoTotal span, .cot_Total, .cotTotal span{
+    padding: 10px 0 !important;
+    color: #fff  !important; 
+    font-family: Gyeonggi Cheonnyeon, Robot !important;
+    font-size: 18px !important;
+    font-weight: 600  !important;
+}
