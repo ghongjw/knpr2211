@@ -60,21 +60,21 @@ public class BoardController {
 		return boardService.getPost(bno, model);
 	}
 	//수정
-	@GetMapping(value="/post/edit/{no}")
-	public String edit(@PathVariable("no") Long bno, Model model) {
+	@GetMapping(value="boardModify")
+	public String edit(long bno, Model model) {
 		boardService.getPost(bno,model);
 		return "board/update";
 	}
-	@PutMapping("/post/edit/{no}")
+	@PutMapping("boardModify")
 	public String update(Model model,BoardDto boardDto) {
 		boardService.savePost(model, boardDto);
 		return "redirect:/list";
 	}
 	
 	//삭제
-	@DeleteMapping("/post/{no}")
-	public String delete(@PathVariable("no") Long bno) {
-		boardService.deletePost(bno);
+	@PostMapping("boardDelete")
+	public String delete(String delete) {
+		boardService.deletePost(delete);
 		return "redirect:/list";
 	}
 

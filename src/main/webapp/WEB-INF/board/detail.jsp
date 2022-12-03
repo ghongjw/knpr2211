@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
+
 <head>
+<script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
 <meta charset="UTF-8">
 </head>
 <body>
@@ -26,10 +28,20 @@
 						<div class="question">${boardDto.content}</div>
 					<!-- 답변 --> 
 					<div class="answer">
-								<c:choose>
-										<c:when test="${member.member == 'admin'}">
-											<dl>
-												<dt>${boardDto.title}</dt>
+								<dl>
+											<dt>${boardDto.title}</dt>
+											<c:forEach var="list" items="${list }">
+											<br>
+												<dd>${list.content }</dd><br>
+												<dd>
+													<span>${boardDto.category1}</span><span>${list.createDate } </span>
+												</dd>
+											</c:forEach>
+											</dl>
+	            						
+										<c:if test="${member.member == 'admin'}">
+											<dl style="height:50px;">
+												
 											</dl>
 											<form id="reply" action="/reply_write" method="post">
 												<input type="hidden" id="id" name="id"
@@ -39,39 +51,38 @@
 												<input type="hidden" id="bno" name="bno"
 													value="${boardDto.bno}"><br>
 												<div align=right>
-													<button type="submit">등록</button>
+													<button style=cursor:pointer type="submit">등록</button>
 												</div>
 											</form>
-										</c:when>
-										<c:when test="${boardDto.state == '1' }">
-											<dt>${boardDto.title}</dt>
-											<br>
-											<c:forEach var="list" items="${list }">
-												<dd>${list.content }</dd><br>
-												<dd>
-													<span>${boardDto.category1}</span><span>${list.createDate } </span>
-												</dd>
-											</c:forEach>
-	            						</c:when>
-										<c:otherwise>
-										</c:otherwise>
-									</c:choose>
+										</c:if>
+									
+										
 									</div>
 									<!-- 답변 -->
 								
 					<div class="board-bottom">
 						<div class="center">
-                	<a href="/post/edit/${boardDto.bno}" class="btn btn-modify">수정</a>
+                	<a href="/boardModify?bno=${boardDto.bno}" class="btn btn-modify">수정</a>
                		<a href="/list" class="btn btn-list">목록</a><div style="margin:5px"></div>
                     
-                    <form id="delete-form" action="/post/ + ${boardDto.bno}" method="post">
-           				<input type="hidden" name="_method" value="delete"/>
-            			<button class="btn btn-modify" id="delete-btn">삭제</button>
+                    <form id="delete-form"  method="post">
+           				<input type="hidden" name="delete" value="${boardDto.bno}"/>
+            			<button class="btn btn-modify" id="delete-btn" onclick="deleted()">삭제</button>
         			</form>
                     			<div>
    				 			</div>   
             			</div>
 					</div>
+					<script>
+					function deleted(){
+						var msg = confirm("삭제하시겠습니까?")
+						if(msg == true){
+							$("#delete-form").attr('action','boardDelete').submit();
+						}
+						
+					}
+					
+					</script>
 				
 				<!-- // view -->
 				

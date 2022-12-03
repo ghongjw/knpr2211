@@ -64,7 +64,7 @@
 		      </li>
 		    </ul>        
       </div>
-      <div class="box3"  onclick="location.href='adminOperation'" style="background:rgba(0,0,0,0.2)">
+      <div class="box3"  onclick="location.href='list?page=0&size=10'" style="background:rgba(0,0,0,0.2)">
 		  <ul class="type1">
 		      <li>묻고답하기
 		        <span></span>

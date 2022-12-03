@@ -12,6 +12,17 @@
 <body>
 	<div id="wrap" class="sub">
 		<%@ include file="../common/header.jsp"%>
+		<%
+		String sessionId = (String) session.getAttribute("id");
+		String sessionMember = (String) session.getAttribute("member");
+		
+		String msg = request.getParameter("msg");
+		if(msg != null && msg != ""){
+			out.println("<script>");
+		    out.println("alert('"+msg+"')");
+		    out.println("</script>");
+		}
+		%>
 		<div id="container">
 			<div class="page-location">
 				<span>홈</span><span>예약하기</span><span>${category1}</span>
@@ -148,12 +159,12 @@
 													onclick="openPopup('livingAmtPop');">요금표</button>
 													 -->
 												<!-- 객식 구분 체크박스 넣기 -->
-												<span class="check-area"> 
-												<c:forEach var="list"
+												<span class="check-area"> <c:forEach var="list"
 														items="${roomTypeList}">
 														<span class="radio-1"> <input type="radio"
 															id="${list.category3}" name="txblPblc"
-															value="${list.nameCategory3}" onClick="selectRoom(${list.peopleMax});">${list.nameCategory3}
+															value="${list.nameCategory3}"
+															onClick="selectRoom(${list.peopleMax});">${list.nameCategory3}
 															<span style="display: none" id="minbakMax"></span>
 														</span>
 													</c:forEach>
@@ -215,7 +226,7 @@
 										<div class="board-bottom">
 											<div class="center reserv">
 												<a href="javascript:void(0);"
-													onclick="open_Popup_eco('automatic-character')"
+													onclick="open_Popup_eco('automatic-character', '<%=sessionId%>', '<%=sessionMember%>')"
 													class="btn btn-register is-active">예약하기</a>
 											</div>
 										</div>
@@ -249,12 +260,13 @@
 					<div class="popup-head">
 						<strong class="popup-title">예약가능</strong>
 						<button type="button" class="btn-close"
-							onclick="close_Popup('automatic-character')" title="닫기">
+							onclick="close_Popup('automatic-character' )"
+							title="닫기">
 							<i class="icon-close"></i>
 						</button>
 					</div>
 					<div class="popup-container">
-						<form action="ecoProc" method="post">
+						<form action="ecoProc" method="post" onsubmit="return checkBot()">
 							<table class="table">
 								<caption>자동방지 입력문자</caption>
 								<colgroup>
@@ -304,13 +316,9 @@
 								</tbody>
 							</table>
 							<div class="captcha-area">
-								<span class="label">자동예약 방지문자</span> <span class="captcha"
-									id="pnlRsrImg"><img alt="자동예약 방지문자"
-									src="/reserCaptcha.do?dummy=1669370017036"></span> <label
-									for="captInput" class="hidden-text">자동예약 방지문자</label><input
-									type="text" class="input-text txt-captcha" id="captInput"
-									title="자동예약 방지문자" maxlength="4" placeholder="위 문자를 입력해주세요."
-									name="captcha">
+								<span class="label">자동예약 방지문자</span>
+								<div align="right" class="g-recaptcha"
+									data-sitekey="6Lckc0QjAAAAAM99CWG4ZaUjZSotZ9CtddBM38x4"></div>
 							</div>
 							<p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인 후
 								결제 가능합니다.</p>

@@ -20,20 +20,20 @@ public class AdminInterceptor implements HandlerInterceptor {
 			Object obj) throws Exception {
 		session = request.getSession();
 
-		user = (User)session.getAttribute("member");
-		if(user == null) {
-			System.out.println("여기는 오니???1");	
+		
+		String member = (String)session.getAttribute("member");
+		if(member == null) {
 			response.sendRedirect("index");
 			return false;
 		}
-		String isAdmin = user.getMember();
-		if("normal".equals(isAdmin)) {
-			System.out.println("여기는 오니???2");
+		
+		if("normal".equals(member)) {
+			
 			response.sendRedirect("index");
 
 			return false;
 		}else {
-			System.out.println(">>>>interceptor>>>>>");
+			
 			return true;
 		}
 		
