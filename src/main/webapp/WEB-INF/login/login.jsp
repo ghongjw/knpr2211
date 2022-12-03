@@ -91,7 +91,7 @@
 </div>
 			</div>
 			
-<%@ include file="../common/footer.jsp" %>
+
 
 
 <div class="modal-popup small" id="confirmPop">
@@ -185,6 +185,8 @@
 			history.back();
 		}
 	})
+	
 </script>
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

@@ -49,6 +49,9 @@ public class User {
 		@Column(nullable = false, insertable = true, updatable = true)
 		//@ColumnDefault(value = "false")
 		private Boolean deleted;
+		//카카오
+		@Column(nullable = false, insertable = true, updatable = true)
+		private Boolean kakao;
 		
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
@@ -57,7 +60,7 @@ public class User {
 		private List<Reply> replyList;
 	
 		@Builder
-		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted) {
+		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted, Boolean kakao) {
 			
 			this.id = id;
 			this.pw = pw;
@@ -66,7 +69,7 @@ public class User {
 			this.mobile = mobile;
 			this.member = member;
 			this.deleted = deleted;
-			
+			this.kakao = kakao;
 		}
 
 

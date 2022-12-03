@@ -99,12 +99,14 @@ public class UserService {
 			
 			return "이메일을 인증해주세요.";
 		};
+		
+		boolean kakao = false;
 			
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).kakao(kakao).build();
 		userRepository.save(entity);
 		session.setAttribute("msg", "");
 		return "회원가입 성공";
@@ -129,12 +131,13 @@ public class UserService {
 		if (mobile == null || mobile.isEmpty())
 			return "연락처를 입력하세요.";
 		
-
+		boolean kakao = true;
+		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).kakao(kakao).build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";
@@ -194,6 +197,7 @@ public class UserService {
 				
 				return "이메일을 인증해주세요.";
 			};
+			
 			
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			
@@ -295,6 +299,7 @@ public class UserService {
 			session.setAttribute("mobile", user.getMobile());
 			session.setAttribute("name", user.getName());
 			session.setAttribute("member", user.getMember());
+			session.setAttribute("kakao", user.getKakao());
 			if(user.getMember().equals("admin")) {
 				
 				msg = "어드민 계정 로그인 성공";
@@ -391,16 +396,12 @@ public class UserService {
 	
 		User member = userRepository.findByid(id);
 		System.out.println("멤버를 받아? " + member.getMember());
-		if(member.getMember().equals("kakao")) {
-			System.out.println("멤버를 받아? " + member.getMember());
-			return "kakao";
-		}
-		if(member.getMember() == "admin") {
-			
-			return "admin";
-		}
-		else
-			
+		boolean kakao = member.getKakao();
+			if(kakao == true) {
+				
+				return "카카오";
+			}
+			else
 		
 		return "normal";
 	}

@@ -40,8 +40,12 @@ public class LoginController {
 	System.out.println(userservice.login(id, pw));
 	String msg= userservice.login(id, pw);
 	
+
+	
 	if(msg.equals("로그인 성공")) {
-		
+	
+	
+	
 	return "login/index";}
 	
 	session.setAttribute("msg", msg);
@@ -121,21 +125,22 @@ public class LoginController {
 	@RequestMapping("UserModify")
 	public String UserModity() {
 		session.setAttribute("msg", "");
-	String member =(String)session.getAttribute("member");
+	boolean kakao =(boolean)session.getAttribute("kakao");
 	  
-	System.out.println("카카오 :"+member);
+	System.out.println("카카오 :"+kakao);
 	
 	
-		if(member.equals("kakao")) {
+		if(kakao == true ) {
 			
 			
 			
 			return "login/index";
 		}
 			
+		else {
 		
+		return "login/UserModify";}
 		
-		return "login/UserModify";
 	}
 	
 	//카카오 로그인
@@ -152,6 +157,7 @@ public class LoginController {
 		String email = userInfo.get("email");
 		String mobile = "kakao";
 		String member = "kakao";
+		boolean kakao = true;
 		
 	
 		userservice.kakaoRegister(id, pw, name, email , mobile, member);
@@ -163,7 +169,7 @@ public class LoginController {
 		session.setAttribute("email", userInfo.get("email"));
 		session.setAttribute("mobile", mobile);
 		session.setAttribute("member", member);
-		
+		session.setAttribute("kakao", kakao);
 		return "login/index";
 	}
 	
@@ -207,17 +213,15 @@ public class LoginController {
 			String id = userservice.FindById(email);
 			String member = userservice.FindKakaoMember(id);
 			System.out.println("멤버 :"+member);
-			if(member.equals("kakao")) {
-				session.setAttribute("IdResult", "카카오Id를 확인해주세요");
+			if(member.equals("카카오")) {
+				session.setAttribute("IdResult", "카카오회원으로 카카오를 확인해주세요");
 			}
-			if(member.equals("admin")) {
-				session.setAttribute("IdResult", id);
-			}
+			
 			if(member.equals("normal")) {
 				session.setAttribute("IdResult", id);
 			}
-			System.out.println("아이디 :" + id);
 			
+			System.out.println("아이디 :" + id);
 			
 			
 			session.setAttribute("msg", "");
