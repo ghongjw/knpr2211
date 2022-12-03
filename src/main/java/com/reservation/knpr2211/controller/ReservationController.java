@@ -136,7 +136,6 @@ public class ReservationController {
 		List<String> dateList = (List<String>) map.get("dateList");
 		//데이터 전송, 응답에 문제없음을 확인
 		
-		//List<String> reservations = rs.reservationState(rooms);
 		String roomMax = rs.campsiteCount(rooms[0]);
 		
 		Map<String, Object> result = new HashMap<>();

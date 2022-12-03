@@ -507,6 +507,7 @@ function sendData(sel1, sel2){
 		    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
 							 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-reservation"+"></i></td>" 
 	    				 arrayState.push("0")
+	    				 console.log(dateList[i])
 
 	    				 
 	    			 }else{
@@ -514,6 +515,7 @@ function sendData(sel1, sel2){
 	    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
 						 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-end"+"></i></td>" 
 	    				 arrayState.push("1")
+	    				 console.log(dateList[i])
 
 	    			 }
 	    		 
@@ -527,6 +529,7 @@ function sendData(sel1, sel2){
 	    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
 						 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-reservation"+"></i></td>" 
 	    				 arrayState.push("0")
+	    				console.log(dateList[i])
 
 	    				 
 	    			 }else{
@@ -534,6 +537,7 @@ function sendData(sel1, sel2){
 	    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
 						 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-end"+"></i></td>" 
 	    				 arrayState.push("1")
+	    				 console.log(dateList[i])
 
 	    			 }
 	    		 
@@ -2354,7 +2358,7 @@ $(function() {
 			alert(responseMessage);
 			history.back();
 		}
-	}) -->
+	})
 </script> 
 </body>
 </html>
