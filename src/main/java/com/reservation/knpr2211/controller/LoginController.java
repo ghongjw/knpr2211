@@ -113,12 +113,7 @@ public class LoginController {
 		}
 		return "redirect:login";
 	} 
-	//메인
-	@RequestMapping("index")
-	public String index() {
-		
-		return "login/index";
-	}
+	
 	//회원정보 수정
 	
 	@RequestMapping("UserModify")

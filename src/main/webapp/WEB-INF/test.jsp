@@ -4,11 +4,16 @@
 <html>
 <head>
  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+ <script src="https://www.google.com/recaptcha/api.js"></script>
   <meta http-equiv="Content-Type" content="text/html";charset="utf-8"/>
   <meta charset="UTF-8">
   <title>Title</title>
 
  </head>
  <body>
+ 
+ <div align="right" class="g-recaptcha" data-sitekey="6Lckc0QjAAAAAM99CWG4ZaUjZSotZ9CtddBM38x4"></div>									
+							
+								
 </body>
 </html>

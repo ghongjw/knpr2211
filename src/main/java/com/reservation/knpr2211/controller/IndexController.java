@@ -28,6 +28,8 @@ import com.reservation.knpr2211.service.ReservationService;
 @Controller
 public class IndexController {
 
+	@Autowired
+	HttpSession session;
 
 	@Autowired
 	IndexService is;
@@ -41,9 +43,9 @@ public class IndexController {
 	@Autowired
 	ReservationService rs;
 	
-	@RequestMapping("index1")
+	@RequestMapping("index")
 	public String index1(Model model) {
-		return "index/index1";
+		return "login/index";
 	}
 	@ResponseBody //parkId : A01
 	@PostMapping(value="mountainSelect", produces = "application/json; charset=UTF-8") 
@@ -65,6 +67,7 @@ public class IndexController {
 	@ResponseBody //parkId : A010101
 	@PostMapping(value="campPrice", produces = "application/json; charset=UTF-8") 
 	public HashMap<String,String> campPrice(@RequestBody(required = false) HashMap<String, String> keyData) {
+		System.out.println("camPrice : "+keyData);
 		String parkId = keyData.get("parkId");
 		String price = is.campPrice(parkId);
 		
@@ -103,9 +106,12 @@ public class IndexController {
 	
 	// 최종 결제
 	@RequestMapping(value = "mainResProc_cam")
-	public String mainResProCam(HttpSession session, ReservationDTO resDto, String startDt, String endDt,RedirectAttributes ar) throws Exception {
-		System.out.println("최종결제가즈아// 민박넘어온값: "+resDto.getAllDay());
-		//if(sessionId == null || sessionId.equals(modifyId) == false)
+	public String mainResProCam(ReservationDTO resDto, String startDt, String endDt,RedirectAttributes ra) throws Exception {
+		String sessionId = (String)session.getAttribute("id");
+		if (sessionId == null || sessionId.isEmpty()) {
+			ra.addFlashAttribute("msg","잘못된 접근입니다. 로그인 후 이용해주세요.");
+			return "redirect:/login";
+		}
 		int num = 0; // 방 가능 갯수
 		if(resDto.getCategory4() == null || resDto.getCategory4().equals("")) {
 			System.out.println("cat3검증 / cat4상태: "+resDto.getCategory4());
@@ -115,11 +121,11 @@ public class IndexController {
 			num = is.roomRest_Category4(resDto, startDt, endDt);
 		}
 		if(num == 0) {
-			ar.addAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
-			return "redirect:/index1";
+			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
+			return "redirect:/index";
 		}else {
 			is.reservation(resDto, startDt, endDt);
-			return "redirect:/index1";
+			return "redirect:/index";
 		}
 		
 	}

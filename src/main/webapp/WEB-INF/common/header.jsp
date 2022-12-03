@@ -18,6 +18,7 @@
 	<script src="/assets/js/lib/toastr.min.js"></script>
 	<script src="/assets/js/scripts.js"></script>
 	<script src="/assets/js/common9b00.js?ver4"></script>
+	<script src="https://www.google.com/recaptcha/api.js"></script>
     <script>
 	function googleTranslateElementInit() {
 		new google.translate.TranslateElement({

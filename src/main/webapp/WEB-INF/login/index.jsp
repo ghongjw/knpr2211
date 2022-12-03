@@ -5,7 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="../assets/style/index.css">
 <script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
@@ -17,10 +16,13 @@
 		<div id="wrap" class="sub">
 			<%@ include file="../common/header.jsp"%>
 			<%
+			String sessionId = (String)session.getAttribute("id");
+			String sessionMember = (String)session.getAttribute("member");
+		    
 			String msg = request.getParameter("msg");
 			if(msg != null && msg != ""){
 				out.println("<script>");
-			    out.println("toastrMsg('"+msg+"')");
+			    out.println("alert('"+msg+"')");
 			    out.println("</script>");
 			}
 			
@@ -534,7 +536,7 @@
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
-															onclick="Res_openPopup('A', 'ResPopup')">다음단계</button>
+															onclick="Res_openPopup('A', 'ResPopup', '<%=sessionId %>', '<%=sessionMember %>' )">다음단계</button>
 													</div>
 												</div>
 											</div>
@@ -794,7 +796,7 @@
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
-															onclick="Res_openPopup('B', 'ResPopup')">다음단계</button>
+															onclick="Res_openPopup('B', 'ResPopup', '<%=sessionId %>', '<%=sessionMember %>' )">다음단계</button>
 													</div>
 
 												</div>
@@ -1032,7 +1034,7 @@
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
-															onclick="Res_openPopup('C', 'ResPopup')">다음단계</button>
+															onclick="Res_openPopup('C', 'ResPopup', '<%=sessionId %>', '<%=sessionMember %>' )">다음단계</button>
 													</div>
 												</div>
 											</div>
@@ -1233,7 +1235,7 @@
 													<div class="btn-area">
 														<button class="btn btn-refresh" data-button-name="refresh" onClick="window.location.reload()">새로고침</button>
 														<button class="btn btn-enquiry" data-button-name="goStep2"
-															onclick="Res_openPopup('D', 'ResPopup')">다음단계</button>
+															onclick="Res_openPopup('D', 'ResPopup', '<%=sessionId %>', '<%=sessionMember %>' )">다음단계</button>
 													</div>
 												</div>
 											</div>
@@ -1428,7 +1430,7 @@
 							</button>
 						</div>
 						<div class="popup-container">
-							<form action="mainResProc_cam" method="post">
+							<form action="mainResProc_cam" method="post" onsubmit="return checkBot()">
 								<table class="table">
 									<caption>자동방지 입력문자</caption>
 									<colgroup>
@@ -1478,13 +1480,8 @@
 									</tbody>
 								</table>
 								<div class="captcha-area">
-									<span class="label">자동예약 방지문자</span> <span class="captcha"
-										id="pnlRsrImg"><img alt="자동예약 방지문자"
-										src="/reserCaptcha.do?dummy=1669370017036"></span> <label
-										for="captInput" class="hidden-text">자동예약 방지문자</label><input
-										type="text" class="input-text txt-captcha" id="captInput"
-										title="자동예약 방지문자" maxlength="4" placeholder="위 문자를 입력해주세요."
-										name="captcha">
+									<span class="label">자동예약 방지문자</span> 
+									<div align="right" class="g-recaptcha" data-sitekey="6Lckc0QjAAAAAM99CWG4ZaUjZSotZ9CtddBM38x4"></div>
 								</div>
 								<p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인
 									후 결제 가능합니다.</p>
