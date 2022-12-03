@@ -131,10 +131,15 @@ public class BoardService {
 		List<Board> boards = result.getContent();
 		
 		int totalPage = result.getTotalPages();
+		System.out.println(totalPage);
 		if (totalPage == 0) {
 			totalPage = 1;
 		}
 		long totalElement = result.getTotalElements();
+		
+		String sessionId = (String)session.getAttribute("id");
+		User user = ur.findByid(sessionId);
+		model.addAttribute("member", user);
 		
 		model.addAttribute("boards", boards);
 		model.addAttribute("totalPage", totalPage);
@@ -184,6 +189,7 @@ public class BoardService {
 					.build();
 					
 					model.addAttribute("boardDto", boardDto);
+					model.addAttribute("member", user);
 
 					return "board/detail";
 		}
@@ -193,8 +199,10 @@ public class BoardService {
 	}
 	//삭제
 	@Transactional
-	public void deletePost(Long bno) {
+	public void deletePost(String delete) {
+		long bno = Integer.parseInt(delete);
 		boardRepository.deleteById(bno);
+		
 	}
 	public String getMember(Model model) {
 		String sessionId = (String)session.getAttribute("id");

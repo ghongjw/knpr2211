@@ -77,7 +77,7 @@
 
                             <li><a href="faq">자주하는 질문</a></li>
                         
-                            <li><a href="list">묻고 답하기</a></li>
+                            <li><a href="list?page=0&size=10">묻고 답하기</a></li>
                         
                             <li><a href="policy">예약·환불정책</a></li>
                         
@@ -98,6 +98,17 @@
                         
                     </ul>
                 </li>
+                <c:if test="${sessionScope.member == 'admin'}">
+                <li>
+                    <a href="javascript:void(0);" class="depth1">관리자 홈페이지</a>
+                    <ul class="depth2">
+                        
+                            <li><a href="adminIndex">관리자 홈으로</a></li>
+                        
+                        
+                    </ul>
+                </li>
+                </c:if>
      
                
         </ul>

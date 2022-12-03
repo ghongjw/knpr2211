@@ -949,7 +949,6 @@ public class ReservationService {
 			}else rd.setRoom("- "+r.getRoom().substring(7,9));
 			
 			rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())]);
-		
 			rd.setOrderTime(orderFormat.format(r.getOrderTime()));
 			rd.setStartDay(r.getStartDay());
 			
