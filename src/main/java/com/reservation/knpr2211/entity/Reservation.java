@@ -5,8 +5,9 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -33,6 +34,7 @@ import lombok.Setter;
 public class Reservation {
 	
 		@Id
+
 		@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "RESERVATION_SEQ_GENERATOR")
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private Integer seq;
@@ -79,6 +81,7 @@ public class Reservation {
 		@Column(nullable = true, insertable = true, updatable = true)
 		private String merchant_uid;
 		//예약확정(결재) 유무
+
 		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "0")
 		private Boolean checked;
@@ -87,10 +90,10 @@ public class Reservation {
 		
 		private String status = "reserve";
 		
+
     public Reservation() {
 			
 		}
-    
 		@Builder
 		public Reservation(Reservation res) throws Exception{
 			this.seq = res.getSeq();
@@ -98,16 +101,17 @@ public class Reservation {
 			this.category1 = res.getCategory1().toString();
 			this.category2 = res.getCategory2();
 			this.category3 = res.getCategory3();
-			this.category4 = res.getCategory4() != null ? res.getCategory4():"";
-			this.room = res.getRoom();
+			this.category4 = res.getCategory4() != null ? res.getCategory4():" ";
+			this.room = res.getRoom() != null ? res.getRoom():" ";
 			this.orderTime = res.getOrderTime();
 			this.startDay = res.getStartDay();
 			this.endDay = res.getEndDay();
 			this.people = res.getPeople();
 			this.allDay = res.getAllDay();
 			this.price = res.getPrice();
-			this.checked = res.getChecked() != null ? res.getChecked():false;
+			this.checked = res.getChecked() == null ? false:true;
 		}
+
 //	@Builder
 //	public Reservation(Reservation res) throws Exception{
 //	this.id = res.getId();

@@ -16,18 +16,12 @@ import com.reservation.knpr2211.entity.Place;
 public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	List<Place> findAll();
 
-
-	List<Place> findByCategory1AndCategory2AndCategory3(String category1, String category2, String category3); 
-	List<Place> findByCategory1AndCategory2AndCategory3AndCategory4(String category1, String category2, String category3, String category4); 
-
-
 	//List<Place> findByCategory2AndCategory3(String category2, String category3); 
-	
-
 	
 	ArrayList<Place> findByCategory2(String parkId);
 	ArrayList<Place> findByCategory3(String parkId);
 	ArrayList<Place> findByCategory4(String parkId);
+	ArrayList<Place> findByRoom(String firstRomm);
 	
 	@Query(nativeQuery=true, value = "select distinct category2 from place where category1 = ?1")
 	ArrayList<String> findDistintCategory2(String category1);
