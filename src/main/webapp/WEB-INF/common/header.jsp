@@ -4,6 +4,7 @@
     <head>
    <meta name="viewport" content="width=device-width">
 
+
       
 
 <%--    <c:url var="root" value="/" /> --%>
@@ -18,6 +19,17 @@
 	<script src="/assets/js/scripts.js"></script>
 	<script src="/assets/js/common9b00.js?ver4"></script>
 	<script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+			pageLanguage: 'ko',
+			includedLanguages: 'ko,zh-CN,zh-TW,ja,vi,th,tl,km,my,mn,ru,en,fr,ar',
+			//layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+			autoDisplay: false
+		}, 'google_translate_element');
+	}
+</script>
+
 
     <title>knpr2211</title>
     </head>
@@ -87,7 +99,7 @@
                         
                     </ul>
                 </li>
-            
+     
                
         </ul>
     </nav>

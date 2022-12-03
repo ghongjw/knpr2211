@@ -5,8 +5,9 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -33,6 +34,7 @@ import lombok.Setter;
 public class Reservation {
 	
 		@Id
+
 		@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "RESERVATION_SEQ_GENERATOR")
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private Integer seq;
@@ -80,6 +82,7 @@ public class Reservation {
 		private String merchant_uid;
 		//예약확정(결재) 유무
 		@Column(insertable = true, updatable=true)
+		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "0")
 		private Boolean checked;
 		//환불유뮤
@@ -87,9 +90,11 @@ public class Reservation {
 		
 		private String status = "reserve";
 		
+
     public Reservation() {
 			
 		}
+
     
 //		@Builder
 //		public Reservation(Reservation res) throws Exception{
@@ -125,6 +130,7 @@ public class Reservation {
 	this.price = res.getPrice();
 	this.checked = res.getChecked() == null ? false:true;
   }
+
 	
 //		public Reservation toEntity() {
 //			Reservation rebuild = Reservation.builder()
