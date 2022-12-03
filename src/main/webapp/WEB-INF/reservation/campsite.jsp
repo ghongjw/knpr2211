@@ -2136,10 +2136,10 @@ $(function() {
     	}else{
     		var id = $('#userId').val();
     		
-    		//if(id == null || id == "" ){
-    			//toastrMsg('로그인 후 이용해 주세요.');
+    		if(id == null || id == "" ){
+    			toastrMsg('로그인 후 이용해 주세요.');
     		
-    		//}else{
+    		 }else{
     			var code = $('#productCode').val();
     			var allDay = $('#selectAllDay').val();
     			var startDay = $('#selectStartDt').val();
@@ -2173,7 +2173,7 @@ $(function() {
     				     
     				});
     			
-    		//}
+    		}
     	}
     	
 

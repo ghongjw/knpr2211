@@ -16,4 +16,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	//List<PlaceDTO> findByCategory3AndStartDay(String category3, Timestamp startDay);
 	
 	List<ReservationDTO> findByRoomAndStartDayAndAllDay(String room, Timestamp startDay, String allDay);
+	
+	List<ReservationDTO> findByCategory3AndStartDay(String category3,  Timestamp startDay);
+	
 }
