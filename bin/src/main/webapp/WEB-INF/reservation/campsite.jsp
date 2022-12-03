@@ -6,272 +6,951 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<c:url var="root" value="/" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<title>국립공원공단 예약시스템</title>
+  <link rel="stylesheet" href="/assets/style/reservation/campsite.css">
+                            
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+ <script src="https://www.google.com/recaptcha/api.js"></script>
 
-<link rel="stylesheet" href="/assets/style/commonb07b.css">
-
-<script src="/assets/js/lib/jquery-1.12.4.min.js"></script>
-<!-- 	<script src="/assets/js/lib/swiper.js"></script>
-	<script src="/assets/js/lib/datepicker.min.js"></script>
-	<script src="/assets/js/lib/jquery.fs.zoomer.min.js"></script>
-	<script src="/assets/js/lib/jquery.rwdImageMaps.min.js"></script>
-	<script src="/assets/js/lib/toastr.min.js"></script>
-	<script src="/assets/js/scripts.js"></script>
-	<script src="/assets/js/common.js?ver4"></script> -->
-	
-	
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
 
 <script>
 
-/*   	function selectPlace(sel1, sel2){
-	req = new XMLHttpRequest();
-	req.onreadystatechange = inputLabel;
-	req.open('post', 'selectPlace');
-	var userSelect = sel1 + sel2 ;
-	req.send(userSelect);
-}  */
-
-
-
  
-$.ajax({cache: false });
-$.ajax({async: false });
+//$.ajax({cache: false });
+//$.ajax({async: false });
 
 
+//1. 메뉴 클릭하면 테이블 화면 출력 
 function clickPlace(sel1, sel2){
 
 	if(sel1 != null && sel2 != null){
-		//alert("들어옴");
-		//console.log(sel1+" "+sel2)
 		document.getElementById("content-view").style.display = 'block';
-		document.getElementById("nodata").style.display = 'none';
+		document.getElementById("nodata1").style.display = 'none';
+		document.getElementById("nodata2").style.display = 'none';
+		
+		if(sel1 =='16' && sel2 == '01'){
+			document.getElementById("content-view").style.display = 'none';
+			document.getElementById("nodata1").style.display = 'none';
+			document.getElementById("nodata2").style.display = 'block';
+		}
+		
+		$('#inputSelectCampsite').html(" ")
+		$('#inputStartDate').html(" ")
+		$('#inputEndDate').html(" ")
+		$('#stayInfo').html(" ")
+		$('#paymentGroup').html(" ")
+		
 	}
 	
 	sendData(sel1, sel2);
-	inputLabel(sel1, sel2);
-	
+
 }
 
 
 
+//2. DB 조회 후, 예약 테이블에 데이터 출력
 function sendData(sel1, sel2){
 		
     var id = sel1 + sel2;
-    var codeName = "A" + sel1 + sel2; 
-    //$(document).on("click", $('#'+id), function(){
-    	
+    var codeName = "A" + sel1 + sel2 ; 
+    var campsiteCode = "";
+    var camp_tag = "";
+    var checkBox = "";
+ 
+    
+		//A0101 (야영장-가야산-삼정)
 		$.ajax({
-			url : "/sendData",
 			type : "post",
+			url : "campsiteView",
 			cache : false,
 			data : {
 				code : codeName
 			},
 			
-			success : function(data) {
-				var list = data.list;
-				alert(list);
-				console.log(list+"되는 것이냐");
+			success : function(result) {
+				var list = result.list;
+				var check = result.checkList;				
+
+				for(var i = 0; i < list.length; i++){ 
+					
+					//2-1. 산이름 출력 (가야산)
+					document.querySelector('#category2').innerHTML = "<i class=icon-location></i>" +list[i].category2;
+					
+					//2-2. 지역명 출력 (백운동)
+					document.querySelector('#category3').innerHTML = list[i].category3 +" "+"야영장 예약현황";
+					
+					//2-3. 야영장명 출력 (자동차야영장 or 자연의 집)
+  					if(i == 0 ){
+						 camp_tag +="<tr><th rowspan=15 scope=row><span class=title>" + list[i].category4 + "</span></th>" +
+		            	"<th scope=row><i class=icon-electricity></i><span class=title>" + list[i].room + "</span></th></tr>"
+ 	
+					}else{
+	 			
+	 					camp_tag += "<tr><th scope=row><i class=icon-electricity></i><span class=title>" + list[i].room + "</span></th></tr>"
+						
+					} 
+  					
+  			
+				}
+				 
+				
+				
+				//2-4. 야영장명 체크박스 출력 (자동차야영장 And 자연의 집)
+				campsiteCode = codeName + "0";
+				
+				for(var j = 0; j < check.length; j++){
+					var index = j + 1;
+					
+					//맨 처음 생성되는 체크 박스는 체크된 채로 들어오게 함
+					//index 값을 1부터 하여 야영장번호를 01,02,03... 로 하여 인자값을 생성함
+					if(index == 1){
+					checkBox += "<li>" + 
+                    "<span class=checkbox-1>" +
+                    "<input type=checkbox id=check"+index +" name=campGnbChk value=" +campsiteCode+index+ " checked=checked" + 
+                    " onclick=selectCampsite("+"'"+campsiteCode+index+"'"+");>" +
+					"<label for=check"+index+">"+check[j]+"</label></span></li>"  
+					selectCampsite(campsiteCode+index);
+					
+					//두번째 오는 체크 박스 부터는 여기에 해당
+					}else{
+						checkBox += "<li>" + 
+	                    "<span class=checkbox-1>" +
+	                    "<input type=checkbox id=check"+index +" name=campGnbChk value=" +campsiteCode+index+ 
+	                    " onclick=selectCampsite("+"'"+campsiteCode+index+"'"+");>" +
+						"<label for=check"+index+">"+check[j]+"</label></span></li>"  
+						
+					}
+				}
+			
+				
+
+				document.querySelector('#check-area').innerHTML = checkBox; 	
+				document.querySelector('#campsiteName').innerHTML = camp_tag; 
+				
+				
+				
+				//2-5. 날짜 출력(월 And 일)
+				var date_tag = "";
+				var month_tag = "";
+				
+				var timestamp = Date.now(); //현재시간 타임스탬프 13자리 예)1599891939914
+				var now = new Date(timestamp); 
+
+				
+				let lastDate = new Date(now.getFullYear(), now.getMonth()+1, 0);
+				var lastDate_num = lastDate.getDate(); //현재 월 마지막 날짜
+				var dateCheck = lastDate_num-now.getDate()-1; //현재 월에서 마지막 날까지 남은 일수-1
+				
+				
+ 				var selectDate = new Date();
+				selectDate = new Date(selectDate.getFullYear(), (selectDate.getMonth()), selectDate.getDate());
+				 
+				 var thisDate = new Date();
+				 var nextDate   = new Date();
+				 
+				 thisDate.setFullYear(selectDate.getFullYear());
+				 nextDate.setFullYear(selectDate.getFullYear());
+				 
+				 thisDate.setMonth((selectDate.getMonth()));
+				 nextDate.setMonth((selectDate.getMonth()+1));
+				 
+				 thisDate.setDate((selectDate.getDate()));
+				 nextDate.setDate((selectDate.getDate()));
+				 
+				 
+				var inputThisDate = "thisDate"+":"+thisDate.getFullYear()+"."+(thisDate.getMonth()+1)+"."+(thisDate.getDate())
+			    var inputNextDate = "nextDate"+":"+nextDate.getFullYear()+"."+(nextDate.getMonth()+1)+"."+(nextDate.getDate())
+			    
+			    var thisMonth = thisDate.getMonth()+1;
+				var nextMonth = nextDate.getMonth()+1;
+				
+				
+				var colNum = lastDate_num-now.getDate();
+				
+				//월 출력
+				if(colNum == 0){ //이번달의 마지막 날일 경우
+					month_tag +=
+						"<th colspan="+ 23 +" scope="+"'col'"+"><span>" + nextMonth + "월 </span></th>" 
+				}else{
+					var tmp = colNum-23; // tmp는 이번 달의 남은 일수 - 23
+					
+					if(tmp >= 0){ // 이번 달의 남은 일수가 23일이거나 23일보다 클 때
+						month_tag +=
+						"<th colspan="+ 23 +" scope="+"'col'"+"><span>"+ thisMonth +"월 </span></th>"
+						
+					} else{ // tmp < 0 일때
+					month_tag +=
+						"<th colspan="+ colNum +" scope="+"'col'"+"><span>"+ thisMonth +"월 </span></th>"
+					month_tag +=
+						"<th colspan="+ (tmp * -1)+" scope="+"'col'"+"><span>"+ nextMonth +"월 </span></th>" 
+					}
+					
+				}
+
+				
+				
+				
+				//일 출력 (토,일 구분 가능)
+				for(var i = 0; i < 23; i++){
+					if(dateCheck >= i){
+						var selectDate = new Date();
+						selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
+						
+						var thisDate = new Date();
+						
+						thisDate.setFullYear(selectDate.getFullYear());
+						thisDate.setMonth((selectDate.getMonth()));
+						thisDate.setDate((selectDate.getDate()));
+						
+						var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
+						var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
+						var inputDay = getInputDayLabel(selectDay)
+						
+						
+						if(inputDay == "sat"){
+							date_tag += "<td id='sat' class='sat'>"+inputDate+"</td>"
+						
+						}else if(inputDay == "sun"){
+							date_tag += "<td id='sun' class='sun'>"+inputDate+"</td>"
+						
+						}else{
+							date_tag += "<td>"+inputDate+"</td>"
+						}
+						
+						
+					
+					}else{
+						var selectDate = new Date();
+						selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
+						
+						var thisDate = new Date();
+						
+						thisDate.setFullYear(selectDate.getFullYear());
+						thisDate.setMonth((selectDate.getMonth()));
+						thisDate.setDate((selectDate.getDate()));
+						
+						var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
+						var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
+						var inputDay = getInputDayLabel(selectDay)
+
+						
+						if(inputDay == "sat"){
+							date_tag += "<td id='sat' class='sat'>"+inputDate+"</td>"
+						
+						}else if(inputDay == "sun"){
+							date_tag += "<td id='sun' class='sun'>"+inputDate+"</td>"
+						
+						}else{
+							date_tag += "<td>"+inputDate+"</td>"
+						}
+			
+					
+					}
+					
+				}
+				
+		
+				document.querySelector('.month').innerHTML = month_tag;  
+ 				document.querySelector('.day').innerHTML = date_tag;
+				
+
+
+
 		     },
 			error : function() {
-				alert("error");
+				toastrMsg("error");
 			}
+		     
+		    
+			
+		     
 		});
 		
-	//}); 
-    
+	
 			
 }
 
+ 
 
-function inputLabel(sel1, sel2){
-	index1 = parseInt(sel1)-1;
-	index2 = parseInt(sel2);
+//3. DB 조회 후, 테이블에 방번호 01~ 부터 출력
+ function selectCampsite(selectCode){
+	var camp_tag = "";
+	var room_tag = "";
+	var timestamp = Date.now(); 
+	var now = new Date(timestamp); 
+	let lastDate = new Date(now.getFullYear(), now.getMonth()+1, 0);
+	var lastDate_num = lastDate.getDate(); //현재 월 마지막 날짜
+	var dateCheck = lastDate_num-now.getDate()-1; //현재 월에서 마지막 날까지 남은 일수-1
+	var arrayRoom = [];
+	var arrayDate = [];
 	
-	inputValue2 = "";
-	
-	const arr = new Array( "가야산", "계룡산", "내장산", "다도해해상", "덕유산",
-	"무등산", "변산반도", "설악산", "소백산", "오대산", 
-	"월악산", "월출산", "주왕산", "지리산", "치악산",	 
-	"태백산", "태안해안", "한려해상");
-	
-	if(arr[index1] == "가야산"){
-		if(index2 == 1){
-			inputValue2 = "삼정 야영장 예약현황";
+	//A010101(야영장-가야산-삼정-자동차야영장)
+	$.ajax({
+		url : "roomView",
+		type : "post",
+		cache : false,
+		data : {
+			code : selectCode
+		},
+		
+		success : function(result) {
+			var rooms = result.rooms;
+			var roomTotal = rooms.length;
 			
-		}else if(index2 == 2){
-			inputValue2 = "치인 야영장 예약현황";
+			for(var i = 0; i < rooms.length; i++){
+				
+				if(i == 0 ){
+					
+					camp_tag += "<tr><th rowspan=15 scope=row><span class=title>" + rooms[i].category4 + "</span></th>" + 
+	            	"<th scope=row><i class=icon-electricity></i><span class=title>" + rooms[i].room + "</span></th></tr>"
+	            	
+	            	var roomNumber = selectCode + rooms[i].room ;
+	            	arrayRoom.push(roomNumber)
+	      			
+
+				}else{
+						 
+					camp_tag +="<tr><th scope=row><i class=icon-electricity></i><span class=title>" + rooms[i].room + "</span></th></tr>"
+		            	
+		            	var roomNumber = selectCode + rooms[i].room ;
+		            	arrayRoom.push(roomNumber)
+						
+				}
+				
+			}
 			
-		}else if(index2 == 3){
-			inputValue2 = "백운동 야영장 예약현황";
+			
+			
+			//전체영지수 (토,일 구분 가능)
+			for(var i = 0; i < 23; i++){
+				if(dateCheck >= i){
+					var selectDate = new Date();
+					selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
+					
+					var thisDate = new Date();
+					
+					thisDate.setFullYear(selectDate.getFullYear());
+					thisDate.setMonth((selectDate.getMonth()));
+					thisDate.setDate((selectDate.getDate()));
+					
+					var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
+					var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
+					var arrDate = thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate ;
+					var inputDay = getInputDayLabel(selectDay)
+					
+					if(inputDay == "sat"){
+						room_tag += "<td id='sat' class='sat'>"+roomTotal+"</td>"
+					
+					}else if(inputDay == "sun"){
+						room_tag += "<td id='sun' class='sun'>"+roomTotal+"</td>"
+					
+					}else{
+						room_tag += "<td>"+roomTotal+"</td>"
+					}
+					
+					arrayDate.push(arrDate)
+					
+					
+				
+				}else{
+					var selectDate = new Date();
+					selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
+					
+					var thisDate = new Date();
+					
+					thisDate.setFullYear(selectDate.getFullYear());
+					thisDate.setMonth((selectDate.getMonth()));
+					thisDate.setDate((selectDate.getDate()));
+					
+					var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
+					var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
+					var arrDate = thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate ;
+					var inputDay = getInputDayLabel(selectDay)
+
+					
+					if(inputDay == "sat"){
+						room_tag += "<td id='sat' class='sat'>"+roomTotal+"</td>"
+					
+					}else if(inputDay == "sun"){
+						room_tag += "<td id='sun' class='sun'>"+roomTotal+"</td>"
+					
+					}else{
+						room_tag += "<td>"+roomTotal+"</td>"
+					}
+					
+					
+					arrayDate.push(arrDate)
+				
+				}
+				
+			}
+			
+			
+	
+			reservationState(arrayRoom, arrayDate)
+
+
+			document.querySelector('#campsiteName').innerHTML = camp_tag; 
+			document.querySelector('.roomTotal').innerHTML = room_tag;
+			
+		},
+		error : function() {
+			toastrMsg("error");
 		}
+	     	
+	     
+	});
+
 	
-	}else if(arr[index1] == "계룡산"){
-		if(index2 == 1){
-			inputValue2 = "동학사 야영장 예약현황";
+
+
+}
+
+
+
+//4. 야영장명 체크박스 클릭시, 단일 선택되게 하되, 무조건 1개는 필수 선택되게 함
+ $(document).on('click', 'input:checkbox[name="campGnbChk"]', function(){
+	 var cnt = 0;
+	
+    if(this.checked) {
+        const checkboxes = $('input:checkbox[name="campGnbChk"]');
+        for(let ind = 0; ind < checkboxes.length; ind++){
+            checkboxes[ind].checked = false;
+        }
+        this.checked = true;
+        cnt++;
+        
+		$('#inputSelectCampsite').html(" ")
+		$('#inputStartDate').html(" ")
+		$('#inputEndDate').html(" ")
+		$('#stayInfo').html(" ")
+		$('#paymentGroup').html(" ")
+        
+    }else{
+    	
+    	if(cnt == 0){
+    		this.checked = true;
+    		toastrMsg("한개 이상 선택해야 합니다.")
+    		
+    	}else{
+    		this.checked = false;
+    		
+    		$('#inputSelectCampsite').html(" ")
+    		$('#inputStartDate').html(" ")
+    		$('#inputEndDate').html(" ")
+    		$('#stayInfo').html(" ")
+    		$('#paymentGroup').html(" ")
+    	}
+        
+
+    }
+}); 
+
+
+
+ 
+ //5-1. 날짜 별로 요일 확인 후 영문 요일로 반환
+ function getInputDayLabel(selectDay) {
+	    
+	    var week = new Array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
+	    
+	    var today = new Date(selectDay).getDay();
+	    var todayLabel = week[today];
+	    
+	    return todayLabel;
+}
+ 
+ //5-2. 날짜 별로 요일 확인 후 한글 요일로 반환
+ function getInputDayKRLabel(selectDay) {
+	    
+	    var week = new Array('일', '월', '화', '수', '목', '금', '토');
+	    
+	    var today = new Date(selectDay).getDay();
+	    var todayLabel = week[today];
+	    
+	    return todayLabel;
+}
+ 
+ 
+ //6. 현재 예약 상태 조회 후 예약가능/불가능 반환
+  function reservationState(arrayRoom, arrayDate){
+   var state_tag = "";
+   var num = 1;
+   var arrayState = [];
+ 
+	 
+	 $.ajax({
+	     method      : 'POST',
+	     url         : 'reservationState',
+	     traditional : true,
+	     data        : {
+	         'rooms' : arrayRoom
+	     },
+	     success     : function(result) {
+	    	 var reservations = result.reservations;
+	    	 var roomList = result.roomList;
+	    	 var dateList = result.dateList;
+	    	 var roomMax = result.roomMax;
+	    	 var check1 = 0;
+	    	 
+
+	    	 
+	    	  for(var i = 0; i < reservations.length; i++){
+	    		 if(i % 23 == 0){
+	    			 state_tag += "<tr>"
+	    			  
+	    			 if(reservations[i] == "예약가능"){
+		    				 state_tag += "<td data-rev="+"'"+reservations[i]+"'"+"id="+"'"+"a"+roomList[i]+dateList[i]+"'"+
+		    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
+							 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-reservation"+"></i></td>" 
+	    				 arrayState.push("0")
+	    				 console.log(dateList[i])
+
+	    				 
+	    			 }else{
+	    				 state_tag += "<td data-rev="+"'"+reservations[i]+"'" + "id="+"'"+"a"+roomList[i]+dateList[i]+"'"+
+	    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
+						 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-end"+"></i></td>" 
+	    				 arrayState.push("1")
+	    				 console.log(dateList[i])
+
+	    			 }
+	    		 
+	    		 }
+	    		 
+	    		 
+	    		 if(i % 23 != 0){
+	    			 
+	    			 if(reservations[i] == "예약가능"){
+	    				 state_tag += "<td data-rev="+"'"+reservations[i]+"'" +"id="+"'"+"a"+roomList[i]+dateList[i]+"'"+
+	    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
+						 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-reservation"+"></i></td>" 
+	    				 arrayState.push("0")
+	    				console.log(dateList[i])
+
+	    				 
+	    			 }else{
+	    				 state_tag += "<td data-rev="+"'"+reservations[i]+"'"+"id="+"'"+"a"+roomList[i]+dateList[i]+"'"+
+	    				 " onclick="+"oneNightCheck("+"'"+roomList[i]+"'"+","+"'"+dateList[i]+"'"+
+						 ","+"'"+reservations[i]+"'"+")"+"><i class="+"icon-end"+"></i></td>" 
+	    				 arrayState.push("1")
+	    				 console.log(dateList[i])
+
+	    			 }
+	    		 
+	    		 } 
+	    		 
+	    		 
+	    		 if( ((23 * num) -1 ) == i ){
+	    			 state_tag += "</tr>"
+	    			 num ++;
+	    		 }
+	    		 
+	    	 }
+	    	  
+
+
+				// 7. 예약가능 시설수 출력
+				var arrRoomMax = []; //방 갯수를 23개의 배열에 담아줌
+				for(var i = 0; i < 23; i++){
+					arrRoomMax[i] = roomMax;
+				}
+
+				var tmp = "";
+				var k = 1;
+				var j = 0;  //각 날짜 별 방번호에 해당하는 예약현황(예약불가는 "1"/예약가능은 "0""-숫자로 담음)만큼 배열을 만듦 / 23개 씩 row(tr)이 생성되므로 23의 배수				
+				for(var i = 0; i < arrayState.length; i++){ 
+	    			  if((23*k) - i == 1 ){ //23*1 / 23*2 / 23*3... 의 -1의 지점에서 다시 arrRoomMax[0] 으로 초기화
+	    				  var tmp = parseInt(arrRoomMax[j])-parseInt(arrayState[i]);
+	    				  var str = tmp.toString();
+	    				  arrRoomMax[j] = str;
+	    				  k++;
+	    				  j = 0;
+	    				  
+	    			  }else{//arrRoomMax[0]~arrRoomMax[21] 과 같이 순차적으로 배열에 담김
+	    				  var tmp = parseInt(arrRoomMax[j])-parseInt(arrayState[i]);
+	    				  var str = tmp.toString();
+	    				  arrRoomMax[j] = str;
+	    				  j++;
+	    			  }
+    		  
+	    	  }
+				
+				//요일 구분
+				var timestamp = Date.now(); 
+				var now = new Date(timestamp); 
+				let lastDate = new Date(now.getFullYear(), now.getMonth()+1, 0);
+				var lastDate_num = lastDate.getDate(); //현재 월 마지막 날짜
+				var dateCheck = lastDate_num-now.getDate()-1; //현재 월에서 마지막 날까지 남은 일수-1
+				
+				
+				var roomMax_tag;
+				for(var i = 0; i < arrRoomMax.length; i++ ){
+					
+					for(var i = 0; i < 23; i++){
+						if(dateCheck >= i){
+							var selectDate = new Date();
+							selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
+							
+							var thisDate = new Date();
+							
+							thisDate.setFullYear(selectDate.getFullYear());
+							thisDate.setMonth((selectDate.getMonth()));
+							thisDate.setDate((selectDate.getDate()));
+							
+							var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
+							var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
+							var inputDay = getInputDayLabel(selectDay)
+							
+							if(inputDay == "sat"){
+								roomMax_tag += "<td id='sat' class='sat'>"+arrRoomMax[i]+"</td>"
+							
+							}else if(inputDay == "sun"){
+								roomMax_tag += "<td id='sun' class='sun'>"+arrRoomMax[i]+"</td>"
+							
+							}else{
+								roomMax_tag += "<td>"+arrRoomMax[i]+"</td>"
+							}
+
+							
+							
+						}else{
+							var selectDate = new Date();
+							selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
+							
+							var thisDate = new Date();
+							
+							thisDate.setFullYear(selectDate.getFullYear());
+							thisDate.setMonth((selectDate.getMonth()));
+							thisDate.setDate((selectDate.getDate()));
+							
+							var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
+							var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
+							var inputDay = getInputDayLabel(selectDay)
+
+							
+							if(inputDay == "sat"){
+								roomMax_tag += "<td id='sat' class='sat'>"+arrRoomMax[i]+"</td>"
+							
+							}else if(inputDay == "sun"){
+								roomMax_tag += "<td id='sun' class='sun'>"+arrRoomMax[i]+"</td>"
+							
+							}else{
+								roomMax_tag += "<td>"+arrRoomMax[i]+"</td>"
+							}
+				
+						
+						}
+						
+					}
+				
+				}
+	  
+	    	
+			 $(".roomMax").html(roomMax_tag);
+	    	 $("#reservationState").html(state_tag);
+	    	
+	    	 
+	     },
+	     error       : function() {
+	    	 toastrMsg("error");
+	     }
+	  
+	 }); 
+	 
+		
+	
+ } 
+ 
+ 
+ // 7. 1박 2일 일때, 사용자가 선택한 값이 예약가능하다면 입퇴실 선택 가능
+ function oneNightCheck(room, date, state){
+
+
+	 if(state == "예약가능"){
+	 
+	 $.ajax({
+			url : "oneNightCheck",
+			type : "post",
+			cache : false,
+			data : {
+				room : room,
+				date : date
+			},
+			
+			success : function(result) {
+				var dateList = result.dateList;
+				var nextRoom = dateList.room
+				var nextDate = dateList.date1
+				var afterDate = dateList.date2
+				var nextState = dateList.state
+				
+				
+				if(nextState == "예약가능"){
+					tds = document.querySelectorAll('td');
+					for(var i = 0; i < tds.length; i++){
+						td = tds[i];
+						td.className = "";
+					}
+ 					document.getElementById("a"+room+date).className = 'start selected';
+  					document.getElementById("a"+room+nextDate).className = 'end selected';
+ 					
+ 					inputSelectInfo1(room, date, nextDate, afterDate)			
+								
+					
+				}else {
+					toastrMsg("선택한 날짜는 1박 2일 예약이 불가합니다. 다른 날짜를 선택해 주세요."); 			
+				}
+	
+
+				
+			},
+			error : function() {
+				
+				toastrMsg("error");
+			}
+		     	
+		     
+		});
+	 
+	 }else{
+		 toastrMsg("선택한 날짜는 1박 2일 예약이 불가합니다. 다른 날짜를 선택해 주세요.");
+	 }
+ }
+ 
+
+
+
+// 8. 사용자가 선택했을 때, 1박 2일 예약이 가능하면 장소 정보 화면에 출력
+function inputSelectInfo1(room, date, nextDate, afterDate){
+	
+	 $.ajax({
+			url : "inputSelectInfo",
+			type : "post",
+			cache : false,
+			data : {
+				room : room,
+			},
+			
+			success : function(result) {
+				var infoMap = result.infoMap;
+				var c1 = infoMap.c1
+				var c2 = infoMap.c2
+				var c3 = infoMap.c3
+				var c4 = infoMap.c4
+				var roomNum = infoMap.roomNum
+				var price = infoMap.price
+				var people = infoMap.people
+				
+				var selectInfo = c2+"-"+c3+"-"+c4+"-"+roomNum
+				
+				var str1 = "'"+date+"'";
+				var startLabel = getInputDayKRLabel(str1)
+				var str2 = "'"+nextDate+"'";
+				var endLabel = getInputDayKRLabel(str2)
+				
+				var startDate = date+"["+startLabel+"]"
+				var endDate = nextDate+"["+endLabel+"]"
+				
+				
+				$('#inputSelectCampsite').html(selectInfo)
+				$('#inputStartDate').html(startDate)
+				$('#inputEndDate').html(endDate)
+				
+				
+				var stay_tag = "<span class='length-stay selected' id='oneDaychecked' onclick="+
+				"oneDayInputSelectInfo("+"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+") style='cursor:pointer'>1박 2일</span>"+
+                "<span class='length-stay' id='secondDayChecked' onclick="+"secondNightCheck("+
+				"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+","+"'"+afterDate+"'"+ ") style='cursor:pointer'>2박 3일</span>"
+				
+				$('#stayInfo').html(stay_tag)
+
+	
+	
+                var pay_tag = "<dl><dt><em>"+c1+"</em></dt><dd></dd></dl>"+
+                "<dl class='campsitePayment'><dt>"+c4+" "+roomNum+" : "+
+                "<span style='font-size: 18px; font-weight:bold;' id='inputAllDay'>1박 2일"+
+                "</span></dt><dd>"+price+"원</dd></dl><br><br><br>"+
+            	"<dl><dt>결제(예정)금액</dt><dd><em style='font-size:30px' id='inputPrice'>"+
+            	price+"</em>원</dd></dl>"
+				
+            	$('#paymentGroup').html(pay_tag)
+            	
+            	$('input[name=inputValue]').attr('value', people);
+				$('#selectPeopleNum').show();
+				
+				$('#productCode').attr('value', room);
+
+            	
+			},
+			error : function() {
+				
+				toastrMsg("error");
+			}
+	
+	 });
+
+}
+
+
+// 9. 화면에서 1박 2일 선택한 다음에, 다시 2박 3일 선택했을 때, 2박 3일로 예약 가능한지 확인 후 예약 가능 여부 출력
+	function secondNightCheck(room, date, nextDate, afterDate){
+	
+		$('#secondDayChecked').addClass('length-stay selected');
+		$('#oneDaychecked').removeClass('length-stay selected');
+		$('#oneDaychecked').addClass('length-stay');
+	
+		var chkDate1 = $(document).find("#a"+room+date).data("rev")
+		var chkDate2 = $(document).find("#a"+room+nextDate).data("rev")
+		var chkDate3 = $(document).find("#a"+room+afterDate).data("rev")
+	
+		
+		if(chkDate2 == "예약불가" || chkDate3 == "예약불가"){
+			toastrMsg("선택한 날짜는 2박 3일 예약이 불가합니다. 다른 날짜를 선택해 주세요.");
+		
+		}else{
+			
+			tds = document.querySelectorAll('td');
+			for(var i = 0; i < tds.length; i++){
+				td = tds[i];
+				td.className = "";
+			}
+			
+				document.getElementById("a"+room+date).className = 'start selected';
+				document.getElementById("a"+room+nextDate).className = 'selected';
+				document.getElementById("a"+room+afterDate).className = 'end selected';
+				
+				
+				inputSelectInfo2(room, date, nextDate, afterDate)
+				
 		}
 		
-	}else if(arr[index1] == "내장산"){
-		if(index2 == 1){
-			inputValue2 = "가인 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "내장 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "다도해상"){
-		if(index2 == 1){
-			inputValue2 = "팔영상 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "염포 야영장 예약현황";
-			
-		}else if(index2 == 3){
-			inputValue2 = "구계동 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "덕유산"){
-		if(index2 == 1){
-			inputValue2 = "덕유대 체류형 숙박시설 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "덕유대 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "무등산"){
-		if(index2 == 1){
-			inputValue2 = "도원 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "변산반도"){
-		if(index2 == 1){
-			inputValue2 = "고사포 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "설악산"){
-		if(index2 == 1){
-			inputValue2 = "설악 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "소백산"){
-		if(index2 == 1){
-			inputValue2 = "삼가 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "남천 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "오대산"){
-		if(index2 == 1){
-			inputValue2 = "소금강 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "월악산"){
-		if(index2 == 1){
-			inputValue2 = "닷돈재 풀옵션 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "닷돈재 자동차 야영장 예약현황";
-			
-		}else if(index2 == 3){
-			inputValue2 = "덕주 야영장 예약현황";
-			
-		}else if(index2 == 4){
-			inputValue2 = "송계 야영장 예약현황";
-			
-		}else if(index2 == 5){
-			inputValue2 = "용하 야영장 예약현황";
-			
-		}else if(index2 == 6){
-			inputValue2 = "하선암 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "월출산"){
-		if(index2 == 1){
-			inputValue2 = "천황 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "주왕산"){
-		if(index2 == 1){
-			inputValue2 = "상의 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "지리산"){
-		if(index2 == 1){
-			inputValue2 = "학천카라반 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "덕동 야영장 예약현황";
-			
-		}else if(index2 == 3){
-			inputValue2 = "달궁힐링 예약현황";
-			
-		}else if(index2 == 4){
-			inputValue2 = "달궁자동차 예약현황";
-			
-		}else if(index2 == 5){
-			inputValue2 = "뱅사골자동차 야영장 예약현황";
-			
-		}else if(index2 == 6){
-			inputValue2 = "뱅사골힐링 야영장 예약현황";
-			
-		}else if(index2 == 7){
-			inputValue2 = "소막골 야영장 예약현황";
-			
-		}else if(index2 == 8){
-			inputValue2 = "내원 야영장 예약현황";
-			
-		}else if(index2 == 9){
-			inputValue2 = "백무동 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "치악산"){
-		if(index2 == 1){
-			inputValue2 = "구룡 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "금대 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "태백산"){
-		if(index2 == 1){
-			inputValue2 = "소도 야영장 예약현황";
-		}
-		
-	}else if(arr[index1] == "태백해안"){
-		if(index2 == 1){
-			inputValue2 = "몽산포 야영장 예약현황";
-			
-		}else if(index2 == 2){
-			inputValue2 = "학암포 야영장 예약현황";
-		}
-	
-	}else if(arr[index1] == "한려해상"){
-		if(index2 == 1){
-			inputValue2 = "학동 야영장 예약현황";
-		}
+
 		
 	}
+	
+	
+	// 10. 사용자가 선택했을 때, 2박 3일 예약이 가능하면 장소 정보 화면에 출력
+	function inputSelectInfo2(room, date, nextDate, afterDate){
+		
+		 $.ajax({
+				url : "inputSelectInfo",
+				type : "post",
+				cache : false,
+				data : {
+					room : room,
+				},
+				
+				success : function(result) {
+					var infoMap = result.infoMap;
+					var c1 = infoMap.c1
+					var c2 = infoMap.c2
+					var c3 = infoMap.c3
+					var c4 = infoMap.c4
+					var roomNum = infoMap.roomNum
+					var price = infoMap.price
+					var people = infoMap.people
+					
+					var selectInfo = c2+"-"+c3+"-"+c4+"-"+roomNum
+					
+					var str1 = "'"+date+"'";
+					var startLabel = getInputDayKRLabel(str1)
+					var str2 = "'"+afterDate+"'";
+					var endLabel = getInputDayKRLabel(str2)
+					
+					var startDate = date+"["+startLabel+"]"
+					var endDate = afterDate+"["+endLabel+"]"
+					
+					
+					$('#inputSelectCampsite').html(selectInfo)
+					$('#inputStartDate').html(startDate)
+					$('#inputEndDate').html(endDate)
+					
+					
+					
+					var stay_tag = "<span class='length-stay selected' id='oneDaychecked' onclick="+
+					"oneDayInputSelectInfo("+"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+") style='cursor:pointer'>1박 2일</span>"+
+	                "<span class='length-stay' id='secondDayChecked' onclick="+"secondNightCheck("+
+					"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+","+"'"+afterDate+"'"+ ") style='cursor:pointer'>2박 3일</span>"
+					
+					$('#stayInfo').html(stay_tag)
+					
+
+					
+					var tmp = price.replace(",", "");
+					var money = parseInt(tmp); 
+					var totalMoney = (money * 2).toLocaleString(); ;
+					
+	                var pay_tag = "<dl><dt><em>"+c1+"</em></dt><dd></dd></dl>"+
+	                "<dl class='campsitePayment'><dt>"+c4+" "+roomNum+" : "+
+	                "<span style='font-size: 18px; font-weight:bold;' id='inputAllDay'>2박 3일"+
+	                "</span></dt><dd>"+totalMoney+"원</dd></dl><br><br><br>"+
+	            	"<dl><dt>결제(예정)금액</dt><dd><em style='font-size:30px' id='inputPrice'>"+
+	            	totalMoney+"</em>원</dd></dl>"
+					
+	            	$('#paymentGroup').html(pay_tag)
+	            	
+	            	$('input[name=inputValue]').attr('value', people);
+	                $('#selectPeopleNum').show();
+	                
+	                $('#productCode').attr('value', room);
+
+	            	
+				},
+				error : function() {
+					
+					toastrMsg("error");
+				}
+		
+		 });
+
+	}
+
 
 	
-	inputValue1 = arr[index1]
-	
-	
-	category2 = document.getElementById('category2');
-	category2.innerHTML = inputValue1; 
-	
-	
-	category3 = document.getElementById('category3');
-	category3.innerHTML = inputValue2; 
+    // 11. 인원수 선택      
+	 $(function(){
+		 $('#decreaseQuantity').click(function(e){
+		 e.preventDefault();
+		 var stat = $('#numberUpDown').text();
+		 var num = parseInt(stat,10); //10진수 정수로 변환
+		 num--;
+		 if(num <= 0){
+			 toastrMsg('1명 이상 선택해야 합니다.');
+		 num = 1;
+		 }
+		 
+		$('#numberUpDown').text(num);
+	});
+		 
+		$('#increaseQuantity').click(function(e){
+		 e.preventDefault();
+		 var stat = $('#numberUpDown').text();
+		 var num = parseInt(stat,10);
+		 num++;
+		 
+		 var people = $('#peopleMaxchange').val();
+		 console.log(people)
 
-} 
+		if(num > people){
+			 toastrMsg(people+' 명 이상 선택이 불가합니다.');
+		 num=people;
+		}
+		$('#numberUpDown').text(num);
+	});
+		 
+});
 
+
+  //12. 새로고침  
+ function refresh(){
+	 location.reload(); 
+ }
+ 
   
-
 
 </script>
 
@@ -282,7 +961,7 @@ function inputLabel(sel1, sel2){
 
 
 <body>
-	<div id="wrap" class="sub">
+<div id="wrap" class="sub">
 			
 
 
@@ -608,25 +1287,26 @@ function inputLabel(sel1, sel2){
          </div>
          
          
-         <div class="nodata" id="nodata">
+         <div class="nodata" id="nodata1">
              <i class="icon-alert-circle"></i>
              <span>선택된 야영장이 없습니다. 야영장을 선택해주세요.</span>
          </div>
          
-         
-         
+         <br><br><br><br><br><br><br><div class="nodata" id="nodata2" style="display:none;">
+         <i class="icon-alert-circle"></i><br><br>
+             <span>현재 조성중인 시설입니다.</span>
+         </div>
         
-        
-         
+      
+      
          
          <div class="content-view" id="content-view" style="display:none;">
                     <div class="tab-pane is-active" id="tab14-5">
                         <div class="title-area">
-                            <span class="label" id="category2"><i class="icon-location"></i> 가야산</span>
-                            <h4 class="title" id="category3">삼정 야영장 예약현황</h4>
-                            <span class="copy">야영장은 개시기간 기준 아이디 당 2건으로 제한 됩니다.</span>
+                            <span class="label" id="category2"><i class="icon-location"></i> 산이름</span><!-- 산이름 -->
+                            <h4 class="title" id="category3">야영장 예약현황</h4><!-- 야영장 예약현황 -->
+                            <!-- <span class="copy">야영장은 개시기간 기준 아이디 당 2건으로 제한 됩니다.</span> -->
                         </div>
-
                         
 
                         <div class="top-guide">
@@ -635,66 +1315,69 @@ function inputLabel(sel1, sel2){
                                     <i class="icon-reservation"></i>
                                     <span>예약가능</span>
                                 </li>
-                                <li>
+ <!--                                <li>
                                     <i class="icon-waiting"></i>
                                     <span>대기가능</span>
                                 </li>
                                 <li>
                                     <i class="icon-none-reservation"></i>
                                     <span>예약만료</span>
-                                </li>
+                                </li> -->
                                 <li>
                                     <i class="icon-end"></i>
                                     <span>예약불가</span>
                                 </li>
-                                <!-- 2022.07.11 아이콘 추가 -->
-                                <li>
+                                
+ <!--                            <li>
                                     <i class="icon-reserve"></i>
                                     <span>예비영지</span>
-                                </li>
+                                </li> -->
+                                
                                 <li>
                                     <i class="icon-electricity"></i>
                                     <span>전기가능영지</span>
                                 </li>
-                                <li>
+<!--                             <li>
                                     <i class="icon-carbon"></i>
                                     <span>탄소제로영지</span>
                                 </li>
                                 <li>
                                     <i class="icon-barrier-free"></i>
                                     <span>무장애영지</span>
-                                </li>
-                                <!--  //2022.07.11 아이콘 추가 -->
+                                </li> -->
+                            
+                            
                             </ul>
                             <div class="btn-area">
-                                <button class="btn btn-360" onclick="javascript:imgView('/product/camp/camp0602_2_210611.jpg');">
+<!--                                 <button class="btn btn-360" onclick="javascript:imgView('/product/camp/camp0602_2_210611.jpg');">
                                     <i class="icon-360"></i>
                                     <span>배치도</span>
-                                </button>
-                                <button class="btn btn-refresh" onclick="javascript:refresh();">
+                                </button> -->
+                               <button class="btn btn-refresh" onclick="javascript:refresh();">
                                     <i class="icon-refresh"></i>
                                     <span>새로고침</span>
                                 </button>
                             </div>
                         </div>
                         <div class="check-box">
-                            <ul class="check-area">
-                                
-                                    <li>
-                                   <span class="checkbox-1">
-                                       <input type="checkbox" id="check1" name="campGnbChk" value="02011" checked="checked" onclick="javascript:campGbnChk('0','02011');">
-
-                                       
-                                           
-                                           
-                                               <label for="check1">자동차야영장</label>
-                                           
-                                       
-                                   </span>
-                                    </li>
+                            <ul class="check-area" id="check-area">
+  
                                 
                             </ul>
                         </div>
+                        
+                       <script> 
+                       		//테이블 컬럼 스타일 생성
+	                       var col_tag = "";
+	                    
+	                       	for(var i = 0; i < 23; i++){
+	                       		col_tag += "<col style='width: 45px'>"
+	                       	}
+	                       	
+	                       	$(".inputCol").html(col_tag);
+                       
+                       		
+                       </script>
                         <!-- 예약하기 현황표 -->
                         <div class="table-reservation">
                             <div class="scroll-head">
@@ -710,633 +1393,45 @@ function inputLabel(sel1, sel2){
                                     <tr>
                                         <th scope="row">예약가능 시설수</th>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">대기가능 시설수</th>
-                                    </tr>
                                     </thead>
                                 </table>
                                 <table class="table-head">
                                     <caption>야영장 예약 월 일</caption>
-                                    <colgroup>
+
+                                    <colgroup class="inputCol">
                                         
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
+                                        <!-- 값 들어옴 -->
                                         
                                     </colgroup>
-                                    <thead class="thead">
-                                    
-                                        
-                                            
-                                                
-                                                    <tr><th colspan="16" scope="col"><span>11월</span></th>
-                                                
-                                                
-                                            
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                        
-                                    
-                                    </tr>
-                                    <tr class="day">
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>15</td>
-                                                
-                                            
+                                    <thead class="thead" id="inputDate">
+ 										<tr class="month">
+ 										
+										<!-- 값 들어옴 -->
+										
+ 										</tr>
+                                    	<tr class="day">
+                                    	
+										<!-- 값 들어옴 -->
+											 
+ 										</tr>
+ 									 
+	  									 <tr class="roomTotal">
+	  									 
+	  									 <!-- 값 들어옴 -->
 
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>16</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>18</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                    <td class="sat">19</td>
-                                                
-                                                
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun">20</td>
-                                                
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>21</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>22</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>23</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>24</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>25</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                    <td class="sat">26</td>
-                                                
-                                                
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun">27</td>
-                                                
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>28</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>29</td>
-                                                
-                                            
-
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>30</td>
-                                                
-                                            
-
-                                        
-                                    </tr>
-                                    <tr>
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                    <td class="sat">17</td>
-                                                
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun">17</td>
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                    <td class="sat">17</td>
-                                                
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun">17</td>
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td>17</td>
-                                                
-                                            
-                                        
-                                    </tr>
-                                    <tr>
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1115">16</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1116">17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1117">17</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1118">11</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                    <td class="sat" id="RCCnt1119">1</td>
-                                                
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun" id="RCCnt1120">15</td>
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1121">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1122">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1123">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1124">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1125">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                    <td class="sat" id="RCCnt1126">0</td>
-                                                
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun" id="RCCnt1127">0</td>
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1128">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1129">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="RCCnt1130">0</td>
-                                                
-                                            
-                                        
-                                    </tr>
-                                    <tr>
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1115">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1116">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1117">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1118">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                    <td class="sat" id="WCnt1119">0</td>
-                                                
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun" id="WCnt1120">0</td>
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1121">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1122">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1123">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1124">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1125">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                    <td class="sat" id="WCnt1126">0</td>
-                                                
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                    <td class="sun" id="WCnt1127">0</td>
-                                                
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1128">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1129">0</td>
-                                                
-                                            
-                                        
-                                            
-                                                
-                                                
-                                                
-                                                    <td id="WCnt1130">0</td>
-                                                
-                                            
-                                        
-                                    </tr>
-                                    </thead>
+ 									   </tr>
+ 									
+                                       <tr class="roomMax">
+                                       	
+                                       	<!-- 값 들어옴 -->	
+                                       		
+ 									 </tr>
+ 
+                                   </thead>
                                 </table>
                             </div>
+                            
+                            
                             <div class="scroll-body">
                                 <table class="table-sticky-body">
                                     <caption>시설명 및 영지 명</caption>
@@ -1344,5592 +1439,27 @@ function inputLabel(sel1, sel2){
                                         <col style="width: 130px">
                                         <col style="width: 130px">
                                     </colgroup>
-                                    <tbody class="tbody">
                                     
-                                    
-                                        <tr>
-                                            
-                                                
-                                                <th rowspan="17" scope="row">
-                                                <span class="title">
-                                                자동차야영장
-                                                
-                                            </span>
-                                                </th>
-                                            
-                                            <th scope="row">
+                                    <tbody class="tbody" id="campsiteName">
 
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
 
-                                                <span class="title">
-                                                1
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
 
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                2
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                3
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                4
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                5
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                6
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                7
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                8
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                9
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                10
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                11
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                12
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                13
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                14
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                15
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                16
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                            <th scope="row">
-
-                                                
-                                                    
-                                                    
-                                                        
-                                                            <i class="icon-barrier-free"></i>
-                                                        
-                                                        
-                                                            <i class="icon-electricity"></i>
-                                                        
-                                                        
-                                                    
-                                                
-
-                                                <span class="title">
-                                                17(무장애)
-                                                
-                                            </span>
-                                            </th>
-                                        </tr>
-                                    
                                     </tbody>
                                 </table>
-                                <table class="table-body">
+                                 <table class="table-body">
                                     <caption>시설 예약 현황</caption>
-                                    <colgroup>
+                                    <colgroup class="inputCol">
                                         
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
-                                        
-                                            <col style="width: 45px">
+                                           <!-- 값 들어옴 -->
                                         
                                     </colgroup>
                                     <thead style="display:none;">
-                                        <tr><th scope="col" colspan="16">시설 예약 현황</th>
+                                        <tr><th scope="col" colspan="23">시설 예약 현황</th>
                                     </tr></thead>
-                                    <tbody class="tbody">
-                                    
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td class="start selected">
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-1" data-payment-title="자동차야영장 1" data-reser_tp="R" data-prod-id="CB13100101001" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td class="end selected">
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-1" data-payment-title="자동차야영장 1" data-reser_tp="R" data-prod-id="CB13100101001" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-1" data-payment-title="자동차야영장 1" data-reser_tp="R" data-prod-id="CB13100101001" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221118_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-1" data-payment-title="자동차야영장 1" data-reser_tp="R" data-prod-id="CB13100101001" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-2" data-payment-title="자동차야영장 2" data-reser_tp="R" data-prod-id="CB13100101002" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-2" data-payment-title="자동차야영장 2" data-reser_tp="R" data-prod-id="CB13100101002" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-2" data-payment-title="자동차야영장 2" data-reser_tp="R" data-prod-id="CB13100101002" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221118_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-2" data-payment-title="자동차야영장 2" data-reser_tp="R" data-prod-id="CB13100101002" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-3" data-payment-title="자동차야영장 3" data-reser_tp="R" data-prod-id="CB13100101003" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-3" data-payment-title="자동차야영장 3" data-reser_tp="R" data-prod-id="CB13100101003" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-3" data-payment-title="자동차야영장 3" data-reser_tp="R" data-prod-id="CB13100101003" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-3" data-payment-title="자동차야영장 3" data-reser_tp="R" data-prod-id="CB13100101003" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-3" data-payment-title="자동차야영장 3" data-reser_tp="R" data-prod-id="CB13100101003" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-4" data-payment-title="자동차야영장 4" data-reser_tp="R" data-prod-id="CB13100101004" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-4" data-payment-title="자동차야영장 4" data-reser_tp="R" data-prod-id="CB13100101004" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-4" data-payment-title="자동차야영장 4" data-reser_tp="R" data-prod-id="CB13100101004" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-4" data-payment-title="자동차야영장 4" data-reser_tp="R" data-prod-id="CB13100101004" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221120_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221115_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-5" data-payment-title="자동차야영장 5" data-reser_tp="R" data-prod-id="CB13100101005" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-5" data-payment-title="자동차야영장 5" data-reser_tp="R" data-prod-id="CB13100101005" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-5" data-payment-title="자동차야영장 5" data-reser_tp="R" data-prod-id="CB13100101005" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-5" data-payment-title="자동차야영장 5" data-reser_tp="R" data-prod-id="CB13100101005" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-6" data-payment-title="자동차야영장 6" data-reser_tp="R" data-prod-id="CB13100101006" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-6" data-payment-title="자동차야영장 6" data-reser_tp="R" data-prod-id="CB13100101006" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-6" data-payment-title="자동차야영장 6" data-reser_tp="R" data-prod-id="CB13100101006" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-6" data-payment-title="자동차야영장 6" data-reser_tp="R" data-prod-id="CB13100101006" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-6" data-payment-title="자동차야영장 6" data-reser_tp="R" data-prod-id="CB13100101006" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-7" data-payment-title="자동차야영장 7" data-reser_tp="R" data-prod-id="CB13100101007" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-7" data-payment-title="자동차야영장 7" data-reser_tp="R" data-prod-id="CB13100101007" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-7" data-payment-title="자동차야영장 7" data-reser_tp="R" data-prod-id="CB13100101007" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-7" data-payment-title="자동차야영장 7" data-reser_tp="R" data-prod-id="CB13100101007" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-7" data-payment-title="자동차야영장 7" data-reser_tp="R" data-prod-id="CB13100101007" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-8" data-payment-title="자동차야영장 8" data-reser_tp="R" data-prod-id="CB13100101008" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-8" data-payment-title="자동차야영장 8" data-reser_tp="R" data-prod-id="CB13100101008" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-8" data-payment-title="자동차야영장 8" data-reser_tp="R" data-prod-id="CB13100101008" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-8" data-payment-title="자동차야영장 8" data-reser_tp="R" data-prod-id="CB13100101008" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221120_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-9" data-payment-title="자동차야영장 9" data-reser_tp="R" data-prod-id="CB13100101009" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-9" data-payment-title="자동차야영장 9" data-reser_tp="R" data-prod-id="CB13100101009" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-9" data-payment-title="자동차야영장 9" data-reser_tp="R" data-prod-id="CB13100101009" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221118_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-9" data-payment-title="자동차야영장 9" data-reser_tp="R" data-prod-id="CB13100101009" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-10" data-payment-title="자동차야영장 10" data-reser_tp="R" data-prod-id="CB13100101010" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-10" data-payment-title="자동차야영장 10" data-reser_tp="R" data-prod-id="CB13100101010" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-10" data-payment-title="자동차야영장 10" data-reser_tp="R" data-prod-id="CB13100101010" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221118_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-10" data-payment-title="자동차야영장 10" data-reser_tp="R" data-prod-id="CB13100101010" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-11" data-payment-title="자동차야영장 11" data-reser_tp="R" data-prod-id="CB13100101011" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-11" data-payment-title="자동차야영장 11" data-reser_tp="R" data-prod-id="CB13100101011" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-11" data-payment-title="자동차야영장 11" data-reser_tp="R" data-prod-id="CB13100101011" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-11" data-payment-title="자동차야영장 11" data-reser_tp="R" data-prod-id="CB13100101011" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-11" data-payment-title="자동차야영장 11" data-reser_tp="R" data-prod-id="CB13100101011" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-12" data-payment-title="자동차야영장 12" data-reser_tp="R" data-prod-id="CB13100101012" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-12" data-payment-title="자동차야영장 12" data-reser_tp="R" data-prod-id="CB13100101012" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-12" data-payment-title="자동차야영장 12" data-reser_tp="R" data-prod-id="CB13100101012" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-12" data-payment-title="자동차야영장 12" data-reser_tp="R" data-prod-id="CB13100101012" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-12" data-payment-title="자동차야영장 12" data-reser_tp="R" data-prod-id="CB13100101012" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-13" data-payment-title="자동차야영장 13" data-reser_tp="R" data-prod-id="CB13100101013" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-13" data-payment-title="자동차야영장 13" data-reser_tp="R" data-prod-id="CB13100101013" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-13" data-payment-title="자동차야영장 13" data-reser_tp="R" data-prod-id="CB13100101013" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-13" data-payment-title="자동차야영장 13" data-reser_tp="R" data-prod-id="CB13100101013" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-13" data-payment-title="자동차야영장 13" data-reser_tp="R" data-prod-id="CB13100101013" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-14" data-payment-title="자동차야영장 14" data-reser_tp="R" data-prod-id="CB13100101014" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-14" data-payment-title="자동차야영장 14" data-reser_tp="R" data-prod-id="CB13100101014" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-14" data-payment-title="자동차야영장 14" data-reser_tp="R" data-prod-id="CB13100101014" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-14" data-payment-title="자동차야영장 14" data-reser_tp="R" data-prod-id="CB13100101014" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221119_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-14" data-payment-title="자동차야영장 14" data-reser_tp="R" data-prod-id="CB13100101014" data-prod-ctg-id="0201100" data-use_df="20221119" data-ctrt-dow="토" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'19').text());
-                                                                        $('#RCCnt'+'11'+'19').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-14" data-payment-title="자동차야영장 14" data-reser_tp="R" data-prod-id="CB13100101014" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-15" data-payment-title="자동차야영장 15" data-reser_tp="R" data-prod-id="CB13100101015" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-15" data-payment-title="자동차야영장 15" data-reser_tp="R" data-prod-id="CB13100101015" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-15" data-payment-title="자동차야영장 15" data-reser_tp="R" data-prod-id="CB13100101015" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221118_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-15" data-payment-title="자동차야영장 15" data-reser_tp="R" data-prod-id="CB13100101015" data-prod-ctg-id="0201100" data-use_df="20221118" data-ctrt-dow="금" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'18').text());
-                                                                        $('#RCCnt'+'11'+'18').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-15" data-payment-title="자동차야영장 15" data-reser_tp="R" data-prod-id="CB13100101015" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-16" data-payment-title="자동차야영장 16" data-reser_tp="R" data-prod-id="CB13100101016" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-16" data-payment-title="자동차야영장 16" data-reser_tp="R" data-prod-id="CB13100101016" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-16" data-payment-title="자동차야영장 16" data-reser_tp="R" data-prod-id="CB13100101016" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221118_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="N" data-title="가야산-삼정-자동차야영장-16" data-payment-title="자동차야영장 16" data-reser_tp="R" data-prod-id="CB13100101016" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
-                                        <tr>
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221115_N" data-brfe-ter-yn="Y" data-title="가야산-삼정-자동차야영장-17(무장애)" data-payment-title="자동차야영장 17(무장애)" data-reser_tp="R" data-prod-id="CB13100101017" data-prod-ctg-id="0201100" data-use_df="20221115" data-ctrt-dow="화" data-sal-amt="13000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'15').text());
-                                                                        $('#RCCnt'+'11'+'15').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221116_N" data-brfe-ter-yn="Y" data-title="가야산-삼정-자동차야영장-17(무장애)" data-payment-title="자동차야영장 17(무장애)" data-reser_tp="R" data-prod-id="CB13100101017" data-prod-ctg-id="0201100" data-use_df="20221116" data-ctrt-dow="수" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'16').text());
-                                                                        $('#RCCnt'+'11'+'16').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221117_N" data-brfe-ter-yn="Y" data-title="가야산-삼정-자동차야영장-17(무장애)" data-payment-title="자동차야영장 17(무장애)" data-reser_tp="R" data-prod-id="CB13100101017" data-prod-ctg-id="0201100" data-use_df="20221117" data-ctrt-dow="목" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'17').text());
-                                                                        $('#RCCnt'+'11'+'17').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221118_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                                <td><i class="icon-none-reservation 20221119_C"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                                <td>
-                                                                    <i class="icon-reservation 20221120_N" data-brfe-ter-yn="Y" data-title="가야산-삼정-자동차야영장-17(무장애)" data-payment-title="자동차야영장 17(무장애)" data-reser_tp="R" data-prod-id="CB13100101017" data-prod-ctg-id="0201100" data-use_df="20221120" data-ctrt-dow="일" data-sal-amt="11000"></i>
-                                                                    <script>
-                                                                        var RCCntVal = parseInt($('#RCCnt'+'11'+'20').text());
-                                                                        $('#RCCnt'+'11'+'20').html(RCCntVal + 1);
-                                                                    </script>
-                                                                </td>
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221121_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221122_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221123_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221124_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221125_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221126_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221127_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221128_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221129_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                                
-                                                    
-                                                        
-                                                            
-                                                                <td><i class="icon-end 20221130_R"></i></td>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        
-                                                        
-                                                    
-                                                    
-                                                
-                                            
-                                        </tr>
-                                    
+                                    <tbody class="tbody" id="reservationState" >
+											
+										  <!-- 값 들어옴 -->
+
                                     </tbody>
                                 </table>
                             </div>
@@ -6940,61 +1470,50 @@ function inputLabel(sel1, sel2){
                         <div class="table-row">
                             <div class="item">
                                 <em class="label"><i class="icon-camp"></i>야영장</em>
-                                <span class="text">가야산-삼정-자동차야영장-1</span>
+                                <span class="text" id="inputSelectCampsite"></span>
                             </div>
                             <div class="item">
                                 <em class="label"><i class="icon-checkin"></i>입실일자</em>
-                                <span class="text">2022-11-15[화]</span>
+                                <span class="text" id="inputStartDate"></span>
                             </div>
                             <div class="item">
                                 <em class="label"><i class="icon-checkout"></i>퇴실일자</em>
-                                <span class="text">2022-11-16[수]</span>
+                                <span class="text" id="inputEndDate"></span>
                             </div>
                             <div class="item">
                                 <em class="label"><i class="icon-stay"></i>체류기간</em>
-                                <div class="stay-row"><span class="length-stay selected" data-check_per="1">1박 2일</span><span class="length-stay" data-check_per="2">2박 3일</span></div>
+                                <div class="stay-row" id="stayInfo"><!-- <span class="length-stay selected" data-check_per="1" id="inputOneNight">1박 2일</span>
+                                <span class="length-stay" data-check_per="2" id="inputSecondNight">2박 3일</span> --></div>
                             </div>
                         </div>
-                        <div class="border-box">
-                            <div class="option-wrap">
-                                <h5>옵션 추가선택</h5>
-                                <ul class="option-list" data-template-id="prd-options-template">
-            <li>
-        <span class="checkbox-1">
-            <input type="checkbox" id="check1-0" name="check1-0" data-opt-id="CO00001" data-opt-nm="전기" value="4000">
-            <label for="check1-0">전기 (1박 4000원)</label>
-        </span>
-            </li>
-        </ul>
-                                <ul class="mt-10">
-                                    <li>※ 옵션은 예약완료 후 마이페이지에서 추가하거나 변경, 부분취소할 수 있습니다.</li>
-                                    <li>※ 숙박일수를 선택한 후 이용금액을 확인하고 예약하기 버튼을 누르면 바로 접수가 완료됩니다.</li>
-                                    <li>※ 예약완료 후 곧바로 다른 시설 예약이 가능합니다.</li>
-                                </ul>
-                            </div>
-                        </div>
+                         <div class="border-box">
+                            <div class="option-wrap" id="peopleCheckBox">
+                                <h5>인원 선택</h5><br>
+     	
+						<div class="selectPeopleNum" id="selectPeopleNum" style="display: none;">
+						<a href="javascript:void(0);" id="decreaseQuantity" style="width:50px; border:1px solid; border-radius: 5px;">
+						&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;</a>
+						<span id="numberUpDown">1</span>
+						<a href="javascript:void(0);" id="increaseQuantity" style="border:1px solid; border-radius: 5px;">
+						&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;</a>
+  						</div>
+  						<input type="hidden" value="" name="inputValue" id="peopleMaxchange">
+                            
+							                                
+                          </div>
+                        </div> 
 
-                        <!-- <div class="payment">
-                            <dl class="total">
-                                <dt>합계 예정 금액</dt>
-                                <dd><em>0</em>원</dd>
-                            </dl>
-                        </div> -->
 
                         <div class="title-area">
                             <h4 class="title">총 이용금액</h4>
                         </div>
+                        
+                        <!-- 값 들어옴 -->
 
-                        <div class="payment" style="">
-                            <dl>
-                                <dt><em>야영장</em></dt>
-                                <dd></dd>
-                            </dl>
-                            <dl id="campsitePayment"><dt>자동차야영장 1 : 1박 2일</dt><dd>13,000원</dd></dl>
-                            <dl class="total">
-                                <dt>결제(예정)금액</dt>
-                                <dd><em>13,000</em>원</dd>
-                            </dl>
+                        <div class="payment" id="paymentGroup" >
+                        
+                        
+
                         </div>
 
                         <div class="payment collapse-wrap open">
@@ -7013,16 +1532,85 @@ function inputLabel(sel1, sel2){
                         </div>
                         <div class="board-bottom">
                             <div class="center btn-layer">
-                                <a href="javascript:void(0)" class="btn btn-register is-active" onclick="javacript:reservation_before_auth();">예약하기</a>
+                                <a href="javascript:void(0)" class="btn btn-register is-active" id="btn-modal" >예약하기</a>
+                               <!--  <a href="javascript:openModal('modal1');" class="button modal-open">모달열기1</a> -->
                             </div>
                         </div>
                     </div>
                 </div>
-         
-         
+                
+                
+                
+                <!-- 예약하기 버튼 누르면 모달창 생성-->
+
+     <div class="modal-popup small" id="modal" style="display: none;">
+               <div class="popup-wrap" style="top: 65px; bottom: 150px;">
+                  <div class="popup-head">
+                     <strong class="popup-title">예약가능</strong>
+                     <button type="button" class="btn-close" id="modalCloseBtn" title="닫기">
+                        <i class="icon-close"></i>
+                     </button>
+                  </div>
+                  <div class="popup-container">
+                        <table class="table">
+                           <caption>자동방지 입력문자</caption>
+                           <colgroup>
+                              <col style="width: 175px;">
+                              <col>
+                           </colgroup>
+                           <tbody class="tbody">
+                              <tr style="display: none;">
+                                 <th scope="row">예약코드</th>
+                                 <td><input type="text" id="productCode" name="productCode" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                              <tr style="display: none;">
+                                 <th scope="row">예약자ID</th>
+                                 <td><input type=text id="userId" name='userId' value="${sessionScope.id }" readonly="readonly" style="border: none;" ></td>
+                              </tr>
+                              <tr>
+                                 <th scope="row">예약상품</th>
+                                 <td><input type="text" id="selectCampsiteName" name="selectCampsiteName" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                              <tr>
+                                 <th scope="row">사용기간</th>
+                                 <td><input type="text" id="selectAllDay" name="selectAllDay" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                              <tr>
+                                 <th scope="row">입실날짜</th>
+                                 <td><input type="text" id="selectStartDt" name="startDt" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                              <tr>
+                                 <th scope="row">퇴실날짜</th>
+                                 <td><input type="text" id="selectEndDt" name="endDt" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                              <tr>
+                                 <th scope="row">총 인원</th>
+                                 <td><input type="text" id="selectPeople" name="selectPeople" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                              <tr>
+                                 <th scope="row">결제(예정)금액</th>
+                                 <td><input type="text" id="selectPrice" name="selectPrice" value="" readonly="readonly" style="border: none;"></td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <div class="captcha-area" style="margin: 0;">
+                           <span class="label">자동예약 방지문자</span>
+                           <span class="g-recaptcha" data-sitekey="6LeL0kwjAAAAANEySrA-9Bx398PJ1o60To4EbEkX"></span>
+                        </div>
+                        <p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인 후
+                           결제 가능합니다.</p>
+                        <div class="btn-area">
+                           <button class="btn" id="modalCancelBtn" >취소</button>
+                           <input type="button" class="btn" id="dataSubmitBtn" value="확인" style="background: #fff; cursor:pointer;">
+                        </div>
+	                  </div>
+	               </div>
+	            </div>
+	            
+	
          
          <!-- 예약안내 레이어팝업 -->
-         <div class="modal-popup small" id="automatic-character">
+<%--          <div class="modal-popup small" id="automatic-character">
 	        <div class="popup-wrap">
 	            <div class="popup-head">
 	                <strong class="popup-title">자동방지 입력문자</strong>
@@ -7118,9 +1706,9 @@ function inputLabel(sel1, sel2){
 	                </div>
 	            </div>
 	        </div>
-	    </div>
-     </div>
-     <a href="javascript:void(0);" style="display:none" class="btn btn-register is-active btn-layer" data-popup="automatic-character" >예약하기</a>
+	    </div>  --%>
+     </div><!-- reservation -->
+<!--      <a href="javascript:void(0);" style="display:none" class="btn btn-register is-active btn-layer" data-popup="automatic-character" >예약하기</a>
      
      <button type="button" style="display:none" class="btn btn-layer" data-popup="reservation-information1">예약안내</button>
     <div class="modal-popup small" id="reservation-information1">
@@ -7135,7 +1723,7 @@ function inputLabel(sel1, sel2){
                 <div class="center" data-area-name="reservation-popup-container">
                     <i class="icon-check"></i>
                     <strong class="title-1">예약이 완료되었습니다.</strong>
-                    <p class="copy-mid">결제 만기일시는 <em data-popup-information-campsite="sttlmMtDtm"><!-- 2020년 02월 17일 16:00 --></em> 까지 입니다.<br>미 결제시 자동 취소되니 유의 하시기 바랍니다.</p>
+                    <p class="copy-mid">결제 만기일시는 <em data-popup-information-campsite="sttlmMtDtm">2020년 02월 17일 16:00</em> 까지 입니다.<br>미 결제시 자동 취소되니 유의 하시기 바랍니다.</p>
                     <p class="copy-sm">마이페이지 나의예약목록 에서 확인 후 결제를 계속 진행해주세요.</p>
                 </div>
                 
@@ -7148,7 +1736,7 @@ function inputLabel(sel1, sel2){
 						이에 따른 피해에 대해서는 국립공원공단에서 보상하지 않습니다.<br>
 						반드시 '나의 예약 목록'에서 예약상태를 확인하여 주시기 바랍니다.
 					</p>
-	                <!-- <p class="copy-sm">마이페이지 나의예약목록 에서 확인 후 결제를 계속 진행해주세요.</p> -->
+	                <p class="copy-sm">마이페이지 나의예약목록 에서 확인 후 결제를 계속 진행해주세요.</p>
 	            </div>
                 
                 <div class="btn-area">
@@ -7156,11 +1744,11 @@ function inputLabel(sel1, sel2){
                 </div>
             </div>
         </div>
-    </div>
+    </div>  -->
     
     
     <!-- 배치도 -->
-    <button type="button" class="btn btn-layer" data-popup="blockplan" style="display:none">배치도</button>
+<!--     <button type="button" class="btn btn-layer" data-popup="blockplan" style="display:none">배치도</button>
     <div class="modal-popup medium" id="blockplan">
         <div class="popup-wrap">
             <div class="popup-head">
@@ -7184,12 +1772,7 @@ function inputLabel(sel1, sel2){
     </div>
 
 
-    
-
-
-
-
-
+   
 
 <script>
 $(document).ready(function(){
@@ -7484,13 +2067,134 @@ function goAuthiPin(){
 		}
 	});
 	
-}
+} -->
+
+<script>
+
+const modal = document.getElementById("modal")
+const btnModal = document.getElementById("btn-modal")
+btnModal.addEventListener("click", e => {
+	var campsiteNameChk = $('#inputSelectCampsite').html()
+	
+	if(campsiteNameChk == null || campsiteNameChk == " "){
+		event.preventDefault();
+		toastrMsg('예약 일정을 선택해 주세요.')
+	
+	}else{
+	    modal.style.display = "flex"
+	    	var campsiteName = $('#inputSelectCampsite').html()
+	    	var startDate = $('#inputStartDate').html()
+	    	var endDate = $('#inputEndDate').html()
+	    	var allDay = $('#inputAllDay').html()
+	    	var people = $('#numberUpDown').html()
+	    	var price = $('#inputPrice').html()
+	
+	    	$('#selectCampsiteName').val(campsiteName)
+	    	$('#selectStartDt').val(startDate)
+	    	$('#selectEndDt').val(endDate)
+	    	$('#selectAllDay').val(allDay)
+	    	$('#selectPeople').val(people+"명")
+	    	$('#selectPrice').val(price+"원 (부가세 포함)")
+		
+	}
+
+    	
+})
+
+$('#modalCloseBtn').on("click", function(e){
+	$('#modal').css("display", "none")
+});
+
+$('#modalCancelBtn').on("click", function(e){
+	$('#modal').css("display", "none")
+	location.reload()
+});
+// const closeBtn = modal.querySelector("#modalCloseBtn")
+// closeBtn.addEventListener("click", e => {
+//     modal.style.display = "none"
+// }); // "X"버튼클릭시 작동
+
+
+// const cancelBtn = modal.querySelector("#modalCancelBtn")
+// cancelBtn.addEventListener("click", e => {
+//     modal.style.display = "none"
+// }); // "취소 버튼 " 클릭시 작동
+
+
 
 </script>
 
 
 
-<div class="modal-popup small" id="exemption-auth">
+<script>
+
+$(function() {
+    $('#dataSubmitBtn').click(function() {
+    	
+
+		//Recaptcha 체크 유무 검증
+    	if(grecaptcha.getResponse().length == 0) {
+    		toastrMsg('AI 인지 확인해 주세요.');
+    		return false;
+    	
+    	}else{
+    		var id = $('#userId').val();
+    		
+    		if(id == null || id == "" ){
+    			toastrMsg('로그인 후 이용해 주세요.');
+    		
+    		 }else{
+    			var code = $('#productCode').val();
+    			var allDay = $('#selectAllDay').val();
+    			var startDay = $('#selectStartDt').val();
+    			var endDay = $('#selectEndDt').val();
+    			var people = $('#selectPeople').val();
+    			var price = $('#selectPrice').val();
+    			
+    			 $.ajax({
+    					url : "reservationSave",
+    					type : "post",
+    					cache : false,
+    					data : {
+    						id : id,
+    						code : code,
+    						allDay : allDay,
+    						startDay : startDay,
+    						endDay : endDay,
+    						people : people,
+    						price : price
+    						
+    					},
+    					
+    					success : function(result) {
+    						toastrMsg(result);
+    						
+    					},
+    					error : function() {
+    						toastrMsg("error");
+    					}
+    				     	
+    				     
+    				});
+    			
+    		}
+    	}
+    	
+
+		
+		//return true;
+            
+
+    });
+});
+
+
+
+</script>
+
+
+
+<%-- <div class="modal-popup small" id="exemption-auth">
 	
 		<input type="hidden" id="authTypeId" value=""/>
 		
@@ -7562,8 +2266,8 @@ function goAuthiPin(){
             </div>
         </div>
     </div>
-    
-			</div>
+     --%>
+			</div><!-- container -->
 			
 
 <%@ include file="../common/footer.jsp" %>
@@ -7641,8 +2345,8 @@ function goAuthiPin(){
     <!-- 인증요청 암호화 데이터 -->
     <input type="hidden" name="EncodeData" id="EncodeData" value="">
 </form>
-	</div>
-	<img id="loadingImage" src="/assets/img/preloader.gif" alt="로딩이미지" style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
+	</div><!-- wrap -->
+ 	<img id="loadingImage" src="/assets/img/preloader.gif" alt="로딩이미지" style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">
 <script>
 	$(function(){
 		let responseMessage = "";
@@ -7655,6 +2359,6 @@ function goAuthiPin(){
 			history.back();
 		}
 	})
-</script>
+</script> 
 </body>
 </html>

@@ -31,10 +31,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
 	List<Reservation> findById(String id);
 	
+	//작성자: 최현하
+	List<Reservation> findByRoomAndStartDayAndAllDay(String room, Timestamp startDay, String allDay);
+	List<Reservation> findByCategory3AndStartDay(String category3,  Timestamp startDay);
 	
-	List<ReservationDTO> findByRoomAndStartDayAndAllDay(String room, Timestamp startDay, String allDay);
-	
-	List<ReservationDTO> findByCategory3AndStartDay(String category3,  Timestamp startDay);
 	Reservation findBySeq(Integer seq);
 
 	Reservation findBySeqAndId(Integer seq, String id);

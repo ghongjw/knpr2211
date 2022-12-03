@@ -75,18 +75,24 @@ public class ReservationService {
 		//place op = pr.findbyid(1).get();
 		//system.out.println(op.toString());
 		List<Place> places = pr.findByCategory3(code);
+		System.out.println("확인중:");
 		
 		for (Place place : places) {
 			PlaceDTO dto = new PlaceDTO();
 			String code2 = place.getCategory2();
 			String code3 = place.getCategory3();
 			String code4 = place.getCategory4();
-			String roomname = place.getRoom().substring(7); //a01010101
+			String roomName = place.getRoom().substring(7); //a01010101
+			
+			System.out.println("확인중:"+code2);
+			System.out.println("확인중:"+code3);
+			System.out.println("확인중:"+code4);
+			System.out.println("확인중:"+roomName);
 			
 			dto.setCategory2(mcs.findCategory(code2)); //가야산
 			dto.setCategory3(mcs.findCategory(code3)); //삼정
 			dto.setCategory4(mcs.findCategory(code4)); //자동차야영장 or 자연의솔막
-			dto.setRoom(roomname); //01~05번방
+			dto.setRoom(roomName); //01~05번방
 			dto.setRoomMax(place.getRoomMax()); 
 			
 			list.add(dto);
@@ -118,8 +124,10 @@ public class ReservationService {
 					checklist.add(campsite);
 				}
 			}
-		
+			
+			
 		return checklist;
+		
 	}
 	
 	
@@ -180,9 +188,9 @@ public class ReservationService {
 				 Timestamp tsYesterday = new Timestamp(date1.getTime());
 			     Timestamp tsToday = new Timestamp(date2.getTime());
 			     
-			     List<ReservationDTO> check1 = rr.findByRoomAndStartDayAndAllDay(rooms[i], tsYesterday, "2");
-			     List<ReservationDTO> check2 = rr.findByRoomAndStartDayAndAllDay(rooms[i], tsToday, "1");
-			     List<ReservationDTO> check3 = rr.findByRoomAndStartDayAndAllDay(rooms[i], tsToday, "2");
+			     List<Reservation> check1 = rr.findByRoomAndStartDayAndAllDay(rooms[i], tsYesterday, "2");
+			     List<Reservation> check2 = rr.findByRoomAndStartDayAndAllDay(rooms[i], tsToday, "1");
+			     List<Reservation> check3 = rr.findByRoomAndStartDayAndAllDay(rooms[i], tsToday, "2");
 		    			
 		    	 if(check1.size() == 0 && check2.size() == 0 && check3.size() == 0) {
 				     reservations.add("예약가능");
@@ -263,8 +271,8 @@ public class ReservationService {
 			
 			Timestamp tsTomorrow = new Timestamp(date2.getTime()); //date -> timestamp
 			
-		     List<ReservationDTO> check1 = rr.findByRoomAndStartDayAndAllDay(room, tsTomorrow, "1");
-	     	 List<ReservationDTO> check2 = rr.findByRoomAndStartDayAndAllDay(room, tsTomorrow, "2");
+		     List<Reservation> check1 = rr.findByRoomAndStartDayAndAllDay(room, tsTomorrow, "1");
+	     	 List<Reservation> check2 = rr.findByRoomAndStartDayAndAllDay(room, tsTomorrow, "2");
 			
 	     	if(check1.size() == 0 && check2.size() == 0 ) {
 	     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -327,30 +335,30 @@ public class ReservationService {
 	//사용자 입력받은 예약 일정 db에 저장
 	public String reservationSave(Map<String, Object> map) {
 		 String id = (String)map.get("id");
-		 String tmpcode = (String)map.get("code"); 
-	     String tmpallday = (String)map.get("allday");
-	     String tmpstartday = (String)map.get("startday");
-	     String tmpendday = (String)map.get("endday");
-	     String tmppeople = (String)map.get("people");
-	     String tmpprice = (String)map.get("price");
-	     
+		 String tmpCode = (String)map.get("code"); 
+	     String tmpAllDay = (String)map.get("allDay");
+	     String tmpStartDay = (String)map.get("startDay");
+	     String tmpEndDay = (String)map.get("endDay");
+	     String tmpPeople = (String)map.get("people");
+	     String tmpPrice = (String)map.get("price");
+	     System.out.println();
 		 
-	     String allday = tmpallday.substring(0, 1);
+	     String allDay = tmpAllDay.substring(0, 1);
 	     
-	     String startday= tmpstartday.substring(0, 10);
-	     String endday = tmpendday.substring(0, 10);
+	     String startDay= tmpStartDay.substring(0, 10);
+	     String endDay = tmpEndDay.substring(0, 10);
 	     
-	     int peoplenum = tmppeople.indexOf("명");
-	     String strpeople = tmppeople.substring(0, peoplenum);
-	     int people = Integer.parseInt(strpeople);
+	     int peopleNum = tmpPeople.indexOf("명");
+	     String strPeople = tmpPeople.substring(0, peopleNum);
+	     int people = Integer.parseInt(strPeople);
 	     
-	     int pricevalue = tmpprice.indexOf("원");
-	     String price = tmpprice.substring(0, pricevalue);
+	     int pricevalue = tmpPrice.indexOf("원");
+	     String price = tmpPrice.substring(0, pricevalue);
 	 
-	     String c1 = tmpcode.substring(0, 1);
-	     String c2 = tmpcode.substring(0, 3);
-	     String c3 = tmpcode.substring(0, 5);
-	     String c4 = tmpcode.substring(0, 7);
+	     String c1 = tmpCode.substring(0, 1);
+	     String c2 = tmpCode.substring(0, 3);
+	     String c3 = tmpCode.substring(0, 5);
+	     String c4 = tmpCode.substring(0, 7);
 	     
 		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	      Date now = new Date();
@@ -358,8 +366,8 @@ public class ReservationService {
 
 	      
 		try {
-			Date date1 = (Date) sdf.parse(startday);
-			Date date2 = (Date) sdf.parse(endday);
+			Date date1 = (Date) sdf.parse(startDay);
+			Date date2 = (Date) sdf.parse(endDay);
 		      Timestamp timestampstart = new Timestamp(date1.getTime());
 		      Timestamp timestampend = new Timestamp(date2.getTime());
 
@@ -369,13 +377,14 @@ public class ReservationService {
 		      re.setCategory2(c2); //가야산
 		      re.setCategory3(c3); //삼정
 		      re.setCategory4(c4); //자동자야영장
-		      re.setRoom(tmpcode); //01번방
+		      re.setRoom(tmpCode); //01번방
 		      re.setOrderTime(ordertime);
 		      re.setPeople(people);
 		      re.setPrice(price);
-		      re.setAllDay(allday);
-		      re.setStartDay( timestampstart);
+		      re.setAllDay(allDay);
+		      re.setStartDay(timestampstart);
 		      re.setEndDay(timestampend);
+		      re.setChecked(false);//결제확정유무
 		      rr.save(re).getSeq();
 		      
 		} catch (ParseException e) {
@@ -461,7 +470,7 @@ public class ReservationService {
 				
 				 Timestamp tsToday = new Timestamp(date1.getTime());
 			     
-			     List<ReservationDTO> check1 = rr.findByCategory3AndStartDay(rooms[i], tsToday);
+			     List<Reservation> check1 = rr.findByCategory3AndStartDay(rooms[i], tsToday);
 			     
 		    	 if(check1.size() == 0 ) {
 				     reservations.add("예약가능");
@@ -517,7 +526,7 @@ public class ReservationService {
 			Date date2 = (Date) sdf.parse(strDate); //String -> Date
 			Timestamp tstomorrow = new Timestamp(date2.getTime()); //Date -> Timestamp
 			
-		     List<ReservationDTO> check1 = rr.findByCategory3AndStartDay(room, tstomorrow );
+		     List<Reservation> check1 = rr.findByCategory3AndStartDay(room, tstomorrow );
 			
 	     	if(check1.size() == 0 ) {
 	     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -622,6 +631,7 @@ public class ReservationService {
 		      re.setAllDay(allDay);
 		      re.setStartDay(timeStampStart);
 		      re.setEndDay(timeStampEnd);
+		      re.setChecked(false);//결제확정유무
 		      rr.save(re).getSeq();
 		      
 		} catch (ParseException e) {

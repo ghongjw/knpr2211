@@ -119,7 +119,6 @@ public class ReservationController {
 		return keyData;
 	}
 	
-	// (시작)작성자: 최현하 (A-야영장)==============================================
 
 	@ResponseBody
 	@PostMapping(value = "cottageReservation2", produces = "application/json; charset=UTF-8")
@@ -152,7 +151,10 @@ public class ReservationController {
 		}
 	}
 	// (끝)작성자: 김수정 =======================================================
+	
+	
 
+	// (시작)작성자: 최현하 (A-야영장)==============================================
 
 	// 야영장 예약페이지 열림
 	@RequestMapping("campsite")
@@ -312,23 +314,8 @@ public class ReservationController {
 	}
 	
 	
-	//대피소 산이름-지역명-야영장명으로 클릭하면 방 출력
-//	@ResponseBody
-//	@PostMapping(value = "roomView")
-//	public Map<String, Object> roomView(@RequestParam Map<String, String> map) throws Exception {
-//		
-//		String code = map.get("code");
-//	
-//		List<PlaceDTO> rooms = rs.roomView(code);
-//		
-//		Map<String, Object> result = new HashMap<>();
-//		result.put("rooms", rooms);
-//		
-//		return result;
-//	}
-	
-	
-	//대피소명으로 현재 예약 현황 조회
+
+	// 대피소명으로 현재 예약 현황 조회
 	@ResponseBody
 	@PostMapping(value = "STreservationState")    
     public Map<String, Object> STreservationState(@RequestParam String[] rooms) {
