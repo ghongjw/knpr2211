@@ -83,9 +83,9 @@ let pageNum = function(num){
 							<colgroup>
 								<col style="width: 5%;">
 								<col style="width: 10%;">
-								<col style="width: 15%;">
-								<col style="width: 5%;">
 								<col style="width: 30%;">
+								<col style="width: 5%;">
+								<col style="width: 15%;">
 <%-- 								<col style="width: 5%;"> --%>
 								<col style="width: 15%;">
 							</colgroup>
@@ -105,9 +105,9 @@ let pageNum = function(num){
 									<tr>
 									<td style="width: 5%;">${attention.seq}</td>
 									<td style="width: 10%;">${attention.category2 }</td>
-									<td style="width: 20%;"><a href='adminAttentionDetail?seq=${attention.seq }'>${attention.title }</a></td>
+									<td style="width: 30%;"><a href='adminAttentionDetail?seq=${attention.seq }'>${attention.title }</a></td>
 									<td style="width: 5%;">${attention.hit }</td>
-									<td style="width: 30%;">${attention.createDate }</td>
+									<td style="width: 15%;">${attention.createDate }</td>
 <!-- 									<td style="width: 5%;"> -->
 <%-- 									<c:if test="${attention.notice == true }"> --%>
 <%-- 										<input type="checkbox" onclick="noticeornot('${attention.seq}')" checked> --%>

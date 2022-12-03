@@ -12,7 +12,7 @@
 <script src="../assets/js/index.js"></script>
 
 <body>
-<div align=right id="google_translate_element" class="hd_lang"></div>
+
 	<div id="wrap" class="main scroll-x">
 		<div id="wrap" class="sub">
 			<%@ include file="../common/header.jsp"%>

@@ -63,7 +63,6 @@ public class BoardController {
 	@GetMapping(value="/post/edit/{no}")
 	public String edit(@PathVariable("no") Long bno, Model model) {
 		boardService.getPost(bno,model);
-		System.out.println("d");
 		return "board/update";
 	}
 	@PutMapping("/post/edit/{no}")

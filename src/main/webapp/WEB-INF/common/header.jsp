@@ -27,8 +27,7 @@
 		}, 'google_translate_element');
 	}
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- //Google 번역 -->
+
 
     <title>knpr2211</title>
     </head>
@@ -98,7 +97,7 @@
                         
                     </ul>
                 </li>
-            
+     
                
         </ul>
     </nav>
