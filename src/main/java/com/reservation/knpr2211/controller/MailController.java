@@ -23,7 +23,7 @@ public class MailController {
 	@Autowired private HttpSession session;
 	@Autowired private MailService MailService;
 	
-	
+	//회원가입 메일 보냄 
 	@ResponseBody
 	@PostMapping(value = "MailSend", produces = "application/json; charset=UTF-8")
 	public String MailSend(@RequestBody(required = false) String email) {
@@ -45,7 +45,7 @@ public class MailController {
 		
 		return "인증번호 전송";}
 	}
-	
+	//회원가입 메일 체크
 	@ResponseBody
 	@PostMapping(value="checkAuth", produces = "application/json; charset=UTF-8")
 	public String checkAuth(@RequestBody(required = false) Map<String, String> map) {
@@ -69,7 +69,7 @@ public class MailController {
 		
 		return "인증 실패";
 	}
-	
+	//아이디찾기 메일 보내기
 	@Autowired UserService us;
 	@ResponseBody
 	@PostMapping(value = "IdMailSend", produces = "application/json; charset=UTF-8")
@@ -88,14 +88,14 @@ public class MailController {
 			System.out.println("인증번호 : " +number);
 			MailService.MailSend(email,"[인증번호를 발송했습니다.]","인증번호 :" + number + "를 입력해 주세요.");
 			session.setAttribute("authNumber", number);
-			return "인증번호"; 
+			return "인증번호 전송"; 
 		}
 	
 		
 		return"	등록되지않은 이메일입니다";
 	}
 	
-
+  // 아이디 찾기 메일 확인
 	@ResponseBody
 	@PostMapping(value="IdcheckAuth", produces = "application/json; charset=UTF-8")
 	public String IdcheckAuth(@RequestBody(required = false) Map<String, String> map) {
@@ -119,6 +119,8 @@ public class MailController {
 		
 		return "인증 실패";
 	}
+	
+	//비밀번호 메일 보내기
 	@Autowired private UserService userService;
 	@ResponseBody
 	@PostMapping(value = "PwFindMailSend", produces = "application/json; charset=UTF-8")
@@ -142,6 +144,8 @@ public class MailController {
 		
 		return "이메일을 입력하세요.";
 	}
+	// 비밀번호 찾기 메일체크
+	
 	@ResponseBody
 	@PostMapping(value="PwFindCheckAuth", produces = "application/json; charset=UTF-8")
 	public String PwFindCheckAuth(@RequestBody(required = false) Map<String, String> map) {
@@ -167,7 +171,7 @@ public class MailController {
 		
 		return "인증 실패";
 	}
-	
+	//회원정보 수정 메일 보내기
 	@ResponseBody
 	@PostMapping(value = "MoMailSend", produces = "application/json; charset=UTF-8")
 	public String MoMailSend(@RequestBody(required = false) String email) {
@@ -190,7 +194,7 @@ public class MailController {
 		
 	}
 
-
+  // 회원정보 수정메일 체크
 	@ResponseBody
 	@PostMapping(value="MocheckAuth", produces = "application/json; charset=UTF-8")
 	public String MocheckAuth(@RequestBody(required = false) Map<String, String> map) {

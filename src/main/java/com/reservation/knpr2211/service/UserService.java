@@ -258,7 +258,21 @@ public class UserService {
 	// 로그인
 	public String login(String id, String pw) {
 		String msg = "";
+		
+		
+		
+		if(id == null || id== "") {
+			msg = "아이디를 입력해 주세요.";	
+			return msg;
+		}
+		
+		if( pw==null || pw== "") {
+			msg = "비밀번호를 입력해 주세요.";	
+			
+			return msg ;
+		}
 		User user = userRepository.findByid(id);
+		
 		if (user == null) {
 			
 			msg = "없는 계정입니다.";
@@ -372,6 +386,25 @@ public class UserService {
 	
 		return Email.getEmail();
 	}
+	// 아이디 찾기 카카오 멤버찾기
+	public String FindKakaoMember(String id) {
+	
+		User member = userRepository.findByid(id);
+		System.out.println("멤버를 받아? " + member.getMember());
+		if(member.getMember().equals("kakao")) {
+			System.out.println("멤버를 받아? " + member.getMember());
+			return "kakao";
+		}
+		if(member.getMember() == "admin") {
+			
+			return "admin";
+		}
+		else
+			
+		
+		return "normal";
+	}
+	
 	//아이디 찾기 이메일 찾기
 	public String FindByEmail2(String email) {
 			

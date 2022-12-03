@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.reservation.knpr2211.entity.User;
 import com.reservation.knpr2211.repository.UserRepository;
 import com.reservation.knpr2211.service.KakaoService;
 import com.reservation.knpr2211.service.UserService;
@@ -43,7 +44,7 @@ public class LoginController {
 		
 	return "login/index";}
 	
-	
+	session.setAttribute("msg", msg);
 	return "login/login";
 	}
 		
@@ -64,6 +65,7 @@ public class LoginController {
 		if(msg.equals("회원가입 성공")) {
 		System.out.println("회원가입 성공");
 		return "redirect:login";
+	
 		}
 		
 		System.out.println("회원가입 실패");
@@ -79,12 +81,13 @@ public class LoginController {
 			
 			String msg = userservice.UserModify(id, pw ,PwCon, name, email, mobile, member);
 			System.out.println(msg);
+			session.setAttribute("msg", msg);
 			if(msg.equals("회원정보 수정 성공")) {
 			System.out.println("회원정보수정 성공");
 			return "redirect:index";
 			}
 			System.out.println("회원정보수정 실패");
-			return "redirect:UserModify";
+			return "login/UserModify";
 		}
 	
 	//아이디중복확인 
@@ -118,13 +121,12 @@ public class LoginController {
 	@RequestMapping("UserModify")
 	public String UserModity() {
 		session.setAttribute("msg", "");
-	String id = (String)session.getAttribute("id");
-	System.out.println((String)session.getAttribute("id"));
-	String IdCheck = id.substring(0,5);
-	System.out.println("카카오 :"+IdCheck);
-	session.setAttribute("Idcheck", IdCheck);
+	String member =(String)session.getAttribute("member");
+	  
+	System.out.println("카카오 :"+member);
 	
-		if(IdCheck.equals("kakao")) {
+	
+		if(member.equals("kakao")) {
 			
 			
 			
@@ -144,12 +146,12 @@ public class LoginController {
 		String accessToken = kakaoService.getAccessToken(code);
 		HashMap<String, String> userInfo = kakaoService.getUserInfo(accessToken);
 		
-		String id = "kakao_" + userInfo.get("nickname") ;
+		String id = userInfo.get("email") ;
 		String pw = "kakao";
 		String name = userInfo.get("nickname");
 		String email = userInfo.get("email");
 		String mobile = "kakao";
-		String member = "normal";
+		String member = "kakao";
 		
 	
 		userservice.kakaoRegister(id, pw, name, email , mobile, member);
@@ -160,6 +162,8 @@ public class LoginController {
 		session.setAttribute("name", userInfo.get("nickname"));
 		session.setAttribute("email", userInfo.get("email"));
 		session.setAttribute("mobile", mobile);
+		session.setAttribute("member", member);
+		
 		return "login/index";
 	}
 	
@@ -200,9 +204,22 @@ public class LoginController {
 		}
 		else if(session.getAttribute("IdauthStatus").toString().equals("true")) {
 			
-			String id = userservice.FindById(email);	
+			String id = userservice.FindById(email);
+			String member = userservice.FindKakaoMember(id);
+			System.out.println("멤버 :"+member);
+			if(member.equals("kakao")) {
+				session.setAttribute("IdResult", "카카오Id를 확인해주세요");
+			}
+			if(member.equals("admin")) {
+				session.setAttribute("IdResult", id);
+			}
+			if(member.equals("normal")) {
+				session.setAttribute("IdResult", id);
+			}
 			System.out.println("아이디 :" + id);
-			session.setAttribute("IdResult", id);
+			
+			
+			
 			session.setAttribute("msg", "");
 			return"redirect:IdFindResult";
 		};
