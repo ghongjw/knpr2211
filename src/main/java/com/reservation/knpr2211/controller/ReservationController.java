@@ -292,7 +292,7 @@ public class ReservationController {
 	
 	
 
-	//대피소명으로 현재 예약 현황 조회
+	// 대피소명으로 현재 예약 현황 조회
 	@ResponseBody
 	@PostMapping(value = "STreservationState")    
     public Map<String, Object> STreservationState(@RequestParam String[] rooms) {
