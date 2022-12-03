@@ -262,8 +262,24 @@
 						</c:when>
 						<c:when test="${detailInfo[0].category1 != 'C'}"></c:when>
 					</c:choose>
-						<button type="button" class="btn btn-reservation" onclick="">예약하기</button>
-						
+					<c:choose>
+						<c:when test="${detailInfo[0].category1 eq 'A'}" >
+						<button type="button" class="btn btn-reservation" onclick="location.href='campsite'; return false">예약하기</button>
+						</c:when>
+						<c:when test="${detailInfo[0].category1 eq 'B'}" >
+						<button type="button" class="btn btn-reservation" onclick="location.href='shelter'; return false">예약하기</button>
+						</c:when>
+						<c:when test="${detailInfo[0].category1 eq 'C'}" >
+						<button type="button" class="btn btn-reservation" onclick="location.href='ecoReservation'; return false">예약하기</button>
+						</c:when>
+						<c:when test="${detailInfo[0].category1 eq 'D'}" >
+						<button type="button" class="btn btn-reservation" onclick="location.href='cottageReservation'; return false">예약하기</button>
+						</c:when>
+					
+					
+					
+					
+					</c:choose>
 				</div>
 				</td>
 				</tr>

@@ -13325,4 +13325,16 @@ b {
 }
 
 
+.button_2 {
+  border: 0;
+  outline: none;
+  font-size: 30px;
+  margin: 30px;
+  background: black;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
 /*# sourceMappingURL=common.css.map */

@@ -33,7 +33,7 @@ Page<User> findByDeletedAndMemberAndEmailContaining(Boolean deleted,String membe
 
 Page<User> findByDeletedAndMemberAndMobileContaining(Boolean deleted,String member, String mobile, PageRequest pageRequest);
 
-//User getById(String id);
+User getById(String id);
 
 Page<User> findByDeleted(boolean b, PageRequest pageRequest);
 

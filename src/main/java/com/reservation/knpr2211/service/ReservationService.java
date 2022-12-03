@@ -1178,6 +1178,44 @@ public class ReservationService {
 		if (totalPage == 0) {
 			totalPage = 1;
 		}
+		public ReservationDTO reserve(Reservation r) {
+			ReservationDTO rd = new ReservationDTO();
+			rd.setSeq(r.getSeq());
+			rd.setCategory1(r.getCategory1());
+			rd.setNameCategory1(mcs.findCategory(r.getCategory1()));
+			rd.setCategory2(r.getCategory2());
+			rd.setNameCategory2(mcs.findCategory(r.getCategory2()));
+			rd.setCategory3(r.getCategory3());
+			rd.setNameCategory3(mcs.findCategory(r.getCategory3()));
+			if(r.getCategory4()==null) {
+				rd.setCategory4(" ");
+				rd.setNameCategory4(" ");
+			}else {
+				rd.setCategory4(r.getCategory4());
+				rd.setNameCategory4(mcs.findCategory(r.getCategory4()));
+			}
+			if(r.getRoom()==null) {
+				rd.setRoom(" ");
+			}else rd.setRoom("- "+r.getRoom().substring(7,9));
+			
+			rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())]);
+			rd.setOrderTime(orderFormat.format(r.getOrderTime()));
+			rd.setStartDay(r.getStartDay());
+			
+			rd.setEndDay(r.getEndDay());
+			rd.setPeople(r.getPeople());
+			rd.setAllDay(r.getAllDay());
+			rd.setPrice(r.getPrice());
+			if(r.getChecked()) {
+				rd.setChecked("결제완료");
+			}else rd.setChecked("미결제");
+			
+			Timestamp now = new Timestamp(System.currentTimeMillis());
+			if(r.getStartDay().after(now)) {
+				rd.setIsDone(false);
+			}else rd.setIsDone(true);
+			return rd;
+		}
 		ArrayList<ReservationDTO> rds = new ArrayList<ReservationDTO>();
 
 		for (Reservation r : reservations) {

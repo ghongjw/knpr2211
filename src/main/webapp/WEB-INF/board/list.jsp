@@ -232,11 +232,11 @@ let pageNum = function(num){
             		</div>
         		</div>
         		<!-- 페이징 -->
-   					<table>
+   					<table style = "text-align:center; width: 100%;">
    					<tr class = "page_tr">
 								<td colspan = "6" class = "page_td">
 							
-									<c:forEach var = "i" begin="0" end = "${totalPage -1}">
+									<c:forEach var = "i" begin="0" end ="${totalPage -1 }">
 										<c:choose>
 										<c:when test="${i == param.page }">
 										<button class = "index_paging" style = "background:#004ea2; color:white;" id = "pageNum" onclick = "pageNum('${i}')">

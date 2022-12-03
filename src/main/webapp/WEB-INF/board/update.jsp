@@ -20,7 +20,7 @@
     <h3 class="title">묻고답하기</h3>
     <!-- update -->
     <%--  <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data"> --%>
-    <form action="/post/edit/+${boardDto.bno}" method="post" enctype="multipart/form-data">
+    <form action="boardModify?bno=${boardDto.bno}" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="_method" value="put"/>
         <input type="hidden" name="bno" id="bno" value="${boardDto.bno}">
         <input type="hidden" name="writer" id="id" value="${member.id }">
