@@ -27,8 +27,7 @@
 		}, 'google_translate_element');
 	}
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- //Google 번역 -->
+
 
     <title>knpr2211</title>
     </head>
@@ -129,7 +128,9 @@
                         </button>
                         <div class="layer-language" id="layer-language2">
                             <button class="btn is-active" onclick="location.href='logout'" >로그아웃</button>
-                            <button class="btn" onclick="location.href='UserModify'">회원정보 수정</button>
+                          
+                     	  	<button class="btn" onclick="location.href='UserModify'">회원정보 수정</button>
+                     	  
                         </div>
                     </div>
             </c:if>

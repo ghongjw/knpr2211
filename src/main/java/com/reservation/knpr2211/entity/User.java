@@ -31,7 +31,7 @@ public class User {
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)
 		private String id;
 		//패스워드 
-		@Column(nullable = false, insertable = true, updatable = false)
+		@Column(nullable = false, insertable = true, updatable = true)
 		private String pw;
 		//이름 
 		@Column(nullable = false, insertable = true, updatable = true)

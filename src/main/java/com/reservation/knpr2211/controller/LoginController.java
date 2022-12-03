@@ -24,6 +24,8 @@ public class LoginController {
 		
 	@RequestMapping("login")
 	public String login() {
+		
+	session.removeAttribute("msg");	
 			return  "login/login";
 		}
 		
@@ -32,31 +34,23 @@ public class LoginController {
 	@Autowired UserService userservice;
 	@Autowired private HttpSession session;
 	@PostMapping(value =  "loginproc")
-	public String loginproc(Model model,String id, String pw) {
+	public String loginproc(String id, String pw) {
 	userservice.login(id, pw);	
 	System.out.println(userservice.login(id, pw));
 	String msg= userservice.login(id, pw);
 	
-	if(msg.equals("회원 로그인 성공")) {
-		System.out.println("회원 로그인");
-		model.addAttribute("msg",msg);
-	return "redirect:index";
-	}
-	if(msg.equals("어드민 계정 로그인 성공")) {
-		System.out.println("관리자 로그인");
-		model.addAttribute("msg",msg);
-	return "redirect:adminIndex";
-	}
-	else {
-	model.addAttribute("msg",msg);
+	if(msg.equals("로그인 성공")) {
+		
+	return "login/index";}
+	
+	
 	return "login/login";
-		}
 	}
 		
 	//회원가입
 	@RequestMapping("register")
 	public String register() {
-				
+		session.removeAttribute("msg");			
 			
 	return  "login/register";
 	}
@@ -76,7 +70,7 @@ public class LoginController {
 		session.setAttribute("msg", msg);
 		return "login/register";
 	}
-	//회원가입 버튼 
+	//회원정보 수정버튼 
 		@RequestMapping ("UserModifyProc")
 		public String UserModifyProc(String id,String pw, String PwCon, String name, String email, String mobile,String member ,Model model) {
 			
@@ -119,20 +113,22 @@ public class LoginController {
 		
 		return "login/index";
 	}
-	//회원정보 수정
+	//회원정보 수정 페이지 
 	
 	@RequestMapping("UserModify")
 	public String UserModity() {
-		
+		session.setAttribute("msg", "");
 	String id = (String)session.getAttribute("id");
 	System.out.println((String)session.getAttribute("id"));
 	String IdCheck = id.substring(0,5);
 	System.out.println("카카오 :"+IdCheck);
+	session.setAttribute("Idcheck", IdCheck);
+	
 		if(IdCheck.equals("kakao")) {
 			
 			
 			
-			return "index/index1";
+			return "login/index";
 		}
 			
 		
@@ -154,6 +150,8 @@ public class LoginController {
 		String email = userInfo.get("email");
 		String mobile = "kakao";
 		String member = "normal";
+		
+	
 		userservice.kakaoRegister(id, pw, name, email , mobile, member);
 		
 		System.out.println("카카오로 접속한 아이디"+id);
@@ -162,14 +160,14 @@ public class LoginController {
 		session.setAttribute("name", userInfo.get("nickname"));
 		session.setAttribute("email", userInfo.get("email"));
 		session.setAttribute("mobile", mobile);
-		return "index/index1";
+		return "login/index";
 	}
 	
 	//아이디 찾기
 	@RequestMapping("IdFind")
 	public String IdFind(String email) {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/IdFind";
 	}
@@ -177,7 +175,7 @@ public class LoginController {
 	@RequestMapping("IdFindResult")
 	public String IdFindResult() {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/IdFindResult";
 	}
@@ -194,8 +192,13 @@ public class LoginController {
 			session.setAttribute("msg","인증번호를 확인해 주세요");
 			return "redirect:IdFind";
 		}
+		String status = (String)session.getAttribute("IdauthStatus");
 		
-		if(session.getAttribute("authStatus").toString().equals("true")) {
+		if(status == null) {
+			
+			session.setAttribute("msg", "이메일을 인증해주세요.");
+		}
+		else if(session.getAttribute("IdauthStatus").toString().equals("true")) {
 			
 			String id = userservice.FindById(email);	
 			System.out.println("아이디 :" + id);
@@ -212,7 +215,7 @@ public class LoginController {
 	@RequestMapping("PwFind")
 	public String PwFind() {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/PwFind";
 	}
@@ -221,7 +224,7 @@ public class LoginController {
 	@RequestMapping("PwFind2")
 	public String PwFind2() {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/PwFind2";
 	}
@@ -236,8 +239,9 @@ public class LoginController {
 		String msg = userservice.IdFind(id);
 		
 		if(msg=="등록되지 않은 사용자입니다." ||msg=="아이디를 입력해주세요.") {
+			
 		session.setAttribute("msg", msg);
-		return"redirect:PwFind";
+		return"login/PwFind";
 		}
 		
 		session.setAttribute("msg", "");
@@ -248,7 +252,7 @@ public class LoginController {
 	@RequestMapping("PwChange")
 	public String PwChange() {
 		
-	
+		session.setAttribute("msg", "");
 	
 	return  "login/PwChange";
 	}
@@ -281,7 +285,7 @@ public class LoginController {
 	
 	@RequestMapping("PwChangeSuccess")
 	public String PwChangeSuccess(String email, String id, String pw, String PwCon, String mobile, String member, String name) {
-		
+		session.setAttribute("msg", "");
 	if(pw == ""||pw ==null) {
 			
 			session.setAttribute("msg", "비밀번호를 입력해주세요.");
@@ -301,7 +305,7 @@ public class LoginController {
 			return "redirect:PwChange";
 		}
 		
-		userservice.UserModify(id, pw ,PwCon, name, email, mobile, member);
+		userservice.idFindPwChange(id, pw ,PwCon, name, email, mobile, member);
 		
 		session.setAttribute("msg", "");
 		return "redirect:login";

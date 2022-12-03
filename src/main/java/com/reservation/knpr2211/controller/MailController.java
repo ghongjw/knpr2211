@@ -70,21 +70,29 @@ public class MailController {
 		return "인증 실패";
 	}
 	
-	
+	@Autowired UserService us;
 	@ResponseBody
 	@PostMapping(value = "IdMailSend", produces = "application/json; charset=UTF-8")
 	public String IdMailSend(@RequestBody(required = false) String email) {
-		if(email != null) {
+		
+		if(email == null) {
+			
+		return "이메일을 입력하세요.";
+		}
+		
+		else if(us.FindByEmail2(email).equals(email)){
+			
+			
 			Random random = new Random();
 			String number = String.format("%06d", random.nextInt(1000000));
 			System.out.println("인증번호 : " +number);
 			MailService.MailSend(email,"[인증번호를 발송했습니다.]","인증번호 :" + number + "를 입력해 주세요.");
 			session.setAttribute("authNumber", number);
-			return "인증번호 전송";
+			return "인증번호"; 
 		}
+	
 		
-		
-		return "이메일을 입력하세요.";
+		return"	등록되지않은 이메일입니다";
 	}
 	
 
@@ -103,9 +111,9 @@ public class MailController {
 			return "인증 번호를 입력하세요.";
 		}
 		
-		session.setAttribute("authStatus", false);
+		session.setAttribute("IdauthStatus", "false");
 		if(sessionAuthNumber.equals(clientAuthNumber)) {
-			session.setAttribute("authStatus", true);
+			session.setAttribute("IdauthStatus", "true");
 			return "인증 성공";
 		}
 		
@@ -115,7 +123,9 @@ public class MailController {
 	@ResponseBody
 	@PostMapping(value = "PwFindMailSend", produces = "application/json; charset=UTF-8")
 	public String PwFindMailSend(@RequestBody(required = false) String email) {
-		 String Id =(String)session.getAttribute("FindPwId");
+		
+		String Id =(String)session.getAttribute("FindPwId");
+		
 		 if(userService.FindByEmail(Id).equals(email)==false) {
 			 
 			 return"등록된 이메일이 아닙니다.";
@@ -157,4 +167,53 @@ public class MailController {
 		
 		return "인증 실패";
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "MoMailSend", produces = "application/json; charset=UTF-8")
+	public String MoMailSend(@RequestBody(required = false) String email) {
+		
+		
+		if(email == null) {
+			return "이메일을 입력해주세요.";
+		}
+		
+		else {
+			
+			Random random = new Random();
+			String number = String.format("%06d", random.nextInt(1000000));
+			System.out.println("인증번호 : " +number);
+			MailService.MailSend(email, "[인증번호를 발송했습니다.]","인증번호 :" + number + "를 입력해 주세요.");
+			session.setAttribute("authNumber", number);
+			session.setAttribute("emailSame", "Insert" );
+		return "인증번호 전송" ;}
+		
+		
+	}
+
+
+	@ResponseBody
+	@PostMapping(value="MocheckAuth", produces = "application/json; charset=UTF-8")
+	public String MocheckAuth(@RequestBody(required = false) Map<String, String> map) {
+		System.out.println("고객이 입력한 인증 번호 : " + map.get("authNumber"));
+		
+		// sendAuth 메소드에서 생성한 인증번호와 고객이 입력한 인증번호를 비교
+		String sessionAuthNumber = (String)session.getAttribute("authNumber");
+		String clientAuthNumber = map.get("authNumber");
+		if(sessionAuthNumber == null ) {
+			return "인증 번호를 생성하세요.";
+		}
+		if(clientAuthNumber.isEmpty()) {
+			return "인증 번호를 입력하세요.";
+		}
+		
+		session.setAttribute("ModiAuthStatus", false);
+		
+		if(sessionAuthNumber.equals(clientAuthNumber)) {
+			session.setAttribute("ModiAuthStatus", true);
+			return "인증 성공";
+		}
+		
+		return "인증 실패";
+	}
+	
 }

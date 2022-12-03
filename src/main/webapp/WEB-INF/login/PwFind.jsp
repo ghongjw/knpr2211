@@ -50,7 +50,7 @@ function printMsg(){
 <h3>
 	<font color="red" id="msg">${msg } </font>
 </h3><br>
-    <form method="post" action="PwFindIdProc">3
+    <form method="post" action="PwFindIdProc">
     
     	<label>비밀번호를 찾고자하는 아이디를 입력해주세요. </label><br><br>
         <input type="text"class="input-text" placeholder="아이디를 입력해주세요" name="id" id="id" /> 
