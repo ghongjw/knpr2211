@@ -51,44 +51,18 @@ public class BoardController {
 		return boardService.getMember(model);
 	}
 	@PostMapping("post")
-	public String write(String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state, HttpServletResponse response) throws IOException {
-		return boardService.savePosts(writer, category1, type, title, content, lock_yn,state, response);
+	public String write(String writer, String category1,String type,String title,String content, String lock_yn, boolean state, HttpServletResponse response, Long bno) throws IOException {
+		return boardService.savePosts(writer, category1, type, title, content, lock_yn, state, response, bno);
 	}
 	//상세페이지
 	@GetMapping("boardDetail")
 	public String detail(Long bno, Model model) {
 		return boardService.getPost(bno, model);
 	}
-	
-	//묻고답하기 수정
-//	@RequestMapping("update")
-//	public String boardModyfy(Model model, Long bno) {
-//		String msg = boardService.boardModify(model, bno);
-//		model.addAttribute("msg",msg);
-//		return "board/updtae";
-//	}
-		
-	//묻고답하기 수정 확인
-//	@RequestMapping("boardModifyConfirm")
-//	public String boardModifyConfirm(Model model, String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state) {
-//		boardService.boardModify(model, writer, category1, type, title, content, lock_yn,state);
-//
-//		return "redirect:list";
-//	}
-	//묻고답하기 삭제 확인
-//	@RequestMapping("adminDeleteConfirm")
-//	public String adminDeleteConfirm(Model model, String writer, String category1,String type,String title,String content, boolean lock_yn,boolean state) {
-//		boardService.boardDelete(model, writer, category1, type, title, content, lock_yn,state);
-//		model.addAttribute("msg","삭제되었습니다");
-//			
-//		return "redirect:list";
-//	}
-	
 	//수정
 	@GetMapping(value="/post/edit/{no}")
 	public String edit(@PathVariable("no") Long bno, Model model) {
-		String board = boardService.getPost(bno,model);
-		
+		boardService.getPost(bno,model);
 		return "board/update";
 	}
 	@PutMapping("/post/edit/{no}")

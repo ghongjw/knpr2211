@@ -12,6 +12,7 @@
 <script src="../assets/js/index.js"></script>
 
 <body>
+<div align=right id="google_translate_element" class="hd_lang"></div>
 	<div id="wrap" class="main scroll-x">
 		<div id="wrap" class="sub">
 			<%@ include file="../common/header.jsp"%>
@@ -1588,6 +1589,7 @@
 			<!-- 인증요청 암호화 데이터 -->
 			<input type="hidden" name="EncodeData" id="EncodeData" value="">
 		</form>
+
 	</div>
 	<img id="loadingImage" src="../../assets/img/preloader.gif" alt="로딩이미지"
 		style="position: absolute; left: 924.5px; top: 539.5px; z-index: 100000; display: none;">

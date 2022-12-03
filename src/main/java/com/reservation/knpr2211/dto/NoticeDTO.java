@@ -5,12 +5,12 @@ package com.reservation.knpr2211.dto;
 	    id            varchar(20),
 	    category1     varchar(20),
 	    title         varchar(100),
-	    content       text(3000),
+	    content       text(3000),    
 	    hit           int,
-	    filename      varchar(300),
-	    noticeyn     boolean,
+	    filename      varchar(300),  
+	    noti      	  varchar(10),  
 	    createDate    varchar(15),
-	    PRIMARY KEY (`bno`)
+	    PRIMARY KEY (`no`)
 	) DEFAULT CHARSET=utf8;
 */
 
@@ -26,9 +26,7 @@ public class NoticeDTO {
 		this.noti = noti;
 	}
 	private String noti;
-
 	private String createDate;
-	
 	private String id;
 	private String category1;
 	private String title;

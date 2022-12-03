@@ -159,10 +159,13 @@
 			<artifactId>handlebars-spring-boot-starter</artifactId>
 			<version>0.3.4</version>
 		</dependency>
+	<dependency>
+  <groupId>com.querydsl</groupId>
+  <artifactId>querydsl-apt</artifactId>
+  <scope>provided</scope>
+</dependency>
 
 
-		<!-- intorceptor-->
-		<!-- https://mvnrepository.com/artifact/org.springframework/org.springframework.web.servlet -->
 
 
 	</dependencies>

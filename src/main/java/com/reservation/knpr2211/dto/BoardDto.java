@@ -1,5 +1,6 @@
 package com.reservation.knpr2211.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,9 @@ public class BoardDto {
 	private String title;
 	private String content;
 	private String writer;
-	private boolean lock_yn;
+	private String lock_yn;
 	private boolean state;
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	private LocalDateTime modifiedDate;
 	private List<Reply> replyList = new ArrayList<>();
 	
@@ -48,7 +49,7 @@ public class BoardDto {
 	
 	@Builder
 	public BoardDto(Long bno, String category1, String type, String title, String content, String writer,
-			LocalDateTime createDate, LocalDateTime modifiedDate, boolean lock_yn, boolean state, List<Reply> list) {
+			LocalDate createDate, LocalDateTime modifiedDate, String lock_yn, boolean state, List<Reply> list) {
 		this.bno = bno;
 		this.category1 = category1;
 		this.type = type;

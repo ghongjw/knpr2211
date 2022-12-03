@@ -38,22 +38,25 @@
             	<div class="file-area">
                 	<ul class="file-list">
                     	<c:if test="${notice.fileName != '파일 없음' }">
-							<a href="${root }download?fileName=${notice.fileName }">${notice.fileName }</a>
+							<a href="${root }download?fileName=${notice.fileName }">첨부 파일 : ${notice.fileName }</a>
 						</c:if>
                 	</ul>
             	</div>
+           
+        		<c:choose>
+        		<c:when test="${member.member == 'admin'}">
             	<div class="board-bottom">
                 	<div class="center">
                     	<input type=button class="btn btn-list" value='수정' onclick="location.href='modifyForm?';"/>
                 		<input type=button class="btn btn-list" value='목록' onclick="location.href='${root}noticeProc'"/>
 						<input type=button class="btn btn-list" value='삭제' onclick="location.href='${root}deleteProc'"/>
-                		<table><tr><td>
-                		<button formaction="modifyProc?formpath=modify" style="width: 60px; ">수정</button>
-                		<button formaction="${root }index?formpath=delete" style="width: 60px; ">삭제</button>
-                		</td></tr></table>
-                		
                 	</div>
             	</div>
+            	</c:when>
+            	<c:otherwise>
+        		
+        		</c:otherwise>
+            	</c:choose>
         	</div>
 				<!-- // view -->
 		</div>

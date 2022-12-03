@@ -17,7 +17,18 @@
 	<script src="/assets/js/lib/toastr.min.js"></script>
 	<script src="/assets/js/scripts.js"></script>
 	<script src="/assets/js/common9b00.js?ver4"></script>
-    
+    <script>
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+			pageLanguage: 'ko',
+			includedLanguages: 'ko,zh-CN,zh-TW,ja,vi,th,tl,km,my,mn,ru,en,fr,ar',
+			//layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+			autoDisplay: false
+		}, 'google_translate_element');
+	}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- //Google 번역 -->
 
     <title>knpr2211</title>
     </head>
@@ -61,9 +72,9 @@
                 <li>
                     <a href="javascript:void(0);" class="depth1">알림마당</a>
                     <ul class="depth2">
-                        
+                      
                             <li><a href="attentionList?page=0&size=10">공지사항</a></li>
-                        
+
                             <li><a href="faq">자주하는 질문</a></li>
                         
                             <li><a href="list">묻고 답하기</a></li>
@@ -189,9 +200,9 @@
                     <li>
                         <a href="javascript:void(0);" class="depth1">알림마당</a>
                         <ul class="depth2">
-                            
+ 
                             <li><a href="adminAttentionList?page=0&size=10">공지사항</a></li>
-                        
+
                             <li><a href="faq">자주하는 질문</a></li>
                         
                             <li><a href="list">묻고 답하기</a></li>

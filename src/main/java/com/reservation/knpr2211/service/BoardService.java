@@ -29,7 +29,6 @@ import com.reservation.knpr2211.repository.UserRepository;
 @Service
 public class BoardService {
 	
-	
 	@Autowired 
 	private ReplyRepository replyRepository;
 	
@@ -42,35 +41,20 @@ public class BoardService {
 	@Autowired
 	private HttpSession session; 
 	
-	
 	public BoardService(BoardRepository boardRepository) {
 		this.boardRepository = boardRepository;
 	}
 
-	
-		
-		
 	//묻고답하기 등록 
 	@Transactional
 	public void savePost(Model model, BoardDto boardDto) {
 		boardRepository.save(boardDto.toEntity()).getBno();
 	
-		
 	}
 	
-	
-	public String savePosts(String writer, String category1, String type, String title, String content, boolean lock_yn,
-			boolean state, HttpServletResponse response) throws IOException {
+	public String savePosts(String writer, String category1, String type, String title, String content, String lock_yn,
+			boolean state, HttpServletResponse response, Long bno) throws IOException {
 		
-//		String sessionBno = (String)session.getAttribute("bno");
-//		if (sessionBno == null) {
-//			return "login/login";
-//		}
-//		
-//		Board board = boardRepository.findById(sessionBno);
-//		
-//		model.addAttribute("board", board);
-//		System.out.println(board);
 		if(title==null || title.isEmpty()) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -85,6 +69,8 @@ public class BoardService {
 			out.flush();
 			return "board/write";
 		}
+		
+		
 		Board board1 = Board.builder().writer(writer).category1(category1).type(type).title(title).content(content).lock_yn(lock_yn).state(state).build();
 		boardRepository.save(board1);
 		
@@ -164,11 +150,10 @@ public class BoardService {
 	}
 	
 	//상세페이지
-	
 	public String getPost(Long bno, Model model) {
 		String sessionId = (String)session.getAttribute("id");
-		if (bno == null || sessionId == null||sessionId.isEmpty()) {
-			model.addAttribute("msg","잘못된 접근입니다.");
+		if (bno == null || sessionId == null || sessionId.isEmpty()) {
+			model.addAttribute("msg","잘못된 접근입니다. 로그인 후 이용해주세요.");
 			return "login/login";
 		}
 		User user = ur.findByid(sessionId);
@@ -183,39 +168,34 @@ public class BoardService {
 			reply.getContent();
 			
 		}
-		//답글 찍어봄
-		model.addAttribute("list", list);
-		System.out.println(list);
 		
+		model.addAttribute("list", list);
 		Board board = boardWrapper.get();
-		if(member.equals("admin")||sessionId.equals(board.getWriter())) {
+
+		if(member.equals("admin") || sessionId.equals(board.getWriter())) {
 			BoardDto boardDto =  BoardDto.builder()
 					.bno(board.getBno())
 					.title(board.getTitle())
+					.category1(board.getCategory1())
 					.content(board.getContent())
 					.writer(board.getWriter())
 					.createDate(board.getCreateDate())
 					.list(list)
 					.build();
 					
-				
 					model.addAttribute("boardDto", boardDto);
-					
-					//수정을 위해 찍어봄
-					System.out.println(boardDto.getBno());
+
 					return "board/detail";
 		}
 		
 		else return "redirect:list";
 		
 	}
-
 	//삭제
 	@Transactional
 	public void deletePost(Long bno) {
 		boardRepository.deleteById(bno);
 	}
-
 	public String getMember(Model model) {
 		String sessionId = (String)session.getAttribute("id");
 		if (sessionId == null||sessionId.isEmpty()) {
@@ -228,11 +208,4 @@ public class BoardService {
 		return "board/write";
 		
 	}
-
-	
-	
-	
-	
-
-	
 }

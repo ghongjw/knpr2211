@@ -41,9 +41,6 @@ public class UserService {
 	// 회원가입
 	public String register(String id, String pw, String pwcon, String name, String email, String mobile,
 			String member) {
-
-	
-
 		boolean resultPw = pw.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
 		boolean resultPwCon = pwcon.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
 		boolean resultName = name.matches("[가-힣]{2,5}");
@@ -70,16 +67,10 @@ public class UserService {
 			
 			return"휴대폰 형식에 맞춰주시기 바랍니다.";
 		}
-		
-
-		
 		if (id == null || id.isEmpty()) {
 
 			return "아이디를 입력하세요.";
-		}
-
-			
-
+  }
 		if (pw == null || pw.isEmpty())
 			return "비밀번호를 입력하세요.";
 		
@@ -96,16 +87,16 @@ public class UserService {
 		if (mobile == null || mobile.isEmpty())
 			return "연락처를 입력하세요.";
 
-		if(session.getAttribute("REauthStatus").toString().equals("true")) {
+		if(session.getAttribute("REauthStatus").toString().equals("false")) {
 			
 			return "이메일을 인증해주세요.";
 		};
 			
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-//		String securePw = encoder.encode(pw);
+		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(pw).name(name).email(email).mobile(mobile).member(member).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
 		userRepository.save(entity);
 		session.setAttribute("msg", "");
 		return "회원가입 성공";
@@ -130,7 +121,6 @@ public class UserService {
 		if (mobile == null || mobile.isEmpty())
 			return "연락처를 입력하세요.";
 		
-
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String securePw = encoder.encode(pw);
@@ -143,7 +133,7 @@ public class UserService {
 	
 	
 
-	// 회원정보 수정 
+	    
 		public String UserModify(String id, String pw, String pwcon, String name, String email, String mobile,
 				String member) {
 		
@@ -259,7 +249,7 @@ public class UserService {
 		}
 		
 
-		if (userRepository.findById(id) == null) {
+		if (userRepository.findByid(id) == null) {
 
 
 			return "사용가능한 아이디입니다";

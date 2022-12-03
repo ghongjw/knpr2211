@@ -5,12 +5,11 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
-import javax.persistence.Id;
 
 import lombok.Data;
 
@@ -19,10 +18,9 @@ import lombok.Data;
 public class Reply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private Long rno;
 
-   
     @Column(nullable = false, length = 120)
     String content;
 

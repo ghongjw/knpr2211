@@ -24,42 +24,41 @@
 					</div>
 					<div class="view-body">
 						<div class="question">${boardDto.content}</div>
-					
-					
 					<!-- 답변 --> 
-					
-					
-               		 <div class="answer">
-							<c:choose>
-								<c:when test="${member.member == 'admin'}">
-									<dl>
-										<dt>${boardDto.title}</dt>
-									</dl>
-									<form id="reply" action="/reply_write" method="post">
-										<input type="hidden" id="id" name="id"
-											value="${sessionScope.id}"><br>
-										<textarea name="content" id="cn" cols="30" rows="10"
-											class="textarea" title="내용 입력" placeholder="내용 입력"></textarea>
-										<input type="hidden" id="bno" name="bno"
-											value="${boardDto.bno}"><br>
-										<div align=right>
-											<button type="submit">등록</button>
-										</div>
-									</form>
-								</c:when>
-								<c:otherwise>
-									<div>${member.name }님질문글에 대한 답변입니다.</div>
-									<dt>${boardDto.title}</dt>
-									<c:forEach var="list" items="${list }">
-										<dd>${list.content }</dd>
-										<dd>
-											<span>본부</span><span>${list.createDate } </span>
-										</dd>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose>
-							<!-- 답변 -->
-               		</div>
+					<div class="answer">
+								<c:choose>
+										<c:when test="${member.member == 'admin'}">
+											<dl>
+												<dt>${boardDto.title}</dt>
+											</dl>
+											<form id="reply" action="/reply_write" method="post">
+												<input type="hidden" id="id" name="id"
+													value="${sessionScope.id}"><br>
+												<textarea name="content" id="cn" cols="30" rows="10"
+													class="textarea" title="내용 입력" placeholder="내용 입력"></textarea>
+												<input type="hidden" id="bno" name="bno"
+													value="${boardDto.bno}"><br>
+												<div align=right>
+													<button type="submit">등록</button>
+												</div>
+											</form>
+										</c:when>
+										<c:when test="${boardDto.state == '1' }">
+											<dt>${boardDto.title}</dt>
+											<br>
+											<c:forEach var="list" items="${list }">
+												<dd>${list.content }</dd><br>
+												<dd>
+													<span>${boardDto.category1}</span><span>${list.createDate } </span>
+												</dd>
+											</c:forEach>
+	            						</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
+									</div>
+									<!-- 답변 -->
+								
 					<div class="board-bottom">
 						<div class="center">
                 	<a href="/post/edit/${boardDto.bno}" class="btn btn-modify">수정</a>
