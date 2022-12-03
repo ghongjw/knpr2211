@@ -29,6 +29,12 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	ArrayList<Place> findByCategory3(String parkId);
 	ArrayList<Place> findByCategory4(String parkId);
 	
+	@Query(nativeQuery=true, value = "select distinct price_day from place where category4 = ?1")
+	List<String> findDistintPriceDay(String parkId);
+	
+	@Query(nativeQuery=true, value = "select distinct people_max from place where category4 = ?1")
+	List<Integer> findDistintPeopleMax(String parkId);
+	
 	@Query(nativeQuery=true, value = "select distinct category2 from place where category1 = ?1")
 	ArrayList<String> findDistintCategory2(String category1);
 	

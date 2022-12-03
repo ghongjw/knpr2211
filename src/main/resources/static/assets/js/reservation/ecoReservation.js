@@ -93,11 +93,11 @@ function sendCot() {
 		toastrMsg("민박촌 타입을 선택해주세요.")
 	} else {
 		$(".sendview").css("display", "block")
-		
+
 		var category3code = $("input[name='minbakChk']:checked").attr('id') //category3 code
 		//console.log("코드: "+category3code+", 입실일: "+startDt+", 퇴실일: "+endDt+", 체류기간: "+betweenDt );
 		var reqData = { 'category3': category3code, 'startDate': startDt, 'diff': betweenDt, 'endDate': endDt }
-		
+
 		req = new XMLHttpRequest()
 		req.onreadystatechange = cotChangeText
 		req.open('post', "cottageReservation")
@@ -119,9 +119,9 @@ function cotChangeText() {
 
 			for (var i = 0; i < num; i++) {
 				inner += "<tr><td><input type='radio' name='selectRoom' id='"
-					+ resData.category3+ "'"
+					+ resData.category3 + "'"
 					+ "value='"
-					+ resData.nameCategory3+"'"
+					+ resData.nameCategory3 + "'"
 					+ "onclick='sendCot2()'></td><td>"
 					+ resData.nameCategory3
 					+ "</td><td>"
@@ -135,10 +135,10 @@ function cotChangeText() {
 
 }
 // 민박촌 인원 선택
-function selectPeople(num){
+function selectPeople(num) {
 	$("#minbakMax").html(num)
-	$("#livingPrsnCnt").attr("value","1");
-} 
+	$("#livingPrsnCnt").attr("value", "1");
+}
 
 // (ajax) 민박촌 - 총 결제 예정 금액 
 function sendCot2() {
@@ -149,12 +149,12 @@ function sendCot2() {
 		var nameCategory3 = $("input[name='minbakChk']:checked").val()
 		var addPeople = $("#addPeopleCnt").val();
 		var betweenDt = $('#nightDays').html();
-		
-		var reqData = { 
-			'category3': category3code, 'nameCategory3': nameCategory3, 
+
+		var reqData = {
+			'category3': category3code, 'nameCategory3': nameCategory3,
 			'addPeople': addPeople, 'diff': betweenDt
-			 }
-		
+		}
+
 		req = new XMLHttpRequest()
 		req.onreadystatechange = cotChangeText2
 		req.open('post', "cottageReservation2")
@@ -168,7 +168,7 @@ function sendCot2() {
 function cotChangeText2() {
 	if (req.readyState == 4 && req.status == 200) {
 		resData = JSON.parse(req.responseText)
-		
+
 		var text = resData.nameCategory3 + " [ " + resData.diff + "일 ] "
 		var basicPrice = Number(resData.price) * Number(resData.diff)
 		var addPrice = 5000 * Number(resData.diff) * Number(resData.addPeople)
@@ -182,64 +182,71 @@ function cotChangeText2() {
 }
 
 // 민박촌 팝업 오픈하기
-function open_Popup_cot(id) {
-	
-	var category3code = $("input[name='selectRoom']:checked").attr('id') //선택한 민박촌 타입 
-	var nameCategory3 = $("input[name='selectRoom']:checked").val() // 객실명
-	var startDt = $("#startDt").html()
-	var endDt = $("#endDt").html()
-	var betweenDt = $('#nightDays').html();
-	if(betweenDt == "1"){
-		betweenDt = "1박 2일"
-	}else if(betweenDt == "2"){
-		betweenDt = "2박 3일"
-	}else if(betweenDt == "3"){
-		betweenDt = "3박 4일"
-	}
-	var Inwon = $("#livingPrsnCnt").val()
-	var addInwon = $("#addPeopleCnt").val()
-	var people = Number(Inwon)+Number(addInwon)
-	var total = $(".total").find('em:eq(0)').html()
-	
-	if ($("input:radio[name='selectRoom']").is(':checked') == false) {
-		toastrMsg("민박촌 객실을 선택해주세요.")
-	}else {
-		$("#txtCotCode").attr("value", category3code) //예약상품
-		$("#txtCotNm").attr("value", nameCategory3) //예약상품
-		$("#selRsrvtQntt").attr("value", betweenDt) // 사용기간
-		$("#txtUseBgnDate").attr("value", startDt) // 입실날짜
-		$("#txtUseEndDate").attr("value", endDt) // 퇴실날짜
-		$("#Inwon").attr("value", people) // 객실인원
-		$("#selPrice").attr("value", total+"원 (부가세 포함)")
-		$("#" + id).css("display", "block");
+function open_Popup_cot(id, sessionId, sessionMember) {
+	//console.log("팝업 오픈: "+sessionId+", "+sessionMember)
+	//console.log("자료형 확인: "+typeof(sessionId)+", "+typeof(sessionMember))
+	if (sessionId == "null") {
+		toastrMsg("로그인 후 이용해주세요.")
+	} else if (sessionMember == "admin") {
+		toastrMsg("관리자는 이용하실 수 없습니다.")
+	} else {
+		var category3code = $("input[name='selectRoom']:checked").attr('id') //선택한 민박촌 타입 
+		var nameCategory3 = $("input[name='selectRoom']:checked").val() // 객실명
+		var startDt = $("#startDt").html()
+		var endDt = $("#endDt").html()
+		var betweenDt = $('#nightDays').html();
+		if (betweenDt == "1") {
+			betweenDt = "1박 2일"
+		} else if (betweenDt == "2") {
+			betweenDt = "2박 3일"
+		} else if (betweenDt == "3") {
+			betweenDt = "3박 4일"
+		}
+		var Inwon = $("#livingPrsnCnt").val()
+		var addInwon = $("#addPeopleCnt").val()
+		var people = Number(Inwon) + Number(addInwon)
+		var total = $(".total").find('em:eq(0)').html()
+
+		if ($("input:radio[name='selectRoom']").is(':checked') == false) {
+			toastrMsg("민박촌 객실을 선택해주세요.")
+		} else {
+			$("#txtCotCode").attr("value", category3code) //예약상품
+			$("#txtCotNm").attr("value", nameCategory3) //예약상품
+			$("#selRsrvtQntt").attr("value", betweenDt) // 사용기간
+			$("#txtUseBgnDate").attr("value", startDt) // 입실날짜
+			$("#txtUseEndDate").attr("value", endDt) // 퇴실날짜
+			$("#Inwon").attr("value", people) // 객실인원
+			$("#selPrice").attr("value", total + "원 (부가세 포함)")
+			$("#" + id).css("display", "block");
+		}
 	}
 }
 
 // (ajax) 생태탐방원 - 생태 객실 선택 및 총 결제 예정 금액
-function selectRoom(num){
+function selectRoom(num) {
 	// 날짜 선택 여부 체크
 	var startDt = $("#startDt").html()
 	var endDt = $("#endDt").html()
 	var betweenDt = $('#nightDays').html();
-	
-	if(startDt == "-" || endDt == "-" ){
+
+	if (startDt == "-" || endDt == "-") {
 		$("input[name='txblPblc']").prop('checked', false)
 		toastrMsg("날짜를 먼저 선택해주세요.")
-	}else if (endDt == 0) {
+	} else if (endDt == 0) {
 		$("input[name='txblPblc']").prop('checked', false)
 		toastrMsg("1박 이상일때 예약이 가능합니다.")
-	} else{
+	} else {
 		$("#minbakMax").html(num)
-		$("#livingPrsnCnt").attr("value","1");
+		$("#livingPrsnCnt").attr("value", "1");
 		$(".sendview").css("display", "block")
-		
+
 		req = new XMLHttpRequest()
 		req.onreadystatechange = ecoChangeText
 		req.open('post', "ecoReservation")
 		var category3 = $("input[name='txblPblc']:checked").attr('id')
 		req.send(category3)
 	}
-} 
+}
 
 
 function ecoChangeText() {
@@ -253,45 +260,61 @@ function ecoChangeText() {
 }
 
 // 생태 팝업 오픈하기
-function open_Popup_eco(id) {
-	
-	var category3code = $("input[name='txblPblc']:checked").attr('id') //선택한 객실 
-	console.log(category3code)
-	var nameCategory3 = $("input[name='txblPblc']:checked").val() // 객실명
-	console.log(nameCategory3)
-	var startDt = $("#startDt").html()
-	console.log(startDt)
-	var endDt = $("#endDt").html()
-	console.log(endDt)
-	var betweenDt = $('#nightDays').html();
-	if(betweenDt == "1"){
-		betweenDt = "1박 2일"
-	}else if(betweenDt == "2"){
-		betweenDt = "2박 3일"
-	}else if(betweenDt == "3"){
-		betweenDt = "3박 4일"
-	}
-	console.log(betweenDt)
-	var Inwon = $("#livingPrsnCnt").val()
-	console.log(Inwon)
-	var total = $(".total").find('em:eq(0)').html()
-	console.log(total)
-	
-	if ($("input:radio[name='txblPblc']").is(':checked') == false) {
-		toastrMsg("객실을 선택해주세요.")
-	}else {
-		$("#txtEcoCode").attr("value", category3code) //예약상품
-		$("#txtEcoNm").attr("value", nameCategory3) //예약상품
-		$("#selRsrvtQntt").attr("value", betweenDt) // 사용기간
-		$("#txtUseBgnDate").attr("value", startDt) // 입실날짜
-		$("#txtUseEndDate").attr("value", endDt) // 퇴실날짜
-		$("#Inwon").attr("value", Inwon) // 객실인원
-		$("#selPrice").attr("value", total+"원 (부가세 포함)")
-		$("#" + id).css("display", "block");
+function open_Popup_eco(id, sessionId, sessionMember) {
+	console.log("팝업 오픈: "+sessionId+", "+sessionMember)
+	console.log("자료형 확인: "+typeof(sessionId)+", "+typeof(sessionMember))
+	if (sessionId == "null") {
+		toastrMsg("로그인 후 이용해주세요.")
+	} else if (sessionMember == "admin") {
+		toastrMsg("관리자는 이용하실 수 없습니다.")
+	} else {
+		console.log(sessionId)
+		var category3code = $("input[name='txblPblc']:checked").attr('id') //선택한 객실 
+		console.log(category3code)
+		var nameCategory3 = $("input[name='txblPblc']:checked").val() // 객실명
+		console.log(nameCategory3)
+		var startDt = $("#startDt").html()
+		console.log(startDt)
+		var endDt = $("#endDt").html()
+		console.log(endDt)
+		var betweenDt = $('#nightDays').html();
+		if (betweenDt == "1") {
+			betweenDt = "1박 2일"
+		} else if (betweenDt == "2") {
+			betweenDt = "2박 3일"
+		} else if (betweenDt == "3") {
+			betweenDt = "3박 4일"
+		}
+		console.log(betweenDt)
+		var Inwon = $("#livingPrsnCnt").val()
+		console.log(Inwon)
+		var total = $(".total").find('em:eq(0)').html()
+		console.log(total)
+
+		if ($("input:radio[name='txblPblc']").is(':checked') == false) {
+			toastrMsg("객실을 선택해주세요.")
+		} else {
+			$("#txtEcoCode").attr("value", category3code) //예약상품
+			$("#txtEcoNm").attr("value", nameCategory3) //예약상품
+			$("#selRsrvtQntt").attr("value", betweenDt) // 사용기간
+			$("#txtUseBgnDate").attr("value", startDt) // 입실날짜
+			$("#txtUseEndDate").attr("value", endDt) // 퇴실날짜
+			$("#Inwon").attr("value", Inwon) // 객실인원
+			$("#selPrice").attr("value", total + "원 (부가세 포함)")
+			$("#" + id).css("display", "block");
+		}
 	}
 }
 
 function close_Popup(id) {
 	$("#" + id).css("display", "none");
 	location.reload();
+}
+
+function checkBot() {
+	if (grecaptcha.getResponse().length == 0) {
+		toastrMsg('AI인지 확인해 주세요.');
+		return false;
+	}
+	return true;
 }

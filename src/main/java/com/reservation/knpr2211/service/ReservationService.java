@@ -1,7 +1,6 @@
 
 package com.reservation.knpr2211.service;
 
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,13 +39,12 @@ public class ReservationService {
 
 	@Autowired
 	ReservationRepository rr;
-	
+
 	@Autowired
 	UserRepository ur;
-	
-  @Autowired
-  HttpSession session;
-	
+
+	@Autowired
+	HttpSession session;
 
 	public List<PlaceDTO> campsiteView(String code) throws Exception {
 		// A0101
@@ -66,7 +64,7 @@ public class ReservationService {
 		// Place op = pr.findById(1).get();
 		// System.out.println(op.toString());
 
-		//List<Place> places = pr.findByCategory2AndCategory3(category2, category3);
+		// List<Place> places = pr.findByCategory2AndCategory3(category2, category3);
 
 		for (Place place : places) {
 			PlaceDTO dto = new PlaceDTO();
@@ -235,8 +233,8 @@ public class ReservationService {
 
 	// 방 찾기 (코드입력 'A0801')
 	public PlaceDTO selectCategory3(String parkId) throws Exception {
-		String cat1 = parkId.substring(0,1);
-		
+		String cat1 = parkId.substring(0, 1);
+
 		ArrayList<Place> datas = pr.findByCategory3(parkId);
 		Place data = datas.get(0);
 		PlaceDTO result = new PlaceDTO(data);
@@ -245,7 +243,7 @@ public class ReservationService {
 		in = mcs.category2(data.getCategory2());
 		result.setNameCategory2(in);
 		in = mcs.category3(data.getCategory3());
-		if(cat1=="D")
+		if (cat1 == "D")
 			in = transRoomType(in);
 		result.setNameCategory3(in);
 		return result;
@@ -253,8 +251,8 @@ public class ReservationService {
 
 	// 방 찾기 (코드입력 'A0801')
 	public PlaceDTO selectCategory4(String parkId) throws Exception {
-		String cat1 = parkId.substring(0,1);
-		
+		String cat1 = parkId.substring(0, 1);
+
 		ArrayList<Place> datas = pr.findByCategory4(parkId);
 		Place data = datas.get(0);
 		PlaceDTO result = new PlaceDTO(data);
@@ -263,7 +261,7 @@ public class ReservationService {
 		in = mcs.category2(data.getCategory2());
 		result.setNameCategory2(in);
 		in = mcs.category3(data.getCategory3());
-		if(cat1=="D")
+		if (cat1 == "D")
 			in = transRoomType(in);
 		result.setNameCategory3(in);
 		in = mcs.category4(data.getCategory4());
@@ -289,9 +287,287 @@ public class ReservationService {
 	}
 
 	// 남은 방 검증(코드입력 'D0101', 입실일, 퇴실일)
-	public int roomNumCategory3(HashMap<String, String> keyData) throws ParseException {
-		
-		return 0;
+	public int roomRestCategory3(String parkId, String diff, String startDate, String endDate) throws ParseException {
+		System.out.println("서비스 카테고리3 ");
+		Integer minback = Integer.parseInt(diff);
+		// 1. place테이블에서 해당코드로 roomMax 알아내기
+		ArrayList<Place> list = pr.findByCategory3(parkId);
+		Integer roomMax = list.get(0).getRoomMax(); // 해당 코드 방의 갯수
+		// System.out.println("장소 찾아내기>> 코드: " + list.get(0).getCategory4() + ", 룸 예약 가능
+		// 수: " + roomMax);
+
+		// 예약테이블에서 동일한 날짜와 동일한 방에 예약된 갯수알아내기
+		// 2.입실일 기준으로 -2일 구하기(입실일 포함 예약된 날짜를 구하기 위함), 퇴실일 전날 날짜 구하기
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = (Date) sdf1.parse(startDate);
+		Date date2 = (Date) sdf1.parse(endDate);
+		Timestamp betweenStart = new Timestamp(date1.getTime());
+		Timestamp betweenEnd = new Timestamp(date2.getTime());
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(betweenStart);
+		cal.add(Calendar.DATE, -2);
+		betweenStart.setTime(cal.getTime().getTime());
+
+		cal.setTime(betweenEnd);
+		cal.add(Calendar.DATE, -1);
+		betweenEnd.setTime(cal.getTime().getTime());
+		// System.out.println("timeStamp형식: " + betweenStart + ", " + betweenEnd);
+
+		// 3.동일한 장소 코드와 날짜 사이에 해당하는 예약데이터 찾기
+		List<Reservation> SelectDatas = rr.findAllByStartDayBetweenAndCategory3(betweenStart, betweenEnd, parkId);
+		if (SelectDatas.isEmpty() == true) {
+			return roomMax;
+		}
+//					System.out.println("DB가져온 값 =========================================================================");
+//					for (Reservation data : SelectDatas) {
+//						System.out.println("코드: " + data.getCategory4() + ", 관리번호: " + data.getSeq() + ", 입실일: "
+//								+ data.getStartDay() + ", 퇴실일: " + data.getEndDay());
+//					}
+//					System.out.println("====================================================================================");
+
+		ArrayList<Integer> arrList = new ArrayList<Integer>();
+		for (int i = 0; i < minback; i++) {
+			// 입실일 timeStamp형식 변환
+			Timestamp timeStampStart = new Timestamp(date1.getTime());
+			cal.setTime(timeStampStart);
+			cal.add(Calendar.DATE, i);
+			timeStampStart.setTime(cal.getTime().getTime());
+			// System.out.println("(선택한날짜 순서대로 출력 중)실험군 날짜들 >> " + timeStampStart);
+
+			// DB 예약된 데이터 한개씩 동일한 날짜 예약이 있는지 확인
+			Timestamp save;
+			for (Reservation data : SelectDatas) {
+				Integer count = roomMax; // 4
+				int num = Integer.parseInt(data.getAllDay());
+
+				save = new Timestamp(data.getStartDay().getTime());
+				// System.out.println("대조군 >> 관리번호 : " + data.getSeq() + ", 박일수 : " + num + ",
+				// 시작-끝: " + data.getStartDay()+ ", " + data.getEndDay());
+
+				for (int j = 0; j < num; j++) {
+					Calendar calCompare = Calendar.getInstance();
+					calCompare.setTime(save);
+					calCompare.add(Calendar.DATE, j);
+					save.setTime(calCompare.getTime().getTime());
+					// System.out.println("봐보자: "+data.getStartDay());
+					// System.out.println("대조군 날짜들 >> " + save);
+
+					if (timeStampStart.equals(save)) {
+						// System.out.println(" +=> 동일 ");
+						count--;
+					}
+				}
+
+				arrList.add(count);
+			}
+		}
+		System.out.println(arrList);
+		int min = arrList.get(0);
+		for (int i = 0; i < arrList.size(); i++) {
+			int num = arrList.get(i);
+			if (min > num)
+				min = num;
+		}
+		// System.out.println("룸 비교 리스트 : " + arrList + ", 최솟값(해당 날짜에 예약가능 갯수): " +
+		// min);
+		return min;
+	}
+
+	// 남은 방 검증(코드입력 'D0101', 입실일, 퇴실일)
+	public int roomNumCategory3(ReservationDTO resDto, String startDate, String endDate) throws ParseException {
+		System.out.println("서비스 카테고리3 ");
+		String parkId = resDto.getCategory3();
+		Integer minback = transMinback(resDto.getAllDay());
+		// System.out.println("민박 넘어온 값 : "+resDto.getAllDay());
+		// 1. place테이블에서 해당코드로 roomMax 알아내기
+		ArrayList<Place> list = pr.findByCategory3(parkId);
+		Integer roomMax = list.get(0).getRoomMax(); // 해당 코드 방의 갯수
+		// System.out.println("장소 찾아내기>> 코드: " + list.get(0).getCategory4() + ", 룸 예약 가능
+		// 수: " + roomMax);
+
+		// 예약테이블에서 동일한 날짜와 동일한 방에 예약된 갯수알아내기
+		// 2.입실일 기준으로 -2일 구하기(입실일 포함 예약된 날짜를 구하기 위함), 퇴실일 전날 날짜 구하기
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = (Date) sdf1.parse(startDate);
+		Date date2 = (Date) sdf1.parse(endDate);
+		Timestamp betweenStart = new Timestamp(date1.getTime());
+		Timestamp betweenEnd = new Timestamp(date2.getTime());
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(betweenStart);
+		cal.add(Calendar.DATE, -2);
+		betweenStart.setTime(cal.getTime().getTime());
+
+		cal.setTime(betweenEnd);
+		cal.add(Calendar.DATE, -1);
+		betweenEnd.setTime(cal.getTime().getTime());
+		// System.out.println("timeStamp형식: " + betweenStart + ", " + betweenEnd);
+
+		// 3.동일한 장소 코드와 날짜 사이에 해당하는 예약데이터 찾기
+		List<Reservation> SelectDatas = rr.findAllByStartDayBetweenAndCategory3(betweenStart, betweenEnd, parkId);
+		if (SelectDatas.isEmpty() == true) {
+			return roomMax;
+		}
+//				System.out.println("DB가져온 값 =========================================================================");
+//				for (Reservation data : SelectDatas) {
+//					System.out.println("코드: " + data.getCategory4() + ", 관리번호: " + data.getSeq() + ", 입실일: "
+//							+ data.getStartDay() + ", 퇴실일: " + data.getEndDay());
+//				}
+//				System.out.println("====================================================================================");
+
+		ArrayList<Integer> arrList = new ArrayList<Integer>();
+		for (int i = 0; i < minback; i++) {
+			// 입실일 timeStamp형식 변환
+			Timestamp timeStampStart = new Timestamp(date1.getTime());
+			cal.setTime(timeStampStart);
+			cal.add(Calendar.DATE, i);
+			timeStampStart.setTime(cal.getTime().getTime());
+			// System.out.println("(선택한날짜 순서대로 출력 중)실험군 날짜들 >> " + timeStampStart);
+
+			// DB 예약된 데이터 한개씩 동일한 날짜 예약이 있는지 확인
+			Timestamp save;
+			for (Reservation data : SelectDatas) {
+				Integer count = roomMax; // 4
+				int num = Integer.parseInt(data.getAllDay());
+
+				save = new Timestamp(data.getStartDay().getTime());
+				// System.out.println("대조군 >> 관리번호 : " + data.getSeq() + ", 박일수 : " + num + ",
+				// 시작-끝: " + data.getStartDay()+ ", " + data.getEndDay());
+
+				for (int j = 0; j < num; j++) {
+					Calendar calCompare = Calendar.getInstance();
+					calCompare.setTime(save);
+					calCompare.add(Calendar.DATE, j);
+					save.setTime(calCompare.getTime().getTime());
+					// System.out.println("봐보자: "+data.getStartDay());
+					// System.out.println("대조군 날짜들 >> " + save);
+
+					if (timeStampStart.equals(save)) {
+						// System.out.println(" +=> 동일 ");
+						count--;
+					}
+				}
+
+				arrList.add(count);
+			}
+		}
+		System.out.println(arrList);
+		int min = arrList.get(0);
+		for (int i = 0; i < arrList.size(); i++) {
+			int num = arrList.get(i);
+			if (min > num)
+				min = num;
+		}
+		// System.out.println("룸 비교 리스트 : " + arrList + ", 최솟값(해당 날짜에 예약가능 갯수): " +
+		// min);
+		return min;
+	}
+
+	// 남은 방 검증(코드입력 'A010101', 입실일, 퇴실일)
+	public int roomRest_Category4(ReservationDTO resDto, String startDate, String endDate) throws ParseException {
+		// System.out.println("서비스 카테고리4 ");
+		String parkId = resDto.getCategory4();
+		Integer minback = transMinback(resDto.getAllDay());
+		// System.out.println("민박 넘어온 값 : "+resDto.getAllDay());
+		// 1. place테이블에서 해당코드로 roomMax 알아내기
+		ArrayList<Place> list = pr.findByCategory4(parkId);
+		Integer roomMax = list.get(0).getRoomMax(); // 해당 코드 방의 갯수
+		// System.out.println("장소 찾아내기>> 코드: " + list.get(0).getCategory4() + ", 룸 예약 가능
+		// 수: " + roomMax);
+
+		// 예약테이블에서 동일한 날짜와 동일한 방에 예약된 갯수알아내기
+		// 2.입실일 기준으로 -2일 구하기(입실일 포함 예약된 날짜를 구하기 위함), 퇴실일 전날 날짜 구하기
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = (Date) sdf1.parse(startDate);
+		Date date2 = (Date) sdf1.parse(endDate);
+		Timestamp betweenStart = new Timestamp(date1.getTime());
+		Timestamp betweenEnd = new Timestamp(date2.getTime());
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(betweenStart);
+		cal.add(Calendar.DATE, -2);
+		betweenStart.setTime(cal.getTime().getTime());
+
+		cal.setTime(betweenEnd);
+		cal.add(Calendar.DATE, -1);
+		betweenEnd.setTime(cal.getTime().getTime());
+		// System.out.println("timeStamp형식: " + betweenStart + ", " + betweenEnd);
+
+		// 3.동일한 장소 코드와 날짜 사이에 해당하는 예약데이터 찾기
+		List<Reservation> SelectDatas = rr.findAllByStartDayBetweenAndCategory4(betweenStart, betweenEnd, parkId);
+		if (SelectDatas.isEmpty() == true) {
+			return roomMax;
+		}
+//				System.out.println("DB가져온 값 =========================================================================");
+//				for (Reservation data : SelectDatas) {
+//					System.out.println("코드: " + data.getCategory4() + ", 관리번호: " + data.getSeq() + ", 입실일: "
+//							+ data.getStartDay() + ", 퇴실일: " + data.getEndDay());
+//				}
+//				System.out.println("====================================================================================");
+
+		ArrayList<Integer> arrList = new ArrayList<Integer>();
+		for (int i = 0; i < minback; i++) {
+			// 입실일 timeStamp형식 변환
+			Timestamp timeStampStart = new Timestamp(date1.getTime());
+			cal.setTime(timeStampStart);
+			cal.add(Calendar.DATE, i);
+			timeStampStart.setTime(cal.getTime().getTime());
+			// System.out.println("(선택한날짜 순서대로 출력 중)실험군 날짜들 >> " + timeStampStart);
+
+			// DB 예약된 데이터 한개씩 동일한 날짜 예약이 있는지 확인
+			Timestamp save;
+			for (Reservation data : SelectDatas) {
+				Integer count = roomMax; // 4
+				int num = Integer.parseInt(data.getAllDay());
+
+				save = new Timestamp(data.getStartDay().getTime());
+				// System.out.println("대조군 >> 관리번호 : " + data.getSeq() + ", 박일수 : " + num + ",
+				// 시작-끝: " + data.getStartDay()+ ", " + data.getEndDay());
+
+				for (int j = 0; j < num; j++) {
+					Calendar calCompare = Calendar.getInstance();
+					calCompare.setTime(save);
+					calCompare.add(Calendar.DATE, j);
+					save.setTime(calCompare.getTime().getTime());
+					// System.out.println("봐보자: "+data.getStartDay());
+					// System.out.println("대조군 날짜들 >> " + save);
+
+					if (timeStampStart.equals(save)) {
+						// System.out.println(" +=> 동일 ");
+						count--;
+					}
+				}
+
+				arrList.add(count);
+			}
+		}
+		// System.out.println(arrList);
+		int min = arrList.get(0);
+		for (int i = 0; i < arrList.size(); i++) {
+			int num = arrList.get(i);
+			if (min > num)
+				min = num;
+		}
+		// System.out.println("룸 비교 리스트 : " + arrList + ", 최솟값(해당 날짜에 예약가능 갯수): " +
+		// min);
+		return min;
+	}
+
+	// 민박 글자 변환 ("1박 2일" > 1)
+	public int transMinback(String text) {
+		int num = 0;
+		if (text.equals("1박 2일") || text.equals("당일")) {
+			num = 1;
+		} else if (text.equals("2박 3일")) {
+			num = 2;
+		} else if (text.equals("3박 4일")) {
+			num = 3;
+		}
+		return num;
 	}
 
 	// 예약하기
@@ -382,194 +658,201 @@ public class ReservationService {
 //		re.setEndDay(timeStampEnd);
 //		rr.save(re).getSeq();
 	}
-		// (끝)작성자: 김수정 ==============================================
-    
-		// (시작)작성자: 공주원================================================
-		// - 나의 예약 목록 가져오기
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd[E]");
-		SimpleDateFormat orderFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		String[] nights = {"1박2일","2박 3일","3박 4일"}; 
-		public String reservationList(Model model, String reserve, Integer page, Integer size,RedirectAttributes redirectAttrs) {
-			
-			if(session.getAttribute("id")==null) {
-				redirectAttrs.addFlashAttribute("msg","로그인 먼저 해 주세요");
-				return "redirect:login";
-			}
-			String id = (String)session.getAttribute("id");
-			
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			
-			PageRequest pageRequest = PageRequest.of(page, size);
-			Page<Reservation> result = null;
-			if(reserve.equals("future")) {
-				result = rr.findByStatusAndFuture(id,"reserve","pay", timestamp, pageRequest);
-				
-				
-			}else if(reserve.equals("past")) {
-				result = rr.findByStatusAndPast(id,"reserve","pay", timestamp, pageRequest);
-			}
-			
-			List<Reservation> reservations = result.getContent();
-			int totalPage = result.getTotalPages();
-			if(totalPage == 0) {
-				totalPage = 1;
-			}
-			ArrayList<ReservationDTO> rds = new ArrayList<ReservationDTO>(); 
-	
-			for(Reservation r : reservations) {
-				ReservationDTO rd = reserve(r);
-				rds.add(rd);
-			}
-			
-			model.addAttribute("reservations", rds);
-			model.addAttribute("totalPage", totalPage);
-			
-			
-			return "user/reservedList";
-			
-		}
-		//나의 예약 디테일 정보
-		public String reservationDetail(Model model, Integer seq, RedirectAttributes redirectAttrs) {
-			String id = (String)session.getAttribute("id");
-			if(id == null) {
-				redirectAttrs.addFlashAttribute("msg","로그인 먼저 해 주세요.");
-				return "redirect:login";
-			}
-			User user = ur.findByid(id);
-			Reservation reservation = rr.findBySeqAndId(seq,id);
-			if(reservation == null) {
-				System.out.println("reservation"+reservation);
-				redirectAttrs.addFlashAttribute("msg","잘못된 접근입니다.");
-				session.invalidate();
-				return "redirect:login";
-			}
-			ReservationDTO reservationDto = reserve(reservation);
-			model.addAttribute("detail", reservationDto);
-			model.addAttribute("user", user);
-			
-			System.out.println(reservation);
-			return "user/reservationDetail";
-		}
-		
-		public ReservationDTO reserve(Reservation r) {
-			ReservationDTO rd = new ReservationDTO();
-			rd.setSeq(r.getSeq());
-			rd.setCategory1(r.getCategory1());
-			rd.setNameCategory1(mcs.findCategory(r.getCategory1()));
-			rd.setCategory2(r.getCategory2());
-			rd.setNameCategory2(mcs.findCategory(r.getCategory2()));
-			rd.setCategory3(r.getCategory3());
-			rd.setNameCategory3(mcs.findCategory(r.getCategory3()));
-			if(r.getCategory4()==null) {
-				rd.setCategory4(" ");
-				rd.setNameCategory4(" ");
-			}else {
-				rd.setCategory4(r.getCategory4());
-				rd.setNameCategory4(mcs.findCategory(r.getCategory4()));
-			}
-			if(r.getRoom()==null) {
-				rd.setRoom(" ");
-			}else rd.setRoom("- "+r.getRoom().substring(7,9));
-			
-			rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())]);
-		
-			rd.setOrderTime(orderFormat.format(r.getOrderTime()));
-			rd.setStartDay(r.getStartDay());
-			
-			rd.setEndDay(r.getEndDay());
-			rd.setPeople(r.getPeople());
-			rd.setAllDay(r.getAllDay());
-			rd.setPrice(r.getPrice());
-			if(r.getChecked()) {
-				rd.setChecked("결제완료");
-			}else rd.setChecked("미결제");
-			
-			Timestamp now = new Timestamp(System.currentTimeMillis());
-			if(r.getStartDay().after(now)) {
-				rd.setIsDone(false);
-			}else rd.setIsDone(true);
-			return rd;
-		}
-		//결제 성공시 데이터베이스 입력
-		public String savePayment(Model model, String imp_uid, String merchant_uid, String seq, RedirectAttributes ra) {
-			if(session.getAttribute("id")==null) {
-				ra.addFlashAttribute("msg","로그인 먼저 해 주세요");
-				return "redirect:login";
-			}
-			Integer i = Integer.parseInt(seq);
-			System.out.println(i);
-			Reservation re = rr.findBySeq(i);
-			re.setPaidNum(imp_uid);
-			re.setMerchant_uid(merchant_uid);
-			re.setChecked(true);
-			re.setStatus("pay");
-			rr.save(re);
-			
-			String id = (String)session.getAttribute("id");
-			User user = ur.findByid(id);
-			ReservationDTO reservationDto = reserve(re);
-			model.addAttribute("detail", reservationDto);
-			model.addAttribute("user", user);
-			
-			return "user/reservationDetail";
-		}
-		//예약취소
-		public String cancleReserveData(Model model, String seq, RedirectAttributes ra) {
-		
-			Integer i = Integer.parseInt(seq);
-			Reservation reservation = rr.findBySeq(i);
-			if(reservation.getStatus().equals("reserve")) {
-				System.out.println("여기옴?");
-				reservation.setStatus("cancle");
-				rr.save(reservation);
-			}else if(reservation.getStatus().equals("pay")) {
-				reservation.setStatus("refund");
-				rr.save(reservation);
-			}
-			ra.addFlashAttribute("msg","삭제되었습니다.");
-		
-			return "redirect:reservedList?reserve=future&page=0&size=10";
-			
-		}
-		
-		//예약 데이터 임시로 만들기
-		//@PostConstruct
-		    public void initializing(){
-			 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		      Date now = new Date();
-		      Timestamp orderTime = new Timestamp(now.getTime());
-		      
-		      String startDay = "2022-12-05";
-		      String endDay = "2022-12-07";
-		      Date date1 = null;
-		      Date date2 = null;
-			try {
-				date1 = (Date)sdf.parse(startDay);
-				date2 = (Date)sdf.parse(endDay);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		      Timestamp timeStampStart = new Timestamp(date1.getTime());
-		      Timestamp timeStampEnd = new Timestamp(date2.getTime());
+	// (끝)작성자: 김수정 ==============================================
 
-		      Reservation re = new Reservation();
-		      re.setId("user");
-		      re.setCategory1("A");
-		      re.setCategory2("A01");
-		      re.setCategory3("A0103"); 
-		      re.setCategory4("A010301");
-		      re.setRoom("A01030101");
-		      re.setOrderTime(orderTime);
-		      re.setPeople(2);
-		      re.setPrice("60000");
-		      re.setAllDay("1");
-		      re.setStartDay(timeStampStart);
-		      re.setEndDay(timeStampEnd);
-		      re.setChecked(false);
-		      rr.save(re);
-			 
-		 }
-		
-		//(끝)작성자: 공주원===================================================
-		
+	// (시작)작성자: 공주원================================================
+	// - 나의 예약 목록 가져오기
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd[E]");
+	SimpleDateFormat orderFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	String[] nights = { "1박2일", "2박 3일", "3박 4일" };
+
+	public String reservationList(Model model, String reserve, Integer page, Integer size,
+			RedirectAttributes redirectAttrs) {
+
+		if (session.getAttribute("id") == null) {
+			redirectAttrs.addFlashAttribute("msg", "로그인 먼저 해 주세요");
+			return "redirect:login";
+		}
+		String id = (String) session.getAttribute("id");
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+		PageRequest pageRequest = PageRequest.of(page, size);
+		Page<Reservation> result = null;
+		if (reserve.equals("future")) {
+			result = rr.findByStatusAndFuture(id, "reserve", "pay", timestamp, pageRequest);
+
+		} else if (reserve.equals("past")) {
+			result = rr.findByStatusAndPast(id, "reserve", "pay", timestamp, pageRequest);
+		}
+
+		List<Reservation> reservations = result.getContent();
+		int totalPage = result.getTotalPages();
+		if (totalPage == 0) {
+			totalPage = 1;
+		}
+		ArrayList<ReservationDTO> rds = new ArrayList<ReservationDTO>();
+
+		for (Reservation r : reservations) {
+			ReservationDTO rd = reserve(r);
+			rds.add(rd);
+		}
+
+		model.addAttribute("reservations", rds);
+		model.addAttribute("totalPage", totalPage);
+
+		return "user/reservedList";
+
+	}
+
+	// 나의 예약 디테일 정보
+	public String reservationDetail(Model model, Integer seq, RedirectAttributes redirectAttrs) {
+		String id = (String) session.getAttribute("id");
+		if (id == null) {
+			redirectAttrs.addFlashAttribute("msg", "로그인 먼저 해 주세요.");
+			return "redirect:login";
+		}
+		User user = ur.findByid(id);
+		Reservation reservation = rr.findBySeqAndId(seq, id);
+		if (reservation == null) {
+			System.out.println("reservation" + reservation);
+			redirectAttrs.addFlashAttribute("msg", "잘못된 접근입니다.");
+			session.invalidate();
+			return "redirect:login";
+		}
+		ReservationDTO reservationDto = reserve(reservation);
+		model.addAttribute("detail", reservationDto);
+		model.addAttribute("user", user);
+
+		System.out.println(reservation);
+		return "user/reservationDetail";
+	}
+
+	public ReservationDTO reserve(Reservation r) {
+		ReservationDTO rd = new ReservationDTO();
+		rd.setSeq(r.getSeq());
+		rd.setCategory1(r.getCategory1());
+		rd.setNameCategory1(mcs.findCategory(r.getCategory1()));
+		rd.setCategory2(r.getCategory2());
+		rd.setNameCategory2(mcs.findCategory(r.getCategory2()));
+		rd.setCategory3(r.getCategory3());
+		rd.setNameCategory3(mcs.findCategory(r.getCategory3()));
+		if (r.getCategory4() == null) {
+			rd.setCategory4(" ");
+			rd.setNameCategory4(" ");
+		} else {
+			rd.setCategory4(r.getCategory4());
+			rd.setNameCategory4(mcs.findCategory(r.getCategory4()));
+		}
+		if (r.getRoom() == null) {
+			rd.setRoom(" ");
+		} else
+			rd.setRoom("- " + r.getRoom().substring(7, 9));
+
+		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())
+				+ nights[Integer.parseInt(r.getAllDay())]);
+
+		rd.setOrderTime(orderFormat.format(r.getOrderTime()));
+		rd.setStartDay(r.getStartDay());
+
+		rd.setEndDay(r.getEndDay());
+		rd.setPeople(r.getPeople());
+		rd.setAllDay(r.getAllDay());
+		rd.setPrice(r.getPrice());
+		if (r.getChecked()) {
+			rd.setChecked("결제완료");
+		} else
+			rd.setChecked("미결제");
+
+		Timestamp now = new Timestamp(System.currentTimeMillis());
+		if (r.getStartDay().after(now)) {
+			rd.setIsDone(false);
+		} else
+			rd.setIsDone(true);
+		return rd;
+	}
+
+	// 결제 성공시 데이터베이스 입력
+	public String savePayment(Model model, String imp_uid, String merchant_uid, String seq, RedirectAttributes ra) {
+		if (session.getAttribute("id") == null) {
+			ra.addFlashAttribute("msg", "로그인 먼저 해 주세요");
+			return "redirect:login";
+		}
+		Integer i = Integer.parseInt(seq);
+		System.out.println(i);
+		Reservation re = rr.findBySeq(i);
+		re.setPaidNum(imp_uid);
+		re.setMerchant_uid(merchant_uid);
+		re.setChecked(true);
+		re.setStatus("pay");
+		rr.save(re);
+
+		String id = (String) session.getAttribute("id");
+		User user = ur.findByid(id);
+		ReservationDTO reservationDto = reserve(re);
+		model.addAttribute("detail", reservationDto);
+		model.addAttribute("user", user);
+
+		return "user/reservationDetail";
+	}
+
+	// 예약취소
+	public String cancleReserveData(Model model, String seq, RedirectAttributes ra) {
+
+		Integer i = Integer.parseInt(seq);
+		Reservation reservation = rr.findBySeq(i);
+		if (reservation.getStatus().equals("reserve")) {
+			System.out.println("여기옴?");
+			reservation.setStatus("cancle");
+			rr.save(reservation);
+		} else if (reservation.getStatus().equals("pay")) {
+			reservation.setStatus("refund");
+			rr.save(reservation);
+		}
+		ra.addFlashAttribute("msg", "삭제되었습니다.");
+
+		return "redirect:reservedList?reserve=future&page=0&size=10";
+
+	}
+
+	// 예약 데이터 임시로 만들기
+	// @PostConstruct
+	public void initializing() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date now = new Date();
+		Timestamp orderTime = new Timestamp(now.getTime());
+
+		String startDay = "2022-12-05";
+		String endDay = "2022-12-07";
+		Date date1 = null;
+		Date date2 = null;
+		try {
+			date1 = (Date) sdf.parse(startDay);
+			date2 = (Date) sdf.parse(endDay);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Timestamp timeStampStart = new Timestamp(date1.getTime());
+		Timestamp timeStampEnd = new Timestamp(date2.getTime());
+
+		Reservation re = new Reservation();
+		re.setId("user");
+		re.setCategory1("A");
+		re.setCategory2("A01");
+		re.setCategory3("A0103");
+		re.setCategory4("A010301");
+		re.setRoom("A01030101");
+		re.setOrderTime(orderTime);
+		re.setPeople(2);
+		re.setPrice("60000");
+		re.setAllDay("1");
+		re.setStartDay(timeStampStart);
+		re.setEndDay(timeStampEnd);
+		re.setChecked(false);
+		rr.save(re);
+
+	}
+
+	// (끝)작성자: 공주원===================================================
+
 }

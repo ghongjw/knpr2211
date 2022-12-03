@@ -218,7 +218,7 @@ public class UserService {
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("mobile", user.getMobile());
 			session.setAttribute("name", user.getName());
-			session.setAttribute("member", user);
+			session.setAttribute("member", user.getMember());
 			if(user.getMember().equals("admin")) {
 				
 				msg = "어드민 계정 로그인 성공";

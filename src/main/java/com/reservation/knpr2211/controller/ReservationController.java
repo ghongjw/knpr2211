@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.reservation.knpr2211.dto.PlaceDTO;
 import com.reservation.knpr2211.dto.ReservationDTO;
@@ -26,6 +27,8 @@ import com.reservation.knpr2211.service.ReservationService;
 public class ReservationController {
 	@Autowired
 	ReservationService rs;
+	@Autowired
+	HttpSession session;
 
 	// 예약(예외처리)
 	@RequestMapping(value = "reservation")
@@ -55,11 +58,21 @@ public class ReservationController {
 		return result;
 	}
 	@RequestMapping(value = "ecoProc")
-	public String ecoProc(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
-		
-		//if(sessionId == null || sessionId.equals(modifyId) == false)
-		rs.reservation(resDto, startDt, endDt);
-		return "redirect:/ecoReservation";
+	public String ecoProc(ReservationDTO resDto, String startDt, String endDt,RedirectAttributes ra) throws Exception {
+		String sessionId = (String)session.getAttribute("id");
+		if (sessionId == null || sessionId.isEmpty()) {
+			ra.addFlashAttribute("msg","잘못된 접근입니다. 로그인 후 이용해주세요.");
+			return "login/login";
+		}
+		int num = 0; // 방 가능 갯수
+		num = rs.roomNumCategory3(resDto, startDt, endDt);
+		if(num == 0) {
+			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
+			return "redirect:/index";
+		}else {
+			rs.reservation(resDto, startDt, endDt);
+			return "redirect:/ecoReservation";
+		}
 	}
 
 	// 민박촌 예약
@@ -83,16 +96,16 @@ public class ReservationController {
 	@PostMapping(value = "cottageReservation", produces = "application/json; charset=UTF-8")
 	public HashMap<String, String> postCottageReservation(@RequestBody(required = false) HashMap<String, String> keyData)
 			throws Exception {
-		rs.roomNumCategory3(keyData);
-		int minInt = rs.roomNumCategory3(keyData);
+		int minInt = rs.roomRestCategory3(keyData.get("category3"), keyData.get("diff"),keyData.get("startDate"),keyData.get("endDate"));
 		String minStr = Integer.toString(minInt);
 		
 		String code = keyData.get("category3");
 		PlaceDTO result = rs.selectCategory3(code);
+		String nameCat3 = rs.transRoomType(result.getNameCategory3());
 		
 		keyData.put("allowRoomCount", minStr);
-		keyData.put("category3", result.getCategory3());
-		keyData.put("nameCategory3", result.getNameCategory3());
+		keyData.put("category3", code);
+		keyData.put("nameCategory3", nameCat3);
 		keyData.put("price", result.getPriceDay());
 		System.out.println(keyData);
 		return keyData;
@@ -111,11 +124,21 @@ public class ReservationController {
 		return keyData;
 	}
 	@RequestMapping(value = "cottageProc")
-	public String cottageProc(HttpSession session, ReservationDTO resDto, String startDt, String endDt) throws Exception {
-		
-		//if(sessionId == null || sessionId.equals(modifyId) == false)
-		rs.reservation(resDto, startDt, endDt);
-		return "redirect:/cottageReservation";
+	public String cottageProc(ReservationDTO resDto, String startDt, String endDt, RedirectAttributes ra) throws Exception {
+		String sessionId = (String)session.getAttribute("id");
+		if (sessionId == null || sessionId.isEmpty()) {
+			ra.addFlashAttribute("msg","잘못된 접근입니다. 로그인 후 이용해주세요.");
+			return "login/login";
+		}
+		int num = 0; // 방 가능 갯수
+		num = rs.roomNumCategory3(resDto, startDt, endDt);
+		if(num == 0) {
+			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
+			return "redirect:/index";
+		}else {
+			rs.reservation(resDto, startDt, endDt);
+			return "redirect:/cottageReservation";
+		}
 	}
 	// (끝)작성자: 김수정 =======================================================
 
