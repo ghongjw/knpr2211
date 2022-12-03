@@ -129,7 +129,7 @@ public class Reservation {
 //	this.price = res.getPrice();
 //	this.checked = res.getChecked() == null ? false:true;
 //  }
-	
+//	
 //		public Reservation toEntity() {
 //			Reservation rebuild = Reservation.builder()
 //					.seq(seq)

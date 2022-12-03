@@ -29,7 +29,7 @@
 	 }
 
 </script>
-<div class="yeobeck"></div>
+<div class="detailInfoSearch">
 <div class = "pageLocation">
     <span>홈</span>
     <span class="loca">이용안내</span>
@@ -56,6 +56,7 @@
 		<form action = "detailInfo" method="get" id="contentsForm">
 			<input type="hidden" id="parkId" name="parkId" value="">
 		</form>
+	</div>
 	</div>
 	<%@ include file="../common/footer.jsp" %>
 </body>

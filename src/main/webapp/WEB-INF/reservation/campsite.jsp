@@ -86,11 +86,12 @@ function sendData(sel1, sel2){
   					if(i == 0 ){
 						 camp_tag +="<tr><th rowspan=15 scope=row><span class=title>" + list[i].category4 + "</span></th>" +
 		            	"<th scope=row><i class=icon-electricity></i><span class=title>" + list[i].room + "</span></th></tr>"
+		            	 console.log(list[i].room)
  	
 					}else{
 	 			
 	 					camp_tag += "<tr><th scope=row><i class=icon-electricity></i><span class=title>" + list[i].room + "</span></th></tr>"
-						
+	 					console.log(list[i].room)
 					} 
   					
   			
@@ -2140,10 +2141,10 @@ $(function() {
     	}else{
     		var id = $('#userId').val();
     		
-    		if(id == null || id == "" ){
-    			toastrMsg('로그인 후 이용해 주세요.');
+    		//if(id == null || id == "" ){
+    			//toastrMsg('로그인 후 이용해 주세요.');
     		
-    		 }else{
+    		 //}else{
     			var code = $('#productCode').val();
     			var allDay = $('#selectAllDay').val();
     			var startDay = $('#selectStartDt').val();
@@ -2171,13 +2172,13 @@ $(function() {
     						
     					},
     					error : function() {
-    						toastrMsg("error");
+    						toastrMsg("예약실패");
     					}
     				     	
     				     
     				});
     			
-    		}
+    		//}
     	}
     	
 
