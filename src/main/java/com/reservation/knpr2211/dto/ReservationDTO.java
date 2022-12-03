@@ -55,8 +55,11 @@ public class ReservationDTO {
 	public ReservationDTO() {
 		
 	}
+	
 
-
+	// 기존에 Builder 사용했었으나, 삭제 (최현하 사용했음)
+	// Reservation에서 checked는 Boolean형이나
+	// ReservationDTO에서는 String형이다
 	
 
 }

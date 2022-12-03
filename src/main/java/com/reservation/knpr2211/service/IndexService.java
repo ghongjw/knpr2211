@@ -40,14 +40,12 @@ public class IndexService{
 
 		// 카테고리별 중복제거 값 불러오기
 		ArrayList<String> listDate = pr.findDistintCategory3(parkId);
-		System.out.println("서비스 넘어온값: " + parkId + ", " + listDate);
 		String result = "";
 		for (String list : listDate) {
 			String nameCategory3 = mcs.category3(list);
 			if (list.contains("D01") == true) {
 				nameCategory3 = rs.transRoomType(nameCategory3);
 			}
-			System.out.println("메인서비스 출력: " + list + ", " + nameCategory3);
 			result += "<li style='\'><span class='radio-1'> <input type='radio' id='" + list + "'"
 					+ "name='location' value='" + nameCategory3 + "' onclick='locationClick(\"" + list + "\",\""
 					+ nameCategory3 + "\")'><label>" + nameCategory3 + "</label></span></li>";
@@ -57,25 +55,24 @@ public class IndexService{
 	}
 
 	public String selectCategory4(String parkId) {
-		System.out.println("서비스 : " + parkId);
-		ArrayList<Place> listDate = pr.findByCategory3(parkId);
-		System.out.println("서비스 : " + listDate);
+		
+		ArrayList<String> dbData = pr.findDistintCategory4(parkId);
+		
 		String result = "";
-		for (Place list : listDate) {
-			String nameCategory4 = mcs.category4(list.getCategory4());
-			result += "<li><span class='radio-1 cam_view'><input type='radio' name='uhang' id=" + list.getCategory4()
-					+ " value='" + nameCategory4 + "' onclick='camCot4Select(\"" + list.getCategory4() + "\",\""
-					+ list.getPeopleMax() + "\")'><label for='" + list.getCategory4() + "'>" + nameCategory4
+		for (String code : dbData) {
+			String nameCategory4 = mcs.category4(code);
+			String peopleMax = Integer.toString(pr.findDistintPeopleMax(code).get(0));
+			result += "<li><span class='radio-1 cam_view'><input type='radio' name='uhang' id=" +code
+					+ " value='" + nameCategory4 + "' onclick='camCot4Select(\"" + code + "\",\""
+					+ peopleMax + "\")'><label for='" + code + "'>" + nameCategory4
 					+ "</label><span style=\"display: none\" id=\"minbakMax\"></span>";
 		}
-		System.out.println("서비스 리턴값 : " + result);
 		return result;
 	}
 
 	// 야영장 가격 출력
 	public String campPrice(String parkId) {
-		PlaceDTO data = pr.findAllByCategory4(parkId);
-		String result = data.getPriceDay();
+		String result = pr.findDistintPriceDay(parkId).get(0);
 		return result;
 	}
 

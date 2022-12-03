@@ -299,7 +299,9 @@ public class UserService {
 			session.setAttribute("mobile", user.getMobile());
 			session.setAttribute("name", user.getName());
 			session.setAttribute("member", user.getMember());
+
 			session.setAttribute("kakao", user.getKakao());
+
 			if(user.getMember().equals("admin")) {
 				
 				msg = "어드민 계정 로그인 성공";

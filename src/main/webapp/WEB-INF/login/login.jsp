@@ -8,6 +8,9 @@
 			
 	</script>
 </c:if>
+<c:if test="${not empty msg}">
+	<script>toastrMsg(${msg});</script>
+</c:if>
 <html>
 
 	<meta name="viewport" content="width=device-width">

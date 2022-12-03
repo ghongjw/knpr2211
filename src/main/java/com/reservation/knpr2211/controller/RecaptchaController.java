@@ -14,9 +14,10 @@ import com.reservation.knpr2211.service.VerifyRecaptchaService;
 public class RecaptchaController{
 	@ResponseBody
 	@RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST)
-	public int VerifyRecaptcha(HttpServletRequest request) {
-		//구글 리캡차 비밀키 입력하기
-		 VerifyRecaptchaService.setSecretKey("6Lckc0QjAAAAAJ3dfyCfuAZJZLe9Vk6Sbm3Id7Ir");
+
+	public int VerifyRecaptcha(HttpServletRequest request) { //현하 사이트키 : 6Ldy51AjAAAAAIjd0_u7DO7bwxNMxBj_IfCcNLr2
+		 VerifyRecaptchaService.setSecretKey("6Ldy51AjAAAAAKOzy0nbJ7aIiblItVCCZHls4ff4");//현하 비밀키
+
 		    String gRecaptchaResponse = request.getParameter("recaptcha");
 		    try {
 		       if(VerifyRecaptchaService.verify(gRecaptchaResponse))

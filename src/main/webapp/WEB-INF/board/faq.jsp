@@ -19,46 +19,46 @@
 <div class="notification">
     <h3 class="title">자주하는 질문</h3>
     <form id="searchForm" name="searchForm" method="post">
-        <div class="search-area">
-            <input type="hidden" name="pageNo" id="pageNo" value="1">
-            <input type="hidden" name="seq" id="seq" value="">
-            <span class="select">
-                <label for="select-inquiry1">문의유형 선택</label>
-                <select id="select-inquiry1" name="itmSeq">
-                    <option value="0" selected="selected">문의유형</option>
+<!--         <div class="search-area"> -->
+<!--             <input type="hidden" name="pageNo" id="pageNo" value="1"> -->
+<!--             <input type="hidden" name="seq" id="seq" value=""> -->
+<!--             <span class="select"> -->
+<!--                 <label for="select-inquiry1">문의유형 선택</label> -->
+<!--                 <select id="select-inquiry1" name="itmSeq"> -->
+<!--                     <option value="0" selected="selected">문의유형</option> -->
                     
-                        <option value="1">탐방</option>
+<!--                         <option value="1">탐방</option> -->
                     
-                        <option value="2">예약</option>
+<!--                         <option value="2">예약</option> -->
                     
-                        <option value="3">채용</option>
+<!--                         <option value="3">채용</option> -->
                     
-                        <option value="4">불법</option>
+<!--                         <option value="4">불법</option> -->
                     
-                        <option value="5">허가</option>
+<!--                         <option value="5">허가</option> -->
                     
-                        <option value="6">요금</option>
+<!--                         <option value="6">요금</option> -->
                     
-                        <option value="7">기타</option>
+<!--                         <option value="7">기타</option> -->
                     
-                </select>
-            </span>
-            <span class="select">
-                <label for="national-park2">검색조건</label>
-                <select id="national-park2" name="searchCondition">
-                    <option value="all" selected="selected">전체</option>
-                    <option value="sj">제목</option>
-                    <option value="cn">답변</option>
-                </select>
-            </span>
-            <label for="searchKeyword" class="hidden-text">검색값 입력</label>
-            <input type="text" class="input-text" id="searchKeyword" name="searchKeyword" title="검색값을 입력해주세요." value="">
-            <button class="btn">
-                <i class="icon-search"></i>
-                <span>조회</span>
-            </button>
-        </div>
-    </form>
+<!--                 </select> -->
+<!--             </span> -->
+<!--             <span class="select"> -->
+<!--                 <label for="national-park2">검색조건</label> -->
+<!--                 <select id="national-park2" name="searchCondition"> -->
+<!--                     <option value="all" selected="selected">전체</option> -->
+<!--                     <option value="sj">제목</option> -->
+<!--                     <option value="cn">답변</option> -->
+<!--                 </select> -->
+<!--             </span> -->
+<!--             <label for="searchKeyword" class="hidden-text">검색값 입력</label> -->
+<!--             <input type="text" class="input-text" id="searchKeyword" name="searchKeyword" title="검색값을 입력해주세요." value=""> -->
+<!--             <button class="btn"> -->
+<!--                 <i class="icon-search"></i> -->
+<!--                 <span>조회</span> -->
+<!--             </button> -->
+<!--         </div> -->
+<!--     </form> -->
     <!-- list -->
     <div class="board-area list">
         <div class="article-info">

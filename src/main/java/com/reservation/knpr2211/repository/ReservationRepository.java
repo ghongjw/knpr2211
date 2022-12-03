@@ -3,6 +3,7 @@ package com.reservation.knpr2211.repository;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import com.reservation.knpr2211.dto.PlaceDTO;
+import com.reservation.knpr2211.dto.ReservationDTO;
 
 import com.reservation.knpr2211.entity.Reservation;
 @Repository
@@ -26,6 +31,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
 	List<Reservation> findById(String id);
 	
+	//작성자: 최현하
+	List<Reservation> findByRoomAndStartDayAndAllDay(String room, Timestamp startDay, String allDay);
+	List<Reservation> findByCategory3AndStartDay(String category3,  Timestamp startDay);
+	
 	Reservation findBySeq(Integer seq);
 
 	Reservation findBySeqAndId(Integer seq, String id);
@@ -39,4 +48,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	Page<Reservation> findByStatusAndPast(String id,String status1, String status2, Timestamp timestamp,  PageRequest pageRequest);
 
 	Page<Reservation> findByid(String id, PageRequest pageRequest);
+
 }

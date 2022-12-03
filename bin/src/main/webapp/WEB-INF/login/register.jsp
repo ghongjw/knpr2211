@@ -19,6 +19,7 @@
 
 <script type="text/javascript">
 var req;
+
 function IdConfirm(){
 	req = new XMLHttpRequest();
 	req.onreadystatechange = printMsg;
@@ -26,17 +27,7 @@ function IdConfirm(){
 	req.send(document.getElementById('id').value);
 	
 }
-function PwConfirm(){
-	
-	req = new XMLHttpRequest();
-	req.onreadystatechange = printMsg;
-	req.open('post', 'PwConfirm');
-	req.send(document.getElementById('pw').value);
-	req.send(document.getElementById('PwCon').value);
-	
-	
-	
-}
+
 function MailSend(){
 	
 	req = new XMLHttpRequest();
@@ -45,16 +36,15 @@ function MailSend(){
 	req.send(document.getElementById('email').value);
 	
 }
-function MailCheck(){
-	
-	req = new XMLHTTPRequest();
+function checkAuth(){
+	req = new XMLHttpRequest();
 	req.onreadystatechange = printMsg;
-	req.open('post', 'MailCheck');
-	req.send(document.getElementById('mailnumber').value);
-	var data = {mailnumber:number};
+	req.open('post', 'checkAuth');
+	req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+	var number = document.getElementById('authNumber').value;
+	var data = {authNumber:number};
 	data = JSON.stringify(data);
 	req.send(data);
-	
 }
 
 function printMsg(){
@@ -79,19 +69,20 @@ function printMsg(){
 <h3>
 	<font color="red" id="msg">${msg } </font>
 </h3><br>
-    <form method="post" action="RegisterProc">
+    <form method="post" action="RegisterProc"> 
         <input type="text"class="input-text" name="id" id="id" placeholder="아이디"/> 
+       	  <input type="hidden" name="deleted" value=false/> 
         <input type="button" class="input-text" value="아이디중복확인" onclick="IdConfirm()"><br><br>
         <input type="password" class="input-text"name="pw" id="pw"placeholder="비밀번호" /><br><br>
-        <input type="password" class="input-text"name="pwcon" id="PwCon"placeholder="비밀번호확인" onkeyup="PwConfirm()"/><br><br>
+        <input type="password" class="input-text"name="PwCon" id="PwCon"placeholder="비밀번호확인" onkeyup="PwConfirm()"/><br><br>
         <input type="text" class="input-text" name="name" id="name" placeholder="이름"/><br><br>
         <input type="hidden" name="member" value="normal" >
         <div class="ipin-form">
             <label class="hidden-text">이메일 주소</label>
             <input type="text" class="input-text" placeholder="이메일 입력" title="이메일 주소" id="email" name="email">
-              <button type="button" class="btn btn-ipin" onclick="MailSend();">이메일인증</button>
-             <input type="text" class="input-text" placeholder="인증번호 입력" id="mailnumber" name="Mailnumber">
-             <button type="button" class="btn btn-ipin" onclick="MailCheck();">인증번호 확인</button><br><br>
+              <button type="button" class="btn btn-ipin" onclick="MailSend()">이메일인증</button>
+             <input type="text" class="input-text" placeholder="인증번호 입력" id="authNumber" name="mailnumber">
+             <button type="button" class="btn btn-ipin" onclick="checkAuth()">인증번호 확인</button><br><br>
             <label for="txtMobile" class="hidden-text">휴대폰 번호</label>
             <input type="text" class="input-text" placeholder="&#34;-&#34; 없이 휴대전화 번호 입력" title="휴대폰 번호" id="Mobile" name="mobile">
           
