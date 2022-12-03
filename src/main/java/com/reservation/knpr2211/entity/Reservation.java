@@ -81,7 +81,7 @@ public class Reservation {
 		@Column(nullable = true, insertable = true, updatable = true)
 		private String merchant_uid;
 		//예약확정(결재) 유무
-		@Column(insertable = true, updatable=true)
+		
 		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "0")
 		private Boolean checked;
