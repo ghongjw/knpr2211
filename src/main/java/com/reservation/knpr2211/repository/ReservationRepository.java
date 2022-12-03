@@ -15,6 +15,9 @@ import com.reservation.knpr2211.entity.Reservation;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 	//작성자: 김수정
+
+	List<Reservation> findAllByStartDayBetweenAndCategory4(Timestamp startDt, Timestamp endDt, String category4 );
+	List<Reservation> findAllByStartDayBetweenAndCategory3(Timestamp betweenStart, Timestamp betweenEnd, String parkId);
 	List<Reservation> findAllByCategory3(String parkId);
 	
 	//작성자: 공주원
@@ -36,12 +39,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	Page<Reservation> findByStatusAndPast(String id,String status1, String status2, Timestamp timestamp,  PageRequest pageRequest);
 
 	Page<Reservation> findByid(String id, PageRequest pageRequest);
-	
-	
-	
-	
-	
-	
-	
-	
 }

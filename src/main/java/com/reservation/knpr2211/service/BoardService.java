@@ -44,20 +44,7 @@ public class BoardService {
 	public BoardService(BoardRepository boardRepository) {
 		this.boardRepository = boardRepository;
 	}
-//	private BoardDto convertEntityToDto(Board board) {
-//			return BoardDto.builder()
-//					.bno(board.getBno())
-//					.category1(board.getCategory1())
-//					.type(board.getType())
-//					.title(board.getTitle())
-//					.content(board.getContent())
-//					.writer(board.getWriter())
-//					.createDate(board.getCreateDate())
-//					.lock_yn(board.getLock_yn())
-//					.state(board.isState())
-//					.build();
-//		}
-		
+
 	//묻고답하기 등록 
 	@Transactional
 	public void savePost(Model model, BoardDto boardDto) {
@@ -181,10 +168,8 @@ public class BoardService {
 			reply.getContent();
 			
 		}
-		//답글 찍어봄
-		model.addAttribute("list", list);
-		System.out.println(list);
 		
+		model.addAttribute("list", list);
 		Board board = boardWrapper.get();
 
 		if(member.equals("admin") || sessionId.equals(board.getWriter())) {
@@ -206,13 +191,11 @@ public class BoardService {
 		else return "redirect:list";
 		
 	}
-
 	//삭제
 	@Transactional
 	public void deletePost(Long bno) {
 		boardRepository.deleteById(bno);
 	}
-
 	public String getMember(Model model) {
 		String sessionId = (String)session.getAttribute("id");
 		if (sessionId == null||sessionId.isEmpty()) {
@@ -225,14 +208,4 @@ public class BoardService {
 		return "board/write";
 		
 	}
-	
-
-	
-
-	
-	
-	
-	
-
-	
 }

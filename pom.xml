@@ -70,6 +70,14 @@
 			<artifactId>jstl</artifactId>
 		</dependency>
 
+
+      <!-- https://mvnrepository.com/artifact/javaxÍ.servlet/jstl -->
+      <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>jstl</artifactId>
+      </dependency>
+      
+
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -128,6 +136,18 @@
 		</dependency>
 
 		<dependency>
+  <groupId>com.querydsl</groupId>
+  <artifactId>querydsl-apt</artifactId>
+  <scope>provided</scope>
+</dependency>
+
+<dependency>
+  <groupId>com.querydsl</groupId>
+  <artifactId>querydsl-jpa</artifactId>
+</dependency>
+
+
+		<dependency>
     <groupId>javax.json</groupId>
     <artifactId>javax.json-api</artifactId>
 </dependency>
@@ -145,12 +165,7 @@
   <scope>provided</scope>
 </dependency>
 
-<dependency>
-  <groupId>com.querydsl</groupId>
-  <artifactId>querydsl-jpa</artifactId>
-</dependency>
-		<!-- intorceptor-->
-		<!-- https://mvnrepository.com/artifact/org.springframework/org.springframework.web.servlet -->
+
 
 
 	</dependencies>
@@ -202,7 +217,6 @@
 				</executions>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -213,5 +227,4 @@
 
 		</plugins>
 	</build>
-
 </project>

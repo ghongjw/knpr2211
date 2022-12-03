@@ -58,13 +58,13 @@
                     <a href="javascript:void(0);" class="depth1">공지/질문</a>
                     <ul class="depth2">
                         
-                            <li><a href="notice">공지사항조회/등록</a></li>
+                            <li><a href="adminAttentionList?page=0&size=10">공지사항조회/등록</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         
                             <li><a href="board">묻고 답하기</a></li>
 
-                            <li><a href="">프로그램등록</a></li>
+<!--                             <li><a href="">프로그램등록</a></li> -->
                         
                     </ul>
                 </li>
@@ -159,13 +159,13 @@
                     <a href="javascript:void(0);" class="depth1">알림마당관리</a>
                     <ul class="depth2">
                         
-                            <li><a href="notice">공지사항조회/등록</a></li>
+                            <li><a href="adminAttentionList?page=0&size=10">공지사항조회/등록</a></li>
                         
                             <li><a href="faq">자주하는 질문</a></li>
                         
                             <li><a href="board">묻고 답하기</a></li>
 
-                            <li><a href="">프로그램 등록(할수있으면 하기)</a></li>
+<!--                             <li><a href="">프로그램 등록(할수있으면 하기)</a></li> -->
                         
                     </ul>
                 </li>

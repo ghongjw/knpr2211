@@ -267,5 +267,7 @@ public class AdminMemberListService {
 	
 		return "redirect:adminReservationModify?memberId="+reservation.getId()+"&reserve=future&page=0&size=10";
 	}
+
+
 	
 }

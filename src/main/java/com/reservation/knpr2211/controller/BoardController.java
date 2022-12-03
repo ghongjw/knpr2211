@@ -77,7 +77,6 @@ public class BoardController {
 		boardService.deletePost(bno);
 		return "redirect:/list";
 	}
-	
-	
+
 	
 }

@@ -41,4 +41,3 @@ Page<User> findByMemberAndDeleted(String member, boolean b, PageRequest pageRequ
 
 User getByid(String memberId);
 }
-

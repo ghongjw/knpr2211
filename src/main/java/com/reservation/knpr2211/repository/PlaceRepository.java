@@ -27,7 +27,7 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	
 	ArrayList<Place> findByCategory2(String parkId);
 	ArrayList<Place> findByCategory3(String parkId);
-	
+	ArrayList<Place> findByCategory4(String parkId);
 	
 	@Query(nativeQuery=true, value = "select distinct category2 from place where category1 = ?1")
 	ArrayList<String> findDistintCategory2(String category1);
@@ -35,9 +35,33 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 	@Query(nativeQuery=true, value = "select distinct category3 from place where category2 = ?1")
 	ArrayList<String> findDistintCategory3(String category2);
 
+	@Query(nativeQuery=true, value = "select distinct category4 from place where category3 = ?1")
+	ArrayList<String> findDistintCategory4(String category3);
+	
+	
+	
 	@Query(nativeQuery=true, value = "select * from place where category2 like CONCAT('%',:category2,'%')")
 	ArrayList<Place> find(@Param("category2") String category2);
 	
+	//작성자: 김수정
 	List<PlaceDTO> findAllByCategory2(String category2);
+
+
+	@Query(nativeQuery=true, value = "select distinct room from place where category4 = ?1")
+	ArrayList<String> findDistintRoom(String category4);
+
+
+	Place findFirstByCategory4(String cat4);
+
+	//attention리스트 셀렉트용//
+	@Query(nativeQuery=true, value = "select distinct category2 from place")
+	ArrayList<String> findDistinctCategory2();
+
+
+	PlaceDTO findAllByCategory4(String category2);
+
+
+	
+
 	
 }
