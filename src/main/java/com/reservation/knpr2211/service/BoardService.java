@@ -29,7 +29,6 @@ import com.reservation.knpr2211.repository.UserRepository;
 @Service
 public class BoardService {
 	
-	
 	@Autowired 
 	private ReplyRepository replyRepository;
 	
@@ -42,23 +41,22 @@ public class BoardService {
 	@Autowired
 	private HttpSession session; 
 	
-	
 	public BoardService(BoardRepository boardRepository) {
 		this.boardRepository = boardRepository;
 	}
-	private BoardDto convertEntityToDto(Board board) {
-			return BoardDto.builder()
-					.bno(board.getBno())
-					.category1(board.getCategory1())
-					.type(board.getType())
-					.title(board.getTitle())
-					.content(board.getContent())
-					.writer(board.getWriter())
-					.createDate(board.getCreateDate())
-					.lock_yn(board.getLock_yn())
-					.state(board.isState())
-					.build();
-		}
+//	private BoardDto convertEntityToDto(Board board) {
+//			return BoardDto.builder()
+//					.bno(board.getBno())
+//					.category1(board.getCategory1())
+//					.type(board.getType())
+//					.title(board.getTitle())
+//					.content(board.getContent())
+//					.writer(board.getWriter())
+//					.createDate(board.getCreateDate())
+//					.lock_yn(board.getLock_yn())
+//					.state(board.isState())
+//					.build();
+//		}
 		
 	//묻고답하기 등록 
 	@Transactional

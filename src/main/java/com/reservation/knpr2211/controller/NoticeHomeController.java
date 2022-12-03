@@ -16,12 +16,10 @@ public class NoticeHomeController {
 	@Autowired HttpSession session;
 	public String checkSession(String url) {
 		String id = (String)session.getAttribute("id");
-		
 		if(id == null)
 			return "login/login";
 		return url;
 	}
-	
 	//상세페이지
 	@RequestMapping(value = "/view")
 	public String view() {
@@ -38,7 +36,7 @@ public class NoticeHomeController {
 	@RequestMapping(value = "modify")
 	public String modify(Model model, NoticeDTO notice) {
 		String url = checkSession("notice/modifyForm");
-		model.addAttribute("notice", notice); //modifyForm.jsp에서 출력할 데이터
+		model.addAttribute("notice", notice); 
 		return url;
 	}
 	//공지사항 삭제

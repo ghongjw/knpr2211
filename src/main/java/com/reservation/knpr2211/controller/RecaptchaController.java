@@ -15,6 +15,7 @@ public class RecaptchaController{
 	@ResponseBody
 	@RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST)
 	public int VerifyRecaptcha(HttpServletRequest request) {
+		//구글 리캡차 비밀키 입력하기
 		 VerifyRecaptchaService.setSecretKey("6Lckc0QjAAAAAJ3dfyCfuAZJZLe9Vk6Sbm3Id7Ir");
 		    String gRecaptchaResponse = request.getParameter("recaptcha");
 		    try {

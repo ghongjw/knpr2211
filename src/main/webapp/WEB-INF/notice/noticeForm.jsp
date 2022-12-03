@@ -34,55 +34,7 @@
 			<!-- 조회 -->
 			<form action="${root }noticeProc" id="searchForm" name="searchForm" method="POST">
 				 <div class="search-area">
-            <input type="hidden" name="pageNo" id="pageNo" value="1">
-            <input type="hidden" name="seq" id="seq" value="">
-            <span class="select">
-                <select id="national-park1" name="category1">
-                    <option value="국립공원 전체">국립공원 전체</option>
-                    <option value="본부">본부</option>
-                    <option value="지리산경남">지리산경남</option>
-                    <option value="한려해상동부">한려해상동부</option>
-                    <option value="한려해상">한려해상</option>
-                    <option value="설악산">설악산</option>
-                    <option value="내장산백암">내장산백암</option>
-                    <option value="덕유산">덕유산</option>
-                    <option value="오대산">오대산</option>
-                    <option value="주왕산">주왕산</option>
-                    <option value="태안해안">태안해안</option>
-                    <option value="다도해해상">다도해해상</option>
-                    <option value="치악산">치악산</option>
-                    <option value="월악산">월악산</option>
-                    <option value="B121">소백산</option>
-                    <option value="B131">가야산</option>
-                    <option value="B141">북한산</option>
-                    <option value="B151">경주</option>
-                    <option value="B161">계룡산</option>
-                    <option value="B171">무등산</option>
-                    <option value="B181">변산반도</option>
-                    <option value="B191">속리산</option>
-                    <option value="B201">월출산</option>
-                    <option value="B211">한라산</option>
-                    <option value="B221">태백산</option>
-                    <option value="B301">설악산생태탐방원</option>
-                    <option value="B012">지리산전북</option>
-                    <option value="B042">내장산</option>
-                    <option value="B092">다도해해상서부</option>
-                    <option value="B122">소백산북부</option>
-                    <option value="B133">가야산생태탐방원</option>
-                    <option value="B142">북한산도봉</option>
-                    <option value="B172">무등산동부</option>
-                    <option value="B013">지리산전남</option>
-                    <option value="B024">한려해상생태탐방원</option>
-                    <option value="B123">소백산생태탐방원</option>
-                    <option value="B014001">지리산생태탐방원</option>
-                    <option value="B231">무등산생태탐방원</option>
-                    <option value="B331">내장산생태탐방원</option>
-                    <option value="B961">산악안전교육원</option>
-                    <option value="B971">북한산생태탐방원</option>
-                    <option value="B981">연구원</option>
-                    <option value="B991">생물종보전원</option>
-                </select>
-            </span>
+            <input type="hidden" name="writer" id="id" value="${member.id }">
             <span class="select">
                 <select id="national-park2" name="select">
                     <option value="">전체</option>
@@ -128,7 +80,7 @@
 	            	<c:forEach var="list1" items="${noticeList1}">
 	            	<c:set var="count" value="${count+1 }"/>
 		            	<tr> 
-		            		<td>${list1.no}</td>
+		            		<td><div style="color: red">공지사항</div></td>
 		            		<td>${list1.category1}</td>
 		            		<td><div id=${list1.no } class="title">${list1.title } </div></td>
 		            		<td>${list1.hit}</td>
@@ -153,11 +105,18 @@
 	        <div class="article-info">
             	<div class="left"><span class="total">총 <span>${count}</span>건</span></div>
         	</div>
+        		<c:choose>
+        		<c:when test="${member.member == 'admin'}">
 	      		<div class="board-bottom">
             		<div class="right">
             			<a class="btn btn-list" href="write">글쓰기</a>
             		</div>
         		</div>
+        		</c:when>
+        		<c:otherwise>
+        		
+        		</c:otherwise>
+        		</c:choose>
     		</div>
     		</form>
     			<div class="paginator">${page }</div>

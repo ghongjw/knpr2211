@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.reservation.knpr2211.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
-	
 
-	
 	Page<Board> findByCategory1(String category1, PageRequest pageRequest);
 
 	Page<Board> findByCategory1AndTitleContaining(String category1, String keyword, PageRequest pageRequest);
@@ -27,9 +25,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 
 	@Query(nativeQuery=true, value = "select * from board where title like CONCAT('%',:title,'%') or content like CONCAT('%',:content,'%')")
 	Page<Board> findBykey(@Param("title")String title, @Param("content")String content, PageRequest pageRequest);
-	//페이징
-	//	Board findAll(Sort by, PageRequest pageRequest);
-	//List<Board> findAllByOrderByCreatedAtDesc();
+	
 
 
 

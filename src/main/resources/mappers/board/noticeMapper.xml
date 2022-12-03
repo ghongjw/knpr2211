@@ -22,13 +22,6 @@
 	
 	<!-- 검색 + 리스트 출력 -->
 	<select id="noticeProc" resultType="NoticeDTO">
-		 <!-- SELECT B.* FROM(SELECT A.*, @ROWNUM:=@ROWNUM + 1 as rn FROM(SELECT * FROM notice
-			<choose>
-				<when test="sel == 'title'">WHERE title LIKE CONCAT('%',#{search},'%')</when>
-				<when test="sel == 'content'">WHERE content LIKE CONCAT('%',#{search},'%')</when>
-			</choose> 
-		)A WHERE (@ROWNUM:=0) = 0)B WHERE rn BETWEEN #{b} and #{e}   -->
-		
 		SELECT B.* FROM(SELECT A.*, @ROWNUM:=@ROWNUM + 1 as rn FROM(SELECT * FROM notice
       where noti = 'n' 
             <choose>
