@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.reservation.knpr2211.entity.User;
 import com.reservation.knpr2211.repository.UserRepository;
 import com.reservation.knpr2211.service.KakaoService;
 import com.reservation.knpr2211.service.UserService;
@@ -24,6 +25,8 @@ public class LoginController {
 		
 	@RequestMapping("login")
 	public String login() {
+		
+	session.removeAttribute("msg");	
 			return  "login/login";
 		}
 		
@@ -32,31 +35,27 @@ public class LoginController {
 	@Autowired UserService userservice;
 	@Autowired private HttpSession session;
 	@PostMapping(value =  "loginproc")
-	public String loginproc(Model model,String id, String pw) {
+	public String loginproc(String id, String pw) {
 	userservice.login(id, pw);	
 	System.out.println(userservice.login(id, pw));
 	String msg= userservice.login(id, pw);
 	
-	if(msg.equals("회원 로그인 성공")) {
-		System.out.println("회원 로그인");
-		model.addAttribute("msg",msg);
-	return "redirect:index";
-	}
-	if(msg.equals("어드민 계정 로그인 성공")) {
-		System.out.println("관리자 로그인");
-		model.addAttribute("msg",msg);
-	return "redirect:adminIndex";
-	}
-	else {
-	model.addAttribute("msg",msg);
+
+	
+	if(msg.equals("로그인 성공")) {
+	
+	
+	
+	return "login/index";}
+	
+	session.setAttribute("msg", msg);
 	return "login/login";
-		}
 	}
 		
 	//회원가입
 	@RequestMapping("register")
 	public String register() {
-				
+		session.removeAttribute("msg");			
 			
 	return  "login/register";
 	}
@@ -70,13 +69,14 @@ public class LoginController {
 		if(msg.equals("회원가입 성공")) {
 		System.out.println("회원가입 성공");
 		return "redirect:login";
+	
 		}
 		
 		System.out.println("회원가입 실패");
 		session.setAttribute("msg", msg);
 		return "login/register";
 	}
-	//회원가입 버튼 
+	//회원정보 수정버튼 
 		@RequestMapping ("UserModifyProc")
 		public String UserModifyProc(String id,String pw, String PwCon, String name, String email, String mobile,String member ,Model model) {
 			
@@ -85,12 +85,13 @@ public class LoginController {
 			
 			String msg = userservice.UserModify(id, pw ,PwCon, name, email, mobile, member);
 			System.out.println(msg);
+			session.setAttribute("msg", msg);
 			if(msg.equals("회원정보 수정 성공")) {
 			System.out.println("회원정보수정 성공");
 			return "redirect:index";
 			}
 			System.out.println("회원정보수정 실패");
-			return "redirect:UserModify";
+			return "login/UserModify";
 		}
 	
 	//아이디중복확인 
@@ -113,26 +114,35 @@ public class LoginController {
 		}
 		return "redirect:login";
 	} 
-	
-	//회원정보 수정
+
+	//메인
+	@RequestMapping("index")
+	public String index() {
+		
+		return "login/index";
+	}
+	//회원정보 수정 페이지 
+
 	
 	@RequestMapping("UserModify")
 	public String UserModity() {
-		
-	String id = (String)session.getAttribute("id");
-	System.out.println((String)session.getAttribute("id"));
-	String IdCheck = id.substring(0,5);
-	System.out.println("카카오 :"+IdCheck);
-		if(IdCheck.equals("kakao")) {
+		session.setAttribute("msg", "");
+	boolean kakao =(boolean)session.getAttribute("kakao");
+	  
+	System.out.println("카카오 :"+kakao);
+	
+	
+		if(kakao == true ) {
 			
 			
 			
-			return "index/index1";
+			return "login/index";
 		}
 			
+		else {
 		
+		return "login/UserModify";}
 		
-		return "login/UserModify";
 	}
 	
 	//카카오 로그인
@@ -143,12 +153,15 @@ public class LoginController {
 		String accessToken = kakaoService.getAccessToken(code);
 		HashMap<String, String> userInfo = kakaoService.getUserInfo(accessToken);
 		
-		String id = "kakao_" + userInfo.get("nickname") ;
+		String id = userInfo.get("email") ;
 		String pw = "kakao";
 		String name = userInfo.get("nickname");
 		String email = userInfo.get("email");
 		String mobile = "kakao";
-		String member = "normal";
+		String member = "kakao";
+		boolean kakao = true;
+		
+	
 		userservice.kakaoRegister(id, pw, name, email , mobile, member);
 		
 		System.out.println("카카오로 접속한 아이디"+id);
@@ -157,14 +170,16 @@ public class LoginController {
 		session.setAttribute("name", userInfo.get("nickname"));
 		session.setAttribute("email", userInfo.get("email"));
 		session.setAttribute("mobile", mobile);
-		return "index/index1";
+		session.setAttribute("member", member);
+		session.setAttribute("kakao", kakao);
+		return "login/index";
 	}
 	
 	//아이디 찾기
 	@RequestMapping("IdFind")
 	public String IdFind(String email) {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/IdFind";
 	}
@@ -172,7 +187,7 @@ public class LoginController {
 	@RequestMapping("IdFindResult")
 	public String IdFindResult() {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/IdFindResult";
 	}
@@ -189,12 +204,28 @@ public class LoginController {
 			session.setAttribute("msg","인증번호를 확인해 주세요");
 			return "redirect:IdFind";
 		}
+		String status = (String)session.getAttribute("IdauthStatus");
 		
-		if(session.getAttribute("authStatus").toString().equals("true")) {
+		if(status == null) {
 			
-			String id = userservice.FindById(email);	
+			session.setAttribute("msg", "이메일을 인증해주세요.");
+		}
+		else if(session.getAttribute("IdauthStatus").toString().equals("true")) {
+			
+			String id = userservice.FindById(email);
+			String member = userservice.FindKakaoMember(id);
+			System.out.println("멤버 :"+member);
+			if(member.equals("카카오")) {
+				session.setAttribute("IdResult", "카카오회원으로 카카오를 확인해주세요");
+			}
+			
+			if(member.equals("normal")) {
+				session.setAttribute("IdResult", id);
+			}
+			
 			System.out.println("아이디 :" + id);
-			session.setAttribute("IdResult", id);
+			
+			
 			session.setAttribute("msg", "");
 			return"redirect:IdFindResult";
 		};
@@ -207,7 +238,7 @@ public class LoginController {
 	@RequestMapping("PwFind")
 	public String PwFind() {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/PwFind";
 	}
@@ -216,7 +247,7 @@ public class LoginController {
 	@RequestMapping("PwFind2")
 	public String PwFind2() {
 		
-	
+		session.setAttribute("msg", "");
 			
 	return  "login/PwFind2";
 	}
@@ -231,8 +262,9 @@ public class LoginController {
 		String msg = userservice.IdFind(id);
 		
 		if(msg=="등록되지 않은 사용자입니다." ||msg=="아이디를 입력해주세요.") {
+			
 		session.setAttribute("msg", msg);
-		return"redirect:PwFind";
+		return"login/PwFind";
 		}
 		
 		session.setAttribute("msg", "");
@@ -243,7 +275,7 @@ public class LoginController {
 	@RequestMapping("PwChange")
 	public String PwChange() {
 		
-	
+		session.setAttribute("msg", "");
 	
 	return  "login/PwChange";
 	}
@@ -276,7 +308,7 @@ public class LoginController {
 	
 	@RequestMapping("PwChangeSuccess")
 	public String PwChangeSuccess(String email, String id, String pw, String PwCon, String mobile, String member, String name) {
-		
+		session.setAttribute("msg", "");
 	if(pw == ""||pw ==null) {
 			
 			session.setAttribute("msg", "비밀번호를 입력해주세요.");
@@ -296,7 +328,7 @@ public class LoginController {
 			return "redirect:PwChange";
 		}
 		
-		userservice.UserModify(id, pw ,PwCon, name, email, mobile, member);
+		userservice.idFindPwChange(id, pw ,PwCon, name, email, mobile, member);
 		
 		session.setAttribute("msg", "");
 		return "redirect:login";

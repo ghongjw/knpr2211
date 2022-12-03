@@ -41,6 +41,9 @@ public class UserService {
 	// 회원가입
 	public String register(String id, String pw, String pwcon, String name, String email, String mobile,
 			String member) {
+
+	
+
 		boolean resultPw = pw.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
 		boolean resultPwCon = pwcon.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
 		boolean resultName = name.matches("[가-힣]{2,5}");
@@ -67,10 +70,15 @@ public class UserService {
 			
 			return"휴대폰 형식에 맞춰주시기 바랍니다.";
 		}
+		
+
+		
 		if (id == null || id.isEmpty()) {
 
 			return "아이디를 입력하세요.";
-  }
+		}
+			
+
 		if (pw == null || pw.isEmpty())
 			return "비밀번호를 입력하세요.";
 		
@@ -91,12 +99,14 @@ public class UserService {
 			
 			return "이메일을 인증해주세요.";
 		};
+		
+		boolean kakao = false;
 			
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).kakao(kakao).build();
 		userRepository.save(entity);
 		session.setAttribute("msg", "");
 		return "회원가입 성공";
@@ -121,11 +131,13 @@ public class UserService {
 		if (mobile == null || mobile.isEmpty())
 			return "연락처를 입력하세요.";
 		
+		boolean kakao = true;
+		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String securePw = encoder.encode(pw);
 		
-		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).build();
+		User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).deleted(false).kakao(kakao).build();
 		userRepository.save(entity);
 
 		return "회원가입 성공";
@@ -133,7 +145,7 @@ public class UserService {
 	
 	
 
-	    
+	// 회원정보 수정 
 		public String UserModify(String id, String pw, String pwcon, String name, String email, String mobile,
 				String member) {
 		
@@ -157,7 +169,7 @@ public class UserService {
 			boolean resultPwCon = pwcon.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
 			boolean resultName = name.matches("[가-힣]{2,5}");
 			boolean resultEmail = email.matches("[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}");
-			boolean resultMobile = mobile.matches("\\d{3}-\\d{3,4}-\\d{4}");
+			boolean resultMobile = mobile.matches("\\d{3}\\d{3,4}\\d{4}");
 		
 			
 			if(resultPw==false) {
@@ -181,22 +193,90 @@ public class UserService {
 				return"휴대폰 형식에 맞춰주시기 바랍니다.";
 			}
 			
+			if(session.getAttribute("ModiAuthStatus").toString().equals("false")) {
+				
+				return "이메일을 인증해주세요.";
+			};
 			
 			
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			
 			String securePw = encoder.encode(pw);
 			
-			User entity = User.builder().id(id).pw(securePw).name(name).email(email).mobile(mobile).member(member).build();
+			User entity = ur.findByid(id); 
+			
+			entity.setPw(securePw);
+			entity.setName(name);
+			entity.setMobile(mobile);
+			entity.setEmail(email);
+			
+			ur.save(entity);
+			
 			userRepository.save(entity);
 			session.setAttribute("msg", "");
 			return "회원정보 수정 성공";
 		}
+		
+		@Autowired UserRepository ur;
+		//비밀번호 찾기 비밀번호 수정 
+			public String idFindPwChange(String id, String pw, String pwcon, String name, String email, String mobile,
+					String member) {
+			
+				if (pw == null || pw.isEmpty())
+					return "비밀번호를 입력하세요.";
+				
+				if (pw.equals(pwcon)==false)
+					return "비밀번호가 일치하지않습니다.";
+
+			
+				
+				boolean resultPw = pw.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
+				boolean resultPwCon = pwcon.matches("[a-zA-Z0-9@$!%*#?&]{4,20}");
+			
+				
+				if(resultPw==false) {
+					
+					return"비밀번호는 4~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
+				}
+				if(resultPwCon==false) {
+								
+					return"비밀번호는 4~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
+							}
+				
+				
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				
+				String securePw = encoder.encode(pw);
+				
+				User entity = ur.findByid(id); 
+						
+				entity.setPw(securePw);
+				
+				 System.out.println(entity.getPw());
+				
+				ur.save(entity);
+				session.setAttribute("msg", "");
+				return "비밀번호 수정 성공";
+			}
 	
 	// 로그인
 	public String login(String id, String pw) {
 		String msg = "";
+		
+		
+		
+		if(id == null || id== "") {
+			msg = "아이디를 입력해 주세요.";	
+			return msg;
+		}
+		
+		if( pw==null || pw== "") {
+			msg = "비밀번호를 입력해 주세요.";	
+			
+			return msg ;
+		}
 		User user = userRepository.findByid(id);
+		
 		if (user == null) {
 			
 			msg = "없는 계정입니다.";
@@ -219,6 +299,9 @@ public class UserService {
 			session.setAttribute("mobile", user.getMobile());
 			session.setAttribute("name", user.getName());
 			session.setAttribute("member", user.getMember());
+
+			session.setAttribute("kakao", user.getKakao());
+
 			if(user.getMember().equals("admin")) {
 				
 				msg = "어드민 계정 로그인 성공";
@@ -240,18 +323,19 @@ public class UserService {
 	public String IdConfirm(String id) {
 
 
-
-		boolean result = id.matches("[a-z]{1}[a-z0-9_-]{5,16}");
+		boolean result = id.matches("[a-z]{1}[a-z0-9_-]{4,16}");
 		
 		if(result==false) {
 			
 			return"아이디는 5~20자의 소문자,숫자,특수기호(_),(-)만 사용 가능합니다.";
 		}
 		
-
+		System.out.println("아이디 : "+ userRepository.findById(id));
+		
 		if (userRepository.findByid(id) == null) {
-
-
+			
+			
+			
 			return "사용가능한 아이디입니다";
 		}
 
@@ -273,7 +357,7 @@ public class UserService {
 	return "중복된 이메일 입니다.";
 	}
 
-	
+
 	//아이디 검색
 	public String IdFind(String id) {
 		
@@ -297,16 +381,48 @@ public class UserService {
 		
 		return id;
 	}
-	
+	// 비밀번호 찾기 이메일 찾
 	public String FindByEmail(String id) {
 	
-		String Email = userRepository.findByid(id).getEmail();
-		session.setAttribute("FindName", userRepository.findByid(id).getName());
-		session.setAttribute("FindId", userRepository.findByid(id).getId());
-		session.setAttribute("FindEmail", userRepository.findByid(id).getEmail());
-		session.setAttribute("FindMobile", userRepository.findByid(id).getMobile());
-		return Email;
+		User Email = userRepository.findByid(id);
+		
+		if(Email.getEmail() == null) {
+			
+			return "이메일이 없습니다.";
+		}
+	
+		return Email.getEmail();
 	}
+	// 아이디 찾기 카카오 멤버찾기
+	public String FindKakaoMember(String id) {
+	
+		User member = userRepository.findByid(id);
+		System.out.println("멤버를 받아? " + member.getMember());
+		boolean kakao = member.getKakao();
+			if(kakao == true) {
+				
+				return "카카오";
+			}
+			else
+		
+		return "normal";
+	}
+	
+	//아이디 찾기 이메일 찾기
+	public String FindByEmail2(String email) {
+			
+		User FindEmail = userRepository.findByEmail(email);
+		
+		if(FindEmail == null) {
+			
+			
+			return "이메일 등록안됨";
+			
+		}
+		
+			return email;
+		}
+	
 	
 	
 	// 아이디 중복체크

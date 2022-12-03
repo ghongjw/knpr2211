@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
-
 <c:if test="${not empty sessionScope.id }">
 	<script>
 		location.href = 'index';
@@ -27,7 +26,13 @@
 	<script src="assets/js/lib/toastr.min.js"></script>
 	<script src="assets/js/scripts.js"></script>
 	<script src="assets/js/common9b00.js?ver4"></script>
+	<style>
+	.btn btn-login{
+	border-color: none;
 	
+	}
+	
+	</style>
 
 <body>
 	<div id="wrap" class="sub">
@@ -89,7 +94,7 @@
 </div>
 			</div>
 			
-<%@ include file="../common/footer.jsp" %>
+
 
 
 <div class="modal-popup small" id="confirmPop">
@@ -183,6 +188,8 @@
 			history.back();
 		}
 	})
+	
 </script>
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

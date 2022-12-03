@@ -13,14 +13,14 @@ function MailSend(){
 	
 	req = new XMLHttpRequest();
 	req.onreadystatechange = printMsg;
-	req.open('post', 'MailSend');
+	req.open('post', 'MoMailSend');
 	req.send(document.getElementById('email').value);
 	
 }
 function checkAuth(){
 	req = new XMLHttpRequest();
 	req.onreadystatechange = printMsg;
-	req.open('post', 'checkAuth');
+	req.open('post', 'MocheckAuth');
 	req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 	var number = document.getElementById('authNumber').value;
 	var data = {authNumber:number};
