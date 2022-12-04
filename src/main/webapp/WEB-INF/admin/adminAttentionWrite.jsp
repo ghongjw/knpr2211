@@ -74,6 +74,7 @@ $("#file").on('change',function(){
 								</div>
 								</td>
 							</tr>
+							<!--  
 							<tr>
 								<td colspan = 3>
 									<input type="radio" id = "show" value = true name = "notice" checked>
@@ -83,6 +84,7 @@ $("#file").on('change',function(){
 								</td>
 							</tr>
 							<tr>
+							-->
 								<td colspan = 3 style="text-align: center"><button type="button" class = "modiA" onclick = "send('create'); return false;">등록</button>
 								<input type =reset class="modiB" value = "취소">
 								<button type="button" id = "toList" class = "modiA" onclick = "send('list'); return false;">리스트로가기</button></td>

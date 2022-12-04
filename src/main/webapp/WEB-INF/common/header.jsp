@@ -91,11 +91,9 @@
                         
                             <li><a href="reservedList?reserve=future&page=0&size=10">나의 예약목록</a></li>
                         
-                            <li><a href="">알림메시지</a></li>
+                       
                         
                             <li><a href="favoriteList">즐겨찾기</a></li>
-                        
-                            <li><a href="">미환불금 조회</a></li>
                         
                     </ul>
                 </li>
@@ -115,10 +113,7 @@
         </ul>
     </nav>
     <div class="util-area" data-device-mode="pc">
-        <a href="" class="btn-refund-inquiry">
-            <i class="icon-refund-inquiry"></i>
-            <span>미환불금조회</span>
-        </a>
+       
         
             <!-- 비 로그인 상태 -->
             <c:if test="${empty sessionScope.id }">

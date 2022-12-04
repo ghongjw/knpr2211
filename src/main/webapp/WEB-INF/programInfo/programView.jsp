@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <script src="assets/js/lib/jquery-1.12.4.min.js"></script>
 <link rel="shortcut icon" href="#">
@@ -221,7 +222,7 @@
         <div class="popup-container">
             <strong class="title-1"></strong>
             <div class="image-box">
-                <img class="title_image" src="" alt="">
+                <img class="title_image" src="" alt="" style=" margin-top: 200px;">
             </div>
             <strong class="title-2">프로그램 내용</strong>
             <ul class="dot-list">

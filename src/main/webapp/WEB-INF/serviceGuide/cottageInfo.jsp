@@ -33,13 +33,13 @@
 <div class = "pageLocation">
     <span>홈</span>
     <span class="loca">이용안내</span>
-    <span class="loca">민속촌</span>
+    <span class="loca">민박촌</span>
 </div>
 
 
 
 <div class="information">
-    <h3 class="title">민속촌 이용안내</h3>
+    <h3 class="title">민박촌 이용안내</h3>
     <div class="image-title">
         <p class="sub-title">하늘과 땅, 그리고 사람이 소통하는 태백산 자락에 위치한 휴식 공간</p>
         <p class="copy">태백산국립공원에서 여름에는 산에서 불어오는 시원한 바람을 느끼고, 겨울에는 태백산의 눈꽃 설경을 감상해 보세요.</p>

@@ -77,14 +77,16 @@ public class Reservation {
 		//결제시 생기는 고유번호
 		@Column(nullable = true, insertable = true, updatable = true)
 		private String paidNum;
+		
 		//결제시 생기는 주번호
 		@Column(nullable = true, insertable = true, updatable = true)
 		private String merchant_uid;
-		//예약확정(결재) 유무
 		
+		//예약확정(결재) 유무
 		@Column(nullable=false, insertable = true, updatable=true)
 		@ColumnDefault(value = "0")
 		private Boolean checked;
+		
 		//환불유뮤
 		@Column(nullable=true, insertable = true, updatable=true)
 		

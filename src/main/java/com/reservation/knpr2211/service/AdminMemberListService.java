@@ -97,7 +97,7 @@ public class AdminMemberListService {
 
 		model.addAttribute("members", members);
 		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("totalElement", totalElement);
+		model.addAttribute("totalElements", totalElement);
 		model.addAttribute("search", search);
 		model.addAttribute("member", member);
 		model.addAttribute("select", select);
