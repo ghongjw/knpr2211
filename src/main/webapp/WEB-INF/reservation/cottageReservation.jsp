@@ -11,17 +11,6 @@
 <script src="../assets/js/reservation/ecoReservation.js"></script>
 <body>
 	<%@ include file="../common/header.jsp"%>
-	<%
-	String sessionId = (String) session.getAttribute("id");
-	String sessionMember = (String) session.getAttribute("member");
-	
-	String msg = request.getParameter("msg");
-	if(msg != null && msg != ""){
-		out.println("<script>");
-	    out.println("alert('"+msg+"')");
-	    out.println("</script>");
-	}
-	%>
 	<div id="wrap" class="sub">
 		<div id="container">
 			<script src="../assets/js/lib/netfunnel.js"></script>
@@ -34,12 +23,12 @@
 					<span class="label"><i class="icon-location"></i>
 						${category2}</span>
 					<h4 class="title">${category2}${category1}예약현황</h4>
-					<p class="copy">민박촌은 개시기간 기준 아이디 당 4건으로 제한되며, 동일 날짜의 민박촌은 선택불가
-						합니다.</p>
+					<!-- <p class="copy">민박촌은 개시기간 기준 아이디 당 4건으로 제한되며, 동일 날짜의 민박촌은 선택불가
+						합니다.</p> -->
 					<div class="btn-area">
-						<button class="btn btn-refresh">
+						<!-- <button class="btn btn-refresh">
 							<i class="icon-refresh"></i> <span>새로고침</span>
-						</button>
+						</button> -->
 					</div>
 
 				</div>
@@ -132,10 +121,8 @@
 								<c:forEach var="list" items="${roomTypeList}">
 									<li><span class="radio-1"> <input type="radio"
 											name="minbakChk" id="${list.category3}"
-											value="${list.nameCategory3}"
-											onClick="selectPeople(${list.peopleMax});">
-											${list.nameCategory3} <span style="display: none"
-											id="minbakMax"></span>
+											value="${list.nameCategory3}" onClick="selectPeople(${list.peopleMax});"> ${list.nameCategory3}
+											<span style="display: none" id="minbakMax"></span>
 									</span></li>
 								</c:forEach>
 							</ul>
@@ -251,7 +238,7 @@
 					<div class="board-bottom">
 						<div class="center reserv">
 							<a href="javascript:void(0);"
-								onclick="open_Popup_cot('automatic-character', '<%=sessionId%>', '<%=sessionMember%>')"
+								onclick="open_Popup_cot('automatic-character')"
 								class="btn btn-register is-active">예약하기</a>
 						</div>
 					</div>
@@ -263,13 +250,12 @@
 						<div class="popup-head">
 							<strong class="popup-title">예약가능</strong>
 							<button type="button" class="btn-close"
-								onclick="close_Popup('automatic-character')" title="닫기">
+								onclick="close_Popup_cot('automatic-character')" title="닫기">
 								<i class="icon-close"></i>
 							</button>
 						</div>
 						<div class="popup-container">
-							<form action="cottageProc" method="post"
-								onsubmit="return checkBot()">
+							<form action="cottageProc" method="post">
 								<table class="table">
 									<caption>자동방지 입력문자</caption>
 									<colgroup>
@@ -279,42 +265,31 @@
 									<tbody class="tbody">
 										<tr style="display: none;">
 											<th scope="row">예약코드</th>
-											<td><input type="text" id="txtCotCode" name="category3"
-												value="D0101" readonly="readonly" style="border: none;"></td>
+											<td><input type="text" id="txtCotCode" name="category3" value="D0101" readonly="readonly" style="border: none;"></td>
 										</tr>
 										<tr>
 											<th scope="row">예약상품</th>
-											<td><input type="text" id="txtCotNm"
-												name="nameCategory3" value="개인형 29.7㎡(9평/2명) 침대"
-												readonly="readonly" style="border: none;"></td>
+											<td><input type="text" id="txtCotNm" name="nameCategory3" value="개인형 29.7㎡(9평/2명) 침대" readonly="readonly" style="border: none;"></td>
 										</tr>
 										<tr>
 											<th scope="row">사용기간</th>
-											<td><input type="text" id="selRsrvtQntt" name="allDay"
-												value="3박 4일" readonly="readonly" style="border: none;"></td>
+											<td><input type="text" id="selRsrvtQntt" name="allDay" value="3박 4일" readonly="readonly" style="border: none;"></td>
 										</tr>
 										<tr>
 											<th scope="row">입실날짜</th>
-											<td><input type="text" id="txtUseBgnDate" name="startDt"
-												value="2022-12-13 [화]" readonly="readonly"
-												style="border: none;"></td>
+											<td><input type="text" id="txtUseBgnDate" name="startDt" value="2022-12-13 [화]" readonly="readonly" style="border: none;"></td>
 										</tr>
 										<tr>
 											<th scope="row">퇴실날짜</th>
-											<td><input type="text" id="txtUseEndDate" name="endDt"
-												value="2022-12-16 [금]" readonly="readonly"
-												style="border: none;"></td>
+											<td><input type="text" id="txtUseEndDate" name="endDt" value="2022-12-16 [금]" readonly="readonly" style="border: none;"></td>
 										</tr>
 										<tr>
 											<th scope="row">총 인원</th>
-											<td><input type="text" id="Inwon" name="people"
-												value="2명" readonly="readonly" style="border: none;"></td>
+											<td><input type="text" id="Inwon" name="people" value="2명" readonly="readonly" style="border: none;"></td>
 										</tr>
 										<tr>
 											<th scope="row">결제(예정)금액</th>
-											<td><input type="text" id="selPrice" name="price"
-												value="120,000원 (부가세 포함)" readonly="readonly"
-												style="border: none;"></td>
+											<td><input type="text" id="selPrice" name="price" value="120,000원 (부가세 포함)" readonly="readonly" style="border: none;"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -323,13 +298,12 @@
 									<div align="right" class="g-recaptcha"
 										data-sitekey="6Lckc0QjAAAAAM99CWG4ZaUjZSotZ9CtddBM38x4"></div>
 								</div>
-								<p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인
-									후 결제 가능합니다.</p>
+								<p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인 후
+									결제 가능합니다.</p>
 								<div class="btn-area">
 									<button class="btn" id="btnClose"
 										onclick="close_Popup('automatic-character');">취소</button>
-									<input type="submit" class="btn" id="btnSubmit" value="확인"
-										style="background: #fff">
+									<input type="submit" class="btn" id="btnSubmit" value="확인" style="background: #fff">
 								</div>
 							</form>
 						</div>
@@ -437,6 +411,8 @@
 					if(selectNum>1){
 						selectNum --;
 						$("#livingPrsnCnt").attr("value",selectNum);
+					}else if(selectNum==1){//1204추가
+						toastrMsg("사용인원은 최소 1명입니다.");//1204추가
 					}
 				})
 				// 추가 인원 선택x

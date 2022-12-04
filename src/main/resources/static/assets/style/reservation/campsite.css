@@ -6,6 +6,9 @@
   font-weight: 400;
   font-style: normal;
 }
+
+html { overflow-y:scroll; }
+
 :root {
   --swiper-theme-color: #007aff;
 }
