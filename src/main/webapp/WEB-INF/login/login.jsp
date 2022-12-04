@@ -54,7 +54,7 @@
             <input type="text" class="input-text" placeholder="아이디 입력" title="아이디" name="id" >
             <label for="passWd" class="hidden-text">비밀번호</label>
             <input type="password" class="input-text" placeholder="비밀번호 대,소문자 구분 9~15자로 입력" title="비밀번호"name="pw" >
-            <input type="submit" class="btn btn-login" value="로그인">
+            <input type="submit" class="btn btn-login" value="로그인" style="border: 0;">
               
           	<a href="https://kauth.kakao.com/oauth/authorize?client_id=e5fa46a8c18f4ae8b3ac752e87f63927&redirect_uri=http://localhost/KakaoLogin&response_type=code" class="btn-kakao"><img  src="assets/img/kakao icon.png" width="420px"></a>
         </div>
