@@ -37,7 +37,6 @@ public class Attention {
 	
 	private String title;
 	
-	@Column(columnDefinition = "LONGBLOB")
 	private String content;
 	
 	private String category2;
