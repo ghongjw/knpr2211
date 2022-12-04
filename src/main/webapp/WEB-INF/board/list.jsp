@@ -226,11 +226,15 @@ let pageNum = function(num){
 	            	</c:forEach>  
 	            </tbody>
             </table>
+            <c:if test="${member.member=='normal' }" >
             	<div class="board-bottom">
+            	
             		<div class="right">
             			 <a href="/post" class="btn btn-list">글쓰기</a>
             		</div>
         		</div>
+        		</c:if>
+        
         		<!-- 페이징 -->
    					<table style = "text-align:center; width: 100%;">
    					<tr class = "page_tr">

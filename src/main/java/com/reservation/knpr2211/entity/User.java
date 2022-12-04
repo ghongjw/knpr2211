@@ -55,8 +55,8 @@ public class User {
 		@OneToMany(mappedBy = "favorite", targetEntity = Favorite.class)
 		private List<Favorite> favorite = new ArrayList<Favorite>(); 
 		
-		@OneToMany(mappedBy = "user")
-		private List<Reply> replyList;
+		//@OneToMany(mappedBy = "user")
+		//private List<Reply> replyList;
 	
 		@Builder
 		public User(String id, String pw, String name, String email, String mobile, String member, Boolean deleted, Boolean kakao) {

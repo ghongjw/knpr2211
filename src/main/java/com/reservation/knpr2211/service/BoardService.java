@@ -201,9 +201,15 @@ public class BoardService {
 	@Transactional
 	public void deletePost(String delete) {
 		long bno = Integer.parseInt(delete);
+		Board board= boardRepository.findByBno(bno);
+		List<Reply> result = replyRepository.findByBoard(board);
+		for(Reply r : result) {
+			r.setBoard(null);
+			replyRepository.save(r);
+		}
 		boardRepository.deleteById(bno);
-		
 	}
+	
 	public String getMember(Model model) {
 		String sessionId = (String)session.getAttribute("id");
 		if (sessionId == null||sessionId.isEmpty()) {

@@ -24,9 +24,11 @@ function send(data){
 	}
 	else{
 		if(data == 'modify'){
-		$("#f").attr('action','adminAttentionModifyProc').attr('enctype',"multipart/form-data").submit();
+		$("#f").attr('action','adminAttentionModifyProc?seq=${attention.seq}').attr('enctype',"multipart/form-data").submit();
 		}if(data == 'list'){
 		$("#f").attr('action','adminAttentionList?page=0&size=10').submit();
+		}if(data == 'delete'){
+		$("#f").attr('action','adminAttentionDeleteProc?seq=${attention.seq}').submit();
 		}
 	}
 }
@@ -42,7 +44,7 @@ $("#file").on('change',function(){
 			<span>홈</span> <span class="loca">알림마당</span> <span class="loca">공지사항</span>
 		</div>
 		<div class="mypage">
-			<h3 class="title">공지 글쓰기</h3>
+			<h3 class="title">공지 수정하기</h3>
 		
 			
 					<div class="attentionArea">
@@ -74,17 +76,17 @@ $("#file").on('change',function(){
 								</div>
 								</td>
 							</tr>
-							<tr>
-								<td colspan = 3>
-									<input type="radio" id = "show" value = true name = "notice" checked>
-									<label for="show">게시하기</label>
-									<input type="radio" id = "hide" value = false name = "notice">
-									<label for="hide">숨기기</label>
-								</td>
-							</tr>
+<!-- 							<tr> -->
+<!-- 								<td colspan = 3> -->
+<!-- 									<input type="radio" id = "show" value = true name = "notice" checked> -->
+<!-- 									<label for="show">게시하기</label> -->
+<!-- 									<input type="radio" id = "hide" value = false name = "notice"> -->
+<!-- 									<label for="hide">숨기기</label> -->
+<!-- 								</td> -->
+<!-- 							</tr> -->
 							<tr>
 								<td colspan = 3 style="text-align: center"><button type="button" class = "modiA" onclick = "send('modify'); return false;">등록</button>
-								<input type =reset class="modiB" value = "취소">
+								<input type =reset class="modiB" onclick= "send('delete'); return false;" value = "삭제">
 								<button type="button" id = "toList" class = "modiA" onclick = "send('list'); return false;">리스트로가기</button></td>
 							</tr>
 						</table>

@@ -146,9 +146,14 @@ public class AdminController {
 	}
 	
 	@PostMapping("adminAttentionModifyProc")
-	public String adminAttentionModifyProc(Model model, RedirectAttributes ra,Attention attention,MultipartHttpServletRequest req) {
+	public String adminAttentionModifyProc(Model model, RedirectAttributes ra,Attention attention,String seq,MultipartHttpServletRequest req) {
 				
-		return aas.adminAttentionModifyProc(model,ra,attention,req);
+		return aas.adminAttentionModifyProc(model,ra,attention,seq,req);
+	}
+	@PostMapping("adminAttentionDeleteProc")
+	public String adminAttentionDeleteProc(Model model, RedirectAttributes ra,Attention attention,String seq) {
+				
+		return aas.adminAttentionDeleteProc(model,ra,attention,seq);
 	}
 	//파일 수정 다운로드 
 	

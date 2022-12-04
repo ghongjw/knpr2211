@@ -62,7 +62,11 @@
 								
 					<div class="board-bottom">
 						<div class="center">
-                	<a href="/boardModify?bno=${boardDto.bno}" class="btn btn-modify">수정</a>
+						<c:if test="${member.member == 'admin'}">
+                		</c:if>
+                		<c:if test="${member.member == 'nomal'}">
+                			<a href="/boardModify?bno=${boardDto.bno}" class="btn btn-modify">수정</a>
+                		</c:if>
                		<a href="/list" class="btn btn-list">목록</a><div style="margin:5px"></div>
                     
                     <form id="delete-form"  method="post">
