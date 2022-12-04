@@ -5,9 +5,39 @@
 <head>
 <script src="../assets/js/lib/jquery-1.12.4.min.js"></script>
 <meta charset="UTF-8">
+<style type="text/css">
+.ReBtn{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 78px;
+    height: 40px;
+    margin-left: 8px;
+    border-radius: 4px;
+    background-color: #004ea2;
+    color: white;
+}
+
+
+</style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
+<script>
+					function deleted(){
+						var msg = confirm("삭제하시겠습니까?")
+						if(msg == true){
+							$("#delete-form").attr('action','boardDelete').submit();
+							
+						}
+						else{
+							$("#delete-form").attr('action','list?page=0&size=10').submit();
+						}
+					}
+					
+					</script>
 <div id="wrap" class="sub">
 		<div id="container">
 			 <input type="hidden" name="writer" id="id" value="${member.id }">
@@ -51,7 +81,7 @@
 												<input type="hidden" id="bno" name="bno"
 													value="${boardDto.bno}"><br>
 												<div align=right>
-													<button style=cursor:pointer type="submit">등록</button>
+													<button style=cursor:pointer type="submit" class="ReBtn">등록</button>
 												</div>
 											</form>
 										</c:if>
@@ -77,16 +107,7 @@
    				 			</div>   
             			</div>
 					</div>
-					<script>
-					function deleted(){
-						var msg = confirm("삭제하시겠습니까?")
-						if(msg == true){
-							$("#delete-form").attr('action','boardDelete').submit();
-						}
-						
-					}
 					
-					</script>
 				
 				<!-- // view -->
 				

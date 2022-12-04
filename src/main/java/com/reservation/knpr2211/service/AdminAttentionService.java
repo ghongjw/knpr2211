@@ -174,6 +174,7 @@ public class AdminAttentionService implements IAdminAttentionService{
 		attention.setNotice(attention.isNotice());
 		attention.setDeleted(false);
 		attention.setModifiedDate(timestamp);
+		attention.setCreateDate(timestamp);
 		ar.save(attention);
 		return "redirect:adminAttentionList?page=0&size=10";
 	}
@@ -257,6 +258,7 @@ public class AdminAttentionService implements IAdminAttentionService{
 		attention.setFile(attention.getFile());
 		attention.setNotice(attention.isNotice());
 		attention.setDeleted(false);
+		attention.setModifiedDate(attention.getCreateDate());
 		attention.setModifiedDate(timestamp);
 		ar.save(attention);
 //		Attention at = Attention.builder().seq(attention.getSeq()).title(attention.getTitle()).content(attention.getContent())

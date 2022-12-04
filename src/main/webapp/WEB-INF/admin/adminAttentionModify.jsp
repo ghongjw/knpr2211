@@ -86,8 +86,8 @@ $("#file").on('change',function(){
 <!-- 							</tr> -->
 							<tr>
 								<td colspan = 3 style="text-align: center"><button type="button" class = "modiA" onclick = "send('modify'); return false;">등록</button>
-								<input type =reset class="modiB" onclick= "send('delete'); return false;" value = "삭제">
-								<button type="button" id = "toList" class = "modiA" onclick = "send('list'); return false;">리스트로가기</button></td>
+<!-- 								<input type =reset class="modiB" onclick= "send('delete'); return false;" value = "삭제"> -->
+								<button type="button" id = "toList" class = "modiB" onclick = "send('list'); return false;">리스트로가기</button></td>
 							</tr>
 						</table>
 						</form>
