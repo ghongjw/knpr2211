@@ -1,5 +1,6 @@
 package com.reservation.knpr2211.entity;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -36,6 +37,7 @@ public class Attention {
 	
 	private String title;
 	
+	@Column(columnDefinition = "LONGBLOB")
 	private String content;
 	
 	private String category2;

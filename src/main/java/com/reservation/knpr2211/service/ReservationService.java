@@ -1102,7 +1102,8 @@ public class ReservationService {
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
 		re.setPrice(resDto.getPrice());
-		re.setId("user1");
+		re.setId(resDto.getId());
+		re.setChecked(false);
 		rr.save(re).getSeq();
 	}
 
