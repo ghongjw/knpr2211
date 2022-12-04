@@ -1193,7 +1193,7 @@ $('#modalCancelBtn').on("click", function(e){
 
 $(function() {
     $('#dataSubmitBtn').click(function() {
-    	
+
 
 		//Recaptcha 체크 유무 검증
     	if(grecaptcha.getResponse().length == 0) {
@@ -1247,13 +1247,12 @@ $(function() {
     	}
     	
 
-		
-		//return true;
+      
+      //return true;
             
 
     });
 });
-
 
 
 </script>

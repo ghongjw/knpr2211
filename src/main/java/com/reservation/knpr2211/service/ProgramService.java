@@ -43,10 +43,13 @@ public class ProgramService implements IProgramService{
 		};
 		File files[] = dir.listFiles(filter);
 		int i = 0;
+		
 		for (i = 0; i < files.length; i++) {
+			
 		System.out.println("file: " + files[i]);
 		}String str = Integer.toString(i);
-		return str;
+//		return str;
+		return "4";
 	}
 	// (끝)작성자:공주원 ==============================================
 }

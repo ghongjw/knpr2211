@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <script src="assets/js/lib/jquery-1.12.4.min.js"></script>
 <link rel="shortcut icon" href="#">
@@ -54,7 +55,7 @@
 				for (i = 0; i <= cnt; i++) {
 					swipe1 = swipe1
 							+ '<div class="swiper-slide">'
-							+ '<img src="../../cntnts/p_'+seq+'/p'+seq+'_'+i+'.jpg"/> </div>'
+							+ '<img src="../../cntnts/p_'+seq+'/p'+seq+'_'+i+'.png"/> </div>'
 				}
 				$(".swiper-wrapper").html(swipe1)
 				init.loadImg();
@@ -71,8 +72,8 @@
 		$(".dot-list>li:eq(2)").html('<strong>참가대상 </strong>'+target);
 		$(".dot-list>li:eq(3)").html('<strong>참가인원 </strong>'+people);
 		$(".extra").html(extra);
-		$(".title_image").attr('src','../../cntnts/p_'+seq+'/title.jpg')
-		$(".schedule_image").attr('src','../../cntnts/p_'+seq+'/schedule.jpg')
+		$(".title_image").attr('src','../../cntnts/p_'+seq+'/title.png')
+		$(".schedule_image").attr('src','../../cntnts/p_'+seq+'/schedule.png')
 		
 		$(".popup-wrap").css({"top":"110px", "bottom": "40px", "display":"block"})
 		$("#mod").css({"display":"block"})
@@ -141,7 +142,7 @@
 					<c:if test="${program.type == 'e' }">
 						<div class = "program_tumbnail">
 						<span class = "imgForTunbnail">
-							<img src="../../cntnts/p_${program.seq}/thumbnail.jpg" 
+							<img src="../../cntnts/p_${program.seq}/thumbnail.png" 
 							onclick="open_detailInfomation('${program.seq }','${program.type }','${program.title }','${program.place }','${program.duration }','${program.target }','${program.people }','${program.extra }')">
 			
 						</span>
@@ -166,7 +167,7 @@
 					<c:if test="${program.type == 'f' }">
 						<div class = "program_tumbnail">
 						<span class = "imgForTunbnail">
-							<img src="../../cntnts/p_${program.seq}/thumbnail.jpg" 
+							<img src="../../cntnts/p_${program.seq}/thumbnail.png" 
 							onclick="open_detailInfomation('${program.seq }','${program.type }','${program.title }','${program.place }','${program.duration }','${program.target }','${program.people }','${program.extra }')">
 			
 						</span>
@@ -191,7 +192,7 @@
 					<c:if test="${program.type == 'g' }">
 						<div class = "program_tumbnail">
 						<span class = "imgForTunbnail">
-							<img src="../../cntnts/p_${program.seq}/thumbnail.jpg" 
+							<img src="../../cntnts/p_${program.seq}/thumbnail.png" 
 							onclick="open_detailInfomation('${program.seq }','${program.type }','${program.title }','${program.place }','${program.duration }','${program.target }','${program.people }','${program.extra }')">
 			
 						</span>
@@ -221,7 +222,7 @@
         <div class="popup-container">
             <strong class="title-1"></strong>
             <div class="image-box">
-                <img class="title_image" src="" alt="">
+                <img class="title_image" src="" alt="" style=" margin-top: 200px;">
             </div>
             <strong class="title-2">프로그램 내용</strong>
             <ul class="dot-list">

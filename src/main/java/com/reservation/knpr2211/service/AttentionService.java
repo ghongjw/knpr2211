@@ -23,12 +23,22 @@ public class AttentionService {
 	public String getAttentionLists(Model model, String category2, String select, String search, Integer page,
 		
 		Integer size, RedirectAttributes ra) {
-		ArrayList<String> category2s = pr.findDistinctCategory2();
+		ArrayList<String> cate2 = pr.findDistinctCategory2();
+		ArrayList<String> category2s = new ArrayList<String>();
+		for(String c : cate2) {
+			if(c.substring(0, 1).equals("A")) {
+				System.out.println(c);
+				category2s.add(c);
+			}
+		}
 		ArrayList<String> nameCategory2 = new ArrayList<String>();
 		for (String cat2 : category2s) {
 			cat2 = mcs.findCategory(cat2);
 			nameCategory2.add(cat2);
 		}
+		System.out.println(category2s);
+		System.out.println(nameCategory2);
+		
 		if(page == null ||size ==null) {
 			page = 0;
 			size = 10;
@@ -44,6 +54,7 @@ public class AttentionService {
 		Page<Attention> result = null;
 		
 		//찾기
+		System.out.println("category2"+ category2);
 		if(search==null||search.isEmpty()) {
 			if(category2.equals("all")) {
 				result = ar.findAll(pageRequest);

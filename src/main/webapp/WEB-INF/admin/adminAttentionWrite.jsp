@@ -30,10 +30,10 @@ function send(data){
 		}
 	}
 }
-$("#file").on('change',function(){
-	  var fileName = $("#file").val();
-	  $(".upload-name").val(fileName);
-	});
+function textChange(a){
+		console.log("fileName")
+	  $(".upload-name").val(a.files[0].name);
+	};
 </script>
 
 	<%@ include file="../common/headerAdmin.jsp"%>
@@ -68,20 +68,20 @@ $("#file").on('change',function(){
 							<tr>
 							<td colspan=3>
 								<div class="filebox" style="width:100%">
-								    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+								    <input class="upload-name" value="" placeholder="첨부파일">
 								    <label for="file">파일찾기</label> 
-								    <input type="file" id="file" name="fileName">
+								    <input type="file" id="file" name="fileName" onchange = "textChange(this)">
 								</div>
 								</td>
 							</tr>
-							<tr>
-								<td colspan = 3>
-									<input type="radio" id = "show" value = true name = "notice" checked>
-									<label for="show">게시하기</label>
-									<input type="radio" id = "hide" value = false name = "notice">
-									<label for="hide">숨기기</label>
-								</td>
-							</tr>
+<!-- 							<tr> -->
+<!-- 								<td colspan = 3> -->
+<!-- 									<input type="radio" id = "show" value = true name = "notice" checked> -->
+<!-- 									<label for="show">게시하기</label> -->
+<!-- 									<input type="radio" id = "hide" value = false name = "notice"> -->
+<!-- 									<label for="hide">숨기기</label> -->
+<!-- 								</td> -->
+<!-- 							</tr> -->
 							<tr>
 								<td colspan = 3 style="text-align: center"><button type="button" class = "modiA" onclick = "send('create'); return false;">등록</button>
 								<input type =reset class="modiB" value = "취소">

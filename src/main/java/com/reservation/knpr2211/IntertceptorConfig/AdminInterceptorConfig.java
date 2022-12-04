@@ -13,8 +13,7 @@ public class AdminInterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AdminInterceptor())
-                .addPathPatterns("/admin*")
-        		.excludePathPatterns("/adminIndex");
+                .addPathPatterns("/admin*");
     }
 }
 

@@ -1096,8 +1096,10 @@ public class ReservationService {
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
 		re.setPrice(resDto.getPrice());
+
 		re.setId(resDto.getId());//1204추가
 		re.setChecked(false);//1204추가
+
 		rr.save(re).getSeq();
 	}
 
@@ -1165,6 +1167,7 @@ public class ReservationService {
 		String id = (String)session.getAttribute("id");
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		
 		
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<Reservation> result = null;
@@ -1238,7 +1241,7 @@ public class ReservationService {
 			rd.setRoom(" ");
 		}else rd.setRoom("- "+r.getRoom().substring(7,9));
 		
-		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())]);
+		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())-1]);
 	
 		rd.setOrderTime(orderFormat.format(r.getOrderTime()));
 		rd.setStartDay(r.getStartDay());

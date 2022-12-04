@@ -9,6 +9,13 @@ import com.reservation.knpr2211.entity.Reply;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 	List<Reply> findByBoard(Board board);
+
+	
+	//void deleteAllByBno(Board board);
+
+
+	//List<Reply> findByBno(Board board);
+
 };
 	
 

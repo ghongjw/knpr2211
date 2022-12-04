@@ -67,7 +67,7 @@ let pageNum = function(num){
 										<option value="title">제목</option>
 										<option value="content">내용</option>
 									</select>
-									<input type = "text" name = "search" class = "input3" placeholder="검색해보세용">
+									<input type = "text" name = "search" class = "input3" placeholder="검색">
 									<button class="searchbtn" onclick="pageNum('0')">
 										<span class="searchB">조회</span>
 									</button>

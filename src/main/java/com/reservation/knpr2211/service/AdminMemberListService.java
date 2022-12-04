@@ -3,6 +3,8 @@ package com.reservation.knpr2211.service;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -89,7 +91,7 @@ public class AdminMemberListService {
 			totalPage = 1;
 		}
 		long totalElement = result.getTotalElements();
-
+		System.out.println("result"+totalElement);
 		System.out.println(members);
 		for (User user : members) {
 			System.out.println(user.getId());
@@ -97,7 +99,7 @@ public class AdminMemberListService {
 
 		model.addAttribute("members", members);
 		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("totalElement", totalElement);
+		model.addAttribute("totalElements", totalElement);
 		model.addAttribute("search", search);
 		model.addAttribute("member", member);
 		model.addAttribute("select", select);
@@ -144,23 +146,39 @@ public class AdminMemberListService {
 		return null;
 	}
 
-	public String adminReservationModify(Model model, String memberId, String reserve, Integer page, Integer size, RedirectAttributes redirectAttrs) {
+	public String adminReservationModify(Model model, String memberId, String reserve, Integer page, Integer size, RedirectAttributes ra) {
 		
+		Timestamp today = new Timestamp(System.currentTimeMillis());
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(timestamp);
+				cal.add(Calendar.DATE, -1);
+				timestamp.setTime(cal.getTime().getTime());
+				
 		
 		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Reservation> result = null;
+		Page<Reservation> result =rr.findByid(memberId, pageRequest);
+		//List<Reservation> reservations = result.getContent();
+		System.out.println(result);
+		
+		if(result.isEmpty()) {
+			ra.addFlashAttribute("msg","예약정보가없습니다.");
+			ra.addFlashAttribute("selected", memberId);
+			return "redirect:adminMemberList?memberId="+memberId+"&page=0&size=10";
+		}
 		if(reserve.equals("future")) {
-			result = rr.findByIdAndEndDayIsBefore(memberId,timestamp, pageRequest);
+			System.out.println("memberId : "+memberId + "reserve"+reserve);
+			result = rr.findByIdAndEndDayIsAfter(memberId, timestamp, pageRequest);
 			
 			
 		}else if(reserve.equals("past")) {
-			result = rr.findByIdAndEndDayIsAfter(memberId,timestamp, pageRequest);
+			result = rr.findByIdAndEndDayIsBefore(memberId, today, pageRequest);
+			
 		}
-		if(result.isEmpty()) {
-			redirectAttrs.addFlashAttribute("msg","예약정보가없습니다.");
-			return "redirect:adminMemberList?page=0&size=10";
-		}
+		
+		
 		List<Reservation> reservations = result.getContent();
 		int totalPage = result.getTotalPages();
 		if(totalPage == 0) {
@@ -172,7 +190,7 @@ public class AdminMemberListService {
 			ReservationDTO rd = reserve(r);
 			rds.add(rd);
 		}
-		
+		model.addAttribute("selected", memberId);
 		model.addAttribute("reservations", rds);
 		model.addAttribute("totalPage", totalPage);
 	
@@ -203,7 +221,7 @@ public class AdminMemberListService {
 			rd.setRoom(" ");
 		}else rd.setRoom("- "+r.getRoom().substring(7,9));
 		
-		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())]);
+		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())-1]);
 	
 		rd.setOrderTime(orderFormat.format(r.getOrderTime()));
 		rd.setStartDay(r.getStartDay());
@@ -256,7 +274,6 @@ public class AdminMemberListService {
 		Integer i = Integer.parseInt(seq);
 		Reservation reservation = rr.findBySeq(i);
 		if(reservation.getStatus().equals("reserve")) {
-			System.out.println("여기옴?");
 			reservation.setStatus("cancle");
 			rr.save(reservation);
 		}else if(reservation.getStatus().equals("pay")) {

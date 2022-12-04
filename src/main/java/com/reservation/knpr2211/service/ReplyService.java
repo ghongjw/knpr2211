@@ -25,17 +25,17 @@ public class ReplyService {
     @Autowired
     private final BoardRepository boardRepository;
 
-    @Autowired
-    private final UserRepository userRepository;
+//    @Autowired
+//    private final UserRepository userRepository;
     
    
     public String replyWrite(Reply reply, User user, Long bno, Model model){
 
-        User findUser = userRepository.findByid(user.getId());
+        //User findUser = userRepository.findByid(user.getId());
         Optional<Board> findBoard = boardRepository.findById(bno);
         
         reply.setBoard(findBoard.get());
-        reply.setUser(findUser);
+        //reply.setUser(findUser);
         findBoard.get().setState(true);
         replyRepository.save(reply);
         

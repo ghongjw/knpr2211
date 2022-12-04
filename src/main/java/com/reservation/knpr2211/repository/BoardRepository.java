@@ -29,5 +29,6 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 
 	@Query(nativeQuery=true, value = "select * from board where title like CONCAT('%',:title,'%') or content like CONCAT('%',:content,'%')")
 	Page<Board> findBykey(@Param("title")String title, @Param("content")String content, PageRequest pageRequest);
-
+	
+	Board findByBno(Long bno);
 }

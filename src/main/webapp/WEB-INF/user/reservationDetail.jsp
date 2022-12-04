@@ -150,10 +150,19 @@
 		<td colspan=2>${detail.period }</td>
 		</tr>
 		<c:if test="${detail.isDone==false }">
-		<tr style="background: rgba(0,0,0,0.08);">
-		<td style="font-weight:bold; float:left; font-size:30px;"> 결제(예정)금액 </td>
-		<td style="color:red; font-size:30px; text-align:right;">${detail.price }원</td>
-		</tr>
+			<c:if test="${detail.checked=='미결제' }">
+			
+				<tr style="background: rgba(0,0,0,0.08);">
+				<td style="font-weight:bold; float:left; font-size:30px;"> 결제(예정)금액 </td>
+				<td style="color:red; font-size:30px; text-align:right;">${detail.price }원</td>
+				</tr>
+			</c:if>
+				<c:if test="${detail.checked=='결제완료' }">
+				<tr style="background: rgba(0,0,0,0.08);">
+				<td style="font-weight:bold; float:left; font-size:30px;"> 결제된 금액(결제완료) </td>
+				<td style="color:black; font-size:30px; text-align:right;">${detail.price }원</td>
+				</tr>
+			</c:if>
 
 		<tr >
 		<td colspan=2 style="padding: 0; text-align:right">
@@ -168,13 +177,13 @@
 		</c:if>	
 		
 		<c:if test="${detail.isDone==true }">
+	
 		<tr style="background: rgba(0,0,0,0.08);">
 		<td style="font-weight:bold; float:left; font-size:30px;"> 금액 </td>
 		<td style="color:black; font-size:30px; text-align:right;">${detail.price }원</td>
 		</tr>
 		</c:if>	
 	</table>
-<button onclick="send()">ddddddd</button>
 </div>
 	
 <%@ include file="../common/footer.jsp" %>

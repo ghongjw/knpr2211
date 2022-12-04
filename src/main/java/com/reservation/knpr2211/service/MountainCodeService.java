@@ -320,29 +320,28 @@ public class MountainCodeService {
 		}
 		
 		else if(category.equals("B0101")) {
-			list.add(" ");
+			list.add("대피소");
 		}
 		else if(category.equals("B0201")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0202")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0203")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0204")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0205")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0301")) {
-			list.add("자동차야영장");
-		}
+			list.add("자동차야영장");}
 		else if(category.equals("B0401")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0402")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0403")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0404")) {
-			list.add(" ");}
+			list.add("대피소");}
 		else if(category.equals("B0405")) {
 			list.add("자동차야영장");	list.add("자동차야영장(캠핑카)");
 		}else if(category.equals("B0406")) {

@@ -58,11 +58,11 @@
 <div class = "reservationInfo">
 	
 	<div class="reservation">
-	    <h3 class="title">${reservations[0].id } 님의 예약목록</h3>
+	    <h3 class="title">${selected} 님의 예약목록</h3>
 	</div>
 	<div class="typeArea">
-	    <a id = "future" class = "reserveTab is-active" onclick="location.href='adminReservationModify?memberId=${reservations[0].id }&reserve=future&page=0&size=10'">예약목록</a>
-	    <a id = "past" class = "reserveTab" onclick="location.href='adminReservationModify?memberId=${reservations[0].id }&reserve=past&page=0&size=10'">지난예약목록</a>
+	    <a id = "future" class = "reserveTab is-active" onclick="location.href='adminReservationModify?memberId=${selected}&reserve=future&page=0&size=10'">예약목록</a>
+	    <a id = "past" class = "reserveTab" onclick="location.href='adminReservationModify?memberId=${selected }&reserve=past&page=0&size=10'">지난예약목록</a>
 	</div>
 		<table class="table mem-list">
 
