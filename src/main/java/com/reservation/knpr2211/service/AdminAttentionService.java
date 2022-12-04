@@ -30,7 +30,15 @@ public class AdminAttentionService implements IAdminAttentionService{
 
 	public String getAdminAttentionLists(Model model, String category2, String select, String search, Integer page,	
 		Integer size, RedirectAttributes ra) {
-		ArrayList<String> category2s = pr.findDistinctCategory2();
+		
+		ArrayList<String> cate2 = pr.findDistinctCategory2();
+		ArrayList<String> category2s = new ArrayList<String>();
+		for(String c : cate2) {
+			if(c.substring(0, 1).equals("A")) {
+				System.out.println(c);
+				category2s.add(c);
+			}
+		}
 		ArrayList<String> nameCategory2 = new ArrayList<String>();
 		
 		System.out.println("search"+category2);
@@ -110,12 +118,27 @@ public class AdminAttentionService implements IAdminAttentionService{
 	}
 
 	public String adminAttentionWrite(Model model) {
-		ArrayList<String> category2s = pr.findDistinctCategory2();
+		
+		
+		ArrayList<String> cate2 = pr.findDistinctCategory2();
+		ArrayList<String> category2s = new ArrayList<String>();
+		for(String c : cate2) {
+			if(c.substring(0, 1).equals("A")) {
+				System.out.println(c);
+				category2s.add(c);
+			}
+		}
+		
+		
+		
 		ArrayList<String> nameCategory2 = new ArrayList<String>();
 		for (String cat2 : category2s) {
 			cat2 = mcs.findCategory(cat2);
 			nameCategory2.add(cat2);
-		}model.addAttribute("category2s", category2s);
+		}
+		System.out.println(category2s);
+		System.out.println(nameCategory2);	
+		model.addAttribute("category2s", category2s);
 		model.addAttribute("nameCategory2", nameCategory2);
 		
 		return "admin/adminAttentionWrite";
@@ -178,12 +201,23 @@ public class AdminAttentionService implements IAdminAttentionService{
 		long l = Long.parseLong(seq);
 		Attention attention = ar.findBySeq(l);
 		
-		ArrayList<String> category2s = pr.findDistinctCategory2();
+		ArrayList<String> cate2 = pr.findDistinctCategory2();
+		ArrayList<String> category2s = new ArrayList<String>();
+		for(String c : cate2) {
+			if(c.substring(0, 1).equals("A")) {
+				System.out.println(c);
+				category2s.add(c);
+			}
+		}
 		ArrayList<String> nameCategory2 = new ArrayList<String>();
+		
 		for (String cat2 : category2s) {
 			cat2 = mcs.findCategory(cat2);
 			nameCategory2.add(cat2);
-		}model.addAttribute("category2s", category2s);
+		}
+		System.out.println(category2s);
+		System.out.println(nameCategory2);
+		model.addAttribute("category2s", category2s);
 		model.addAttribute("nameCategory2", nameCategory2);
 		
 		model.addAttribute("attention", attention);
@@ -191,7 +225,7 @@ public class AdminAttentionService implements IAdminAttentionService{
 	}
 
 	public String adminAttentionModifyProc(Model model, RedirectAttributes ra, Attention attention,
-			MultipartHttpServletRequest req) {
+			String seq,MultipartHttpServletRequest req) {
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -212,16 +246,35 @@ public class AdminAttentionService implements IAdminAttentionService{
 		}else {
 			attention.setFile("파일 없음");
 		}
-		System.out.println(attention.getSeq());
+		System.out.println("ddddd"+attention.getSeq());
 		
-		Attention at = Attention.builder().seq(attention.getSeq()).title(attention.getTitle()).content(attention.getContent())
-				.category2(attention.getCategory2()).hit(0).file(attention.getFile())
-				.notice(attention.isNotice()).deleted(false)
-				.modifiedDate(timestamp).build();
 		
-		ar.save(at);
+		attention.setSeq(attention.getSeq());
+		attention.setTitle(attention.getTitle());
+		attention.setContent(attention.getContent());
+		attention.setCategory2(attention.getCategory2());
+		attention.setHit(attention.getHit());
+		attention.setFile(attention.getFile());
+		attention.setNotice(attention.isNotice());
+		attention.setDeleted(false);
+		attention.setModifiedDate(timestamp);
+		ar.save(attention);
+//		Attention at = Attention.builder().seq(attention.getSeq()).title(attention.getTitle()).content(attention.getContent())
+//				.category2(attention.getCategory2()).hit(0).file(attention.getFile())
+//				.notice(attention.isNotice()).deleted(false)
+//				.modifiedDate(timestamp).build();
+//		
+//		ar.save(at);
 		return "redirect:adminAttentionList?page=0&size=10";
 		
+	}
+
+	public String adminAttentionDeleteProc(Model model, RedirectAttributes ra, Attention attention, String seq) {
+		long l = Long.parseLong(seq);
+		ar.deleteById(l);
+		
+		ra.addAttribute("msg","삭제되었습니다.");
+		return "redirect:adminAttentionList";
 	}
 
 	

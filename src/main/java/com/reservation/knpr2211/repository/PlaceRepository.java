@@ -60,6 +60,8 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 
 	PlaceDTO findAllByCategory4(String category2);
 
+	
+
 
 	
 
