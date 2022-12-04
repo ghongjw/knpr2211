@@ -46,7 +46,8 @@ public class ProgramService implements IProgramService{
 		for (i = 0; i < files.length; i++) {
 		System.out.println("file: " + files[i]);
 		}String str = Integer.toString(i);
-		return str;
+		return "4";
+		//return str;
 	}
 	// (끝)작성자:공주원 ==============================================
 }
