@@ -48,10 +48,10 @@
 										<span class="label"><i class="icon-location"></i>${category2}</span>
 										<h4 class="title" id="deptTitle">${category2}생태탐방원</h4>
 										<div class="btn-area">
-											<button class="btn btn-refresh"
+<!-- 											<button class="btn btn-refresh"
 												onclick="location.reload(true);">
 												<i class="icon-refresh"></i> <span>새로고침</span>
-											</button>
+											</button> -->
 										</div>
 									</div>
 									<!-- 예약일 설정 -->
@@ -242,7 +242,7 @@
 			<div class="modal-popup large" id="eco-view"></div>
 
 			<div class="modal-popup small" id="captchaPop">
-				<div class="popup-wrap">
+				<div class="popup-wrap" >
 					<div class="popup-head">
 						<strong class="popup-title">자동방지 입력문자</strong>
 						<button type="button" class="btn-close" title="닫기"
@@ -426,7 +426,7 @@
 					})
 					$('.btn.minus').on("click",function(e){
 						var selectNum = Number($("#livingPrsnCnt").val());
-					if(selectNum>0){
+					if(selectNum>1){
 						selectNum --;
 						$("#livingPrsnCnt").attr("value",selectNum);
 					}

@@ -18,10 +18,6 @@
 
 <script>
 
- 
-$.ajax({cache: false });
-$.ajax({async: false });
-
 
 //1. 메뉴 클릭하면 테이블 화면 출력 
 function clickPlace(sel1, sel2){
@@ -110,37 +106,7 @@ function sendData(sel1, sel2){
 					
 					
   	
-				
-				//2-4. 야영장명 체크박스 출력 (자동차야영장 And 자연의 집)
-// 				campsiteCode = codeName + "0";
-				
-// 				for(var j = 0; j < check.length; j++){
-// 					var index = j + 1;
-					
-// 					//맨 처음 생성되는 체크 박스는 체크된 채로 들어오게 함
-// 					//index 값을 1부터 하여 야영장번호를 01,02,03... 로 하여 인자값을 생성함
-// 					if(index == 1){
-// 					checkBox += "<li>" + 
-//                     "<span class=checkbox-1>" +
-//                     "<input type=checkbox id=check"+index +" name=campGnbChk value=" +campsiteCode+index+ " checked=checked" + 
-//                     " onclick=selectCampsite("+"'"+campsiteCode+index+"'"+");>" +
-// 					"<label for=check"+index+">"+check[j]+"</label></span></li>"  
-// 					selectCampsite(campsiteCode+index);
-					
-// 					//두번째 오는 체크 박스 부터는 여기에 해당
-// 					}else{
-// 						checkBox += "<li>" + 
-// 	                    "<span class=checkbox-1>" +
-// 	                    "<input type=checkbox id=check"+index +" name=campGnbChk value=" +campsiteCode+index+ 
-// 	                    " onclick=selectCampsite("+"'"+campsiteCode+index+"'"+");>" +
-// 						"<label for=check"+index+">"+check[j]+"</label></span></li>"  
-						
-// 					}
-// 				}
-			
-				
-
-// 				document.querySelector('#check-area').innerHTML = checkBox; 	
+	
 				document.querySelector('#campsiteName').innerHTML = camp_tag; 
 				
 				
@@ -360,181 +326,6 @@ function sendData(sel1, sel2){
 
  
 
-//3. DB 조회 후, 테이블에 방번호 01~ 부터 출력
-//  function selectCampsite(selectCode){
-// 	var camp_tag = "";
-// 	var room_tag = "";
-// 	var timestamp = Date.now(); 
-// 	var now = new Date(timestamp); 
-// 	let lastDate = new Date(now.getFullYear(), now.getMonth()+1, 0);
-// 	var lastDate_num = lastDate.getDate(); //현재 월 마지막 날짜
-// 	var dateCheck = lastDate_num-now.getDate()-1; //현재 월에서 마지막 날까지 남은 일수-1
-// 	var arrayRoom = [];
-// 	var arrayDate = [];
-	
-// 	//A010101(야영장-가야산-삼정-자동차야영장)
-// 	$.ajax({
-// 		url : "roomView",
-// 		type : "post",
-// 		cache : false,
-// 		data : {
-// 			code : selectCode
-// 		},
-		
-// 		success : function(result) {
-// 			var rooms = result.rooms;
-// 			var roomTotal = rooms.length;
-			
-// 			for(var i = 0; i < rooms.length; i++){
-				
-// 				if(i == 0 ){
-					
-// 					camp_tag += "<tr><th rowspan=15 scope=row><span class=title>" + rooms[i].category4 + "</span></th>" + 
-// 	            	"<th scope=row><i class=icon-electricity></i><span class=title>" + rooms[i].room + "</span></th></tr>"
-	            	
-// 	            	var roomNumber = selectCode + rooms[i].room ;
-// 	            	arrayRoom.push(roomNumber)
-	      			
-
-// 				}else{
-						 
-// 					camp_tag +="<tr><th scope=row><i class=icon-electricity></i><span class=title>" + rooms[i].room + "</span></th></tr>"
-		            	
-// 		            	var roomNumber = selectCode + rooms[i].room ;
-// 		            	arrayRoom.push(roomNumber)
-						
-// 				}
-				
-// 			}
-			
-			
-			
-// 			//전체영지수 (토,일 구분 가능)
-// 			for(var i = 0; i < 23; i++){
-// 				if(dateCheck >= i){
-// 					var selectDate = new Date();
-// 					selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
-					
-// 					var thisDate = new Date();
-					
-// 					thisDate.setFullYear(selectDate.getFullYear());
-// 					thisDate.setMonth((selectDate.getMonth()));
-// 					thisDate.setDate((selectDate.getDate()));
-					
-// 					var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
-// 					var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
-// 					var arrDate = thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate ;
-// 					var inputDay = getInputDayLabel(selectDay)
-					
-// 					if(inputDay == "sat"){
-// 						room_tag += "<td id='sat' class='sat'>"+roomTotal+"</td>"
-					
-// 					}else if(inputDay == "sun"){
-// 						room_tag += "<td id='sun' class='sun'>"+roomTotal+"</td>"
-					
-// 					}else{
-// 						room_tag += "<td>"+roomTotal+"</td>"
-// 					}
-					
-// 					arrayDate.push(arrDate)
-					
-					
-				
-// 				}else{
-// 					var selectDate = new Date();
-// 					selectDate = new Date(selectDate.getFullYear(), selectDate.getMonth(), (selectDate.getDate()+1+i));
-					
-// 					var thisDate = new Date();
-					
-// 					thisDate.setFullYear(selectDate.getFullYear());
-// 					thisDate.setMonth((selectDate.getMonth()));
-// 					thisDate.setDate((selectDate.getDate()));
-					
-// 					var inputDate = (("00"+thisDate.getDate().toString()).slice(-2));
-// 					var selectDay = "'" + +thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate + "'" ;
-// 					var arrDate = thisDate.getFullYear() + "-" + (thisDate.getMonth()+1) + "-" + inputDate ;
-// 					var inputDay = getInputDayLabel(selectDay)
-
-					
-// 					if(inputDay == "sat"){
-// 						room_tag += "<td id='sat' class='sat'>"+roomTotal+"</td>"
-					
-// 					}else if(inputDay == "sun"){
-// 						room_tag += "<td id='sun' class='sun'>"+roomTotal+"</td>"
-					
-// 					}else{
-// 						room_tag += "<td>"+roomTotal+"</td>"
-// 					}
-					
-					
-// 					arrayDate.push(arrDate)
-				
-// 				}
-				
-// 			}
-			
-			
-	
-// 			reservationState(arrayRoom, arrayDate)
-
-
-// 			document.querySelector('#campsiteName').innerHTML = camp_tag; 
-// 			document.querySelector('.roomTotal').innerHTML = room_tag;
-			
-// 		},
-// 		error : function() {
-// 			toastrMsg("error");
-// 		}
-	     	
-	     
-// 	});
-
-	
-
-
-// }
-
-
-
-// //4. 야영장명 체크박스 클릭시, 단일 선택되게 하되, 무조건 1개는 필수 선택되게 함
-//  $(document).on('click', 'input:checkbox[name="campGnbChk"]', function(){
-// 	 var cnt = 0;
-	
-//     if(this.checked) {
-//         const checkboxes = $('input:checkbox[name="campGnbChk"]');
-//         for(let ind = 0; ind < checkboxes.length; ind++){
-//             checkboxes[ind].checked = false;
-//         }
-//         this.checked = true;
-//         cnt++;
-        
-// 		$('#inputSelectCampsite').html(" ")
-// 		$('#inputStartDate').html(" ")
-// 		$('#inputEndDate').html(" ")
-// 		$('#stayInfo').html(" ")
-// 		$('#paymentGroup').html(" ")
-        
-//     }else{
-    	
-//     	if(cnt == 0){
-//     		this.checked = true;
-//     		toastrMsg("한개 이상 선택해야 합니다.")
-    		
-//     	}else{
-//     		this.checked = false;
-    		
-//     		$('#inputSelectCampsite').html(" ")
-//     		$('#inputStartDate').html(" ")
-//     		$('#inputEndDate').html(" ")
-//     		$('#stayInfo').html(" ")
-//     		$('#paymentGroup').html(" ")
-//     	}
-        
-
-//     }
-// }); 
-
-
 
  
  //5-1. 날짜 별로 요일 확인 후 영문 요일로 반환
@@ -750,7 +541,12 @@ function sendData(sel1, sel2){
  
  // 7. 사용자가 선택한 값이 예약가능하다면 입퇴실 선택 가능
  function oneNightCheck(room, date, state){
-
+	 //var mptMenu = room.replace("B", "");
+	 //var menu = "li"+ mptMenu;
+	 
+	 $('#'+room).css({"color": "#fff", "font-weight": "700", 
+		 "background-color": "var(--color-default)", "border-color": "var(--color-default)", "color": "#fff"});
+	
 
 	 if(state == "예약가능"){
 	 
@@ -840,11 +636,7 @@ function STinputSelectInfo(room, date, state){
 				$('#inputStartDate').html(startDate)
 				$('#inputEndDate').html(startDate)
 				
-				
-// 				var stay_tag = "<span class='length-stay selected' id='oneDaychecked' onclick="+
-// 				"oneDayInputSelectInfo("+"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+") style='cursor:pointer'>1박 2일</span>"+
-//                 "<span class='length-stay' id='secondDayChecked' onclick="+"secondNightCheck("+
-// 				"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+","+"'"+afterDate+"'"+ ") style='cursor:pointer'>2박 3일</span>"
+
 				
 				$('#stayInfo').html("1일")
 				
@@ -880,119 +672,6 @@ function STinputSelectInfo(room, date, state){
 
 }
 
-
-// // 9. 화면에서 1박 2일 선택한 다음에, 다시 2박 3일 선택했을 때, 2박 3일로 예약 가능한지 확인 후 예약 가능 여부 출력
-// 	function secondNightCheck(room, date, nextDate, afterDate){
-	
-// 		$('#secondDayChecked').addClass('length-stay selected');
-// 		$('#oneDaychecked').removeClass('length-stay selected');
-// 		$('#oneDaychecked').addClass('length-stay');
-	
-// 		var chkDate1 = $(document).find("#a"+room+date).data("rev")
-// 		var chkDate2 = $(document).find("#a"+room+nextDate).data("rev")
-// 		var chkDate3 = $(document).find("#a"+room+afterDate).data("rev")
-	
-		
-// 		if(chkDate2 == "예약불가" || chkDate3 == "예약불가"){
-// 			toastrMsg("선택한 날짜는 2박 3일 예약이 불가합니다. 다른 날짜를 선택해 주세요.");
-		
-// 		}else{
-			
-// 			tds = document.querySelectorAll('td');
-// 			for(var i = 0; i < tds.length; i++){
-// 				td = tds[i];
-// 				td.className = "";
-// 			}
-			
-// 				document.getElementById("a"+room+date).className = 'start selected';
-// 				document.getElementById("a"+room+nextDate).className = 'selected';
-// 				document.getElementById("a"+room+afterDate).className = 'end selected';
-				
-				
-// 				inputSelectInfo2(room, date, nextDate, afterDate)
-				
-// 		}
-		
-
-		
-// 	}
-	
-	
-// 	// 10. 사용자가 선택했을 때, 2박 3일 예약이 가능하면 장소 정보 화면에 출력
-// 	function inputSelectInfo2(room, date, nextDate, afterDate){
-		
-// 		 $.ajax({
-// 				url : "inputSelectInfo",
-// 				type : "post",
-// 				cache : false,
-// 				data : {
-// 					room : room,
-// 				},
-				
-// 				success : function(result) {
-// 					var infoMap = result.infoMap;
-// 					var c1 = infoMap.c1
-// 					var c2 = infoMap.c2
-// 					var c3 = infoMap.c3
-// 					var c4 = infoMap.c4
-// 					var roomNum = infoMap.roomNum
-// 					var price = infoMap.price
-// 					var people = infoMap.people
-					
-// 					var selectInfo = c2+"-"+c3+"-"+c4+"-"+roomNum
-					
-// 					var str1 = "'"+date+"'";
-// 					var startLabel = getInputDayKRLabel(str1)
-// 					var str2 = "'"+afterDate+"'";
-// 					var endLabel = getInputDayKRLabel(str2)
-					
-// 					var startDate = date+"["+startLabel+"]"
-// 					var endDate = afterDate+"["+endLabel+"]"
-					
-					
-// 					$('#inputSelectCampsite').html(selectInfo)
-// 					$('#inputStartDate').html(startDate)
-// 					$('#inputEndDate').html(endDate)
-					
-					
-					
-// 					var stay_tag = "<span class='length-stay selected' id='oneDaychecked' onclick="+
-// 					"oneDayInputSelectInfo("+"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+") style='cursor:pointer'>1박 2일</span>"+
-// 	                "<span class='length-stay' id='secondDayChecked' onclick="+"secondNightCheck("+
-// 					"'"+room+"'"+","+"'"+date+"'"+","+"'"+nextDate+"'"+","+"'"+afterDate+"'"+ ") style='cursor:pointer'>2박 3일</span>"
-					
-// 					$('#stayInfo').html(stay_tag)
-					
-
-					
-// 					var tmp = price.replace(",", "");
-// 					var money = parseInt(tmp); 
-// 					var totalMoney = (money * 2).toLocaleString(); 
-					
-// 	                var pay_tag = "<dl><dt><em>"+c1+"</em></dt><dd></dd></dl>"+
-// 	                "<dl class='campsitePayment'><dt>"+c4+" "+roomNum+" : "+
-// 	                "<span style='font-size: 18px; font-weight:bold;' id='inputAllDay'>2박 3일"+
-// 	                "</span></dt><dd>"+totalMoney+"원</dd></dl><br><br><br>"+
-// 	            	"<dl><dt>결제(예정)금액</dt><dd><em style='font-size:30px' id='inputPrice'>"+
-// 	            	totalMoney+"</em>원</dd></dl>"
-					
-// 	            	$('#paymentGroup').html(pay_tag)
-	            	
-// 	            	$('input[name=inputValue]').attr('value', people);
-// 	                $('#selectPeopleNum').show();
-	                
-// 	                $('#productCode').attr('value', room);
-
-	            	
-// 				},
-// 				error : function() {
-					
-// 					toastrMsg("error");
-// 				}
-		
-// 		 });
-
-// 	}
 
 
 	
@@ -1079,19 +758,19 @@ function STinputSelectInfo(room, date, state){
 	                         <ul class="nav-tabs tab-menu">
 	                         	
                        		
-                       			<li><a id="0401"  href="" onclick="clickPlace('04','01');">벽소령대피소 </a></li>
+                       			<li id="li0401"><a id="0401"  href="" onclick="clickPlace('04','01');">벽소령대피소 </a></li>
  
-                       			<li><a id="0402" href="" onclick="clickPlace('04','02'); ">세석대피소 </a></li>
+                       			<li id="li0402"><a id="0402" href="" onclick="clickPlace('04','02'); ">세석대피소 </a></li>
 
-                       			<li><a id="0403" href="" onclick="clickPlace('04','03'); ">장터목대피소 </a></li>
+                       			<li id="li0403"><a id="0403" href="" onclick="clickPlace('04','03'); ">장터목대피소 </a></li>
                        			
-                       			<li><a id="0404" href="" onclick="clickPlace('04','04'); ">로타리대피소 </a></li>
+                       			<li id="li0404"><a id="0404" href="" onclick="clickPlace('04','04'); ">로타리대피소 </a></li>
                        			
-                       			<li><a id="0405" href="" onclick="clickPlace('04','05'); ">노고단대피소 </a></li>
+                       			<li id="li0405"><a id="0405" href="" onclick="clickPlace('04','05'); ">노고단대피소 </a></li>
                        			
-                       			<li><a id="0406" href="" onclick="clickPlace('04','06'); ">치밭목대피소 </a></li>
+                       			<li id="li0406"><a id="0406" href="" onclick="clickPlace('04','06'); ">치밭목대피소 </a></li>
                        			
-                       			<li><a id="0407" href="" onclick="clickPlace('04','07'); ">연하천대피소 </a></li>
+                       			<li id="li0407"><a id="0407" href="" onclick="clickPlace('04','07'); ">연하천대피소 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -1104,15 +783,15 @@ function STinputSelectInfo(room, date, state){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 	
-	                         			<li><a id="0201" href="" onclick="clickPlace('02','01');">수렴동대피소 </a></li>
+	                         			<li id="li0201"><a id="0201" href="" onclick="clickPlace('02','01');">수렴동대피소 </a></li>
 	                         			
-	                         			<li><a id="0202" href="" onclick="clickPlace('02','02');">중청대피소 </a></li>
+	                         			<li id="li0202"><a id="0202" href="" onclick="clickPlace('02','02');">중청대피소 </a></li>
 	                         			
-	                         			<li><a id="0203" href="" onclick="clickPlace('02','03');">양폭대피소 </a></li>
+	                         			<li id="li0203"><a id="0203" href="" onclick="clickPlace('02','03');">양폭대피소 </a></li>
 	                         			
-	                         			<li><a id="0204" href="" onclick="clickPlace('02','04');">소청대피소 </a></li>
+	                         			<li id="li0204"><a id="0204" href="" onclick="clickPlace('02','04');">소청대피소 </a></li>
 	                         			
-	                         			<li><a id="0205" href="" onclick="clickPlace('02','05');">희운각대피소 </a></li>
+	                         			<li id="li0205"><a id="0205" href="" onclick="clickPlace('02','05');">희운각대피소 </a></li>
 
 	                         </ul>
 	                     </div>
@@ -1125,7 +804,7 @@ function STinputSelectInfo(room, date, state){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 	
-	                         			<li><a id="0101" href="" onclick="clickPlace('01','01');">삿갓재대피소 </a></li>
+	                         			<li id="li0101"><a id="0101" href="" onclick="clickPlace('01','01');">삿갓재대피소 </a></li>
 
 
 	                         </ul>
@@ -1137,7 +816,7 @@ function STinputSelectInfo(room, date, state){
 	                     <div class="a">
 	                         <ul class="nav-tabs tab-menu">
 
-	                         			<li><a id="0301" href="" onclick="clickPlace('03','01');">제2연화봉대피소 </a></li>
+	                         			<li id="li0301"><a id="0301" href="" onclick="clickPlace('03','01');">제2연화봉대피소 </a></li>
 	
 	                             
 	                         </ul>
@@ -1967,7 +1646,7 @@ $('#modalCloseBtn').on("click", function(e){
 
 $('#modalCancelBtn').on("click", function(e){
 	$('#modal').css("display", "none")
-	location.reload()
+	
 });
 // const closeBtn = modal.querySelector("#modalCloseBtn")
 // closeBtn.addEventListener("click", e => {
@@ -2000,10 +1679,10 @@ $(function() {
     	}else{
     		var id = $('#userId').val();
     		
-    		//if(id == null || id == "" ){
-    			//toastrMsg('로그인 후 이용해 주세요.');
+    		if(id == null || id == "" ){
+    			toastrMsg('로그인 후 이용해 주세요.');
     		
-    		//}else{
+    		}else{
     			var code = $('#productCode').val();
     			var allDay = $('#selectAllDay').val();
     			var startDay = $('#selectStartDt').val();
@@ -2039,7 +1718,7 @@ $(function() {
     				     
     				});
     			
-    		//}
+    		}
     	}
     	
 

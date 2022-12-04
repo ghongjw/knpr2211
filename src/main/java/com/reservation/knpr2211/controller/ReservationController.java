@@ -49,6 +49,7 @@ public class ReservationController {
 	public String GetEcoReservation(String category, Model model) {
 		if (category == null) {
 			category = "C08";
+	
 		}
 		// 제목 category1(대분류), category2(중분류) 코드 해석
 		String[] result = rs.transtitleCode(category);
@@ -85,7 +86,9 @@ public class ReservationController {
 			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
 			return "redirect:/index";
 		}else {
-			resDto.setId(sessionId);
+
+			resDto.setId(sessionId);//1204추가
+
 			rs.reservation(resDto, startDt, endDt);
 			return "redirect:/ecoReservation";
 		}
@@ -155,7 +158,9 @@ public class ReservationController {
 			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
 			return "redirect:/index";
 		}else {
-			resDto.setId(sessionId);
+
+			resDto.setId(sessionId);//1204추가
+
 			rs.reservation(resDto, startDt, endDt);
 			return "redirect:/cottageReservation";
 		}

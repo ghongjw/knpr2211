@@ -137,7 +137,6 @@ function cotChangeText() {
 // 민박촌 인원 선택
 function selectPeople(num) {
 	$("#minbakMax").html(num)
-	$("#livingPrsnCnt").attr("value", "1");
 }
 
 // (ajax) 민박촌 - 총 결제 예정 금액 
@@ -206,6 +205,7 @@ function open_Popup_cot(id, sessionId, sessionMember) {
 		var addInwon = $("#addPeopleCnt").val()
 		var people = Number(Inwon) + Number(addInwon)
 		var total = $(".total").find('em:eq(0)').html()
+
 
 		if ($("input:radio[name='selectRoom']").is(':checked') == false) {
 			toastrMsg("민박촌 객실을 선택해주세요.")
@@ -318,4 +318,9 @@ function checkBot() {
 		return false;
 	}
 	return true;
+}
+
+
+function refreshPage(){
+	location.reload()
 }

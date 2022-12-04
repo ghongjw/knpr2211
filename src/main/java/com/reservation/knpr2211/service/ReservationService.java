@@ -74,7 +74,6 @@ public class ReservationService {
 		//place op = pr.findbyid(1).get();
 		//system.out.println(op.toString());
 		List<Place> places = pr.findByCategory3(code);
-		System.out.println("확인중:");
 		
 		for (Place place : places) {
 			PlaceDTO dto = new PlaceDTO();
@@ -82,11 +81,6 @@ public class ReservationService {
 			String code3 = place.getCategory3();
 			String code4 = place.getCategory4();
 			String roomName = place.getRoom().substring(7); //a01010101
-			
-			System.out.println("확인중:"+code2);
-			System.out.println("확인중:"+code3);
-			System.out.println("확인중:"+code4);
-			System.out.println("확인중:"+roomName);
 			
 			dto.setCategory2(mcs.findCategory(code2)); //가야산
 			dto.setCategory3(mcs.findCategory(code3)); //삼정
@@ -1102,8 +1096,10 @@ public class ReservationService {
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
 		re.setPrice(resDto.getPrice());
-		re.setId(resDto.getId());
-		re.setChecked(false);
+
+		re.setId(resDto.getId());//1204추가
+		re.setChecked(false);//1204추가
+
 		rr.save(re).getSeq();
 	}
 

@@ -122,6 +122,7 @@ public class LoginController {
 
 	//회원정보 수정 페이지 
 
+
 	
 	@RequestMapping("UserModify")
 	public String UserModity() {
