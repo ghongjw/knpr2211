@@ -20,13 +20,13 @@
 		$('document').ready(function() {
 
 							var swipe1 = ''
-// 							var cnt = ${imagecount }
-// 							for (i = 1; i <= cnt; i++) {
-// 								swipe1 = swipe1
-// 										+ '<div class=\"swiper-slide\">'
-// 										+ '<img src=\"../../cntnts/${selectedParkDetail}_'+i+'.jpg\"/> </div>'
+ 							var cnt = ${imagecount }
+ 							for (i = 1; i <= cnt; i++) {
+ 								swipe1 = swipe1
+ 										+ '<div class=\"swiper-slide\">'
+ 										+ '<img src=\"../../cntnts/${selectedParkDetail}_'+i+'.jpg\"/> </div>'
 
-// 							}
+ 							}
 							$(".swiper-wrapper").html(swipe1)
 							init.loadImg();
 
