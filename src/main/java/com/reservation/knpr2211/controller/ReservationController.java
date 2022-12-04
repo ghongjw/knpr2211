@@ -62,9 +62,16 @@ public class ReservationController {
 	@ResponseBody
 	@PostMapping(value = "ecoReservation", produces = "application/json; charset=UTF-8")
 	public String PostEcoReservation(@RequestBody(required = false) String code) throws Exception {
+		
+		System.out.println("코드 :"+ code);
+		
 		String result = rs.selectCategory3(code).getPriceDay();
+		
+		System.out.println("결과 : " + result);
 		return result;
 	}
+	
+	
 	@RequestMapping(value = "ecoProc")
 	public String ecoProc(ReservationDTO resDto, String startDt, String endDt,RedirectAttributes ra) throws Exception {
 		String sessionId = (String)session.getAttribute("id");
@@ -78,6 +85,7 @@ public class ReservationController {
 			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
 			return "redirect:/index";
 		}else {
+			resDto.setId(sessionId);
 			rs.reservation(resDto, startDt, endDt);
 			return "redirect:/ecoReservation";
 		}
@@ -141,11 +149,13 @@ public class ReservationController {
 			return "login/login";
 		}
 		int num = 0; // 방 가능 갯수
+		
 		num = rs.roomNumCategory3(resDto, startDt, endDt);
 		if(num == 0) {
 			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
 			return "redirect:/index";
 		}else {
+			resDto.setId(sessionId);
 			rs.reservation(resDto, startDt, endDt);
 			return "redirect:/cottageReservation";
 		}

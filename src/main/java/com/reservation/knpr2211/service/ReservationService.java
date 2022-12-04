@@ -371,7 +371,7 @@ public class ReservationService {
 		      Timestamp timestampend = new Timestamp(date2.getTime());
 
 		      Reservation re = new Reservation();
-		      re.setId("user3");
+		      re.setId(id);
 		      re.setCategory1(c1); //야영장
 		      re.setCategory2(c2); //가야산
 		      re.setCategory3(c3); //삼정
@@ -620,7 +620,7 @@ public class ReservationService {
 		      Timestamp timeStampEnd = new Timestamp(date2.getTime());
 
 		      Reservation re = new Reservation();
-		      re.setId("user4");
+		      re.setId(id);
 		      re.setCategory1(c1); //대피소
 		      re.setCategory2(c2); //지리산
 		      re.setCategory3(c3); //벽소령
@@ -1102,7 +1102,8 @@ public class ReservationService {
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
 		re.setPrice(resDto.getPrice());
-		re.setId("user1");
+		re.setId(resDto.getId());
+		re.setChecked(false);
 		rr.save(re).getSeq();
 	}
 
@@ -1243,7 +1244,7 @@ public class ReservationService {
 			rd.setRoom(" ");
 		}else rd.setRoom("- "+r.getRoom().substring(7,9));
 		
-		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())]);
+		rd.setPeriod(format.format(r.getStartDay()) + "~" + format.format(r.getEndDay())+nights[Integer.parseInt(r.getAllDay())-1]);
 	
 		rd.setOrderTime(orderFormat.format(r.getOrderTime()));
 		rd.setStartDay(r.getStartDay());

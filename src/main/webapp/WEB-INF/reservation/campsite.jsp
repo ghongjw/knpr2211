@@ -2131,59 +2131,63 @@ $('#modalCancelBtn').on("click", function(e){
 
 $(function() {
     $('#dataSubmitBtn').click(function() {
-    	
+       
 
-		//Recaptcha 체크 유무 검증
-    	if(grecaptcha.getResponse().length == 0) {
-    		toastrMsg('AI 인지 확인해 주세요.');
-    		return false;
-    	
-    	}else{
-    		var id = $('#userId').val();
-    		
-    		//if(id == null || id == "" ){
-    			//toastrMsg('로그인 후 이용해 주세요.');
-    		
-    		 //}else{
-    			var code = $('#productCode').val();
-    			var allDay = $('#selectAllDay').val();
-    			var startDay = $('#selectStartDt').val();
-    			var endDay = $('#selectEndDt').val();
-    			var people = $('#selectPeople').val();
-    			var price = $('#selectPrice').val();
-    			
-    			 $.ajax({
-    					url : "reservationSave",
-    					type : "post",
-    					cache : false,
-    					data : {
-    						id : id,
-    						code : code,
-    						allDay : allDay,
-    						startDay : startDay,
-    						endDay : endDay,
-    						people : people,
-    						price : price
-    						
-    					},
-    					
-    					success : function(result) {
-    						toastrMsg(result);
-    						
-    					},
-    					error : function() {
-    						toastrMsg("예약실패");
-    					}
-    				     	
-    				     
-    				});
-    			
-    		//}
-    	}
-    	
+      //Recaptcha 체크 유무 검증
+       if(grecaptcha.getResponse().length == 0) {
+          toastrMsg('AI 인지 확인해 주세요.');
+          return false;
+       
+       }else{
+          var id = $('#userId').val();
+          
+          if(id == null || id == "" ){
+             toastrMsg('로그인 후 이용해 주세요.');
+             return false;
+          
+           }else{
+             var code = $('#productCode').val();
+             var allDay = $('#selectAllDay').val();
+             var startDay = $('#selectStartDt').val();
+             var endDay = $('#selectEndDt').val();
+             var people = $('#selectPeople').val();
+             var price = $('#selectPrice').val();
+             
+              $.ajax({
+                   url : "reservationSave",
+                   type : "post",
+                   cache : false,
+                   data : {
+                      id : id,
+                      code : code,
+                      allDay : allDay,
+                      startDay : startDay,
+                      endDay : endDay,
+                      people : people,
+                      price : price
+                      
+                   },
+                   
+                   success : function(result) {
+                      location.reload()
+             
+  
+                   },
+                   error : function() {
+                      toastrMsg("예약실패");
+                   }
+                        
+                     
+                });
+              
+              toastrMsg("예약이 완료되었습니다.");//1204추가
+              return false;//1204추가
+          }
+       }
+       
 
-		
-		//return true;
+      
+      //return true;
             
 
     });

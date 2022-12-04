@@ -251,6 +251,7 @@ function selectRoom(num) {
 
 function ecoChangeText() {
 	if (req.readyState == 4 && req.status == 200) {
+		
 		var em = Number(req.responseText) * 0.1
 		var total = Number(req.responseText) + em
 		$(".surtax").find('em:eq(1)').html(req.responseText)
