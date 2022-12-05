@@ -422,6 +422,11 @@
 					if(selectNum<max){
 						selectNum ++;
 						$("#livingPrsnCnt").attr("value",selectNum);
+				
+					}
+					else if(selectNum == max) {
+						toastrMsg("선택한 객실의 사용인원은 기본 "+max+"명입니다.");
+						
 					}
 					})
 					$('.btn.minus').on("click",function(e){
@@ -429,6 +434,10 @@
 					if(selectNum>1){
 						selectNum --;
 						$("#livingPrsnCnt").attr("value",selectNum);
+					}
+					else if(selectNum == 1){
+						toastrMsg("사용인원은 최소 1명입니다.");//1204추가
+						
 					}
 				})
 			</script>

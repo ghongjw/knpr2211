@@ -124,6 +124,7 @@ public class IndexController {
 			ra.addFlashAttribute("msg", "선택한 날짜에 예약 가능한 방이 없습니다. 다시 선택해주세요.");
 			return "redirect:/index";
 		}else {
+			resDto.setId(sessionId);
 			is.reservation(resDto, startDt, endDt);
 			return "redirect:/index";
 		}

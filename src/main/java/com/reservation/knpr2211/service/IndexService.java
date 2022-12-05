@@ -124,7 +124,8 @@ public class IndexService{
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
 		re.setPrice(price);
-		re.setId("user1");
+		re.setId(resDto.getId());
+		re.setChecked(false);
 		rr.save(re).getSeq();
 	}
 

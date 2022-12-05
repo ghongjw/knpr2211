@@ -125,7 +125,7 @@ function cotChangeText() {
 					+ "onclick='sendCot2()'></td><td>"
 					+ resData.nameCategory3
 					+ "</td><td>"
-					+ resData.price
+					+ Number(resData.price).toLocaleString()
 					+ "</td></tr>";
 			}
 		}
@@ -174,9 +174,9 @@ function cotChangeText2() {
 		var total = basicPrice + addPrice;
 
 		$(".payment").find('dt:eq(0)').html(text)
-		$(".payment").find('dd:eq(0)').html(String(basicPrice))
-		$(".payment").find('dd:eq(1)').html(String(addPrice))
-		$(".total").find('em:eq(0)').html(String(total))
+		$(".payment").find('dd:eq(0)').html(basicPrice.toLocaleString())
+		$(".payment").find('dd:eq(1)').html(addPrice.toLocaleString())
+		$(".total").find('em:eq(0)').html(total.toLocaleString())
 	}
 }
 
@@ -236,9 +236,10 @@ function selectRoom(num) {
 		$("input[name='txblPblc']").prop('checked', false)
 		toastrMsg("1박 이상일때 예약이 가능합니다.")
 	} else {
-		$("#minbakMax").html(num)
+		var test = $("#minbakMax").html(num)
 		$("#livingPrsnCnt").attr("value", "1");
 		$(".sendview").css("display", "block")
+		
 
 		req = new XMLHttpRequest()
 		req.onreadystatechange = ecoChangeText
@@ -252,11 +253,12 @@ function selectRoom(num) {
 function ecoChangeText() {
 	if (req.readyState == 4 && req.status == 200) {
 		
+		var price = Number(req.responseText).toLocaleString()
 		var em = Number(req.responseText) * 0.1
 		var total = Number(req.responseText) + em
-		$(".surtax").find('em:eq(1)').html(req.responseText)
-		$(".surtax").find('em:eq(3)').html(String(em))
-		$(".total").find('em:eq(0)').html(String(total))
+		$(".surtax").find('em:eq(1)').html(price)
+		$(".surtax").find('em:eq(3)').html(em.toLocaleString())
+		$(".total").find('em:eq(0)').html(total.toLocaleString())
 	}
 }
 

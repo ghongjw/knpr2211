@@ -681,6 +681,9 @@ function sendData(sel1, sel2){
 								
 					
 				}else {
+					$('#oneDaychecked').removeClass('length-stay');//1204추가
+					$('#oneDaychecked').addClass('length-stay selected');//1204추가
+					
 					toastrMsg("선택한 날짜는 1박 2일 예약이 불가합니다. 다른 날짜를 선택해 주세요."); 			
 				}
 	
@@ -696,6 +699,9 @@ function sendData(sel1, sel2){
 		});
 	 
 	 }else{
+		 $('#oneDaychecked').removeClass('length-stay');//1204추가
+		 $('#oneDaychecked').addClass('length-stay selected');//1204추가
+		 
 		 toastrMsg("선택한 날짜는 1박 2일 예약이 불가합니다. 다른 날짜를 선택해 주세요.");
 	 }
  }
@@ -786,8 +792,8 @@ function inputSelectInfo1(room, date, nextDate, afterDate){
 
 // 9. 화면에서 1박 2일 선택한 다음에, 다시 2박 3일 선택했을 때, 2박 3일로 예약 가능한지 확인 후 예약 가능 여부 출력
 	function secondNightCheck(room, date, nextDate, afterDate){
-		$('#secondDayChecked').removeClass('length-stay');//1204추가
-		$('#secondDayChecked').addClass('length-stay selected');//1204추가
+		//$('#secondDayChecked').removeClass('length-stay');//1204추가
+		//$('#secondDayChecked').addClass('length-stay selected');//1204추가
 
 	
 		var chkDate1 = $(document).find("#a"+room+date).data("rev")
@@ -796,9 +802,15 @@ function inputSelectInfo1(room, date, nextDate, afterDate){
 	
 		
 		if(chkDate2 == "예약불가" || chkDate3 == "예약불가"){
+			//$('#oneDayChecked').removeClass('length-stay');//1204추가
+			//$('#oneDayChecked').addClass('length-stay selected');//1204추가
+			
+		 
 			toastrMsg("선택한 날짜는 2박 3일 예약이 불가합니다. 다른 날짜를 선택해 주세요.");
 		
 		}else{
+		    $('#secondDayChecked').removeClass('length-stay');//1204추가
+		    $('#secondDayChecked').addClass('length-stay selected');//1204추가
 			
 			tds = document.querySelectorAll('td');
 			for(var i = 0; i < tds.length; i++){

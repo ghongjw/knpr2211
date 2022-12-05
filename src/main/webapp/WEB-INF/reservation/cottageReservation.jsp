@@ -250,7 +250,7 @@
 						<div class="popup-head">
 							<strong class="popup-title">예약가능</strong>
 							<button type="button" class="btn-close"
-								onclick="close_Popup_cot('automatic-character')" title="닫기">
+								onclick="close_Popup('automatic-character')" title="닫기">
 								<i class="icon-close"></i>
 							</button>
 						</div>

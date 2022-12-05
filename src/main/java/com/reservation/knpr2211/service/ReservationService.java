@@ -1090,12 +1090,15 @@ public class ReservationService {
 		Timestamp timeStampStart = new Timestamp(date1.getTime());
 		Timestamp timeStampEnd = new Timestamp(date2.getTime());
 
+		String price = resDto.getPrice().substring(0, resDto.getPrice().indexOf(" "));
+		price = price.replaceAll("원", "");
+		
 		re.setOrderTime(orderTime);
 		re.setStartDay(timeStampStart);
 		re.setEndDay(timeStampEnd);
 		re.setAllDay(betweenDt);
 		re.setPeople(resDto.getPeople());
-		re.setPrice(resDto.getPrice());
+		re.setPrice(price);
 
 		re.setId(resDto.getId());//1204추가
 		re.setChecked(false);//1204추가
