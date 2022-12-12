@@ -154,7 +154,7 @@ public class AdminMemberListService {
 
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(timestamp);
-				cal.add(Calendar.DATE, -1);
+				//cal.add(Calendar.DATE);
 				timestamp.setTime(cal.getTime().getTime());
 				
 		

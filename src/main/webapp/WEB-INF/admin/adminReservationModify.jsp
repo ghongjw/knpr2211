@@ -36,7 +36,7 @@
 	})
 	
 	let pageNum = function(num){
-	var url = "adminReservationDetail?memberId=${reservations[0].id }&reserve="+reserve+"&page="+num+"&size=10"; 
+	var url = "adminReservationModify?memberId=${reservations[0].id }&reserve="+reserve+"&page="+num+"&size=10"; 
 	location.href=url;
 		
 }

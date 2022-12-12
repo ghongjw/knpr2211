@@ -15,6 +15,7 @@ function checkBot() {
 	return true;
 }
 </script>
+
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -197,7 +198,7 @@ function checkBot() {
                 </tr>
                 </tbody>
             </table>
-            <div align="right" class="g-recaptcha" data-sitekey="6Lckc0QjAAAAAM99CWG4ZaUjZSotZ9CtddBM38x4"></div>
+            <div align="right" class="g-recaptcha" data-sitekey="6LfhDXAjAAAAAFFHjdQyjtpVUaoehFWEksSN372O"></div>
             <div class="board-bottom">
                 <div class="center">
                     <a href="list" class="btn btn-cancel">취소</a>

@@ -14,6 +14,7 @@
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
  <script>
+ 
  var IMP = window.IMP;
  IMP.init("imp03741471");//가맹점 식별코드
 
@@ -25,9 +26,9 @@
          merchant_uid: "${detail.seq}" + new Date().getTime(), 
   	  	 name: "[ ${detail.getNameCategory2() } ] ${detail.getNameCategory3() } ${detail.getNameCategory4() }  ${detail.getRoom() }", // 상품명
          amount : 100,
-  	   	buyer_email: "${user.email}",
-	   buyer_name: "${user.name}", // 구매자 이름
-	   buyer_tel: "${user.mobile}", // 구매자 연락처 
+  	   	 buyer_email: "${user.email}",
+	     buyer_name: "${user.name}", // 구매자 이름
+	     buyer_tel: "${user.mobile}", // 구매자 연락처 
      },function(rsp) {
 			console.log("rsp ghong: " + rsp.imp_uid);
 			// 결제검증

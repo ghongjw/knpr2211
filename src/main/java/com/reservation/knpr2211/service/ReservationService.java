@@ -454,7 +454,7 @@ public class ReservationService {
 	       Calendar cal = Calendar.getInstance();
 
 	    	 
-	     cal.add(Calendar.DATE, +j); //현재 날짜 생성 후, +j(순차증가)
+	     cal.add(Calendar.DATE, +j+1); //현재 날짜 생성 후, +j(순차증가)
 	     String strDate1 = sdf.format(cal.getTime());  
 	     
 	     
@@ -464,6 +464,7 @@ public class ReservationService {
 				 Timestamp tsToday = new Timestamp(date1.getTime());
 			     
 			     List<Reservation> check1 = rr.findByCategory3AndStartDay(rooms[i], tsToday);
+			     System.out.println(tsToday);
 			     
 		    	 if(check1.size() == 0 ) {
 				     reservations.add("예약가능");
@@ -510,33 +511,35 @@ public class ReservationService {
 		 
 	    Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    System.out.println("선택한 날짜:"+date);
+	    System.out.println("선택한 방:"+room);
+	   
 	    
 	try {
 			Date date1 = sdf.parse(date); //String -> Date
 			cal.setTime(date1); //Date에서 Calendar에 입력
-			cal.add(Calendar.DATE, +1); //1일 증가시킴
 			String strDate = sdf.format(cal.getTime()); //Calendar에서 얻어서 다시 String
 			Date date2 = (Date) sdf.parse(strDate); //String -> Date
-			Timestamp tstomorrow = new Timestamp(date2.getTime()); //Date -> Timestamp
+			Timestamp tsToday = new Timestamp(date2.getTime()); //Date -> Timestamp
 			
-		     List<Reservation> check1 = rr.findByCategory3AndStartDay(room, tstomorrow );
+		     List<Reservation> check1 = rr.findByCategory3AndStartDay(room, tsToday );
 			
 	     	if(check1.size() == 0 ) {
 	     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			    String nextDate = format.format(tstomorrow);
+			    String today = format.format(tsToday);
 			    
 			    dateList.put("room1", room);
 			    dateList.put("room2", mcs.category3(room));
-			    dateList.put("date", nextDate);
+			    dateList.put("date", today);
 			    dateList.put("state", "예약가능");
 	     		
 	     	}else {
 	     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			    String nextDate = format.format(tstomorrow);
+			    String today = format.format(tsToday);
 			    
 	     		dateList.put("room1", room);
 	     		dateList.put("room2", mcs.category3(room));
-			    dateList.put("date", nextDate);
+			    dateList.put("date", today);
 			    dateList.put("state", "예약불가");
 	     		
 	     	}
@@ -1283,6 +1286,7 @@ public class ReservationService {
 		ReservationDTO reservationDto = reserve(re);
 		model.addAttribute("detail", reservationDto);
 		model.addAttribute("user", user);
+		model.addAttribute("msg", "테스트 결제완료 23시~24시쯤 환불됩니다");
 		
 		return "user/reservationDetail";
 	}

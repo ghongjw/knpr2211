@@ -158,10 +158,10 @@
                  
            			 <c:if test="${empty sessionScope.id }">
        
-                    <a href="" class="btn-login">로그인이<br>필요합니다.</a>
+                    <a href="login" class="btn-login">로그인이<br>필요합니다.</a>
                     
                     
-                    <a href="" class="btn-join" target="_blank">
+                    <a href="register" class="btn-join" target="_blank">
                         <i class="icon-user-plus"></i>
                         <span>회원가입</span>
                     </a>
@@ -195,9 +195,9 @@
                         <a href="javascript:void(0);" class="depth1">예약하기</a>
                         <ul class="depth2">
                             
-                                <li><a href="" >야영장</a></li>
+                                <li><a href="campsite" >야영장</a></li>
                             
-                                <li><a href="">대피소</a></li>
+                                <li><a href="shelter">대피소</a></li>
                             
                                 <li><a href="ecoReservation">생태탐방원</a></li>
                         
@@ -214,7 +214,7 @@
 
                             <li><a href="faq">자주하는 질문</a></li>
                         
-                            <li><a href="list">묻고 답하기</a></li>
+                            <li><a href="list?page=0&size=10">묻고 답하기</a></li>
                         
                             <li><a href="policy">예약·환불정책</a></li>
                             
@@ -227,11 +227,9 @@
                             
                                 <li><a href="reservedList?reserve=future&page=0&size=10">나의 예약목록</a></li>
                             
-                                <li><a href="">알림메시지</a></li>
                             
                                 <li><a href="favoriteList" >즐겨찾기</a></li>
                             
-                                <li><a href="" >미환불금 조회</a></li>
                             
                         </ul>
                     </li>

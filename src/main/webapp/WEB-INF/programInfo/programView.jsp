@@ -55,7 +55,7 @@
 				for (i = 0; i <= cnt; i++) {
 					swipe1 = swipe1
 							+ '<div class="swiper-slide">'
-							+ '<img src="../../cntnts/p_'+seq+'/p'+seq+'_'+i+'.png"/> </div>'
+							+ '<img src="../../upload/p_'+seq+'/p'+seq+'_'+i+'.png"/> </div>'
 				}
 				$(".swiper-wrapper").html(swipe1)
 				init.loadImg();
@@ -72,8 +72,8 @@
 		$(".dot-list>li:eq(2)").html('<strong>참가대상 </strong>'+target);
 		$(".dot-list>li:eq(3)").html('<strong>참가인원 </strong>'+people);
 		$(".extra").html(extra);
-		$(".title_image").attr('src','../../cntnts/p_'+seq+'/title.png')
-		$(".schedule_image").attr('src','../../cntnts/p_'+seq+'/schedule.png')
+		$(".title_image").attr('src','../../upload/p_'+seq+'/title.png')
+		$(".schedule_image").attr('src','../../upload/p_'+seq+'/schedule.png')
 		
 		$(".popup-wrap").css({"top":"110px", "bottom": "40px", "display":"block"})
 		$("#mod").css({"display":"block"})
@@ -142,7 +142,7 @@
 					<c:if test="${program.type == 'e' }">
 						<div class = "program_tumbnail">
 						<span class = "imgForTunbnail">
-							<img src="../../cntnts/p_${program.seq}/thumbnail.png" 
+							<img src="../../upload/p_${program.seq}/thumbnail.png" 
 							onclick="open_detailInfomation('${program.seq }','${program.type }','${program.title }','${program.place }','${program.duration }','${program.target }','${program.people }','${program.extra }')">
 			
 						</span>
@@ -167,7 +167,7 @@
 					<c:if test="${program.type == 'f' }">
 						<div class = "program_tumbnail">
 						<span class = "imgForTunbnail">
-							<img src="../../cntnts/p_${program.seq}/thumbnail.png" 
+							<img src="../../upload/p_${program.seq}/thumbnail.png" 
 							onclick="open_detailInfomation('${program.seq }','${program.type }','${program.title }','${program.place }','${program.duration }','${program.target }','${program.people }','${program.extra }')">
 			
 						</span>
@@ -192,7 +192,7 @@
 					<c:if test="${program.type == 'g' }">
 						<div class = "program_tumbnail">
 						<span class = "imgForTunbnail">
-							<img src="../../cntnts/p_${program.seq}/thumbnail.png" 
+							<img src="../../upload/p_${program.seq}/thumbnail.png" 
 							onclick="open_detailInfomation('${program.seq }','${program.type }','${program.title }','${program.place }','${program.duration }','${program.target }','${program.people }','${program.extra }')">
 			
 						</span>

@@ -24,7 +24,7 @@
  							for (i = 1; i <= cnt; i++) {
  								swipe1 = swipe1
  										+ '<div class=\"swiper-slide\">'
- 										+ '<img src=\"../../cntnts/${selectedParkDetail}_'+i+'.jpg\"/> </div>'
+ 										+ '<img src=\"../../upload/${selectedParkDetail}_'+i+'.jpg\"/> </div>'
 
  							}
 							$(".swiper-wrapper").html(swipe1)

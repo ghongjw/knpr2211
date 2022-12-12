@@ -22,9 +22,7 @@ import lombok.Setter;
 @DynamicInsert
 @DynamicUpdate
 @Table(name="user")
-
 public class User {
-
 	//아이디 
 		@Id
 		@Column(nullable = false, insertable = true, updatable = false, unique = true)

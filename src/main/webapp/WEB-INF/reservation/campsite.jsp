@@ -658,7 +658,7 @@
                         </table>
                         <div class="captcha-area" style="margin: 0;">
                            <span class="label">자동예약 방지문자</span>
-                           <span class="g-recaptcha" data-sitekey="6LeL0kwjAAAAANEySrA-9Bx398PJ1o60To4EbEkX"></span>
+                           <span class="g-recaptcha" data-sitekey="6LfhDXAjAAAAAFFHjdQyjtpVUaoehFWEksSN372O"></span>
                         </div>
                         <p class="copy-notice">※ 예약 완료된 상품에 대해서는 마이페이지 나의예약목록 에서 확인 후
                            결제 가능합니다.</p>

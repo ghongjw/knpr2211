@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <style>
-.admin_container{background: url('cntnts/IMG_5643.jpg');
+.admin_container{background: url('upload/IMG_5643.jpg');
  background-repeat: no-repeat;
  background-size: 100%;  height: 70em;}
     .admin_container ul{text-align: center;}
